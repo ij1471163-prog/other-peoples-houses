@@ -237,3 +237,13 @@ html[lang=ar] body.explore .panel .line.narr{font-size:15px}
 html.idle .char svg,html.idle .char img,html.idle .spot i::after,
 html.asleep .char svg,html.asleep .char img,html.asleep .spot i::after,html.asleep .toast{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.spot i::after{animation:none;opacity:0}}
+/* sound sliders in the phone's settings */
+.sliders{display:flex;flex-direction:column;gap:8px;margin:4px 0 6px}
+.slider{display:grid;grid-template-columns:minmax(110px,40%) 1fr;align-items:center;gap:10px;font-family:var(--f-ui);font-size:14px;color:var(--fog)}
+html[lang=ar] .slider{font-family:var(--f-ar-ui)}
+.slider input{width:100%;height:32px;accent-color:var(--lamp)}
+@media (orientation:landscape) and (max-height:560px){
+  body.titlemode .panel h2{font-size:18px}
+  body.titlemode input.name{padding:6px 10px;font-size:16px}
+  body.titlemode .panel > .opt.main{margin-top:2px}
+}

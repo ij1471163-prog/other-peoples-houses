@@ -6,6 +6,15 @@
    ===================================================================== */
 'use strict';
 Object.assign(GAME.UI, {
+  yes: T('Yes', 'إيه'), no: T('No', 'لا'),
+  saveAfterTalk: T('Finish the conversation first', 'خلّص السالفة أول'),
+  overwriteSlot: T('Replace what is saved in slot', 'تستبدل اللي محفوظ في الخانة'),
+  loadConfirm: T('Load this save? Anything since your last autosave is lost.', 'تحمّل هالحفظ؟ أي شي بعد آخر حفظ تلقائي بيروح.'),
+  leaveTalk: T('Leave in the middle of this conversation? You\'ll go back to just before it started.', 'تطلع وأنت في نص السالفة؟ بترجع لقبل ما تبدأ.'),
+  replaceAuto: T('This replaces the game behind "Continue". Your save slots are kept. Go ahead?', 'هذا بيستبدل اللعبة اللي ورا «كمّل». خانات الحفظ ما تنمسح. تكمل؟'),
+  backAgain: T('Press back again to leave the game', 'اضغط رجوع مرة ثانية عشان تطلع من اللعبة'),
+  volMaster: T('Volume', 'الصوت'), volMusic: T('Music', 'الموسيقى'), volAmb: T('Places (sea, wind, rooms)', 'أصوات الأماكن (بحر، ريح، غرف)'),
+  volSfx: T('Effects', 'المؤثرات'), volVoice: T('Voices (murmurs, not words)', 'أصوات الشخصيات (همهمة، مو كلام)'),
   tapHint: T('Tap people to talk. Tap the glowing circles to look around or go somewhere. ⌛ passes time, the map takes you anywhere.', 'اضغط على الناس عشان تكلمهم، وعلى الدواير المضيئة عشان تشوف أو تروح مكان. ⌛ يمشّي الوقت، والخريطة توديك أي مكان.'),
   need_hungry: T('Hungry', 'جوعان'), need_grubby: T('Needs a shower', 'يبي ترويش'), need_tired: T('Tired', 'تعبان'),
   nFood: T('Food', 'الأكل'), nClean: T('Clean', 'النظافة'), nEnergy: T('Energy', 'الطاقة'),

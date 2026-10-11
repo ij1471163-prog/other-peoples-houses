@@ -230,6 +230,7 @@ function renderStage(charsOverride) {
     }
   }
   renderSheet();
+  if (typeof AUDIO !== 'undefined') AUDIO.scene(s);
 }
 function visibleSpots() {
   const L = GAME.LOC[S().loc]; const out = [];
@@ -241,8 +242,11 @@ function useSpot(h) {
   if (h.exit) {
     const lk = h.lock && h.lock(S());
     if (lk) { play(Array.isArray(lk) ? lk : [{ n: tx(lk) }]); return; }
+    const a = houseOf(S().loc) || '', b = houseOf(h.to) || '';
+    AUDIO.sfx(a !== b || (GAME.LOC[h.to] && /door|room|house|inside/i.test(tx(h.label || ''))) ? 'door' : 'steps');
     goTo(h.to); return;
   }
+  AUDIO.sfx('tap');
   const r = h.run(S()); if (Array.isArray(r)) play(r); else afterScript();
 }
 
@@ -261,6 +265,7 @@ function renderLine(st) {
     panel.appendChild(el('p', 'line narr', tx(st.n)));
   }
   const b = el('button', 'tap', UI('next')); b.type = 'button'; b.onclick = ev => { if (tapOk(ev)) next(); }; panel.appendChild(b);
+  AUDIO.line(st);
   $('stage').onclick = ev => { if (ev.target.closest('.hbtn,.ibtn,.sheet')) return; if (RUN && !$('panel').querySelector('.opt') && tapOk(ev)) next(); };
   b.focus({ preventScroll: true });
 }
@@ -269,6 +274,7 @@ function renderMenu(st) {
   if (st.c) { setSpeaker(st.c, st.e); }
   renderStage();
   if (st.q) panel.appendChild(el('p', 'line' + (st.c ? '' : ' narr'), tx(st.q)));
+  if (st.q) AUDIO.line(st.c ? { c: st.c, t: st.q, e: st.e } : { n: st.q });
   const box = el('div', 'opts');
   st.menu.forEach(o => {
     if (o.hide && o.hide(S())) return;
@@ -276,7 +282,7 @@ function renderMenu(st) {
     const b = el('button', 'opt' + (o.cls ? ' ' + o.cls : '')); b.type = 'button';
     b.textContent = tx(o.t);
     if (!ok) { b.disabled = true; if (o.why) b.appendChild(el('small', '', tx(o.why))); }
-    b.onclick = ev => { if (b.disabled || !RUN || !tapOk(ev)) return; box.querySelectorAll('.opt').forEach(x => { x.disabled = true; }); if (o.fx) o.fx(S()); if (o.then) RUN.stack.push({ steps: o.then.slice(), i: 0 }); next(); };
+    b.onclick = ev => { if (b.disabled || !RUN || !tapOk(ev)) return; box.querySelectorAll('.opt').forEach(x => { x.disabled = true; }); AUDIO.sfx('tap'); if (o.fx) o.fx(S()); if (o.then) RUN.stack.push({ steps: o.then.slice(), i: 0 }); next(); };
     box.appendChild(b);
   });
   panel.appendChild(box);
@@ -326,7 +332,7 @@ function showEnding(id) {
   const e = GAME.END[id]; const s = S();
   if (!s.ends.includes(id)) s.ends.push(id);
   markEnd(id); save();
-  RUN = null; VIEW.speaker = null;
+  RUN = null; VIEW.speaker = null; AUDIO.sfx('end');
   renderStage([]);
   const panel = $('panel'); panel.innerHTML = '';
   const card = el('div', 'end-card');
@@ -360,7 +366,7 @@ function showEnding(id) {
 }
 
 /* ---------- sheets: phone & map ---------- */
-function openSheet(k) { VIEW.sheet = k; renderStage(); }
+function openSheet(k) { VIEW.sheet = k; AUDIO.sfx(k === 'map' ? 'map' : 'phone'); renderStage(); }
 function closeSheet() { VIEW.sheet = null; if (RUN) renderStage(); else renderLocation(); }
 function renderSheet() {
   const st = $('stage'); const old = st.querySelector('.sheet'); if (old) old.remove();
@@ -383,7 +389,7 @@ function renderSheet() {
       if (who.length) { const em = el('em', '', ' · ' + who.map(w => tx(GAME.CHAR[w].short || GAME.CHAR[w].name)).join(', ')); b.appendChild(em); }
       const lock = p.lock && p.lock(S());
       if (lock) b.disabled = true;
-      b.onclick = ev => { if (!tapOk(ev)) return; VIEW.sheet = null; goTo(p.to); };
+      b.onclick = ev => { if (!tapOk(ev)) return; VIEW.sheet = null; AUDIO.sfx('steps'); goTo(p.to); };
       wrap.appendChild(b);
     }
     sh.appendChild(wrap);
@@ -430,12 +436,14 @@ function renderSheet() {
       const box = el('div', 'opts');
       body.appendChild(box);
       mk(GAME.lang === 'ar' ? 'English' : 'العربية', () => { GAME.lang = GAME.lang === 'ar' ? 'en' : 'ar'; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} applyLang(); renderStage(); if (!RUN) renderLocation(); else { const top = RUN.stack[RUN.stack.length - 1]; if (top) { top.i--; next(); } } });
-      mk(SOUND.on ? UI('soundOff') : UI('soundOn'), () => { SOUND.toggle(); renderSheet(); });
+      mk(AUDIO.on ? UI('soundOff') : UI('soundOn'), () => { AUDIO.setOn(!AUDIO.on); renderSheet(); });
+      if (AUDIO.on) body.appendChild(soundSliders());
       body.appendChild(el('p', 'sec', UI('saveGame')));
-      [1, 2, 3].forEach(i => mk('💾 ' + slotLabel(i), () => { saveSlot(i); renderSheet(); }));
+      /* saving in the middle of a conversation would store half a scene; finish it first */
+      [1, 2, 3].forEach(i => { const b = el('button', 'opt', '💾 ' + slotLabel(i)); b.type = 'button'; if (RUN) { b.disabled = true; b.appendChild(el('small', '', UI('saveAfterTalk'))); } else b.onclick = () => { if (!readSlot(i)) { saveSlot(i); renderSheet(); return; } confirmIn(body, UI('overwriteSlot') + ' ' + i + '?', () => { saveSlot(i); renderSheet(); }, renderSheet); }; body.appendChild(b); });
       body.appendChild(el('p', 'sec', UI('loadGame')));
-      [1, 2, 3].forEach(i => { if (readSlot(i)) mk('↺ ' + slotLabel(i), () => loadSlot(i)); });
-      mk(UI('toTitle'), () => { save(); titleScreen(false); });
+      [1, 2, 3].forEach(i => { if (readSlot(i)) mk('↺ ' + slotLabel(i), () => confirmIn(body, UI('loadConfirm'), () => loadSlot(i), renderSheet)); });
+      mk(UI('toTitle'), () => { if (RUN) confirmIn(body, UI('leaveTalk'), () => titleScreen(false), renderSheet); else { save(); titleScreen(false); } });
       const dl = appLink(); if (dl) body.appendChild(dl);
     }
     sh.appendChild(body);
@@ -445,23 +453,7 @@ function renderSheet() {
 function feelWord() { const m = S().mood; return GAME.UI['feel' + Math.min(4, Math.floor(m / 2.5))]; }
 function moodOf(id) { const s = S(); const su = s.susp[id] || 0, tr = s.trust[id] || 0; if (su >= 2) return T('Suspicious of you', 'يشك فيك'); if (su === 1) return T('Wary', 'حذر'); if (tr >= 6) return T('Close', 'قريب منك'); if (tr >= 3) return T('Warming up', 'يرتاح لك'); return T('A stranger', 'غريب'); }
 
-/* ---------- sound: a soft sea-and-room ambience made in the browser ---------- */
-const SOUND = { on: false, ctx: null, node: null,
-  toggle() { this.on = !this.on; if (this.on) this.start(); else this.stop(); },
-  start() { try {
-    const c = this.ctx = this.ctx || new (window.AudioContext || window.webkitAudioContext)();
-    const len = c.sampleRate * 4, buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
-    let last = 0; for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; last = (last + 0.02 * w) / 1.02; d[i] = last * 3.4; }
-    const src = c.createBufferSource(); src.buffer = buf; src.loop = true;
-    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 520;
-    const g = c.createGain(); g.gain.value = 0.0;
-    const lfo = c.createOscillator(); lfo.frequency.value = 0.09; const lg = c.createGain(); lg.gain.value = 0.03; lfo.connect(lg).connect(g.gain); lfo.start();
-    src.connect(lp).connect(g).connect(c.destination); src.start();
-    g.gain.setValueAtTime(0.05, c.currentTime);
-    this.node = { src, lfo };
-  } catch (e) { this.on = false; } },
-  stop() { try { if (this.node) { this.node.src.stop(); this.node.lfo.stop(); this.node = null; } } catch (e) {} }
-};
+/* sound lives in js/audio.js (AUDIO) */
 
 /* ---------- Android app download ----------
    On GitHub Pages the repo is read from the address (user.github.io/repo/).
@@ -483,6 +475,36 @@ function appLink() {
   return a;
 }
 
+/* ---------- small dialogs ---------- */
+/* asks a yes/no question inside a container (the panel or the phone), never with a browser popup */
+function confirmIn(box, text, yes, no) {
+  box.innerHTML = '';
+  box.appendChild(el('p', 'line narr', text));
+  const row = el('div', 'opts');
+  const y = el('button', 'opt main', UI('yes')); y.type = 'button'; y.onclick = ev => { if (tapOk(ev)) yes(); };
+  const n = el('button', 'opt', UI('no')); n.type = 'button'; n.onclick = ev => { if (tapOk(ev)) no(); };
+  row.appendChild(y); row.appendChild(n); box.appendChild(row); n.focus({ preventScroll: true });
+}
+function soundSliders() {
+  const wrap = el('div', 'sliders');
+  [['master', 'volMaster'], ['music', 'volMusic'], ['amb', 'volAmb'], ['sfx', 'volSfx'], ['voice', 'volVoice']].forEach(([k, label]) => {
+    const row = el('label', 'slider'); row.appendChild(el('span', '', UI(label)));
+    const r = el('input'); r.type = 'range'; r.min = 0; r.max = 100; r.step = 5; r.value = Math.round(AUDIO.settings[k] * 100); r.setAttribute('aria-label', UI(label));
+    r.oninput = () => AUDIO.setVol(k, r.value / 100); r.onchange = () => { if (k !== 'master' && k !== 'music' && k !== 'amb') AUDIO.sfx(k === 'voice' ? 'tap' : 'phone'); };
+    row.appendChild(r); wrap.appendChild(row);
+  });
+  return wrap;
+}
+/* Android back button / browser back: closes the phone or map first; leaving the game needs a second press */
+let BACK_AT = 0;
+function navArm() { try { if (!history.state || !history.state.oph) history.pushState({ oph: 1 }, ''); } catch (e) {} }
+window.addEventListener('popstate', () => {
+  if (VIEW.sheet) { closeSheet(); navArm(); return; }
+  const now = Date.now();
+  if (now - BACK_AT < 2500) { try { history.back(); } catch (e) {} return; }
+  BACK_AT = now; toast(UI('backAgain')); navArm();
+});
+
 /* ---------- title & new game ---------- */
 function applyLang() { document.documentElement.lang = GAME.lang; document.documentElement.dir = GAME.lang === 'ar' ? 'rtl' : 'ltr'; }
 function titleScreen(fresh) {
@@ -501,8 +523,11 @@ function titleScreen(fresh) {
   const box = el('div', 'opts');
   const sv = fresh ? null : loadSave();
   if (sv) { const c = el('button', 'opt main', UI('continue')); c.type = 'button'; c.onclick = () => { GAME.S = sv; resumeState(); }; box.appendChild(c); }
-  if ([1, 2, 3].some(i => readSlot(i))) { const lb = el('button', 'opt', UI('loadGame')); lb.type = 'button'; lb.onclick = () => { panel.innerHTML = ''; const lbx = el('div', 'opts'); [1, 2, 3].forEach(i => { if (readSlot(i)) { const b = el('button', 'opt', slotLabel(i)); b.type = 'button'; b.onclick = () => loadSlot(i); lbx.appendChild(b); } }); const bk = el('button', 'opt', UI('close')); bk.type = 'button'; bk.onclick = () => titleScreen(fresh); lbx.appendChild(bk); panel.appendChild(lbx); }; box.appendChild(lb); }
-  const n = el('button', 'opt' + (sv ? '' : ' main'), UI('newGame')); n.type = 'button'; n.onclick = setupScreen; box.appendChild(n);
+  /* starting over or loading a slot replaces the autosave behind "Continue": ask first */
+  const guard = (go) => () => { if (!sv) return go(); panel.innerHTML = ''; confirmIn(panel, UI('replaceAuto'), go, () => titleScreen(fresh)); };
+  if ([1, 2, 3].some(i => readSlot(i))) { const lb = el('button', 'opt', UI('loadGame')); lb.type = 'button'; lb.onclick = () => { panel.innerHTML = ''; const lbx = el('div', 'opts'); [1, 2, 3].forEach(i => { if (readSlot(i)) { const b = el('button', 'opt', slotLabel(i)); b.type = 'button'; b.onclick = guard(() => loadSlot(i)); lbx.appendChild(b); } }); const bk = el('button', 'opt', UI('close')); bk.type = 'button'; bk.onclick = () => titleScreen(fresh); lbx.appendChild(bk); panel.appendChild(lbx); }; box.appendChild(lb); }
+  const n = el('button', 'opt' + (sv ? '' : ' main'), UI('newGame')); n.type = 'button'; n.onclick = guard(setupScreen); box.appendChild(n);
+  const snd = el('button', 'opt', AUDIO.on ? UI('soundOff') : UI('soundOn')); snd.type = 'button'; snd.onclick = () => { AUDIO.setOn(!AUDIO.on); snd.textContent = AUDIO.on ? UI('soundOff') : UI('soundOn'); }; box.appendChild(snd);
   const lg = el('button', 'opt', GAME.lang === 'ar' ? 'English' : 'العربية'); lg.type = 'button'; lg.onclick = () => { GAME.lang = GAME.lang === 'ar' ? 'en' : 'ar'; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} titleScreen(fresh); }; box.appendChild(lg);
   const dl = appLink(); if (dl) box.appendChild(dl);
   wrap.appendChild(box);
@@ -510,9 +535,10 @@ function titleScreen(fresh) {
   wrap.appendChild(el('p', 'sec', tx(T('Endings found: ', 'النهايات اللي اكتشفتها: ')) + se + ' / ' + tot));
   wrap.appendChild(el('p', 'sec', tx(T('Contains: grief, depression, illness, death and horror. No sexual content.', 'فيها: فقد، اكتئاب، مرض، موت، ورعب. بدون أي محتوى جنسي.'))));
   panel.appendChild(wrap);
+  AUDIO.scene(GAME.S, true); navArm();
 }
 function setupScreen() {
-  document.body.classList.remove('explore', 'titlemode');
+  document.body.classList.remove('explore'); document.body.classList.add('titlemode');
   GAME.S = newState();
   const panel = $('panel'); panel.innerHTML = '';
   panel.appendChild(el('h2', '', tx(T('Who are you?', 'مين أنت؟'))));
