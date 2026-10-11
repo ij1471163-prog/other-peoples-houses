@@ -1,0 +1,6 @@
+{
+  "appId": "com.naif.otherpeopleshouses",
+  "appName": "Other People's Houses",
+  "webDir": "www",
+  "android": { "backgroundColor": "#0f1418" }
+}

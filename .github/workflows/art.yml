@@ -1,0 +1,69 @@
+name: Draw the game art (free, open-source AI)
+
+# Runs on GitHub's own computers. Draws every character and background with
+# Stable Diffusion (DreamShaper 8, CreativeML OpenRAIL-M licence: commercial use allowed),
+# removes character backgrounds, saves them into img/, then rebuilds the website and the app.
+# Already-drawn images are kept, so running it again only fills in what's missing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: 'Only these (comma separated ids), empty = everything'
+        default: ''
+      phases:
+        description: '1 = characters, 2 = backgrounds, 3 = expressions'
+        default: '1,2,3'
+      redo:
+        description: 'Delete all generated art and draw it again (yes/no)'
+        default: 'no'
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: art
+  cancel-in-progress: false
+
+jobs:
+  draw:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Cache the AI models
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface
+            ~/.u2net
+            ~/.rembg
+          key: art-models-v1
+      - name: Install
+        run: |
+          pip install --upgrade pip
+          pip install torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install diffusers==0.31.0 transformers==4.46.3 accelerate==1.1.1 peft==0.13.2 safetensors pillow "rembg==2.0.59" onnxruntime==1.19.2 "numpy<2"
+      - name: Start over (only if asked)
+        if: ${{ github.event.inputs.redo == 'yes' }}
+        run: rm -rf img/chars img/bg
+      - name: Draw
+        env:
+          ART_COMMIT: '1'
+          ART_MINUTES: '300'
+          ART_ONLY: ${{ github.event.inputs.only }}
+          ART_PHASES: ${{ github.event.inputs.phases || '1,2,3' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python tools/art/generate.py
+      - name: Rebuild the website and the Android app with the new art
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run pages.yml --ref main || true
+          gh workflow run android.yml --ref main || true
