@@ -41,55 +41,8 @@ GAME.QUESTS = {
   q_final: { title: T('One more night', 'ليلة أخيرة'), hint: T('Elias wants to talk to you tonight, in the living room.', 'إلياس يبي يكلمك الليلة في الصالة.') }
 };
 
-/* ---------------- characters & their days ---------------- */
+/* ---------------- characters' days (the characters themselves are in js/chars/) ---------------- */
 const isMarthaDay = s => [2, 5].includes(s.day % 7);
-GAME.CHAR = {
-  elias: {
-    name: T('Elias', 'إلياس'), role: T('The old fisherman who took you in', 'الصياد العجوز اللي آواك'), host: true, art: true,
-    where: s => {
-      if (!s.f.metElias || s.f.ended || s.f.prologue) return null;
-      if (s.f.restDay === s.day) return 'living';
-      const sunday = s.day % 7 === 0;
-      return [sunday ? 'living' : 'harbor', s.day % 2 ? 'bath' : 'kitchen', 'shed', sunday ? 'living' : 'cafe', 'living'][s.slot];
-    },
-    doing: s => {
-      const w = GAME.CHAR.elias.where(s);
-      if (s.f.restDay === s.day) return T('Elias is resting in his armchair, grey and quiet.', 'إلياس مرتاح على كرسيه، رمادي الوجه وساكت.');
-      return ({ harbor: T('Elias is untangling a line on the Ada.', 'إلياس يفك خيط صيد على القارب «آدا».'), kitchen: T('Elias is frying fish and burning the toast.', 'إلياس يقلي سمك ويحرق التوست.'), shed: T('Elias is mending nets, lips moving as he counts knots.', 'إلياس يصلّح الشباك، ويعد العقد بشفايفه.'), cafe: T('Elias is bent over the chessboard.', 'إلياس منحني على لوحة الشطرنج.'), living: s.slot === NIGHT ? T('Elias is dozing in his armchair, radio on.', 'إلياس غافي على كرسيه، والراديو شغال.') : T('It\'s his day off the boat. Elias is reading yesterday\'s paper.', 'اليوم إجازة من القارب. إلياس يقرا جريدة أمس.') })[w] || null;
-    },
-    greet: s => {
-      if (s.day >= 2 && s.day - (s.f.lastShower ?? -1) >= 2 && onceToday('eliasSmell')) return { e: 'neutral', t: T('There\'s hot water in this house, {lad|lass}. Use it. Not for me. For you.', 'فيه ماي حار بهالبيت يا {ولدي|بنتي}. استخدمه. مو عشاني. عشانك.') };
-      if ((s.susp.elias || 0) >= 1 && (s.trust.elias || 0) < 5) return { e: 'angry', t: T('Hm.', 'همم.') };
-      if ((s.trust.elias || 0) >= 5) return { e: 'smile', t: T('There {he is|she is}.', 'هذا {أنت|أنتِ}.') };
-      if (s.slot === NIGHT) return { e: 'sad', t: T('Late, {lad|lass}.', 'تأخر الوقت يا {ولدي|بنتي}.') };
-      return { e: 'neutral', t: T('Mm.', 'ممم.') };
-    }
-  },
-  martha: {
-    name: T('Martha', 'مارثا'), role: T('Cleans for Elias on Tuesdays and Fridays. Knows everything.', 'تنظف لإلياس الثلاثاء والجمعة. تعرف كل شي.'), art: true,
-    where: s => (s.f.metElias && !s.f.ended && !s.f.prologue && isMarthaDay(s) ? [null, 'living', 'kitchen', null, null][s.slot] : null),
-    doing: s => (s.slot === 1 ? T('Martha is dusting things that aren\'t dusty and talking to them.', 'مارثا تنفض أشياء ما فيها غبار، وتكلمها.') : T('Martha is scrubbing the kitchen and humming loudly.', 'مارثا تفرك المطبخ وتدندن بصوت عالي.')),
-    greet: s => (s.day >= 2 && s.day - (s.f.lastShower ?? -1) >= 2) ? { e: 'shock', t: T('Oh, love. When did you last see soap?', 'يا عمري. متى آخر مرة شفت صابونة؟') } : { e: 'smile', t: T('There you are! Elias said he had a lodger. He didn\'t say a nice one.', 'هذا أنت! إلياس قال عنده ساكن. ما قال إنه لطيف.') }
-  },
-  sami: {
-    name: T('Sami', 'سامي'), role: T('Runs the grocery. Gives everyone credit.', 'صاحب البقالة. يدين الكل.'), art: true,
-    where: s => (!s.f.prologue && s.slot < NIGHT ? 'grocery' : null),
-    doing: s => [T('Sami is unpacking the morning delivery.', 'سامي يفتح كراتين توصيلة الصبح.'), T('Sami is eating lunch behind the counter, standing up.', 'سامي ياكل غداه ورا الكاونتر، واقف.'), T('Sami is restocking shelves and doing sums in his head.', 'سامي يرص الرفوف ويحسب في راسه.'), T('Sami is counting the till, twice.', 'سامي يعد فلوس الكاشير، مرتين.')][s.slot],
-    greet: s => ({ e: 'smile', t: T('Hey, {name}. What can I do for you?', 'هلا {name}. وش أقدر أسوي لك؟') })
-  },
-  marco: {
-    name: T('Marco', 'ماركو'), role: T('Owns the café. Wants to be a comedian. Should not.', 'صاحب المقهى. يبي يصير كوميدي. المفروض لا.'), art: true,
-    where: s => (!s.f.prologue && s.slot < NIGHT ? 'cafe' : null),
-    doing: s => [T('Marco is practising a joke on the coffee machine.', 'ماركو يجرب نكتة على مكينة القهوة.'), T('Marco is serving soup and opinions.', 'ماركو يقدم شوربة وآراء.'), T('Marco is wiping the same table for the fifth time.', 'ماركو يمسح نفس الطاولة للمرة الخامسة.'), T('Marco is pretending not to watch the chess game.', 'ماركو يسوي نفسه ما يتفرج على الشطرنج.')][s.slot],
-    greet: s => (s.day >= 2 && s.day - (s.f.lastShower ?? -1) >= 2) ? { e: 'shock', t: T('You smell like the harbor. The bad part of the harbor.', 'ريحتك مثل الميناء. الجزء الخايس منه.') } : { e: 'smile', t: T('My favourite audience! Sit, sit.', 'جمهوري المفضل! اجلس، اجلس.') }
-  },
-  irene: {
-    name: T('Dr. Irene', 'الدكتورة إيرين'), short: T('Irene', 'إيرين'), role: T('The only doctor between here and the city.', 'الطبيبة الوحيدة بين هنا والمدينة.'), art: true,
-    where: s => (!s.f.prologue && s.slot <= 2 ? 'clinic' : null),
-    doing: s => T('Dr. Irene is writing notes standing up.', 'الدكتورة إيرين تكتب ملاحظات وهي واقفة.'),
-    greet: s => ({ e: 'neutral', t: T('Make it quick, I have a waiting room.', 'بسرعة لو سمحت، عندي ناس ينتظرون.') })
-  }
-};
 
 /* who is in the bathroom right now */
 function bathOccupant(s) { for (const id of ['elias', 'martha']) { if (GAME.CHAR[id].where(s) === 'bath') return id; } return null; }

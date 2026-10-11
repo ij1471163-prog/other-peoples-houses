@@ -10,32 +10,7 @@ const F_ = (e, en, ar) => ({ c: 'frank', e, t: T(en, ar) });
 const ch2 = s => s.ch === 2 && !s.f.leoEnded;
 const d2 = s => s.day - (s.f.ch2Day || 0); // days since chapter 2 began
 
-/* ---------------- characters ---------------- */
-GAME.CHAR.leo = {
-  name: T('Leo', 'ليو'), role: T('19. Draws. Delivers food. Owes rent. Doesn\'t ask questions.', '١٩ سنة. يرسم. يوصّل أكل. عليه إيجار. وما يسأل أسئلة.'), host: true, art: true,
-  where: s => {
-    if (!s.f.metLeo || s.f.leoEnded) return null;
-    if (s.f.restDayLeo === s.day) return 'boathouse';
-    if (s.day % 7 === 0) return ['loft', 'dock', 'dock', 'dock', 'boathouse'][s.slot];
-    return ['loft', s.day % 2 ? 'bh_bath' : 'boathouse', 'street', 'dock', 'boathouse'][s.slot];
-  },
-  doing: s => {
-    const w = GAME.CHAR.leo.where(s);
-    if (s.f.restDayLeo === s.day) return T('Leo is on the sofa with his wrist strapped, pretending not to be in pain.', 'ليو على الكنب ويده مربوطة، ويسوي نفسه ما يتوجع.');
-    return ({ loft: T('Leo is asleep in the loft. Loudly.', 'ليو نايم فوق. بصوت عالي.'), boathouse: s.slot === NIGHT ? T('Leo is losing at a video game and blaming the controller.', 'ليو يخسر في لعبة ويلوم اليد.') : T('Leo is eating cereal out of a saucepan.', 'ليو ياكل كورن فليكس من قِدر.'), street: T('Leo is checking his delivery app, helmet under his arm.', 'ليو يطالع تطبيق التوصيل، والخوذة تحت ذراعه.'), dock: T('Leo is drawing the sea like it owes him money.', 'ليو يرسم البحر كأنه مديون له.') })[w] || null;
-  },
-  greet: s => {
-    if ((s.susp.leo || 0) >= 1 && (s.trust.leo || 0) < 5) return { e: 'angry', t: T('What.', 'وشو.') };
-    if ((s.trust.leo || 0) >= 6) return { e: 'smile', t: T('There\'s my favourite lodger. My only lodger. Still counts.', 'هذا ساكني المفضل. الوحيد. بس يحسب.') };
-    return { e: 'neutral', t: T('Yo.', 'هلا.') };
-  }
-};
-GAME.CHAR.frank = {
-  name: T('Frank', 'فرانك'), role: T('Owns Frank\'s Motors. Leo\'s father.', 'صاحب كراج فرانك. أبو ليو.'), art: true,
-  where: s => (s.ch === 2 && !s.f.prologue && s.slot < NIGHT ? 'garage' : null),
-  doing: s => [T('Frank is under a car, swearing at it politely.', 'فرانك تحت سيارة، يسبها بأدب.'), T('Frank is eating a sandwich with greasy hands.', 'فرانك ياكل سندويشة بيدين مليانة شحم.'), T('Frank is staring at his phone, then putting it face down.', 'فرانك يطالع جواله، وبعدين يقلبه على وجهه.'), T('Frank is closing up, slower than he needs to.', 'فرانك يسكّر الكراج، أبطأ من اللازم.')][s.slot],
-  greet: s => ({ e: s.f.metFrank ? 'neutral' : 'neutral', t: s.f.metFrank ? T('You again. Brakes? Tyres? Life advice? Only one of those is free.', 'أنت مرة ثانية. فرامل؟ كفرات؟ نصيحة بالحياة؟ وحدة بس فيهم ببلاش.') : T('We\'re open. You need something fixed?', 'فاتحين. عندك شي يبي تصليح؟') })
-};
+/* Leo and Frank live in js/chars/leo.js and js/chars/frank.js */
 Object.assign(GAME.ITEMS, {
   sketch: { name: T('Leo\'s drawing of you', 'رسمة ليو لك'), desc: T('You look less sad in it than you feel.', 'شكلك فيها أقل حزن من اللي تحسه.') },
   groceries: { name: T('Groceries', 'مقاضي'), desc: T('Enough for one real dinner.', 'تكفي لعشا حقيقي واحد.') }
@@ -299,37 +274,6 @@ Object.assign(GAME.SCRIPTS, {
 });
 
 /* ---------------- topics ---------------- */
-GAME.TOPICS.leo = [
-  { id: 'deliver', label: T('Ride along on deliveries', 'تركب معه بالتوصيل'), if: s => s.loc === 'street' && !doneToday('deliver') && s.f.restDayLeo !== s.day, cls: 'main', run: [{ jump: 'deliveries' }] },
-  { id: 'draw', label: T('Draw with him', 'ترسم معه'), if: s => s.loc === 'dock' && !doneToday('draw'), cls: 'main', run: [{ jump: 'drawing' }] },
-  { id: 'games', label: T('Play video games', 'تلعبون بلايستيشن'), if: s => s.loc === 'boathouse' && s.slot === NIGHT && !doneToday('games'), cls: 'main', run: [{ jump: 'games' }] },
-  { id: 'cook', label: T('Cook him a real dinner', 'تطبخ له عشا صدق'), if: s => s.loc === 'boathouse' && has('groceries') && !doneToday('cookLeo'), cls: 'main', run: [{ jump: 'cookLeo' }] },
-  { id: 'art', once: true, label: T('Ask about his art', 'تسأله عن رسمه'), run: s => { addTrust('leo', 1); return [L_('smile', 'I want to draw for a living. Comics, games, whatever pays. Mostly I want to never fix a car again.', 'أبي أعيش من الرسم. قصص مصورة، ألعاب، أي شي يجيب فلوس. وأهم شي ما أصلّح سيارة مرة ثانية.')]; } },
-  { id: 'father', once: true, label: T('Ask about his father', 'تسأله عن أبوه'), need: s => (s.trust.leo || 0) >= 3, why: T('He changes the subject. Spend more time with him.', 'يغير الموضوع. اقعد معه أكثر.'), run: s => { s.f.knowsFather = true; quest('q_father', 'active'); return [L_('sad', 'Frank. Frank\'s Motors. Big hands, small words.', 'فرانك. كراج فرانك. أيدين كبيرة، وكلام قليل.'), L_('sad', 'He burned my sketchbooks in the yard. He said drawing was for kids and I start at the garage Monday. I left Sunday.', 'أحرق دفاتري في الحوش. قال الرسم لعب عيال وإني أبدأ في الكراج يوم الإثنين. وطلعت يوم الأحد.')]; } },
-  { id: 'mother', once: true, label: T('Ask about his mother', 'تسأله عن أمه'), need: s => (s.trust.leo || 0) >= 4, why: T('Not yet.', 'مو الحين.'), run: s => { s.f.knowsMother = true; return [L_('sad', 'She texts every day: "Did you eat?" I always say yes. Even when I didn\'t.', 'ترسل كل يوم: «أكلت؟» ودايم أقول إيه. حتى لو ما أكلت.'), L_('sad', 'Because if I say no, she\'ll cry. And then I\'ll go home. And then I\'ll be fixing cars till I die.', 'لأني لو قلت لا، بتبكي. وبرجع البيت. وبصلّح سيارات لين أموت.')]; } },
-  { id: 'you', once: true, label: T('Tell him why you\'re really here', 'تقول له ليش أنت هنا فعلاً'), need: s => s.mood >= 4, why: T('You can\'t say it yet.', 'ما تقدر تقولها للحين.'), run: s => { addTrust('leo', 2); return [N_('You tell him. The last train. The phone you keep face down. Elias.', 'تقول له. آخر قطار. والجوال اللي تقلبه على وجهه. وإلياس.'), L_('sad', 'So we\'re both running. You\'re just running from yourself. That one\'s harder. You can\'t lose yourself on a bike.', 'يعني الاثنين هاربين. بس أنت هارب من نفسك. وهذي أصعب. ما تقدر تضيّع نفسك على دراجة.')]; } },
-  { id: 'rent', once: true, label: T('Ask about the rent', 'تسأله عن الإيجار'), if: s => s.f.knowsDebt, run: [L_('angry', 'Victor bought every boathouse on the harbor. Tripled the rent. Smiled the whole time. The guy smiles like a shark that went to business school.', 'فيكتور اشترى كل بيوت القوارب في الميناء. وضاعف الإيجار ثلاث مرات. وهو يبتسم طول الوقت. يبتسم مثل قرش درس إدارة أعمال.')] },
-  { id: 'daniel', once: true, label: T('Ask him about Daniel', 'تسأله عن دانيال'), if: s => s.f.sawSketchbook || s.f.sawCrashSketch, need: s => (s.trust.leo || 0) >= 5, why: T('If you ask now, he\'ll shut down. He needs to trust you more.', 'لو سألت الحين، بيقفل. يحتاج يثق فيك أكثر.'), run: s => { s.f.knowsDaniel = true; quest('q_secret2', 'done'); return [
-    { c: 'leo', e: 'shock', t: T('How do you know that name.', 'من وين تعرف هالاسم.') },
-    L_('sad', 'Daniel was my best friend. Two years ago we drove to a concert in the city. He was driving. I was doing the music. And I kept saying "faster, we\'ll miss the start". As a joke.', 'دانيال كان أعز أصحابي. قبل سنتين رحنا لحفلة في المدينة. هو يسوق، وأنا ماسك الأغاني. وكنت أقول «أسرع، بتفوتنا البداية». كنت أمزح.'),
-    L_('sad', 'The road was wet. I walked away with a cut on my head. He didn\'t walk away.', 'الطريق كان مبلول. أنا طلعت بجرح في راسي. وهو ما طلع.'),
-    L_('sad', 'His mum lives in the white house on Cliff Road. Margaret. She doesn\'t know I said that. Nobody knows. I can\'t even walk past her house.', 'أمه ساكنة في البيت الأبيض بشارع الجرف. مارغريت. ما تدري إني قلت كذا. محد يدري. ما أقدر حتى أمر قدام بيتها.')]; } }
-];
-GAME.TOPICS.frank = [
-  { id: 'car', once: true, label: T('Ask about the car on the lift', 'تسأله عن السيارة اللي فوق الرافعة'), run: s => { s.f.metFrank = true; s.met.frank = true; return [F_('neutral', 'Sixty-eight Mustang. Belonged to a man who loved it more than his kids. Now his kids are selling it. Funny how that works.', 'موستنج ٦٨. كانت لرجل يحبها أكثر من عياله. الحين عياله يبيعونها. غريبة الدنيا.')]; } },
-  { id: 'son', once: true, label: T('Ask if he has kids', 'تسأله إذا عنده عيال'), if: s => s.f.knowsFather || s.f.sawOffice, run: s => { s.f.metFrank = true; s.met.frank = true; s.f.fatherSick = true; return [
-    { c: 'frank', e: 'sad', t: T('A son. Leo. He... he draws.', 'ولد. ليو. هو... يرسم.') },
-    { c: 'frank', e: 'angry', t: T('He left. His choice. I\'m not chasing a grown man around town.', 'طلع. هذا اختياره. ما راح ألحق رجّال كبير في البلدة.') },
-    N_('He rubs his chest like it hurts. "Blood pressure," he says, before you can ask. "Since... lately."', 'يفرك صدره كأنه يوجعه. «الضغط،» يقول، قبل ما تسأل. «من... من فترة.»')]; } },
-  { id: 'sketch', once: true, label: T('Show him Leo\'s drawing of you', 'توريه رسمة ليو لك'), if: s => has('sketch') && s.f.metFrank, run: s => { s.f.frankSoft = true; return [
-    { c: 'frank', e: 'sad', t: T('He did this?', 'هو اللي رسمها؟') },
-    N_('Frank holds the paper by the very edges, the way you hold something you\'re afraid to get grease on.', 'فرانك يمسك الورقة من أطرافها، مثل ما تمسك شي خايف توسخه بالشحم.'),
-    { c: 'frank', e: 'sad', t: T('He got that from his mother. I burned three years of these. Three years.', 'أخذها من أمه. وأنا أحرقت ثلاث سنين من هذي. ثلاث سنين.') }]; } },
-  { id: 'tell', once: true, label: T('Tell him where Leo is', 'تقول له وين ليو'), cls: 'risk', if: s => s.f.metFrank && s.f.knowsFather && !s.f.toldFrank, run: s => { s.f.toldFrank = true; s.conscience = (s.conscience || 0) - 1; return [
-    { c: 'frank', e: 'shock', t: T('The boathouse? On the harbor? He\'s been two streets away this whole time?', 'بيت القوارب؟ في الميناء؟ كان على بعد شارعين طول هالوقت؟') },
-    N_('He doesn\'t say thank you. He goes very quiet, and then he says he\'ll think about it. You feel like you\'ve set something in motion you can\'t stop.', 'ما يقول شكراً. يسكت مرة، وبعدين يقول إنه بيفكر. وتحس إنك حركت شي ما تقدر توقفه.')]; } }
-];
-GAME.TOPICS.sami.push({ id: 'buygroceries', label: T('Buy groceries for a real dinner ($4)', 'تشتري مقاضي لعشا صدق (٤$)'), if: s => s.ch === 2, need: s => s.money >= 4, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { pay(4); give('groceries'); return [{ c: 'sami', e: 'smile', t: T('Vegetables? For Leo? Tell him they won\'t bite.', 'خضار؟ لليو؟ قل له ما تعض.') }]; } });
 
 /* ---------------- endings ---------------- */
 const SOON3 = T('Margaret\'s house, the lighthouse and the Grand Hotel open in the next chapters. Your save keeps everything you\'ve done.', 'بيت مارغريت، والمنارة، والفندق الكبير، ينفتحون في الفصول الجاية. والحفظ يحتفظ بكل اللي سويته.');

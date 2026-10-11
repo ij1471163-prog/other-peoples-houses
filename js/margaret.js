@@ -16,40 +16,7 @@
   const byDay = (s, a) => a[s.day % a.length];
   const danPath = s => (s.f.mWore ? 1 : 0) + (s.f.mAnswered ? 1 : 0) + (s.f.mGoodnight ? 1 : 0);
 
-  /* ---------- people ---------- */
-  GAME.CHAR.margaret = {
-    name: T('Margaret', 'مارغريت'), role: T('54. Lives in the white house on Cliff Road. Lays the table for three.', '٥٤ سنة. ساكنة في البيت الأبيض بشارع الجرف. تحط السفرة لثلاثة.'), host: true, art: true,
-    lesson: T('Margaret: grief isn\'t a room you lock. It\'s a window you open a little at a time.', 'مارغريت: الحزن مو غرفة تقفلها. هو شباك تفتحه شوي شوي.'),
-    where: s => {
-      if (!inM(s)) return (['MARG_OPEN', 'MARG_LEO'].includes(s.done.margaret) && weekday(s.day) === 0 && s.slot === 1) ? 'cafe' : null;
-      if (!s.f.metMarg) return null;
-      return [s.day % 2 ? 'marg_bath' : 'marg_kitchen', 'marg_living', s.f.mSick === s.day ? 'marg_bed' : 'cemetery', 'marg_kitchen', s.f.mCurtains ? 'marg_bed' : 'dan_room'][s.slot];
-    },
-    doing: s => {
-      const w = GAME.CHAR.margaret.where(s);
-      if (w === 'cafe') return T('Margaret is at the window table, curtains wide open, reading.', 'مارغريت على طاولة الشباك، والستارة مفتوحة على الآخر، تقرا.');
-      return ({
-        marg_bath: T('The bathroom door is shut. The shower runs, then stops, then runs again.', 'باب الحمام مسكّر. الدش يشتغل، ويوقف، ويرجع يشتغل.'),
-        marg_kitchen: s.slot === 0 ? byDay(s, [T('Margaret is eating toast standing up, looking at the third chair.', 'مارغريت تاكل توست وهي واقفة، وعينها على الكرسي الثالث.'), T('Margaret is making porridge. Enough for three.', 'مارغريت تسوي شوفان. يكفي ثلاثة.')]) : byDay(s, [T('Margaret is cooking. Roast chicken. His favourite, she says, to nobody.', 'مارغريت تطبخ. دجاج بالفرن. أكلته المفضلة، تقول، لولا أحد.'), T('Margaret is stirring soup and humming something from the radio twenty years ago.', 'مارغريت تحرك الشوربة وتدندن أغنية من راديو قبل عشرين سنة.'), T('Margaret is laying three plates, three forks, three glasses.', 'مارغريت تحط ثلاث صحون، ثلاث شوك، ثلاث كاسات.')]),
-        marg_living: byDay(s, [T('Margaret is ironing a shirt that is already ironed.', 'مارغريت تكوي قميص مكوي أصلاً.'), T('Margaret is dusting a trophy: "D. Hart, under-15s, Most Improved".', 'مارغريت تنفض كأس: «د. هارت، تحت ١٥ سنة، أكثر لاعب تحسّن».'), T('Margaret is folding laundry. Some of it is yours. Some of it is his.', 'مارغريت تطوي غسيل. بعضه حقك. وبعضه حقه.')]),
-        marg_bed: T('Margaret is lying down with a cloth on her forehead.', 'مارغريت متمددة وعلى جبهتها قطعة قماش.'),
-        dan_room: T('A thin line of light under Daniel\'s door. Her voice, very low, in there.', 'خط ضو رفيع تحت باب دانيال. وصوتها، واطي مرة، هناك داخل.'),
-        cemetery: T('Margaret is kneeling at a white stone, cleaning it with a toothbrush.', 'مارغريت راكعة عند حجر أبيض، تنظفه بفرشاة أسنان.')
-      })[w] || null;
-    },
-    greet: s => {
-      if ((s.susp.margaret || 0) >= 1 && (s.trust.margaret || 0) < 5) return { e: 'sad', t: T('I\'d rather you knocked. On everything. Always.', 'أفضّل إنك تطق. على كل شي. دايم.') };
-      if (s.f.mAnswered && s.slot >= 3) return { e: 'smile', t: T('There you are, love. Wash your hands, Danny.', 'هذا أنت يا عمري. اغسل يدينك يا داني.') };
-      if ((s.trust.margaret || 0) >= 6) return { e: 'smile', t: T('Oh good. It\'s you. I mean that.', 'زين. هذا أنت. وأعنيها.') };
-      return { e: 'neutral', t: T('Yes? Is everything all right with the room?', 'نعم؟ كل شي تمام في الغرفة؟') };
-    }
-  };
-  GAME.CHAR.nora = {
-    name: T('Nora', 'نورا'), role: T('Margaret\'s younger sister. Says the thing everyone else is thinking.', 'أخت مارغريت الصغيرة. تقول الشي اللي الكل يفكر فيه.'), art: true,
-    where: s => (inM(s) && s.f.metMarg && (weekday(s.day) === 3 || weekday(s.day) === 6 || dM(s) === 2) && (s.slot === 1 || s.slot === 2) ? (s.slot === 1 ? 'marg_kitchen' : 'cliff_road') : null),
-    doing: s => (s.slot === 1 ? T('Nora is opening every cupboard and tutting.', 'نورا تفتح كل الدواليب وتتأفف.') : T('Nora is in the front garden on the phone, saying "I know, I KNOW" a lot.', 'نورا في الحديقة على الجوال، وتقول «أدري، أدري!» كثير.')),
-    greet: s => ({ e: s.f.metNora ? 'smile' : 'neutral', t: s.f.metNora ? T('The lodger. Still alive. Good.', 'الساكن. لسا حي. زين.') : T('And who are you, then?', 'وأنت مين بالضبط؟') })
-  };
+  /* this chapter's people live in js/chars/<id>.js */
 
   Object.assign(GAME.ITEMS, {
     pillsM: { name: T('Unlabeled pill bottle', 'علبة حبوب بدون اسم'), desc: T('From Margaret\'s bathroom. No pharmacy label. Just a gold "G".', 'من حمام مارغريت. بدون ملصق صيدلية. بس حرف «G» ذهبي.') },
@@ -359,30 +326,6 @@
   });
 
   /* ---------- topics ---------- */
-  GAME.TOPICS.margaret = [
-    { id: 'dinner', label: T('Sit down for dinner', 'تجلس على العشا'), if: s => inM(s) && s.loc === 'marg_kitchen' && s.slot === 3 && !doneToday('mDinner'), cls: 'main', run: [{ jump: 'margDinner' }] },
-    { id: 'cookhelp', label: T('Help her cook', 'تساعدها في الطبخ'), if: s => inM(s) && s.loc === 'marg_kitchen' && s.slot === 3 && !doneToday('mCook'), run: s => { onceToday('mCook'); addTrust('margaret', s.f.mCooked ? 0 : 1); s.f.mCooked = true; return [{ c: 'margaret', e: 'smile', t: fresh('mCookT', [T('Peel. No, towards you. No, away from you. Oh, give it here.', 'قشّر. لا، باتجاهك. لا، بعيد عنك. أوه، عطني إياها.'), T('Stir it. Gently. It\'s gravy, not an enemy.', 'حرّكها. بشويش. هذي مرقة، مو عدو.'), T('Taste that. Too much pepper? Daniel would say too much pepper. He was wrong. Taste it again.', 'ذوقها. فلفل زايد؟ دانيال كان بيقول فلفل زايد. وكان غلطان. ذوقها مرة ثانية.')]) }]; } },
-    { id: 'daniel', once: true, label: T('Ask about Daniel', 'تسألها عن دانيال'), if: s => inM(s), need: s => (s.trust.margaret || 0) >= 3, why: T('She changes the subject to the weather. Give it time.', 'تغير الموضوع للجو. أعطها وقت.'), run: s => { addTrust('margaret', 1); s.f.knowsDaniel = true; return [M('sad', 'He was seventeen. Funny. Lazy. Kind to old people and dogs and nobody else. He wanted to be a sound engineer. He made me a playlist for my birthday and then died before my birthday.', 'كان عمره سبعطعش. دمه خفيف. كسول. لطيف مع الكبار والكلاب وبس. كان يبي يصير مهندس صوت. سوى لي قائمة أغاني لعيد ميلادي وبعدين مات قبل عيد ميلادي.'), M('sad', 'There was a boy in the car with him. I can\'t say his name. I know it. I just can\'t say it.', 'كان فيه ولد معه في السيارة. ما أقدر أقول اسمه. أعرفه. بس ما أقدر أقوله.')]; } },
-    { id: 'husband', once: true, label: T('Ask about the cut-out photograph', 'تسألها عن الصورة المقصوصة'), if: s => inM(s) && (s.trust.margaret || 0) >= 4, run: [M('angry', 'Richard. He left when Daniel was six. Sent a card every birthday with ten pounds in it. Came to the funeral in sunglasses. I cut him out of the wedding photo with nail scissors that night. It took an hour. Best hour of the year.', 'ريتشارد. طلع لما دانيال كان عمره ست. يرسل بطاقة كل عيد ميلاد فيها عشر جنيهات. وجا للعزا بنظارة شمسية. وقصّيته من صورة الزواج بمقص أظافر هذيك الليلة. أخذت ساعة. أحسن ساعة في السنة.')] },
-    { id: 'pills', once: true, label: T('Ask about the gold "G" pills', 'تسألها عن حبوب «G» الذهبية'), if: s => inM(s) && s.f.pillsIrene, need: s => (s.trust.margaret || 0) >= 4, why: T('If you bring it up now she\'ll shut the door on you. Literally.', 'لو فتحت الموضوع الحين بتسكّر الباب بوجهك. حرفياً.'), run: s => [
-      M('shock', 'You went through my things.', 'فتشت أغراضي.'),
-      M('sad', '...They\'re from the spa at the Grand. A man there, a sort of pharmacist, Mr. Victor\'s friend. He said they\'d help me see Danny in my dreams. They do. Sometimes I see him when I\'m awake, too.', '...هي من السبا حق الفندق الكبير. فيه رجّال هناك، كأنه صيدلي، صاحب السيد فيكتور. قال إنها بتخليني أشوف داني في أحلامي. وصح. وأحياناً أشوفه وأنا صاحية بعد.'),
-      { c: 'margaret', e: 'sad', menu: [
-        { t: T('"Dr. Irene says they\'re dangerous. Take hers instead. Please."', '«الدكتورة إيرين تقول إنها خطيرة. خذي حقتها بدالها. تكفين.»'), cls: 'main', fx: st => { st.f.pillsDone = true; st.f.pillsVictor = true; quest('q_m_pills', 'done'); addTrust('margaret', 1); take('pillsM'); }, then: [M('sad', 'If I stop, will I still see him?', 'لو وقفت، بشوفه؟'), N_('"In photos," you say. "In the garden. In the card he wrote you." She doesn\'t understand the last part yet. She pours the rest of the gold bottle down the sink while you watch.', '«في الصور،» تقول. «في الحديقة. في البطاقة اللي كتبها لك.» ما تفهم آخر جزء للحين. وتكب باقي العلبة الذهبية في المغسلة وأنت تطالع.')] },
-        { t: T('Drop it', 'تترك الموضوع'), then: [N_('You let it go. She takes one with her tea that night, watching you over the cup.', 'تتركه. وتاخذ وحدة مع الشاي هذيك الليلة، وهي تطالعك من فوق الكوب.')] }
-      ] }] },
-    { id: 'curtains', once: true, label: T('Ask why the curtains are always closed', 'تسألها ليش الستاير دايم مسكّرة'), if: s => inM(s), run: [M('neutral', 'The sun fades the photographs. And people look in. They look in and they see a woman on her own, and they feel sorry for her, and I can\'t bear it.', 'الشمس تبهّت الصور. والناس يطالعون داخل. يطالعون ويشوفون امرأة لحالها، ويحزنون عليها، وما أتحمل.')] },
-    { id: 'leo', once: true, label: T('Tell her Leo is sorry', 'تقول لها إن ليو آسف'), if: s => inM(s) && s.f.knowsDaniel && !s.f.margTruth && ['LEO_HOME', 'LEO_STAY'].includes(s.done.leo), need: s => (s.trust.margaret || 0) >= 5, why: T('She isn\'t ready to hear that name from you yet.', 'مو جاهزة تسمع هالاسم منك للحين.'), run: s => { addTrust('margaret', 1); return [M('sad', 'Leo. I know he is. He walks the long way round so he doesn\'t pass my house. Did you know that? Every single time.', 'ليو. أدري إنه آسف. يمشي الطريق الطويل عشان ما يمر قدام بيتي. تدري؟ كل مرة.'), M('sad', 'I never blamed him. I just couldn\'t look at him. He\'s the last person who saw my son laugh.', 'عمري ما لمته. بس ما قدرت أطالعه. هو آخر واحد شاف ولدي يضحك.')]; } }
-  ];
-  GAME.TOPICS.nora = [
-    { id: 'sister', once: true, label: T('Ask what Margaret was like before', 'تسألها كيف كانت مارغريت قبل'), run: s => { addTrust('margaret', 0); return [NR('smile', 'Loud. Bossy. Laughed like a seal. Ran the school bake sale like a military operation. Daniel used to say she could make a cake surrender.', 'صوتها عالي. تتأمر. تضحك مثل الفقمة. كانت تدير بيع الكيك في المدرسة كأنه عملية عسكرية. دانيال كان يقول تقدر تخلي الكيكة تستسلم.'), NR('sad', 'I want my sister back. Not him. I know he\'s not coming. Her.', 'أبي أختي ترجع. مو هو. أدري إنه ما راح يرجع. هي.')]; } },
-    { id: 'victor', once: true, label: T('Ask about Victor\'s offer', 'تسألها عن عرض فيكتور'), run: [NR('neutral', 'Twice what it\'s worth. Which tells you it\'s worth three times. He wants the whole of Cliff Road for a "spa village". He\'s very charming about it. I\'d trust him about as far as I could throw the hotel.', 'ضعف قيمته. يعني قيمته ثلاث أضعاف. يبي شارع الجرف كله عشان «قرية سبا». ولطيف مرة وهو يقولها. وأثق فيه قد ما أقدر أرمي الفندق.')] },
-    { id: 'pillsN', once: true, label: T('Tell her about the gold "G" bottle', 'تقول لها عن علبة «G» الذهبية'), if: s => s.f.mPills, run: s => { s.f.noraKnows = true; return [NR('angry', 'G for Grand. I KNEW it. That spa sells "wellness". I\'m going to have a word with Dr. Irene and then I\'m going to have several words with somebody else.', 'G يعني غراند. كنت أدري! هالسبا يبيع «عافية». بكلم الدكتورة إيرين وبعدين بكلم أحد ثاني بكلمات كثيرة.')]; } }
-  ];
-  GAME.TOPICS.irene.push({ id: 'gpills', label: T('Show her the gold "G" pills', 'توريها حبوب «G» الذهبية'), if: s => has('pillsM') && !s.f.pillsIrene, cls: 'main', run: s => { s.f.pillsIrene = true; quest('q_m_pills', 'active'); return [
-    { c: 'irene', e: 'angry', t: T('Where did you get these? No, don\'t tell me. Margaret Hart. I prescribed her something gentle and she barely touches it.', 'من وين جبتها؟ لا، لا تقول. مارغريت هارت. وصفت لها شي خفيف وبالكاد تلمسه.') },
-    { c: 'irene', e: 'angry', t: T('This isn\'t from any pharmacy. A strong sedative, cut with something that causes vivid dreams. Hallucinations, in some people. Grief plus this is a very bad night waiting to happen.', 'هذي مو من أي صيدلية. منوّم قوي، مخلوط بشي يسبب أحلام واضحة. وهلوسة، عند بعض الناس. حزن مع هذا يعني ليلة سيئة مرة تنتظر.') },
-    { c: 'irene', e: 'sad', t: T('Get her to stop. Gently. And if you find out who\'s selling them, I want a name.', 'خلها توقف. بلطف. ولو عرفت مين يبيعها، أبي اسم.') }]; } });
 
   /* ---------- endings ---------- */
   Object.assign(GAME.END, {
@@ -412,4 +355,7 @@
     { id: 'mFinale', when: s => inM(s) && !s.f.mFinaleDone && dM(s) >= 4 && (s.f.mDinners || 0) >= 2 && s.slot === 3, run: s => (houseOf(s.loc) === 'margaret' || s.loc === 'cliff_road') ? GAME.SCRIPTS.margFinale(s) : [N_('Your phone buzzes. Margaret: "Dinner at seven. Please be there tonight. It matters." You walk up Cliff Road.', 'جوالك يهتز. مارغريت: «العشا الساعة سبعة. تكفى كن موجود الليلة. مهم.» وتطلع شارع الجرف.')].concat(GAME.SCRIPTS.margFinale(s)) },
     { id: 'mFinaleLate', when: s => inM(s) && !s.f.mFinaleDone && dM(s) >= 7 && s.slot === 3, run: s => [N_('Margaret phones: "Seven o\'clock. Please."', 'مارغريت تتصل: «الساعة سبعة. تكفى.»')].concat(GAME.SCRIPTS.margFinale(s)) }
   );
+
+  /* helpers the character files (js/chars/*.js) borrow from this chapter */
+  GAME.H.margaret = { byDay, inM, dM, M, NR };
 })();

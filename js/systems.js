@@ -21,9 +21,7 @@ Object.assign(GAME.UI, {
   const sh = sc.shower; sc.shower = s => { const had = s.f.lastShower === s.day; const r = sh(s); if (!had) wash(); return r; };
   const ea = sc.eat; sc.eat = s => { const had = doneToday('ate'); const r = ea(s); if (!had) feed(45); return r; };
   const bd = sc.bed; sc.bed = s => { const night = s.slot === NIGHT; const r = bd(s); if (!night) rest(25); return r; };
-  const ck = GAME.TOPICS.elias.find(t => t.id === 'cook'); if (ck) { const f = ck.run; ck.run = s => { feed(40); return f(s); }; }
   const cl = sc.cookLeo; sc.cookLeo = s => { feed(40); return cl(s); };
-  const co = GAME.TOPICS.marco.find(t => t.id === 'coffee'); if (co) { const f = co.run; co.run = s => { rest(15); return f(s); }; }
 })();
 
 /* ---------------- mini-games ---------------- */
@@ -68,16 +66,6 @@ GAME.MINI = {
 Object.assign(GAME.ITEMS, { rod: { name: T('Fishing rod', 'سنارة'), desc: T('Second-hand. Mostly works.', 'مستعملة. تشتغل غالباً.') } });
 
 /* jobs & food in town */
-GAME.TOPICS.marco.push(
-  { id: 'pie', label: T('Buy a slice of pie ($3)', 'تشتري قطعة فطيرة (٣$)'), need: s => s.money >= 3, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { pay(3); feed(40); addMood(1); return [{ c: 'marco', e: 'smile', t: fresh('pie', [T('Apple pie. Baked this morning. By my mother. Don\'t tell anyone, they think it\'s me.', 'فطيرة تفاح. انخبزت الصبح. أمي سوتها. لا تقول لأحد، يحسبونها أنا.'), T('Warm pie, cold coffee. That\'s the house special. It\'s also a mistake.', 'فطيرة حارة وقهوة باردة. هذا طبق البيت. وهو بعد غلطة.'), T('Eat. You look like a sad ghost. A sad ghost who could use pie.', 'كل. شكلك شبح حزين. شبح حزين محتاج فطيرة.')]) }]; } },
-  { id: 'shift', label: T('Work an evening shift ($4 + tips)', 'تشتغل شفت المغرب (٤$ + بقشيش)'), if: s => s.slot === 3 && s.day >= 2 && !doneToday('shift'), cls: 'main', run: s => { onceToday('shift'); s.f.shifts = (s.f.shifts || 0) + 1; return [
-    { c: 'marco', e: 'smile', t: fresh('shiftIntro', [T('Apron\'s on the hook. Table four wants everything. Table six wants nothing but complains anyway.', 'المريلة على المسمار. طاولة أربعة تبي كل شي. وطاولة ستة ما تبي شي بس تتشكى على كل حال.'), T('Rush hour. By which I mean eight people. Go, go, go.', 'وقت الزحمة. يعني ثمان أشخاص. يلا، يلا، يلا.'), T('Remember: smile, serve, never tell them who baked the pie.', 'تذكر: ابتسم، قدّم، ولا تقول لهم مين خبز الفطيرة.')]) },
-    { mini: 'cafe', size: s.f.shifts > 2 ? 4 : 3, then: (r, st) => { const tip = r * 2; st.money += 4 + tip; addMood(r >= 2 ? 1 : 0); rest(-10); advance(1); return [N_(r >= 3 ? 'Every order right. Marco hugs you. You didn\'t agree to that.' : r >= 2 ? 'Mostly right. Someone got soup instead of lemonade and decided they preferred it.' : 'Chaos. A man got a pie in a teacup. Marco calls it "experimental service".', r >= 3 ? 'كل الطلبات صح. ماركو يضمك. ما وافقت على هذا.' : r >= 2 ? 'أغلبها صح. واحد جاه شوربة بدل الليمونادة وقرر إنه يحبها أكثر.' : 'فوضى. رجل جاته فطيرة في كوب شاي. ماركو يسميها «خدمة تجريبية».'), N_('+ $' + (4 + tip), '+ ' + (4 + tip) + '$')]; } }]; } }
-);
-GAME.TOPICS.sami.push(
-  { id: 'snack', label: T('Buy a snack ($2)', 'تشتري شي ياكل (٢$)'), need: s => s.money >= 2, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { pay(2); feed(30); return [{ c: 'sami', e: 'smile', t: fresh('snack', [T('Sandwich. Cheese. The cheese is optimistic.', 'سندويشة جبن. الجبن متفائل.'), T('Banana and crisps. A balanced meal, if you\'re a pirate.', 'موز وشيبس. وجبة متوازنة، إذا كنت قرصان.'), T('Yesterday\'s bread, today\'s price. Joking. It\'s half price.', 'خبز أمس بسعر اليوم. أمزح. بنص السعر.')]) }]; } },
-  { id: 'rod', label: T('Buy a fishing rod ($5)', 'تشتري سنارة (٥$)'), if: s => !has('rod'), need: s => s.money >= 5, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { pay(5); give('rod'); return [{ c: 'sami', e: 'smile', t: T('My uncle\'s. He swore it caught a shark once. It did not.', 'حق عمي. حلف إنه صاد فيها قرش مرة. ما صاد.') }]; } }
-);
 GAME.LOC.harbor.spots.push({ x: 30, y: 72, label: T('Fish from the pier', 'تصيد من الرصيف'), if: s => has('rod') && s.slot < NIGHT, run: s => [
   { mini: 'fish', then: (hits, st) => { advance(1); rest(-8); if (hits) { give('fish', hits); addMood(1); } return [N_(hits === 3 ? 'Three bites, three fish. A gull watches you with open respect.' : hits ? 'You land ' + hits + '. The others get away and, you assume, tell their friends.' : 'Nothing. The sea keeps its fish and its opinions.', hits === 3 ? 'ثلاث مرات، ثلاث سمكات. نورس يطالعك باحترام واضح.' : hits ? 'تصيد ' + hits + '. والباقي يهرب، ويمكن يعلّم أصحابه.' : 'ولا شي. البحر يحتفظ بسمكه وبرأيه.')]; } }] });
 
@@ -182,10 +170,6 @@ GAME.ENTER_HOOKS.push(s => {
   return typeof e.run === 'function' ? e.run(s) : e.run;
 });
 
-/* body heights for the drawn pictures (1 = average) */
-(function () { const H = { elias: .97, sami: .9, marco: .97, irene: 1.04, martha: .86, leo: 1.02, frank: 1.0, margaret: .9, nora: 1.02, evelyn: 1.04, victor: .98, kell: 1.08, ana: .87, stella: .93, kai: 1.01, rex: 1.05, bella: .9, ingrid: .84, maya: .99, olivia: .88, gregor: 1.06 };
-  Object.entries(H).forEach(([id, h]) => { if (GAME.CHAR[id]) GAME.CHAR[id].height = h; }); })();
-
 /* =====================================================================
    v6: daily life. You can cook, clean and do laundry in whichever house
    you live in, and the people there keep their own routines: Martha now
@@ -217,20 +201,8 @@ GAME.ENTER_HOOKS.push(s => {
   add('hotel_staff', laundry(60, 74));
   add('sami_attic', cookSpot(40, 70), cleanSpot(60, 80), laundry(24, 70));
 
-  /* Martha also cleans Margaret's house (Mondays and Thursdays) */
-  const mw = GAME.CHAR.martha.where;
-  GAME.CHAR.martha.where = s => {
-    const w = mw(s); if (w) return w;
-    if (s.host === 'margaret' && s.f.metMarg && (weekday(s.day) === 1 || weekday(s.day) === 4) && (s.slot === 1 || s.slot === 2)) return s.slot === 1 ? 'marg_living' : 'marg_kitchen';
-    return null;
-  };
-  const md = GAME.CHAR.martha.doing;
-  GAME.CHAR.martha.doing = s => (s.host === 'margaret' ? (s.slot === 1 ? T('Martha is hoovering round Margaret\'s feet and talking over the noise.', 'مارثا تشغّل المكنسة حول رجول مارغريت وتسولف فوق الإزعاج.') : T('Martha is scrubbing Margaret\'s oven and singing to it.', 'مارثا تفرك فرن مارغريت وتغني له.')) : md(s));
-  GAME.TOPICS.martha.forEach(t => { const f = t.if; t.if = s => !s.f.ended && (!f || f(s)); });
-  GAME.TOPICS.martha.push(
-    { id: 'help2', label: T('Help her clean', 'تساعدها بالتنظيف'), if: s => s.host === 'margaret' && !doneToday('marthaM'), cls: 'main', run: s => { onceToday('marthaM'); advance(1); s.money += 5; addMood(1); addTrust('margaret', 1); return [{ c: 'martha', e: 'smile', t: fresh('marthaM', [T('Margaret pays me to clean, and I pay her in gossip. Fair trade. Pass me that cloth, love.', 'مارغريت تدفع لي عشان أنظف، وأنا أدفع لها سوالف. تبادل عادل. ناولني هالقماشة يا عمري.'), T('Two years she\'s let me in here and never once let me touch his room. I dust round that door like it\'s a church.', 'لها سنتين تخليني أدخل وعمرها ما خلتني ألمس غرفته. أنفض الغبار حول هالباب كأنه كنيسة.'), T('You\'re good for her. She bought biscuits last week. Biscuits! For guests!', 'أنت زين لها. اشترت بسكويت الأسبوع اللي فات. بسكويت! للضيوف!')]) }, N_('+ $5', '+ ٥$')]; } },
-    { id: 'sami2', once: true, label: T('"How do you know everyone?"', '«كيف تعرفين الكل؟»'), if: s => !!s.f.ended, run: [CH('martha', 'smile', 'I clean half the houses in Saltmere. You can learn more from a person\'s bathroom cabinet than from their priest. I don\'t look, mind. Much.', 'أنظف نص بيوت سولتمير. تتعلم من دولاب حمام الشخص أكثر من قسيسه. بس ما أطالع، انتبه. كثير.')] }
-  );
-
   /* Ana makes up your suite every noon (already scheduled); hosts' bathroom/shower/cook/sleep routines live in each chapter file */
+
+  /* helpers the character files (js/chars/*.js) borrow from this chapter */
+  GAME.H.systems = { CH };
 })();

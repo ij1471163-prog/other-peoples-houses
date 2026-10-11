@@ -272,91 +272,6 @@ GAME.SCRIPTS = {
 
 /* ---------------- talk topics ---------------- */
 const inHouse = s => houseOf(s.loc) === 'elias';
-GAME.TOPICS = {
-  elias: [
-    { id: 'boat', once: true, label: T('Ask about his boat', 'تسأله عن قاربه'), run: s => { addTrust('elias', 1); return [
-      E('smile', 'Ada. After my wife. She hated boats. Got seasick in the bath.', 'آدا. على اسم زوجتي. كانت تكره القوارب. يجيها دوار حتى في البانيو.'),
-      E('sad', 'Ten years she\'s gone. I repaint the name every spring. The rest of the boat can fall apart, it\'s fine.', 'عشر سنين من راحت. أصبغ الاسم كل ربيع. والباقي من القارب يتفكك عادي.')]; } },
-    { id: 'town', once: true, label: T('Ask about the town', 'تسأله عن البلدة'), run: [
-      E('neutral', 'Saltmere\'s fine. Small. Everyone knows your business, which is useful if you\'ve forgotten it.', 'سولتمير زينة. صغيرة. الكل يعرف وش عندك، وهذا مفيد إذا نسيت.'),
-      E('angry', 'There\'s a man called Victor who wants our whole street for his hotel. Offered me money twice. I told him the house comes with me in it.', 'فيه واحد اسمه فيكتور يبي شارعنا كله عشان فندقه. عرض علي فلوس مرتين. قلت له البيت يجي وأنا داخله.')] },
-    { id: 'thomas', once: true, label: T('Ask about Thomas', 'تسأله عن توماس'), if: s => !s.f.knowsSonTalk, need: s => (s.trust.elias || 0) >= 3, why: T('He\'s not ready to talk about that. Spend more time with him.', 'مو جاهز يتكلم عن هذا. اقعد معه أكثر.'), run: s => { s.f.knowsSon = true; s.f.knowsSonTalk = true; quest('q_thomas', 'active'); addTrust('elias', 1); return [
-      E('sad', 'He wanted to study the sea. Properly, in the city, at a university. I told him: you go, you don\'t come back.', 'كان يبي يدرس البحر. صح، في المدينة، في جامعة. قلت له: تروح، ما ترجع.'),
-      E('neutral', 'He went. He studied. He didn\'t come back. Turns out I was right.', 'راح. ودرس. وما رجع. طلعت صادق، شف.'),
-      E('sad', 'Eight years. He calls on my birthday. I don\'t pick up. Don\'t look at me like that.', 'ثمان سنين. يتصل يوم عيد ميلادي. وما أرد. لا تطالعني كذا.')]; } },
-    { id: 'mother', once: true, label: T('Tell him about your mother', 'تكلّمه عن أمك'), need: s => (s.trust.elias || 0) >= 4 && s.mood >= 4, why: T('You can\'t find the words yet.', 'ما تلقى الكلام للحين.'), run: s => { s.f.motherTalk = true; addMood(1); return [
-      N_('You tell him about the 47 messages. About the calls you don\'t answer. You didn\'t know you were going to.', 'تقول له عن الـ ٤٧ رسالة. وعن المكالمات اللي ما ترد عليها. ما كنت تدري إنك بتقول.'),
-      E('sad', 'Call her. Don\'t do what I did.', 'اتصل فيها. لا تسوي مثلي.'),
-      E('neutral', 'You think staying silent protects you. It just eats time you don\'t get back.', 'تحسب إن السكوت يحميك. هو بس ياكل وقت ما يرجع.')]; } },
-    { id: 'sick', label: T('Ask if he\'s ill', 'تسأله إذا هو مريض'), if: s => (s.f.meds || s.f.noticed || s.f.forgot) && !s.f.knowsIllnessTalk, run: s => {
-      if ((s.trust.elias || 0) >= 5 || s.f.knowsIllness) { s.f.knowsIllness = true; s.f.knowsIllnessTalk = true; quest('q_secret', 'done'); return [
-        E('sad', 'Kidneys. The doctor wants me on a machine, three times a week, four hours each.', 'الكلى. الدكتورة تبيني على جهاز، ثلاث مرات بالأسبوع، أربع ساعات كل مرة.'),
-        E('neutral', 'I said no. I\'ve had a good run. Ada\'s waiting. Don\'t make that face.', 'قلت لا. عشت زين. وآدا تنتظر. لا تسوي هالوجه.')]; }
-      return [E('angry', 'Old. That\'s all I am. Don\'t fuss.', 'كبرت. هذا كل اللي فيني. لا تكبّرها.')]; } },
-    { id: 'fish', label: T('Go out on the boat with him', 'تطلع معه بالقارب'), if: s => s.loc === 'harbor' && s.slot === 0 && !doneToday('fish'), cls: 'main', run: [{ jump: 'fishing' }] },
-    { id: 'nets', label: T('Help mend the nets', 'تساعده بالشباك'), if: s => s.loc === 'shed' && !doneToday('nets'), cls: 'main', run: [{ jump: 'nets' }] },
-    { id: 'cook', label: T('Help him cook', 'تساعده بالطبخ'), if: s => s.loc === 'kitchen' && !doneToday('cook'), cls: 'main', run: s => { onceToday('cook'); addMood(1); s.f.cooked = (s.f.cooked || 0) + 1; if (s.f.cooked <= 2) addTrust('elias', 1); s.f.pantry = (s.f.pantry || 0) + 1; return s.f.cooked === 1 ? [
-      E('neutral', 'You can cook?', 'تعرف تطبخ؟'), N_('You can\'t. You chop onions badly while he fries the fish. He eats your burnt toast without comment, which is generous.', 'ما تعرف. تقطع البصل غلط وهو يقلي السمك. وياكل التوست المحروق حقك بدون تعليق، وهذا كرم منه.'),
-      E('smile', 'Ada cooked. I burned things. Now I burn things alone. Today, we burned them together.', 'آدا كانت تطبخ. وأنا أحرق الأشياء. الحين أحرقها لحالي. واليوم، حرقناها مع بعض.')] : [pickOne([
-      N_('He shows you how to clean a fish. You almost faint. He almost laughs.', 'يوريك كيف تنظف سمكة. تقريباً يغمى عليك. وهو تقريباً يضحك.'),
-      N_('You make soup. It\'s mostly water. He calls it "honest soup" and has two bowls.', 'تسوون شوربة. أغلبها موية. يسميها «شوربة صادقة» وياكل صحنين.')])]; } },
-    { id: 'chess', label: T('Play chess with him', 'تلعب معه شطرنج'), if: s => s.loc === 'cafe' && s.slot === 3 && !doneToday('chess'), cls: 'main', run: [{ jump: 'chess' }] },
-    { id: 'sit', label: T('Sit with him a while', 'تجلس معه شوي'), if: s => s.loc === 'living' && s.slot === NIGHT && !doneToday('sit'), run: s => { onceToday('sit'); addMood(1); s.f.sits = (s.f.sits || 0) + 1; if (s.f.sits <= 2) addTrust('elias', 1); return [pickOne([
-      N_('The radio plays something old. He hums along with the wrong words. You don\'t correct him.', 'الراديو يشغل شي قديم. يدندن معه بكلمات غلط. وأنت ما تصححه.'),
-      N_('Neither of you says anything for an hour. It\'s the most comfortable hour you\'ve had in months.', 'ولا واحد فيكم يقول شي لمدة ساعة. أريح ساعة مرت عليك من شهور.'),
-      E('smile', 'You know what Ada used to say? "The trick is to be bored together." I never understood it till now.', 'تدري وش كانت تقول آدا؟ «السر إنكم تطفشون مع بعض.» ما فهمتها لين الحين.')])]; } },
-    { id: 'bread', label: T('Give him the bread', 'تعطيه الخبز'), if: s => has('bread'), run: s => { take('bread'); quest('q_bread', 'done'); s.f.breadGiven = (s.f.breadGiven || 0) + 1; if (s.f.breadGiven <= 2) addTrust('elias', 1); return [E('smile', 'Bread. Huh. You noticed.', 'خبز. همم. انتبهت.'), N_('He doesn\'t say thank you. He makes you a sandwich instead, which is the same thing.', 'ما يقول شكراً. يسوي لك سندويشة بدالها، وهي نفس الشي.')]; } },
-    { id: 'beans', once: true, label: T('Give him the good coffee', 'تعطيه القهوة الفاخرة'), if: s => has('beans'), run: s => { take('beans'); addTrust('elias', 1); addMood(1); return [E('smile', 'Real coffee. I haven\'t had real coffee since... well.', 'قهوة صدق. ما شربت قهوة صدق من... يعني.'), E('sad', 'Ada bought this kind. Every Saturday.', 'آدا كانت تشتري هالنوع. كل سبت.')]; } }
-  ],
-  sami: [
-    { id: 'work', label: T('Ask for work', 'تسأله عن شغل'), if: s => s.slot === 2 && !doneToday('work'), cls: 'main', run: s => { onceToday('work'); const first = !s.f.worked; s.f.worked = true; s.money += 8; addMood(1); quest('q_money', 'done'); advance(1); return (first ? [
-      { c: 'sami', e: 'smile', t: T('Can you lift boxes and not talk? Then yes. Eight dollars, afternoons.', 'تقدر تشيل كراتين وما تتكلم؟ إذن نعم. ثمان دولارات، كل ظهر.') }] : []).concat([
-      pickOne([N_('You stack tins and sweep the back room. Sami pays you in cash and a banana.', 'ترص علب وتكنس المخزن. سامي يدفع لك كاش وموزة.'), N_('Deliveries, inventory, a customer who wants to argue about lemons. The afternoon goes fast.', 'توصيلات، وجرد، وزبون يبي يتجادل عن الليمون. الظهر يمر بسرعة.')]),
-      N_('+ $8', '+ ٨$')]); } },
-    { id: 'buybread', label: T('Buy bread ($2)', 'تشتري خبز (٢$)'), need: s => s.money >= 2, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { pay(2); give('bread'); return [{ c: 'sami', e: 'smile', t: T('Fresh this morning. Well. This morning-ish.', 'طازج من الصبح. يعني. تقريباً من الصبح.') }]; } },
-    { id: 'buybeans', label: T('Buy good coffee ($6)', 'تشتري قهوة فاخرة (٦$)'), if: s => s.f.metElias && !s.f.boughtBeans, need: s => s.money >= 6, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { pay(6); give('beans'); s.f.boughtBeans = true; return [{ c: 'sami', e: 'shock', t: T('The good stuff? For Elias? He hasn\'t bought this since his wife passed.', 'الفاخرة؟ لإلياس؟ ما اشتراها من يوم ماتت زوجته.') }]; } },
-    { id: 'sellfish', label: T('Sell him your fish ($4)', 'تبيع له السمكة (٤$)'), if: s => has('fish'), run: s => { take('fish'); s.money += 4; return [{ c: 'sami', e: 'smile', t: T('One of Elias\'s? Then it\'s a good fish. Four dollars.', 'من صيد إلياس؟ إذن سمكة زينة. أربع دولارات.') }]; } },
-    { id: 'elias', once: true, label: T('Ask about Elias', 'تسأله عن إلياس'), if: s => s.f.metElias, run: [
-      { c: 'sami', e: 'sad', t: T('He used to bring me fish every Friday. Wouldn\'t take money. Stopped in the spring.', 'كان يجيب لي سمك كل جمعة. وما يرضى ياخذ فلوس. وقف من الربيع.') },
-      { c: 'sami', e: 'sad', t: T('And he\'s thinner. My father got thin like that before... Anyway. I\'m glad he has someone in the house.', 'وصار أنحف. أبوي نحف كذا قبل ما... المهم. مبسوط إن عنده أحد بالبيت.') }] },
-    { id: 'town', once: true, label: T('Ask about the town', 'تسأله عن البلدة'), run: [
-      { c: 'sami', e: 'neutral', t: T('Half the street owes me money. The other half owes Victor. Guess which half sleeps better.', 'نص الشارع مديون لي. والنص الثاني مديون لفيكتور. خمّن أي نص ينام أحسن.') },
-      { c: 'sami', e: 'angry', t: T('Victor owns the Grand. Wants to own the rest. Smiles a lot. Never trust a man who smiles with his whole face and none of his eyes.', 'فيكتور صاحب الفندق الكبير. ويبي يملك الباقي. يبتسم كثير. لا تثق في واحد يبتسم بوجهه كله وعيونه لا.') }] }
-  ],
-  marco: [
-    { id: 'coffee', label: T('Order a coffee ($2)', 'تطلب قهوة (٢$)'), if: s => !doneToday('coffee'), need: s => s.money >= 2, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { onceToday('coffee'); pay(2); addMood(1); return [{ c: 'marco', e: 'smile', t: pickOne([T('Espresso. Like my jokes: short, bitter, and nobody asked for it.', 'إسبريسو. مثل نكتي: قصير، مر، ومحد طلبه.'), T('On the house. No. Two dollars. I have a business to run into the ground.', 'على حسابي. لا. دولارين. عندي مشروع لازم أفلّسه.')]) }]; } },
-    { id: 'joke', once: true, label: T('Ask how the comedy is going', 'تسأله عن الكوميديا'), run: s => { addMood(1); return [
-      { c: 'marco', e: 'smile', t: T('Perfect timing. New material. Why don\'t fish play basketball?', 'توقيت مثالي. عندي جديد. ليش السمك ما يلعب كرة سلة؟') },
-      N_('You wait.', 'تنتظر.'),
-      { c: 'marco', e: 'smile', t: T('They\'re scared of the NET.', 'لأنهم خايفين من الشبكة.') },
-      N_('You don\'t laugh. He frowns, drags a chair to the middle of the café and tells you to stand on it, "to feel the crowd."', 'ما تضحك. يعبس، يسحب كرسي لنص المقهى، ويقول لك توقف عليه «عشان تحس بالجمهور».'),
-      N_('The chair has three good legs. You find out about the fourth in front of everyone, and land in the pie display.', 'الكرسي عنده ثلاث رجول سليمة. وتكتشف الرابعة قدام الكل، وتطيح في فاترينة الفطاير.'),
-      N_('The whole café laughs. At you. Then you start laughing too, on the floor, covered in apple pie, and you can\'t stop.', 'المقهى كله يضحك. عليك. وبعدين تبدأ تضحك أنت بعد، على الأرض، مغطى بفطيرة تفاح، وما تقدر توقف.'),
-      { c: 'marco', e: 'shock', t: T('THAT. That\'s comedy. You\'re a natural. Also you owe me a pie.', 'هذا. هذي هي الكوميديا. أنت موهبة. وبعد عليك فطيرة.') }]; } },
-    { id: 'openmic', once: true, label: T('Ask about open mic night', 'تسأله عن ليلة الميكروفون'), if: s => s.f['tp_marco_joke'] && s.day >= 3, run: [
-      { c: 'marco', e: 'smile', t: T('Funny you should ask. I signed you up. You\'re on in five minutes.', 'غريب إنك تسأل. سجلتك. دورك بعد خمس دقايق.') },
-      N_('Before you can argue, there\'s a microphone in your hand and eleven people looking at you, including an old woman who is already disappointed.', 'قبل ما تعترض، الميكروفون في يدك وإحدعش شخص يطالعونك، منهم عجوز شكلها خاب ظنها من الحين.'),
-      { menu: [
-        { t: T('Tell Marco\'s fish joke', 'تقول نكتة السمك حقت ماركو'), fx: s => addMood(1), then: [N_('A long groan from the whole room. Then one laugh, then three. Marco is crying with pride.', 'تنهيدة طويلة من الكل. وبعدين ضحكة وحدة، وبعدها ثلاث. ماركو يبكي من الفخر.')] },
-        { t: T('Freeze', 'تتجمد'), fx: s => addMood(-1), then: [N_('You stand there for forty seconds. Someone coughs. You say "thank you" and sit down. It will haunt you at 3 a.m. for years.', 'توقف أربعين ثانية. أحد يكح. تقول «شكراً» وتجلس. هالموقف بيطاردك الساعة ثلاث الفجر لسنين.')] },
-        { t: T('Tell the truth', 'تقول الحقيقة'), fx: s => addMood(2), then: [N_('"I came here on the last train because I didn\'t get off. An old man gave me half a loaf of bread. That\'s the whole act."', '«جيت هنا بآخر قطار لأني ما نزلت منه. وعجوز عطاني نص خبزة. وهذا كل العرض.»'), N_('Silence. Then the disappointed old woman starts clapping, slowly, and doesn\'t stop until everyone joins in.', 'سكوت. وبعدين العجوز اللي خاب ظنها تبدأ تصفق، شوي شوي، وما توقف لين الكل يصفق معها.')] }
-      ] }] },
-    { id: 'elias', once: true, label: T('Ask about Elias', 'تسأله عن إلياس'), if: s => s.f.metElias, run: [
-      { c: 'marco', e: 'sad', t: T('Forty years he\'s been beating me at chess. Lately he forgets moves.', 'أربعين سنة وهو يغلبني بالشطرنج. وأخيراً صار ينسى النقلات.') },
-      { c: 'marco', e: 'sad', t: T('Last week he called me Thomas. Then he pretended he didn\'t. I pretended too.', 'الأسبوع اللي فات ناداني توماس. وبعدين سوّى نفسه ما قال. وأنا بعد سويت نفسي ما سمعت.') },
-      s => { s.f.forgot = true; quest('q_secret', 'active'); return null; }] }
-  ],
-  irene: [
-    { id: 'self', once: true, label: T('Ask how she is', 'تسألها عن حالها'), run: [
-      { c: 'irene', e: 'neutral', t: T('How I am? Fourteen-hour days. Only doctor between here and the city. I eat standing up. Next question.', 'حالي؟ أربعطعش ساعة باليوم. الطبيبة الوحيدة بين هنا والمدينة. آكل وأنا واقفة. السؤال الجاي.') },
-      { c: 'irene', e: 'sad', t: T('...Nobody asks that. Thank you.', '...محد يسأل هالسؤال. شكراً.') }] },
-    { id: 'elias', once: true, label: T('Ask about Elias', 'تسألها عن إلياس'), if: s => s.f.metElias, run: s => s.f.ambulance || s.f.knowsIllness ? [
-      { c: 'irene', e: 'sad', t: T('His kidneys are failing. Dialysis would give him years. He\'s refused it twice.', 'كلاه تفشل. الغسيل يعطيه سنين. ورفضه مرتين.') },
-      { c: 'irene', e: 'neutral', t: T('I can treat a body. I can\'t give a man a reason. That part\'s not medicine.', 'أقدر أعالج جسم. ما أقدر أعطي رجل سبب. هذا الجزء مو طب.') },
-      st => { st.f.knowsIllness = true; return null; }] : [
-      { c: 'irene', e: 'neutral', t: T('I can\'t talk about my patients. ...But if you live with him, make sure he eats. And watch his breathing.', 'ما أقدر أتكلم عن مرضاي. ...بس إذا ساكن معه، تأكد إنه ياكل. وانتبه لتنفسه.') }] }
-  ]
-};
 
 /* ---------------- events (checked in order after every scene) ---------------- */
 GAME.EVENTS = [
@@ -429,21 +344,6 @@ Object.assign(GAME.SCRIPTS, {
   }
 });
 
-GAME.TOPICS.martha = [
-  { id: 'clean', label: T('Help her clean', 'تساعدها بالتنظيف'), if: s => !doneToday('clean'), cls: 'main', run: s => {
-      onceToday('clean'); addMood(1); s.money += 5; s.f.marthaHelp = (s.f.marthaHelp || 0) + 1; advance(1);
-      const n = s.f.marthaHelp;
-      const gossip = [
-        [{ c: 'martha', e: 'smile', t: T('Ada was my best friend, you know. Forty years. She\'d have liked you. She liked strays.', 'آدا كانت أعز صديقاتي، تدري. أربعين سنة. كانت بتحبك. كانت تحب المتشردين.') }],
-        [{ c: 'martha', e: 'sad', t: T('He stopped eating properly in the spring. And there\'s a letter from a city hospital in his dresser. I dust. I don\'t read. Mostly.', 'وقف ياكل زين من الربيع. وفيه خطاب من مستشفى بالمدينة في تسريحته. أنا أنفض الغبار. ما أقرا. يعني، غالباً.') }, s2 => { s2.f.marthaHint = true; quest('q_secret', 'active'); return null; }],
-        [{ c: 'martha', e: 'sad', t: T('Thomas used to climb out of that window to go to parties. Elias always knew. Always left the window unlocked.', 'توماس كان يطلع من هالشباك عشان الحفلات. وإلياس دايم يدري. ودايم يخلي الشباك مفتوح.') }, { c: 'martha', e: 'neutral', t: T('Stubborn, the pair of them. Somebody has to go first. It\'s never the stubborn one.', 'عنيدين الاثنين. لازم واحد يبدأ. وعمره ما يكون العنيد.') }]
-      ];
-      return [N_('You scrub, she talks. She does most of the talking and, honestly, most of the scrubbing.', 'أنت تفرك، وهي تسولف. هي تسوي أغلب السوالف، وبصراحة، أغلب الفرك.'), N_('She presses five dollars into your hand: "Don\'t argue."', 'تحط في يدك خمس دولارات: «لا تجادل.»')].concat(n <= 3 ? gossip[n - 1] : [{ c: 'martha', e: 'smile', t: T('You\'re getting good at this. Don\'t tell anyone, they\'ll make you do it.', 'صرت شاطر. لا تقول لأحد، بيخلونك تسويه.') }]);
-    } },
-  { id: 'ada', once: true, label: T('Ask about Ada', 'تسألها عن آدا'), run: [
-      { c: 'martha', e: 'sad', t: T('Loud. Funny. Terrible cook. She\'s why Elias laughs the way he does, when he does.', 'صوتها عالي. ومضحكة. وطبخها سيء. هي السبب إن إلياس يضحك بهالطريقة، لما يضحك.') },
-      { c: 'martha', e: 'neutral', t: T('He repaints her name on that boat every spring. Silly old man.', 'يصبغ اسمها على القارب كل ربيع. عجوز سخيف.') }] }
-];
 GAME.EVENTS.push(
   { id: 'meetMartha', once: true, when: s => !!GAME.CHAR.martha.where(s) && GAME.CHAR.martha.where(s) === s.loc, run: s => { s.met.martha = true; return [
     { show: [{ id: 'martha', e: 'smile' }] },

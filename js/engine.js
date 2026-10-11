@@ -9,7 +9,7 @@
 
 /* ---------- text ---------- */
 const T = (en, ar) => ({ en, ar });
-const GAME = { lang: 'en', S: null, LOC: {}, CHAR: {}, TOPICS: {}, EVENTS: [], END: {}, QUESTS: {}, ITEMS: {}, UI: {} };
+const GAME = { lang: 'en', S: null, LOC: {}, CHAR: {}, TOPICS: {}, EVENTS: [], END: {}, QUESTS: {}, ITEMS: {}, UI: {}, H: {} };
 try { const l = localStorage.getItem('oph.lang'); if (l === 'en' || l === 'ar') GAME.lang = l; else if ((navigator.language || '').startsWith('ar')) GAME.lang = 'ar'; } catch (e) {}
 
 /* tx: picks the language, fills {name}, and resolves {male|female} gender markers */
