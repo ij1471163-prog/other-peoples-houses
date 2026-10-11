@@ -187,7 +187,7 @@ function renderStage(charsOverride) {
     d.style.left = x + '%';
     const expr = (VIEW.speaker === c.id && VIEW.expr) ? VIEW.expr : (c.e || 'neutral');
     d.innerHTML = ART.portrait(c.id, expr);
-    const hh = GAME.CHAR[c.id].height; if (hh && PEOPLE.IMG.chars[c.id]) d.style.height = (98 * hh) + '%';
+    const hh = GAME.CHAR[c.id].height; if (hh && PEOPLE.IMG.chars[c.id]) d.style.setProperty('--h', hh);
     if (!RUN) { d.addEventListener('click', () => talkTo(c.id)); d.appendChild(el('span', 'tag', tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
     layer.appendChild(d);
   });

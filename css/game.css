@@ -210,3 +210,5 @@ html[lang=ar] body.explore .panel .line.narr{font-size:15px}
   html[lang=ar] body.explore .panel .line.narr{font-size:14px}
   .char .tag{font-size:11px}
 }
+.char{height:calc(98% * var(--h,1))}
+@media (orientation:portrait){.char{height:calc(84% * var(--h,1))}}
