@@ -118,6 +118,7 @@ let RUN = null;           // {stack:[{steps,i}], done}
 let VIEW = { sheet: null, tab: 'quests', speaker: null, expr: null, stageChars: null };
 
 function play(steps, done) {
+  document.body.classList.remove('explore');
   RUN = { stack: [{ steps: steps.slice(), i: 0 }], done };
   next();
 }
@@ -186,7 +187,7 @@ function renderStage(charsOverride) {
     d.style.left = x + '%';
     const expr = (VIEW.speaker === c.id && VIEW.expr) ? VIEW.expr : (c.e || 'neutral');
     d.innerHTML = ART.portrait(c.id, expr);
-    if (!RUN) d.addEventListener('click', () => talkTo(c.id));
+    if (!RUN) { d.addEventListener('click', () => talkTo(c.id)); d.appendChild(el('span', 'tag', tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
     layer.appendChild(d);
   });
   // hud
@@ -269,31 +270,25 @@ function renderMenu(st) {
 }
 
 /* location view: actions list in the panel mirrors the hotspots on the stage */
+/* location view: no menu of buttons. The scene itself is the interface:
+   tap people to talk, tap the glowing circles to look, use or go somewhere.
+   The panel shrinks to a small caption (tap it to read more). */
 function renderLocation() {
   const s = S(); const L = GAME.LOC[s.loc];
   VIEW.speaker = null; $('stage').onclick = null;
+  document.body.classList.add('explore');
   renderStage();
   const panel = $('panel'); panel.innerHTML = '';
-  panel.appendChild(el('div', 'place', tx(L.name) + (L.private ? ' · ' + UI('private') : '')));
-  if (L.desc) panel.appendChild(el('p', 'line narr', tx(L.desc)));
+  const cap = el('div', 'caption'); cap.setAttribute('role', 'button'); cap.tabIndex = 0;
+  cap.appendChild(el('div', 'place', tx(L.name) + (L.private ? ' · ' + UI('private') : '')));
   const acts = present(s.loc).map(id => GAME.CHAR[id].doing && GAME.CHAR[id].doing(s)).filter(Boolean);
   if (L.note) { const nt = L.note(s); if (nt) acts.push(nt); }
-  if (acts.length) panel.appendChild(el('p', 'line narr', acts.map(a => tx(a)).join(' ')));
-  const box = el('div', 'opts grid loc');
-  for (const id of present(s.loc)) {
-    const b = el('button', 'opt talk', UI('talk') + ' ' + tx(GAME.CHAR[id].name)); b.type = 'button';
-    b.onclick = () => talkTo(id); box.appendChild(b);
-  }
-  for (const h of visibleSpots()) {
-    const b = el('button', 'opt' + (h.exit ? ' go' : '') + (h.risk && h.risk(S()) ? ' risk' : ''));
-    b.type = 'button'; b.textContent = (h.exit ? (GAME.lang === 'ar' ? '← ' : '→ ') : '') + tx(h.label);
-    b.onclick = () => useSpot(h); box.appendChild(b);
-  }
-  if (L.canWait !== false && s.slot < NIGHT && !s.f.prologue) {
-    const w = el('button', 'opt', UI('wait')); w.type = 'button';
-    w.onclick = () => { advance(1); afterScript(); }; box.appendChild(w);
-  }
-  panel.appendChild(box);
+  const txt = (L.desc ? [L.desc] : []).concat(acts).map(a => tx(a)).join(' ');
+  if (txt) cap.appendChild(el('p', 'line narr', txt));
+  s.f.hintTaps = (s.f.hintTaps || 0) + 1;
+  if (s.f.hintTaps <= 6) cap.appendChild(el('p', 'hint', UI('tapHint')));
+  cap.onclick = () => cap.classList.toggle('open');
+  panel.appendChild(cap);
   save();
 }
 
@@ -477,6 +472,7 @@ function appLink() {
 /* ---------- title & new game ---------- */
 function applyLang() { document.documentElement.lang = GAME.lang; document.documentElement.dir = GAME.lang === 'ar' ? 'rtl' : 'ltr'; }
 function titleScreen(fresh) {
+  document.body.classList.remove('explore');
   RUN = null; VIEW.sheet = null; VIEW.speaker = null; applyLang();
   GAME.S = GAME.S || newState();
   const st = $('stage');
@@ -502,6 +498,7 @@ function titleScreen(fresh) {
   panel.appendChild(wrap);
 }
 function setupScreen() {
+  document.body.classList.remove('explore');
   GAME.S = newState();
   const panel = $('panel'); panel.innerHTML = '';
   panel.appendChild(el('h2', '', tx(T('Who are you?', 'مين أنت؟'))));

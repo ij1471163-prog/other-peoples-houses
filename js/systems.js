@@ -6,6 +6,7 @@
    ===================================================================== */
 'use strict';
 Object.assign(GAME.UI, {
+  tapHint: T('Tap people to talk. Tap the glowing circles to look around or go somewhere. ⌛ passes time, the map takes you anywhere.', 'اضغط على الناس عشان تكلمهم، وعلى الدواير المضيئة عشان تشوف أو تروح مكان. ⌛ يمشّي الوقت، والخريطة توديك أي مكان.'),
   need_hungry: T('Hungry', 'جوعان'), need_grubby: T('Needs a shower', 'يبي ترويش'), need_tired: T('Tired', 'تعبان'),
   nFood: T('Food', 'الأكل'), nClean: T('Clean', 'النظافة'), nEnergy: T('Energy', 'الطاقة'),
   momOk: T('Mom · "Call me whenever. I\'m here."', 'أمي · «اتصل متى ما تبي. أنا هنا.»'),
