@@ -34,12 +34,18 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - uses: android-actions/setup-android@v3
+      # GitHub's Ubuntu runners already include the Android SDK; just accept its licences.
+      - name: Android SDK licences
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          SDKM=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | sort -V | tail -1)
+          yes | "$SDKM" --licenses > /dev/null || true
 
       - name: Copy the game into www/
         run: |
           rm -rf www && mkdir www
           cp -r index.html css js www/
+          if [ -d img ]; then cp -r img www/; fi
 
       - name: Install Capacitor (pinned versions)
         run: |
