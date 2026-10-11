@@ -185,3 +185,52 @@ GAME.ENTER_HOOKS.push(s => {
 /* body heights for the drawn pictures (1 = average) */
 (function () { const H = { elias: .97, sami: .9, marco: .97, irene: 1.04, martha: .86, leo: 1.02, frank: 1.0, margaret: .9, nora: 1.02, evelyn: 1.04, victor: .98, kell: 1.08, ana: .87, stella: .93, kai: 1.01, rex: 1.05, bella: .9, ingrid: .84, maya: .99, olivia: .88, gregor: 1.06 };
   Object.entries(H).forEach(([id, h]) => { if (GAME.CHAR[id]) GAME.CHAR[id].height = h; }); })();
+
+/* =====================================================================
+   v6: daily life. You can cook, clean and do laundry in whichever house
+   you live in, and the people there keep their own routines: Martha now
+   cleans Margaret's house too, Ana makes up your suite, hosts shower,
+   cook, eat and sleep on schedules.
+   ===================================================================== */
+(function () {
+  const CH = (id, e, en, ar) => ({ c: id, e, t: T(en, ar) });
+  const hostIn = s => s.host && GAME.CHAR[s.host] && GAME.CHAR[s.host].where && houseOf(GAME.CHAR[s.host].where(s)) === s.host ? s.host : null;
+  const chore = (key, s) => { onceToday(key); s.f[key + 'N'] = (s.f[key + 'N'] || 0) + 1; advance(1); const h = hostIn(s) || s.host; if (h && GAME.CHAR[h] && s.f[key + 'N'] <= 3) addTrust(h, 1); return h; };
+  const COOK = {
+    margaret: [T('You make a shepherd\'s pie. Margaret hovers, then stops hovering, then sits down and lets you. That\'s a first.', 'تسوي فطيرة لحم وبطاطس. مارغريت تحوم حولك، وبعدين توقف، وبعدين تجلس وتخليك. أول مرة.'), T('Omelettes. Margaret says Daniel used to put crisps in his. You try it. It\'s disgusting. She laughs properly.', 'أومليت. مارغريت تقول دانيال كان يحط شيبس في حقه. تجربه. مقرف. وتضحك ضحكة صدق.')],
+    evelyn: [T('You make soup that is a normal colour. Evelyn is suspicious of it, then has three bowls.', 'تسوي شوربة لونها طبيعي. إيفلين تشك فيها، وبعدين تاكل ثلاث صحون.'), T('Fried fish and chips. Kevin the gull watches through the window with naked longing.', 'سمك مقلي وبطاطس. كيفن النورس يطالع من الشباك بشوق واضح.')],
+    victor: [T('You cook pasta on the suite\'s tiny hob. It\'s the only honest meal in the building.', 'تطبخ مكرونة على الطباخ الصغير في الجناح. الأكلة الوحيدة الصادقة في المبنى.')],
+    none: [T('Eggs, toast, tea. Simple. Yours.', 'بيض، توست، شاي. بسيط. وحقك.'), T('Rice and whatever Sami sold you cheap. It works.', 'رز وأي شي باعك إياه سامي رخيص. ويمشي.')]
+  };
+  const CLEAN = [T('You wash up, wipe the counters and take the bins out. The house feels a little more like it has people in it.', 'تغسل الصحون، وتمسح الكاونتر، وتطلع الزبالة. البيت يحس كأن فيه ناس أكثر.'), T('You sweep, dust and open a window. Somewhere a radio plays. You catch yourself humming.', 'تكنس، وتنفض الغبار، وتفتح الشباك. وفي مكان راديو يشتغل. وتنتبه إنك تدندن.'), T('Floors mopped, shelves straightened. It\'s strange how much better your head feels when the room is tidy.', 'الأرض انمسحت، والرفوف انرتبت. غريب كيف راسك يرتاح لما الغرفة مرتبة.')];
+  const cookSpot = (x, y) => ({ x, y, label: T('Cook a meal', 'تطبخ أكلة'), if: s => s.slot < NIGHT && !doneToday('cook'), run: s => { const h = chore('cook', s); feed(55); addMood(1); return [{ n: fresh('cook' + (h || 'none'), COOK[h] || COOK.none) }]; } });
+  const cleanSpot = (x, y, label) => ({ x, y, label: label || T('Clean up', 'تنظف'), if: s => s.slot < NIGHT && !doneToday('clean2'), run: s => { chore('clean2', s); addMood(1); rest(-10); return [{ n: fresh('clean2', CLEAN) }]; } });
+  const laundry = (x, y) => ({ x, y, label: T('Do your laundry', 'تغسل ملابسك'), if: s => !doneToday('laundry'), run: s => { onceToday('laundry'); needs().clean = clamp(needs().clean + 20, 0, 100); addMood(1); return [{ n: fresh('laundry', [T('Washing in, washing out, washing on the line. Your three shirts flap like flags.', 'الغسيل يدخل، والغسيل يطلع، والغسيل على الحبل. قمصانك الثلاثة ترفرف مثل الأعلام.'), T('You fold everything properly for once. It smells of soap and sea air.', 'تطوي كل شي صح لأول مرة. ريحته صابون وهوا بحر.')]) }]; } });
+  const add = (loc, ...spots) => { if (GAME.LOC[loc]) GAME.LOC[loc].spots.push(...spots); };
+  add('marg_kitchen', cookSpot(14, 44), cleanSpot(44, 74, T('Wash the dishes', 'تغسل الصحون')));
+  add('marg_living', cleanSpot(30, 70));
+  add('marg_bath', laundry(80, 62));
+  add('lh_kitchen', cookSpot(36, 44), cleanSpot(70, 74, T('Wash the dishes', 'تغسل الصحون')));
+  add('lh_living', cleanSpot(70, 74));
+  add('lh_bath', laundry(70, 64));
+  add('hotel_suite', cookSpot(70, 70), cleanSpot(20, 76, T('Tidy the suite', 'ترتب الجناح')));
+  add('hotel_staff', laundry(60, 74));
+  add('sami_attic', cookSpot(40, 70), cleanSpot(60, 80), laundry(24, 70));
+
+  /* Martha also cleans Margaret's house (Mondays and Thursdays) */
+  const mw = GAME.CHAR.martha.where;
+  GAME.CHAR.martha.where = s => {
+    const w = mw(s); if (w) return w;
+    if (s.host === 'margaret' && s.f.metMarg && (weekday(s.day) === 1 || weekday(s.day) === 4) && (s.slot === 1 || s.slot === 2)) return s.slot === 1 ? 'marg_living' : 'marg_kitchen';
+    return null;
+  };
+  const md = GAME.CHAR.martha.doing;
+  GAME.CHAR.martha.doing = s => (s.host === 'margaret' ? (s.slot === 1 ? T('Martha is hoovering round Margaret\'s feet and talking over the noise.', 'مارثا تشغّل المكنسة حول رجول مارغريت وتسولف فوق الإزعاج.') : T('Martha is scrubbing Margaret\'s oven and singing to it.', 'مارثا تفرك فرن مارغريت وتغني له.')) : md(s));
+  GAME.TOPICS.martha.forEach(t => { const f = t.if; t.if = s => !s.f.ended && (!f || f(s)); });
+  GAME.TOPICS.martha.push(
+    { id: 'help2', label: T('Help her clean', 'تساعدها بالتنظيف'), if: s => s.host === 'margaret' && !doneToday('marthaM'), cls: 'main', run: s => { onceToday('marthaM'); advance(1); s.money += 5; addMood(1); addTrust('margaret', 1); return [{ c: 'martha', e: 'smile', t: fresh('marthaM', [T('Margaret pays me to clean, and I pay her in gossip. Fair trade. Pass me that cloth, love.', 'مارغريت تدفع لي عشان أنظف، وأنا أدفع لها سوالف. تبادل عادل. ناولني هالقماشة يا عمري.'), T('Two years she\'s let me in here and never once let me touch his room. I dust round that door like it\'s a church.', 'لها سنتين تخليني أدخل وعمرها ما خلتني ألمس غرفته. أنفض الغبار حول هالباب كأنه كنيسة.'), T('You\'re good for her. She bought biscuits last week. Biscuits! For guests!', 'أنت زين لها. اشترت بسكويت الأسبوع اللي فات. بسكويت! للضيوف!')]) }, N_('+ $5', '+ ٥$')]; } },
+    { id: 'sami2', once: true, label: T('"How do you know everyone?"', '«كيف تعرفين الكل؟»'), if: s => !!s.f.ended, run: [CH('martha', 'smile', 'I clean half the houses in Saltmere. You can learn more from a person\'s bathroom cabinet than from their priest. I don\'t look, mind. Much.', 'أنظف نص بيوت سولتمير. تتعلم من دولاب حمام الشخص أكثر من قسيسه. بس ما أطالع، انتبه. كثير.')] }
+  );
+
+  /* Ana makes up your suite every noon (already scheduled); hosts' bathroom/shower/cook/sleep routines live in each chapter file */
+})();

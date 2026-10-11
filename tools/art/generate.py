@@ -30,9 +30,9 @@ SHARD, SHARDS = int(os.environ.get("ART_SHARD", "0")), max(1, int(os.environ.get
 
 # Prompts are short on purpose: the text encoders only read ~75 tokens, so the
 # character description goes FIRST and the style comes after it.
-STYLE_C = "solo, plain white background, 2d cartoon illustration, visual novel character art, clean lineart, cel shading, three-quarter body from head to knees, modest clothes"
+STYLE_C = "solo, plain white background, 2d cartoon illustration, visual novel character art, clean lineart, cel shading, three-quarter body from head to knees, casual everyday clothes"
 STYLE_B = "2d cartoon illustration, visual novel background art, clean lineart, cel shading, warm light, detailed, no people"
-NEG = "photo, realistic, 3d, nsfw, cleavage, tight clothes, revealing, multiple people, text, watermark, blurry, bad hands, extra fingers, cropped head, background scenery"
+NEG = "photo, realistic, 3d, nsfw, nude, underwear, multiple people, text, watermark, blurry, bad hands, extra fingers, cropped head, background scenery"
 NEG_B = "people, person, character, text, watermark, blurry, photo, 3d render, palm trees, tropical"
 
 EXPR = {
@@ -56,14 +56,14 @@ CHARS = {
     "evelyn": "38 year old tall athletic woman, blonde hair in a side braid, navy blue fisherman sweater, red scarf, brown trousers, quirky smile",
     "victor": "50 year old rich man, well fed with a slight paunch, slicked back black hair, smug smile, dark navy suit, white shirt, red tie, one hand in pocket",
     "kell": "42 year old huge muscular black man, very broad, buzz cut, short beard, black suit, arms crossed, bodyguard",
-    "ana": "31 year old short slight woman, blue hijab covering hair and neck, long sleeved loose dark grey maid dress, white apron, hands clasped",
-    "stella": "32 year old plus size woman, full figured, round cheerful face, wavy ginger hair, freckles, loose pink t-shirt, green florist apron, jeans, holding flowers",
+    "ana": "31 year old short slight latina woman, dark hair in a neat bun, hotel maid uniform, grey dress with white apron, hands clasped, kind face",
+    "stella": "32 year old plus size woman, full figured, round cheerful face, wavy ginger hair, freckles, pink t-shirt, green florist apron, jeans, holding flowers",
     "kai": "23 year old athletic surfer guy, lean muscles, long sun bleached blond hair, tanned, teal t-shirt, orange board shorts, waving hand, goofy grin",
     "rex": "46 year old tall broad policeman, slight belly, short dark hair, mustache, navy blue police uniform with gold badge, hands on belt",
     "bella": "27 year old petite slim woman receptionist, black hair in high ponytail, burgundy blazer, white blouse, black knee length skirt, sassy smile",
     "ingrid": "74 year old small frail grandmother, slightly hunched, white hair in a bun, round glasses, green cardigan, cream blouse, purple long skirt, sweet smile",
     "maya": "41 year old strong muscular fisherwoman, broad shoulders, tanned, dark ponytail, orange waterproof jacket, dark green trousers, arms crossed",
-    "olivia": "26 year old short chubby black woman, round face, big natural afro hair, loose yellow hoodie with badges, jeans, holding a clipboard",
+    "olivia": "26 year old short chubby black woman, round face, big natural afro hair, yellow hoodie with badges, jeans, holding a clipboard",
     "gregor": "66 year old tall thin bony gravedigger, bald, grey full beard, long dark olive coat, holding a shovel, cheerful",
 }
 
