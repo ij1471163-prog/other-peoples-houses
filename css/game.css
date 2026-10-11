@@ -225,3 +225,15 @@ html[lang=ar] body.explore .panel .line.narr{font-size:15px}
 }
 /* the download button stands out everywhere */
 .opt.dl{grid-column:1/-1;text-align:center;border-color:var(--lamp);color:var(--lamp);text-decoration:none}
+
+/* v8: power saving. The hotspot pulse now animates only transform/opacity (no repaint every frame),
+   and decoration pauses when the player is idle or the app is in the background (js/power.js).
+   The fishing bar (.track .mark) is gameplay and never paused. */
+.spot i{position:relative;box-shadow:none;animation:none}
+.spot i::after{content:'';position:absolute;inset:-2px;border-radius:50%;border:2px solid rgba(240,178,90,.6);animation:ring 2.2s ease-out infinite;pointer-events:none}
+.spot.exit i::after{display:none}
+.spot.risk i::after{border-color:rgba(224,122,95,.6)}
+@keyframes ring{0%{transform:scale(1);opacity:.9}70%{transform:scale(2.1);opacity:0}100%{transform:scale(2.1);opacity:0}}
+html.idle .char svg,html.idle .char img,html.idle .spot i::after,
+html.asleep .char svg,html.asleep .char img,html.asleep .spot i::after,html.asleep .toast{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.spot i::after{animation:none;opacity:0}}

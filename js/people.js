@@ -314,10 +314,18 @@ const PEOPLE = (() => {
   /* ---------- optional real images: img/chars/<id>-<expr>.png, img/bg/<id>.jpg|png ---------- */
   const IMG = { chars: {}, bg: {} };
   function probe(url, onok) { return new Promise(res => { const im = new Image(); im.onload = () => { onok(url); res(); }; im.onerror = () => res(); im.src = url; }); }
-  /* looks for real pictures; resolves when every probe has answered (or after a short timeout) */
+  /* finds the real pictures. With img/manifest.js (written by tools/art/finish.py) nothing is
+     downloaded at start-up: each picture loads the first time it is on screen. Without a manifest
+     (an old build, or a local test) it falls back to probing every possible file name. */
   function scan(charIds, bgIds) {
+    const man = window.IMG_MANIFEST;
+    if (man && man.chars && man.bg) {
+      charIds.forEach(id => { if (man.chars[id]) IMG.chars[id] = Object.assign({}, man.chars[id]); });
+      bgIds.forEach(id => { if (man.bg[id]) IMG.bg[id] = man.bg[id]; });
+      return Promise.resolve();
+    }
     const exprs = ['neutral', 'smile', 'sad', 'angry', 'shock'], jobs = [];
-    charIds.forEach(id => exprs.forEach(e => jobs.push(probe(`img/chars/${id}-${e}.png`, u => { (IMG.chars[id] = IMG.chars[id] || {})[e] = u; }))));
+    charIds.forEach(id => exprs.forEach(e => ['webp', 'png'].forEach(ext => jobs.push(probe(`img/chars/${id}-${e}.${ext}`, u => { const c = IMG.chars[id] = IMG.chars[id] || {}; if (!c[e] || ext === 'webp') c[e] = u; })))));
     bgIds.forEach(id => ['jpg', 'png', 'webp'].forEach(ext => jobs.push(probe(`img/bg/${id}.${ext}`, u => { IMG.bg[id] = u; }))));
     return Promise.race([Promise.all(jobs), new Promise(r => setTimeout(r, 2500))]);
   }
@@ -329,12 +337,12 @@ const PEOPLE = (() => {
   const svgBg = ART.bg;
   ART.portrait = (id, e = 'neutral') => {
     const im = PEOPLE.IMG.chars[id];
-    if (im && (im[e] || im.neutral)) return `<img src="${im[e] || im.neutral}" alt="" style="width:100%;height:100%;object-fit:contain;object-position:bottom">`;
+    if (im && (im[e] || im.neutral)) return `<img src="${im[e] || im.neutral}" alt="" decoding="async" style="width:100%;height:100%;object-fit:contain;object-position:bottom">`;
     return PEOPLE.draw(id, e);
   };
   ART.bg = (id, t) => {
     const u = PEOPLE.IMG.bg[id];
-    if (u) return `<img src="${u}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`;
+    if (u) return `<img src="${u}" alt="" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`;
     return svgBg(id, t);
   };
 })();

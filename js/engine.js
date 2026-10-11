@@ -98,6 +98,11 @@ function markEnd(id) { try { const a = new Set(seenEnds()); a.add(id); localStor
 /* ---------- DOM ---------- */
 const $ = id => document.getElementById(id);
 function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+/* replace a layer's markup only when it changed; remembers what it holds in _k */
+function setLayer(node, html) { if (node._k === html) return; node.innerHTML = html; node._k = html; }
+/* one action per tap: a second tap within 250 ms (a double tap, a bouncy finger) is ignored */
+let TAP_AT = 0;
+function tapOk(ev) { if (ev && ev.isTrusted === false) return true; const t = performance.now(); if (t - TAP_AT < 250) return false; TAP_AT = t; return true; }
 function toast(msg) { const st = $('stage'); if (!st) return; const t = el('div', 'toast', msg); st.appendChild(t); setTimeout(() => t.remove(), 2300); }
 
 /* ---------- presence ---------- */
@@ -174,23 +179,31 @@ function renderStage(charsOverride) {
   const s = S(), L = GAME.LOC[s.loc];
   const st = $('stage');
   const time = slotName();
-  st.querySelector('.bg').innerHTML = ART.bg(L.bg, time, s);
+  /* background: only rebuilt when it actually changes (a dialogue line used to re-parse the whole scene) */
+  setLayer(st.querySelector('.bg'), ART.bg(L.bg, time, s));
   st.querySelector('.tint').style.background = ART.tint(L.bg, time);
   // characters
-  const layer = st.querySelector('.chars'); layer.innerHTML = '';
+  const layer = st.querySelector('.chars');
   let list = charsOverride || VIEW.stageChars || present(s.loc).map(id => ({ id }));
   list = list.filter(c => c && GAME.CHAR[c.id] && GAME.CHAR[c.id].art);
   const n = list.length;
-  list.forEach((c, i) => {
-    const d = el('div', 'char' + (VIEW.speaker && VIEW.speaker !== c.id ? ' dim' : ''));
-    const x = n === 1 ? (L.charX || 62) : 30 + (i * 40) / Math.max(1, n - 1);
-    d.style.left = x + '%';
-    const expr = (VIEW.speaker === c.id && VIEW.expr) ? VIEW.expr : (c.e || 'neutral');
-    d.innerHTML = ART.portrait(c.id, expr);
-    const hh = GAME.CHAR[c.id].height; if (hh && PEOPLE.IMG.chars[c.id]) d.style.setProperty('--h', hh);
-    if (!RUN) { d.addEventListener('click', () => talkTo(c.id)); d.appendChild(el('span', 'tag', tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
-    layer.appendChild(d);
-  });
+  const cast = list.map((c, i) => ({ id: c.id, x: n === 1 ? (L.charX || 62) : 30 + (i * 40) / Math.max(1, n - 1),
+    expr: (VIEW.speaker === c.id && VIEW.expr) ? VIEW.expr : (c.e || 'neutral'), dim: !!(VIEW.speaker && VIEW.speaker !== c.id) }));
+  const key = JSON.stringify([cast.map(c => [c.id, c.x, c.expr]), !!RUN, GAME.lang]);
+  if (layer._k === key) {
+    /* same people, same faces: just move the spotlight to whoever is talking (no re-entry animation, no image reload) */
+    [...layer.children].forEach((d, i) => d.classList.toggle('dim', cast[i].dim));
+  } else {
+    layer.innerHTML = ''; layer._k = key;
+    cast.forEach(c => {
+      const d = el('div', 'char' + (c.dim ? ' dim' : ''));
+      d.style.left = c.x + '%';
+      d.innerHTML = ART.portrait(c.id, c.expr);
+      const hh = GAME.CHAR[c.id].height; if (hh && PEOPLE.IMG.chars[c.id]) d.style.setProperty('--h', hh);
+      if (!RUN) { d.addEventListener('click', ev => { if (tapOk(ev)) talkTo(c.id); }); d.appendChild(el('span', 'tag', tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
+      layer.appendChild(d);
+    });
+  }
   // hud
   const chips = st.querySelector('.hud .chips'); chips.innerHTML = '';
   const ic = time === 'night' ? ART.ICON.moon : time === 'evening' ? ART.ICON.dusk : ART.ICON.sun;
@@ -199,7 +212,7 @@ function renderStage(charsOverride) {
   chips.appendChild(Object.assign(el('div', 'chip'), { innerHTML: '$<b>' + (Number(s.money) | 0) + '</b>' }));
   if (s.day > 0) lowNeeds().forEach(k => chips.appendChild(el('div', 'chip warn', UI('need_' + k))));
   const btns = st.querySelector('.hud .btns'); btns.innerHTML = '';
-  const ibtn = (icon, label, fn) => { const b = el('button', 'ibtn'); b.type = 'button'; b.innerHTML = ART.ICON[icon]; b.setAttribute('aria-label', label); b.title = label; b.onclick = ev => { ev.stopPropagation(); fn(); }; btns.appendChild(b); };
+  const ibtn = (icon, label, fn) => { const b = el('button', 'ibtn'); b.type = 'button'; b.innerHTML = ART.ICON[icon]; b.setAttribute('aria-label', label); b.title = label; b.onclick = ev => { ev.stopPropagation(); if (tapOk(ev)) fn(); }; btns.appendChild(b); };
   const L2 = GAME.LOC[s.loc];
   if (!RUN && !s.f.prologue && s.slot < NIGHT && L2.canWait !== false) ibtn('wait', UI('wait'), () => { advance(1); afterScript(); });
   if (!RUN && !s.f.prologue) ibtn('map', UI('map'), () => openSheet('map'));
@@ -212,7 +225,7 @@ function renderStage(charsOverride) {
       const b = el('button', 'spot' + (h.exit ? ' exit' : '') + (h.risk && h.risk(S()) ? ' risk' : ''));
       b.type = 'button'; b.style.left = h.x + '%'; b.style.top = h.y + '%'; if (h.x > 55) b.classList.add('flip');
       b.appendChild(el('i')); b.appendChild(el('span', '', tx(h.label)));
-      b.onclick = () => useSpot(h);
+      b.onclick = ev => { if (tapOk(ev)) useSpot(h); };
       sp.appendChild(b);
     }
   }
@@ -247,8 +260,8 @@ function renderLine(st) {
     VIEW.speaker = null; renderStage();
     panel.appendChild(el('p', 'line narr', tx(st.n)));
   }
-  const b = el('button', 'tap', UI('next')); b.type = 'button'; b.onclick = next; panel.appendChild(b);
-  $('stage').onclick = ev => { if (ev.target.closest('.hbtn,.sheet')) return; if (RUN && !$('panel').querySelector('.opt')) next(); };
+  const b = el('button', 'tap', UI('next')); b.type = 'button'; b.onclick = ev => { if (tapOk(ev)) next(); }; panel.appendChild(b);
+  $('stage').onclick = ev => { if (ev.target.closest('.hbtn,.ibtn,.sheet')) return; if (RUN && !$('panel').querySelector('.opt') && tapOk(ev)) next(); };
   b.focus({ preventScroll: true });
 }
 function renderMenu(st) {
@@ -263,7 +276,7 @@ function renderMenu(st) {
     const b = el('button', 'opt' + (o.cls ? ' ' + o.cls : '')); b.type = 'button';
     b.textContent = tx(o.t);
     if (!ok) { b.disabled = true; if (o.why) b.appendChild(el('small', '', tx(o.why))); }
-    b.onclick = () => { if (b.disabled) return; if (o.fx) o.fx(S()); if (o.then) RUN.stack.push({ steps: o.then.slice(), i: 0 }); next(); };
+    b.onclick = ev => { if (b.disabled || !RUN || !tapOk(ev)) return; box.querySelectorAll('.opt').forEach(x => { x.disabled = true; }); if (o.fx) o.fx(S()); if (o.then) RUN.stack.push({ steps: o.then.slice(), i: 0 }); next(); };
     box.appendChild(b);
   });
   panel.appendChild(box);
@@ -370,7 +383,7 @@ function renderSheet() {
       if (who.length) { const em = el('em', '', ' · ' + who.map(w => tx(GAME.CHAR[w].short || GAME.CHAR[w].name)).join(', ')); b.appendChild(em); }
       const lock = p.lock && p.lock(S());
       if (lock) b.disabled = true;
-      b.onclick = () => { VIEW.sheet = null; goTo(p.to); };
+      b.onclick = ev => { if (!tapOk(ev)) return; VIEW.sheet = null; goTo(p.to); };
       wrap.appendChild(b);
     }
     sh.appendChild(wrap);
@@ -477,9 +490,9 @@ function titleScreen(fresh) {
   RUN = null; VIEW.sheet = null; VIEW.speaker = null; applyLang();
   GAME.S = GAME.S || newState();
   const st = $('stage');
-  st.querySelector('.bg').innerHTML = ART.bg('harbor', 'evening', GAME.S);
+  setLayer(st.querySelector('.bg'), ART.bg('harbor', 'evening', GAME.S));
   st.querySelector('.tint').style.background = ART.tint('harbor', 'evening');
-  st.querySelector('.chars').innerHTML = ''; st.querySelector('.spots').innerHTML = ''; st.querySelector('.hud .chips').innerHTML = ''; st.querySelector('.hud .btns').innerHTML = '';
+  setLayer(st.querySelector('.chars'), ''); st.querySelector('.spots').innerHTML = ''; st.querySelector('.hud .chips').innerHTML = ''; st.querySelector('.hud .btns').innerHTML = '';
   const old = st.querySelector('.sheet'); if (old) old.remove();
   const panel = $('panel'); panel.innerHTML = '';
   const wrap = el('div', 'title-screen');

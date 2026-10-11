@@ -182,7 +182,10 @@ def cutout(img):
     return rgba
 
 def exists(kind, name):
-    return (EXIST_CH if kind == "char" else EXIST_BG).joinpath(name).exists() or (CH if kind == "char" else BG).joinpath(name).exists()
+    """a picture counts as done if it exists as .png/.jpg or as the smaller .webp the game ships"""
+    names = [name, name.rsplit(".", 1)[0] + ".webp"]
+    dirs = [EXIST_CH, CH] if kind == "char" else [EXIST_BG, BG]
+    return any(d.joinpath(n).exists() for d in dirs for n in names)
 
 def main():
     from PIL import Image
@@ -214,6 +217,7 @@ def main():
             if neutral is None and raw.exists(): neutral = Image.open(raw).convert("RGB")
             if neutral is None:
                 src = EXIST_CH / f"{cid}-neutral.png"
+                if not src.exists(): src = EXIST_CH / f"{cid}-neutral.webp"
                 if src.exists():
                     im = Image.open(src).convert("RGBA"); bgw = Image.new("RGBA", im.size, (255, 255, 255, 255)); bgw.alpha_composite(im)
                     neutral = bgw.convert("RGB").resize(P.sizes["char"], Image.LANCZOS)

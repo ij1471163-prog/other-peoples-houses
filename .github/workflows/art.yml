@@ -106,11 +106,14 @@ jobs:
           mkdir -p img/chars img/bg
           cp -f out/chars/*.png img/chars/ 2>/dev/null || true
           cp -f out/bg/*.jpg img/bg/ 2>/dev/null || true
+          # PNG -> WebP (about a tenth of the size) and the picture list the game reads
+          python3 -m pip install --quiet --break-system-packages pillow 2>/dev/null || python3 -m pip install --quiet pillow || true
+          python3 tools/art/finish.py
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add img
           if git diff --cached --quiet; then echo "No new pictures."; exit 0; fi
-          git commit -m "Art: $(ls img/chars | wc -l) character pictures, $(ls img/bg | wc -l) backgrounds"
+          git commit -m "Art: $(ls img/chars/*.webp img/chars/*.png 2>/dev/null | wc -l) character pictures, $(ls img/bg | wc -l) backgrounds"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
       - name: Rebuild the website with the new art (the Android app is built by hand)

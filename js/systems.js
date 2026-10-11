@@ -36,7 +36,10 @@ GAME.MINI = {
     const b = el('button', 'opt main', UI('reel')); b.type = 'button'; box.appendChild(b);
     let t0 = performance.now(), tries = 0, hits = 0;
     b.onclick = () => {
-      const t = (performance.now() - t0) / 1000, ph = (t / per) % 2, pos = (ph <= 1 ? ph : 2 - ph) * 100;
+      /* judge by where the light really is on screen, so a paused or late animation can't cheat the player */
+      const tb = tr.getBoundingClientRect(), mb = m.getBoundingClientRect();
+      let pos; if (tb.width > 0) pos = (mb.left + mb.width / 2 - tb.left) / tb.width * 100;
+      else { const t = (performance.now() - t0) / 1000, ph = (t / per) % 2; pos = (ph <= 1 ? ph : 2 - ph) * 100; }
       if (pos >= zs - 3 && pos <= zs + zw + 3) { hits++; toast('🐟'); } else toast('…');
       tries++; info.textContent = hits + ' / ' + tries;
       if (tries >= 3) { b.disabled = true; done(hits); }

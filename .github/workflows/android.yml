@@ -40,8 +40,10 @@ jobs:
           SDKM=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | sort -V | tail -1)
           yes | "$SDKM" --licenses > /dev/null || true
 
-      - name: Copy the game into www/
+      - name: Copy the game into www/ (pictures shrunk to WebP and listed in img/manifest.js)
         run: |
+          python3 -m pip install --quiet --break-system-packages pillow 2>/dev/null || python3 -m pip install --quiet pillow || true
+          python3 tools/art/finish.py
           rm -rf www && mkdir www
           cp -r index.html css js www/
           if [ -d img ]; then cp -r img www/; fi
