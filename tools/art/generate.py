@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = Path(os.environ.get("ART_OUT", str(ROOT / "img")))
 CH = OUT / "chars"; BG = OUT / "bg"
 CH.mkdir(parents=True, exist_ok=True); BG.mkdir(parents=True, exist_ok=True)
+RAW = OUT / "raw"; RAW.mkdir(parents=True, exist_ok=True)
 EXIST_CH = ROOT / "img" / "chars"; EXIST_BG = ROOT / "img" / "bg"
 DEADLINE = time.time() + float(os.environ.get("ART_MINUTES", "300")) * 60
 PHASES = os.environ.get("ART_PHASES", "1,2,3").split(",")
@@ -136,7 +137,7 @@ class Painter:
             pipe.enable_vae_tiling()
             self.pipe = pipe
             self.i2i = StableDiffusionXLImg2ImgPipeline(**pipe.components)
-            self.steps, self.cfg, self.xl = 8, 2.2, True
+            self.steps, self.cfg, self.xl = 7, 2.2, True
             self.sizes = {"char": (832, 1216), "bg": (1344, 768)}
             print("SDXL loaded:", model, flush=True)
         except Exception as e:
@@ -157,7 +158,7 @@ class Painter:
         g = self.torch.Generator("cpu").manual_seed(seed)
         return self.pipe(prompt=prompt, negative_prompt=neg, width=w, height=h, num_inference_steps=self.steps, guidance_scale=self.cfg, generator=g).images[0]
 
-    def redraw(self, image, prompt, neg, seed, strength=0.55):
+    def redraw(self, image, prompt, neg, seed, strength=0.5):
         g = self.torch.Generator("cpu").manual_seed(seed)
         steps = max(self.steps, int(round(self.steps / strength)))
         return self.i2i(prompt=prompt, negative_prompt=neg, image=image, strength=strength, num_inference_steps=steps, guidance_scale=self.cfg, generator=g).images[0]
@@ -206,7 +207,7 @@ def main():
             t = time.time()
             neutral = P.draw(f"{base_prompt}, {EXPR['neutral']}, {STYLE_C}", NEG, "char", seed)
             neutral.save(CH / f"{cid}-neutral.raw.jpg", quality=92)
-            cutout(neutral).save(f, optimize=True)
+            neutral.save(RAW / f"{cid}-neutral.png")
             made += 1; print(f"char {cid}-neutral {time.time() - t:.0f}s", flush=True)
         if "3" in PHASES:
             raw = CH / f"{cid}-neutral.raw.jpg"
@@ -222,7 +223,7 @@ def main():
                 if exists("char", fe.name): continue
                 t = time.time()
                 img = P.redraw(neutral, f"{base_prompt}, {EXPR[expr]}, {STYLE_C}", NEG, seed + 7)
-                cutout(img).save(fe, optimize=True)
+                img.save(RAW / f"{cid}-{expr}.png")
                 made += 1; print(f"char {cid}-{expr} {time.time() - t:.0f}s", flush=True)
     for bid in todo_b:
         if out_of_time(): break
@@ -231,6 +232,13 @@ def main():
         img.resize((1600, 900), Image.LANCZOS).save(BG / f"{bid}.jpg", quality=88, optimize=True)
         made += 1; print(f"bg {bid} {time.time() - t:.0f}s", flush=True)
     for raw in CH.glob("*.raw.jpg"): raw.unlink()
+    # free the drawing model, then cut the characters out of their white backgrounds
+    del P
+    import gc; gc.collect()
+    for raw in sorted(RAW.glob("*.png")):
+        t = time.time()
+        cutout(Image.open(raw).convert("RGB")).save(CH / raw.name, optimize=True)
+        raw.unlink(); print(f"cutout {raw.name} {time.time() - t:.0f}s", flush=True)
     print(f"done, {made} new images", flush=True)
 
 if __name__ == "__main__":
