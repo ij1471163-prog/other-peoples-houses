@@ -133,9 +133,13 @@ const AUDIO = (() => {
     evelyn: { chords: [[50, 54, 58], [52, 56, 60], [48, 52, 56], [46, 50, 54]], bar: 12, pad: 'sine', lvl: 0.04, detune: 3, melody: [74, 78, 82, 84], every: 5.5, mel: 'sine' },
     victor: { chords: [[45, 48, 52], [45, 46, 52], [41, 45, 48], [44, 47, 50]], bar: 6, pad: 'triangle', lvl: 0.03, pulse: 33, step: 1, mel: 'sine' }
   };
+  let sticky = '';   // a host's theme stays for the whole conversation, not just their lines
   function themeFor(s) {
     if (!s) return '';
-    const sp = typeof VIEW !== 'undefined' && VIEW.speaker; if (sp && THEMES[sp]) return sp;
+    const talking = typeof RUN !== 'undefined' && !!RUN;
+    const sp = typeof VIEW !== 'undefined' && VIEW.speaker;
+    if (sp && THEMES[sp]) sticky = sp; else if (!talking) sticky = '';
+    if (sticky) return sticky;
     const h = (GAME.LOC[s.loc] || {}).house; if (h && THEMES[h]) return h;
     return '';
   }
@@ -180,7 +184,10 @@ const AUDIO = (() => {
     const key = pr.p + '|' + pr.night + '|' + pr.house + '|' + pr.loc;
     if (key !== ambKey) { const old = amb; amb = buildAmb(pr); ambKey = key; stopLayer(old, 1.2); if (!evTimer) evTimer = setTimeout(ambEvent, 2500); }
     const th = forceTitle ? '' : themeFor(s);
-    if (th !== musKey) { if (mus) stopLayer({ g: mus.g, nodes: [] }, 2); mus = th ? startMusic(th) : null; musKey = th; if (mus && !musTimer) schedule(); }
+    if (th !== musKey) { if (mus) stopLayer({ g: mus.g, nodes: [] }, 2); mus = th ? startMusic(th) : null; musKey = th; }
+    /* restart the loops if they stopped while sound was briefly unavailable */
+    if (amb && !evTimer) evTimer = setTimeout(ambEvent, 2500);
+    if (mus && !musTimer) { if (mus.next < ctx.currentTime) { mus.next = ctx.currentTime + 0.1; mus.nextMel = ctx.currentTime + 1.5; } schedule(); }
   }
   function silenceAll() {
     if (evTimer) { clearTimeout(evTimer); evTimer = 0; } if (musTimer) { clearTimeout(musTimer); musTimer = 0; }
@@ -258,7 +265,7 @@ const AUDIO = (() => {
     const go = () => { unlocked = true; applyVol(); if (lastScene) scene(lastScene.s, lastScene.forceTitle); };
     if (ctx.state !== 'running') ctx.resume().then(go, () => {}); else go();
   }
-  ['pointerdown', 'keydown'].forEach(t => document.addEventListener(t, ev => { if (ev.isTrusted && set.on && (!ctx || ctx.state !== 'running' || !unlocked) && !asleep()) unlock(); }, { passive: true, capture: true }));
+  ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'].forEach(t => document.addEventListener(t, ev => { if (ev.isTrusted && set.on && (!ctx || ctx.state !== 'running' || !unlocked) && !asleep()) unlock(); }, { passive: true, capture: true }));
   if (typeof POWER !== 'undefined') POWER.onSleep(sleeping => {
     if (!ctx) return;
     if (sleeping) { silenceAll(); ctx.suspend().catch(() => {}); }

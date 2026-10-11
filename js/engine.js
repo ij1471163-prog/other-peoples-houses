@@ -191,7 +191,7 @@ function renderStage(charsOverride) {
   const n = list.length;
   const cast = list.map((c, i) => ({ id: c.id, x: n === 1 ? (L.charX || 62) : 30 + (i * 40) / Math.max(1, n - 1),
     expr: (VIEW.speaker === c.id && VIEW.expr) ? VIEW.expr : (c.e || 'neutral'), dim: !!(VIEW.speaker && VIEW.speaker !== c.id) }));
-  const key = JSON.stringify([cast.map(c => [c.id, c.x, c.expr]), !!RUN, GAME.lang]);
+  const key = JSON.stringify([cast.map(c => [c.id, c.x, c.expr]), !!RUN, GAME.lang, PEOPLE.IMG.v || 0]);
   if (layer._k === key) {
     /* same people, same faces: just move the spotlight to whoever is talking (no re-entry animation, no image reload) */
     [...layer.children].forEach((d, i) => d.classList.toggle('dim', cast[i].dim));
@@ -500,13 +500,18 @@ function soundSliders() {
 }
 /* Android back button / browser back: closes the phone or map first; leaving the game needs a second press */
 let BACK_AT = 0;
-function navArm() { try { if (!history.state || !history.state.oph) history.pushState({ oph: 1 }, ''); } catch (e) {} }
-window.addEventListener('popstate', () => {
-  if (VIEW.sheet) { closeSheet(); navArm(); return; }
+const NATIVE_APP = () => window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+function navArm() { if (NATIVE_APP()) return; try { if (!history.state || !history.state.oph) history.pushState({ oph: 1 }, ''); } catch (e) {} }
+/* returns true when the press was used inside the game (sheet closed or "press again" shown) */
+function backPressed() {
+  if (VIEW.sheet) { closeSheet(); return true; }
   const now = Date.now();
-  if (now - BACK_AT < 2500) { try { history.back(); } catch (e) {} return; }
-  BACK_AT = now; toast(UI('backAgain')); navArm();
-});
+  if (now - BACK_AT < 2500) return false;
+  BACK_AT = now; toast(UI('backAgain')); return true;
+}
+window.addEventListener('popstate', () => { if (backPressed()) navArm(); else { try { history.back(); } catch (e) {} } });
+/* inside the Android app the hardware back button comes from the Capacitor App plugin */
+try { const A = NATIVE_APP(); if (A && A.addListener) A.addListener('backButton', () => { if (!backPressed()) A.exitApp(); }); } catch (e) {}
 
 /* ---------- title & new game ---------- */
 function applyLang() { document.documentElement.lang = GAME.lang; document.documentElement.dir = GAME.lang === 'ar' ? 'rtl' : 'ltr'; }

@@ -51,7 +51,7 @@ jobs:
       - name: Install Capacitor (pinned versions)
         run: |
           npm init -y > /dev/null
-          npm install --no-audit --no-fund @capacitor/core@8.5.2 @capacitor/cli@8.5.2 @capacitor/android@8.5.2 @capacitor/assets@3.0.5
+          npm install --no-audit --no-fund @capacitor/core@8.5.2 @capacitor/cli@8.5.2 @capacitor/android@8.5.2 @capacitor/app@8.1.1 @capacitor/assets@3.0.5
 
       - name: Create the Android project
         run: npx cap add android

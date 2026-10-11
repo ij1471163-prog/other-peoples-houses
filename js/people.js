@@ -325,7 +325,7 @@ const PEOPLE = (() => {
       return Promise.resolve();
     }
     const exprs = ['neutral', 'smile', 'sad', 'angry', 'shock'], jobs = [];
-    charIds.forEach(id => exprs.forEach(e => ['webp', 'png'].forEach(ext => jobs.push(probe(`img/chars/${id}-${e}.${ext}`, u => { const c = IMG.chars[id] = IMG.chars[id] || {}; if (!c[e] || ext === 'webp') c[e] = u; })))));
+    charIds.forEach(id => exprs.forEach(e => ['webp', 'png'].forEach(ext => jobs.push(probe(`img/chars/${id}-${e}.${ext}`, u => { const c = IMG.chars[id] = IMG.chars[id] || {}; if (!c[e] || ext === 'webp') c[e] = u; IMG.v = (IMG.v || 0) + 1; })))));
     bgIds.forEach(id => ['jpg', 'png', 'webp'].forEach(ext => jobs.push(probe(`img/bg/${id}.${ext}`, u => { IMG.bg[id] = u; }))));
     return Promise.race([Promise.all(jobs), new Promise(r => setTimeout(r, 2500))]);
   }
