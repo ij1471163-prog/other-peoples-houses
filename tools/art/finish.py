@@ -16,7 +16,7 @@ def convert():
     for png in sorted((IMG / "chars").glob("*.png")):
         webp = png.with_suffix(".webp")
         im = Image.open(png); im.load()
-        im.save(webp, "WEBP", quality=90, method=6)
+        im.save(webp, "WEBP", quality=90, method=4)
         print(f"{png.name}: {png.stat().st_size // 1024} KB -> {webp.name}: {webp.stat().st_size // 1024} KB")
         png.unlink(); n += 1
     return n

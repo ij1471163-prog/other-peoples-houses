@@ -51,20 +51,20 @@ CHARS = {
     "martha": "62 year old short plump cleaning lady, round body, grey hair, blue polka dot headscarf, pink cardigan, white floral apron, yellow rubber gloves, hands on hips",
     "leo": "19 year old skinny lanky young man, messy dark hair, red jacket over mustard yellow hoodie, black headphones around neck, hands in pockets",
     "frank": "54 year old heavyset mechanic, big belly, broad shoulders, balding, big grey mustache, grey t-shirt, navy blue work overalls, arms crossed",
-    "margaret": "54 year old petite slim woman, greying light brown bob haircut, tired kind eyes, lavender knitted cardigan, cream blouse, grey long skirt, hands clasped",
+    "margaret": "anime style, 54 year old petite slim woman, greying light brown bob haircut, tired kind eyes, lavender knitted cardigan, cream blouse, grey long skirt, hands clasped",
     "nora": "50 year old tall sturdy woman, short dark pixie haircut, sharp eyes, long red coat, yellow scarf, black trousers, hand on hip",
     "evelyn": "38 year old tall athletic woman, blonde hair in a side braid, navy blue fisherman sweater, red scarf, brown trousers, quirky smile",
     "victor": "50 year old rich man, well fed with a slight paunch, slicked back black hair, smug smile, dark navy suit, white shirt, red tie, one hand in pocket",
     "kell": "42 year old huge muscular black man, very broad, buzz cut, short beard, black suit, arms crossed, bodyguard",
     "ana": "31 year old short slight latina woman, dark hair in a neat bun, hotel maid uniform, grey dress with white apron, hands clasped, kind face",
-    "stella": "32 year old plus size woman, full figured, round cheerful face, wavy ginger hair, freckles, pink t-shirt, green florist apron, jeans, holding flowers",
+    "stella": "anime style, 32 year old plus size woman, full figured, round cheerful face, wavy ginger hair, freckles, pink t-shirt, green florist apron, jeans, holding flowers",
     "kai": "23 year old athletic surfer guy, lean muscles, long sun bleached blond hair, tanned, teal t-shirt, orange board shorts, waving hand, goofy grin",
     "rex": "46 year old tall broad policeman, slight belly, short dark hair, mustache, navy blue police uniform with gold badge, hands on belt",
-    "bella": "27 year old petite slim woman receptionist, black hair in high ponytail, burgundy blazer, white blouse, black knee length skirt, sassy smile",
+    "bella": "27 year old petite slim woman receptionist standing, no desk, no furniture, black hair in high ponytail, burgundy blazer, white blouse, black knee length skirt, sassy smile",
     "ingrid": "74 year old small frail grandmother, slightly hunched, white hair in a bun, round glasses, green cardigan, cream blouse, purple long skirt, sweet smile",
     "maya": "41 year old strong muscular fisherwoman, broad shoulders, tanned, dark ponytail, orange waterproof jacket, dark green trousers, arms crossed",
     "olivia": "26 year old short chubby black woman, round face, big natural afro hair, yellow hoodie with badges, jeans, holding a clipboard",
-    "gregor": "66 year old tall thin bony gravedigger, bald, grey full beard, long dark olive coat, holding a shovel, cheerful",
+    "gregor": "66 year old tall thin bony gravedigger, close up from head to knees, bald, grey full beard, long dark olive coat, holding a shovel, cheerful",
 }
 
 BGS = {
@@ -112,8 +112,10 @@ BGS = {
     "police": "small town police station office, desk with old computer, notice board, filing cabinets, holding cell bars",
 }
 
+SALT = os.environ.get("ART_SALT", "")  # change it to get a different drawing of the same thing
+
 def seed_of(s):
-    return int(hashlib.md5(s.encode()).hexdigest()[:8], 16)
+    return int(hashlib.md5((s + SALT).encode()).hexdigest()[:8], 16)
 
 def out_of_time():
     return time.time() > DEADLINE

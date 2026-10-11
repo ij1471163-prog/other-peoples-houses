@@ -20,6 +20,9 @@ on:
       redo:
         description: 'Redraw pictures that already exist (yes/no)'
         default: 'no'
+      salt:
+        description: 'Any word, to get a different drawing when redrawing (empty = same as before)'
+        default: ''
 
 permissions:
   contents: write
@@ -70,12 +73,16 @@ jobs:
           pip install diffusers==0.31.0 transformers==4.46.3 accelerate==1.1.1 peft==0.13.2 safetensors pillow "rembg==2.0.59" onnxruntime==1.19.2 "numpy<2"
       - name: Start over (only if asked)
         if: ${{ github.event.inputs.redo == 'yes' }}
-        run: rm -rf img/chars img/bg
+        run: |
+          if [ -n "${{ github.event.inputs.only }}" ]; then
+            for id in $(echo "${{ github.event.inputs.only }}" | tr ',' ' '); do rm -f img/chars/$id-* img/bg/$id.*; done
+          else rm -rf img/chars img/bg; fi
       - name: Draw
         env:
           ART_OUT: out
           ART_MINUTES: '320'
           ART_ONLY: ${{ github.event.inputs.only }}
+          ART_SALT: ${{ github.event.inputs.salt }}
           ART_PHASES: ${{ github.event.inputs.phases || '1,2,3' }}
           ART_SHARD: ${{ matrix.shard }}
           ART_SHARDS: ${{ github.event.inputs.shards || '16' }}
