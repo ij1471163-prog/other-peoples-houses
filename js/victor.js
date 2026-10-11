@@ -230,6 +230,7 @@
 
   /* ---------- topics ---------- */
   GAME.TOPICS.victor = [
+    { id: 'meet', once: true, label: T('"Who are you?"', '«مين أنت؟»'), if: s => !inV(s), run: s => { s.met.victor = true; return [V('smile', 'Victor. I own the Grand, and a few other things. Most things, eventually. Come and see me at the hotel. Everyone is welcome.', 'فيكتور. أملك الغراند، وكم شي ثاني. وأغلب الأشياء، بالآخر. تعال زورني في الفندق. الكل مرحب فيه.')]; } },
     { id: 'favour', label: T('"What\'s the next favour?"', '«وش الخدمة الجاية؟»'), if: s => inV(s) && !s.f.vAsked && s.f.vFavDay !== s.day && (s.f.vFav || 0) < 4, cls: 'main', run: [{ jump: 'vicFavour' }] },
     { id: 'favour5', label: T('"You said there was a big one."', '«قلت فيه خدمة كبيرة.»'), if: s => inV(s) && !s.f.vAsked && (s.f.vFav || 0) >= 4 && !s.f.vFinaleDone, cls: 'main', run: [{ jump: 'vicFinale' }] },
     { id: 'reportEnv', label: T('Report on the envelope', 'تبلّغه عن الظرف'), if: s => inV(s) && s.f.vAsked === 'env' && s.f.vEnvDone, run: s => { const ok = s.f.vEnvDone === 'given'; s.f.vAsked = null; GAME.SCRIPTS.vicDone(s, 'env', !ok); return [V('smile', ok ? 'He gave it back? How sweet. Everyone has a price. We just haven\'t found his yet.' : 'You didn\'t give it to him. Interesting. I like interesting. Up to a point.', ok ? 'رجّعه؟ يا حلاته. الكل له سعر. بس للحين ما لقينا سعره.' : 'ما عطيته. مثير. أحب الأشياء المثيرة. لحد معين.')]; } },

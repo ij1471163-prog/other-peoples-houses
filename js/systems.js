@@ -95,6 +95,12 @@ GAME.LOC.sami_attic = {
   ]
 };
 GAME.LOC.grocery.exits.push({ to: 'sami_attic', x: 92, y: 30, label: T('Upstairs (your room)', 'فوق (غرفتك)'), if: s => !!s.f.hasAttic });
+/* the attic has its own side door, so you can always get home, even after Sami closes */
+GAME.LOC.street.exits.push({ to: 'sami_attic', x: 30, y: 30, label: T('Side stairs to your attic', 'الدرج الجانبي لغرفتك'), if: s => !!s.f.hasAttic && s.slot === NIGHT });
+GAME.LOC.sami_attic.exits.push({ to: 'street', x: 94, y: 86, label: T('Side stairs to the street', 'الدرج الجانبي للشارع') });
+GAME.LOC.sami_attic.mapName = T('Your attic', 'غرفتك');
+ART.PLACES.sami_attic = [44, 27];
+GAME.MAP.push({ to: 'sami_attic', if: s => !!s.f.hasAttic });
 GAME.LOC.sami_attic.spots[3].run = s => [{ n: fresh('atticWin', [T('Boats, gulls, the lighthouse turning. From up here the town looks like a model someone is still finishing.', 'قوارب، نوارس، والمنارة تدور. من فوق البلدة تبين كأنها مجسم أحد لسا يكمله.'), T('Rain on the glass. Somewhere below, Sami is singing to the tomatoes.', 'مطر على الزجاج. وتحت في مكان ما، سامي يغني للطماطم.'), T('The sea is silver this morning. You notice that you noticed.', 'البحر فضي هالصبح. وتنتبه إنك انتبهت.')]) }];
 
 /* ---------------- chapter flow ---------------- */
@@ -149,7 +155,6 @@ Object.assign(GAME.END, {
 ['LEO_HOME', 'LEO_STAY', 'LEO_RUN', 'LEO_KICK'].forEach(k => { GAME.END[k].next = 'afterLeo'; GAME.END[k].after = T('Chapter 2 complete. Sami has a room for you, and three doors in Saltmere are still closed.', 'خلص الفصل الثاني. سامي عنده غرفة لك، وفيه ثلاث أبواب في سولتمير لسا مسكّرة.'); });
 GAME.END.LEO_TRUTH.next = 'margStartTruth'; GAME.END.LEO_TRUTH.after = T('Chapter 2 complete. The door opens on Margaret\'s chapter.', 'خلص الفصل الثاني. والباب ينفتح على فصل مارغريت.');
 GAME.END.ELIAS_STAY.nextLabel = GAME.END.ELIAS_LETTER.nextLabel = GAME.END.ELIAS_PEACE.nextLabel = GAME.END.ELIAS_KICK.nextLabel = GAME.END.ELIAS_GO.nextLabel = 'nextChapter';
-GAME.END.ELIAS_GO.after = GAME.END.ELIAS_GO.after;
 (function () { const go = GAME.SCRIPTS.endGo; GAME.SCRIPTS.endGo = go.concat ? go.slice(0, -1).concat([s => { s.f.calledMother = true; return null; }, go[go.length - 1]]) : go; })();
 ['MARG', 'EVE', 'VIC'].forEach(p => Object.keys(GAME.END).filter(k => k.startsWith(p + '_')).forEach(k => { if (!GAME.END[k].next && !GAME.END[k].death) GAME.END[k].next = 'afterHost'; }));
 

@@ -84,7 +84,7 @@ function dayStartNeeds() { const nd = needs(); let pen = 0; if (nd.food < 25) pe
 /* ---------- save ---------- */
 function save() { try { localStorage.setItem('oph.save', JSON.stringify(GAME.S)); } catch (e) {} }
 function loadSave() { try { const j = localStorage.getItem('oph.save'); return j ? upgrade(JSON.parse(j)) : null; } catch (e) { return null; } }
-function upgrade(sv) { const base = newState(); const o = Object.assign(base, sv); o.need = Object.assign({ food: 60, clean: 50, energy: 60 }, sv.need || {}); o.done = o.done || {}; o.lru = o.lru || {}; if (o.host === undefined) o.host = o.ch === 2 ? 'leo' : 'elias'; return o; }
+function upgrade(sv) { const base = newState(); const o = Object.assign(base, sv); o.need = Object.assign({ food: 60, clean: 50, energy: 60 }, sv.need || {}); o.done = o.done || {}; o.lru = o.lru || {}; if (o.host === undefined) o.host = o.ch === 2 ? 'leo' : 'elias'; if (!GAME.LOC[o.loc]) o.loc = 'street'; o.money = Number(o.money) || 0; o.mood = clamp(Number(o.mood) || 0, 0, 10); return o; }
 function slotKey(i) { return 'oph.slot' + i; }
 function saveSlot(i) { try { const s = S(); const meta = { day: s.day, slot: s.slot, loc: s.loc, name: s.name, when: Date.now() }; localStorage.setItem(slotKey(i), JSON.stringify({ meta, state: s })); toast(tx(T('Saved to slot ', 'انحفظ في الخانة ')) + i); } catch (e) { toast(tx(T('Could not save on this device.', 'ما قدرت أحفظ على هالجهاز.'))); } }
 function readSlot(i) { try { const j = localStorage.getItem(slotKey(i)); return j ? JSON.parse(j) : null; } catch (e) { return null; } }
@@ -194,7 +194,7 @@ function renderStage(charsOverride) {
   const ic = time === 'night' ? ART.ICON.moon : time === 'evening' ? ART.ICON.dusk : ART.ICON.sun;
   const tc = el('div', 'chip time'); tc.innerHTML = '<i class="ico">' + ic + '</i>' + (s.day > 0 ? '<b>' + tx(WEEK[weekday(s.day)]) + '</b> · ' : '') + tx(GAME.UI['t_' + time]);
   chips.appendChild(tc);
-  chips.appendChild(Object.assign(el('div', 'chip'), { innerHTML: '$<b>' + s.money + '</b>' }));
+  chips.appendChild(Object.assign(el('div', 'chip'), { innerHTML: '$<b>' + (Number(s.money) | 0) + '</b>' }));
   if (s.day > 0) lowNeeds().forEach(k => chips.appendChild(el('div', 'chip warn', UI('need_' + k))));
   const btns = st.querySelector('.hud .btns'); btns.innerHTML = '';
   const ibtn = (icon, label, fn) => { const b = el('button', 'ibtn'); b.type = 'button'; b.innerHTML = ART.ICON[icon]; b.setAttribute('aria-label', label); b.title = label; b.onclick = ev => { ev.stopPropagation(); fn(); }; btns.appendChild(b); };
