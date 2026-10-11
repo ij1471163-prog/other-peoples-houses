@@ -1,39 +1,45 @@
 """
-Draws the game's art for free on GitHub's computers with an open-source model
-(Stable Diffusion 1.5 "DreamShaper 8" + LCM-LoRA for speed), removes the
-character backgrounds (rembg, anime/cartoon model), and saves everything with
-the exact file names the game looks for:
+Draws the game's art for free on GitHub's computers with open-source AI and
+saves it with the exact file names the game looks for:
 
-  img/chars/<id>-<expression>.png   (transparent, head to knees)
+  img/chars/<id>-<expression>.png   (transparent, head to knees, ~1200 px tall)
   img/bg/<place>.jpg                (1600 x 900)
 
-Files that already exist are skipped, so the job can be re-run to continue.
-Run by .github/workflows/art.yml. Phases: 1 = every character (neutral),
-2 = every background, 3 = the other four expressions.
+Model: DreamShaper XL v2 Turbo (SDXL, open licence). Falls back to DreamShaper 8
+(SD 1.5 + LCM-LoRA) if SDXL can't load. Character backgrounds are removed with
+rembg (isnet-anime). The other four expressions are drawn from the neutral
+picture (img2img) so the face, hair and clothes stay the same person.
+
+The work is split into shards so GitHub runs many computers at once
+(ART_SHARD / ART_SHARDS). Files that already exist are skipped.
 """
 import os, sys, time, json, hashlib, subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-CH = ROOT / "img" / "chars"; BG = ROOT / "img" / "bg"
+OUT = Path(os.environ.get("ART_OUT", str(ROOT / "img")))
+CH = OUT / "chars"; BG = OUT / "bg"
 CH.mkdir(parents=True, exist_ok=True); BG.mkdir(parents=True, exist_ok=True)
+EXIST_CH = ROOT / "img" / "chars"; EXIST_BG = ROOT / "img" / "bg"
 DEADLINE = time.time() + float(os.environ.get("ART_MINUTES", "300")) * 60
 PHASES = os.environ.get("ART_PHASES", "1,2,3").split(",")
 ONLY = [x.strip() for x in os.environ.get("ART_ONLY", "").split(",") if x.strip()]
 OK = lambda k: not ONLY or k in ONLY
+SHARD, SHARDS = int(os.environ.get("ART_SHARD", "0")), max(1, int(os.environ.get("ART_SHARDS", "1")))
 
-STYLE_C = ("2d visual novel character sprite, western cartoon game art in the style of a life simulation game, "
-           "clean bold black outlines, flat cel shading, bright saturated colors, big expressive eyes, glossy hair, "
-           "semi-realistic proportions, one single character standing and facing the viewer, three-quarter body shot from head to knees, "
-           "fully clothed, modest clothing, plain pure white background, centered")
-STYLE_B = ("2d visual novel background art, western cartoon game background in the style of a life simulation game, "
-           "clean lineart, cel shading, vibrant warm colors, detailed and cosy, wide shot, eye level, empty scene with no people, daytime")
-NEG = ("photo, photorealistic, realistic, 3d, render, nsfw, nude, naked, cleavage, revealing, sexy, lingerie, swimsuit, bikini, "
+STYLE_C = ("masterpiece, best quality, 2d illustration, visual novel character sprite, polished western cartoon art style like a modern life simulation game, "
+           "clean confident lineart, smooth cel shading with soft highlights, rich saturated colors, appealing attractive face, expressive eyes with highlights, glossy detailed hair, "
+           "natural semi-realistic proportions, one single character standing and facing the viewer, three-quarter body shot from head to knees, "
+           "fully clothed, modest clothing, plain pure white background, centered, sharp focus")
+STYLE_B = ("masterpiece, best quality, 2d illustration, visual novel background art, polished western cartoon game background like a modern life simulation game, "
+           "clean lineart, soft cel shading, warm cinematic lighting, rich colors, highly detailed, cosy and lived-in, wide shot, eye level, one point perspective, "
+           "empty scene with no people, daytime")
+NEG = ("photo, photorealistic, realistic skin texture, 3d, render, cgi, anime chibi, nsfw, nude, naked, cleavage, revealing, sexy, lingerie, swimsuit, bikini, "
        "multiple people, two people, crowd, text, letters, watermark, signature, logo, frame, border, lowres, blurry, jpeg artifacts, "
-       "deformed, disfigured, bad anatomy, extra fingers, missing fingers, extra limbs, extra arms, cropped head, out of frame, "
-       "scenery behind the character, busy background")
+       "deformed, disfigured, ugly, bad anatomy, bad hands, extra fingers, missing fingers, extra limbs, extra arms, cropped head, out of frame, "
+       "scenery behind the character, busy background, shadow on background")
 NEG_B = ("people, person, character, human, face, text, letters, watermark, signature, logo, lowres, blurry, deformed, photo, "
-         "photorealistic, 3d render, nsfw")
+         "photorealistic, 3d render, nsfw, distorted perspective")
 
 EXPR = {
     "neutral": "calm neutral expression, mouth closed",
@@ -118,34 +124,50 @@ def seed_of(s):
 def out_of_time():
     return time.time() > DEADLINE
 
-def load():
-    import torch
-    from diffusers import StableDiffusionPipeline, LCMScheduler, DPMSolverMultistepScheduler
-    torch.set_num_threads(os.cpu_count() or 4)
-    model = os.environ.get("ART_MODEL", "Lykon/dreamshaper-8")
-    try:
-        pipe = StableDiffusionPipeline.from_pretrained(model, torch_dtype=torch.float32, variant="fp16", safety_checker=None, requires_safety_checker=False)
-    except Exception as e:
-        print("fp16 variant not found, loading full weights:", e)
-        pipe = StableDiffusionPipeline.from_pretrained(model, torch_dtype=torch.float32, safety_checker=None, requires_safety_checker=False)
-    steps, cfg = 6, 1.6
-    try:
-        pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
-        pipe.load_lora_weights("latent-consistency/lcm-lora-sdv1-5")
-        pipe.fuse_lora()
-        print("LCM-LoRA loaded")
-    except Exception as e:
-        print("LCM-LoRA failed, using normal sampler (slower):", e)
-        pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras_sigmas=True)
-        steps, cfg = 22, 6.5
-    pipe.set_progress_bar_config(disable=True)
-    pipe.enable_attention_slicing()
-    return pipe, steps, cfg
+class Painter:
+    """text-to-image and image-to-image with the best model that loads"""
+    def __init__(self):
+        import torch
+        torch.set_num_threads(os.cpu_count() or 4)
+        self.torch = torch
+        self.xl = False
+        model = os.environ.get("ART_MODEL", "Lykon/dreamshaper-xl-v2-turbo")
+        try:
+            from diffusers import StableDiffusionXLPipeline, StableDiffusionXLImg2ImgPipeline, DPMSolverMultistepScheduler
+            try:
+                pipe = StableDiffusionXLPipeline.from_pretrained(model, torch_dtype=torch.float32, variant="fp16", use_safetensors=True)
+            except Exception as e:
+                print("fp16 variant not found, loading full weights:", e, flush=True)
+                pipe = StableDiffusionXLPipeline.from_pretrained(model, torch_dtype=torch.float32, use_safetensors=True)
+            pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras_sigmas=True, algorithm_type="dpmsolver++")
+            pipe.enable_vae_tiling()
+            self.pipe = pipe
+            self.i2i = StableDiffusionXLImg2ImgPipeline(**pipe.components)
+            self.steps, self.cfg, self.xl = 8, 2.2, True
+            self.sizes = {"char": (832, 1216), "bg": (1344, 768)}
+            print("SDXL loaded:", model, flush=True)
+        except Exception as e:
+            print("SDXL failed, falling back to SD 1.5:", e, flush=True)
+            from diffusers import StableDiffusionPipeline, StableDiffusionImg2ImgPipeline, LCMScheduler
+            pipe = StableDiffusionPipeline.from_pretrained("Lykon/dreamshaper-8", torch_dtype=torch.float32, safety_checker=None, requires_safety_checker=False)
+            pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
+            pipe.load_lora_weights("latent-consistency/lcm-lora-sdv1-5"); pipe.fuse_lora()
+            self.pipe = pipe
+            self.i2i = StableDiffusionImg2ImgPipeline(**pipe.components)
+            self.steps, self.cfg = 6, 1.6
+            self.sizes = {"char": (512, 832), "bg": (912, 512)}
+        for p in (self.pipe, self.i2i):
+            p.set_progress_bar_config(disable=True)
 
-def gen(pipe, steps, cfg, prompt, neg, w, h, seed):
-    import torch
-    g = torch.Generator("cpu").manual_seed(seed)
-    return pipe(prompt=prompt, negative_prompt=neg, width=w, height=h, num_inference_steps=steps, guidance_scale=cfg, generator=g).images[0]
+    def draw(self, prompt, neg, kind, seed):
+        w, h = self.sizes[kind]
+        g = self.torch.Generator("cpu").manual_seed(seed)
+        return self.pipe(prompt=prompt, negative_prompt=neg, width=w, height=h, num_inference_steps=self.steps, guidance_scale=self.cfg, generator=g).images[0]
+
+    def redraw(self, image, prompt, neg, seed, strength=0.55):
+        g = self.torch.Generator("cpu").manual_seed(seed)
+        steps = max(self.steps, int(round(self.steps / strength)))
+        return self.i2i(prompt=prompt, negative_prompt=neg, image=image, strength=strength, num_inference_steps=steps, guidance_scale=self.cfg, generator=g).images[0]
 
 _session = None
 def cutout(img):
@@ -160,61 +182,62 @@ def cutout(img):
     if box:
         x0, y0, x1, y1 = box
         rgba = rgba.crop((max(0, x0 - 6), max(0, y0 - 6), min(rgba.width, x1 + 6), rgba.height))
-    if rgba.height < 1100:
-        k = 1100 / rgba.height
-        rgba = rgba.resize((int(rgba.width * k), 1100), Image.LANCZOS)
+    if rgba.height != 1200:
+        k = 1200 / rgba.height
+        rgba = rgba.resize((max(1, int(rgba.width * k)), 1200), Image.LANCZOS)
     return rgba
 
-def commit(msg):
-    if os.environ.get("ART_COMMIT") != "1": return
-    subprocess.run(["git", "add", "img"], cwd=ROOT)
-    if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT).returncode == 0: return
-    subprocess.run(["git", "commit", "-m", msg], cwd=ROOT, check=True)
-    br = os.environ.get("GITHUB_REF_NAME", "main")
-    for _ in range(4):
-        subprocess.run(["git", "pull", "--rebase", "--autostash", "origin", br], cwd=ROOT)
-        if subprocess.run(["git", "push", "origin", "HEAD:" + br], cwd=ROOT).returncode == 0: return
-        time.sleep(8)
+def exists(kind, name):
+    return (EXIST_CH if kind == "char" else EXIST_BG).joinpath(name).exists() or (CH if kind == "char" else BG).joinpath(name).exists()
 
 def main():
     from PIL import Image
-    pipe, steps, cfg = load()
+    chars = [c for c in CHARS if OK(c)]
+    bgs = [b for b in BGS if OK(b)]
+    mine_c = [c for i, c in enumerate(chars) if i % SHARDS == SHARD]
+    mine_b = [b for i, b in enumerate(bgs) if (i + len(chars)) % SHARDS == SHARD]
+    todo = [c for c in mine_c if any(not exists("char", f"{c}-{e}.png") for e in (EXPR if "3" in PHASES else ["neutral"]))]
+    todo_b = [b for b in mine_b if "2" in PHASES and not exists("bg", f"{b}.jpg")]
+    print(f"shard {SHARD}/{SHARDS}: characters {todo}, backgrounds {todo_b}", flush=True)
+    if not todo and not todo_b:
+        print("nothing to draw", flush=True); return
+    P = Painter()
     made = 0
-    def char(cid, expr):
-        nonlocal made
-        f = CH / f"{cid}-{expr}.png"
-        if f.exists(): return
-        t = time.time()
-        img = gen(pipe, steps, cfg, f"{STYLE_C}, {CHARS[cid]}, {EXPR[expr]}", NEG, 512, 832, seed_of(cid))
-        cutout(img).save(f, optimize=True)
-        made += 1; print(f"char {cid}-{expr} {time.time() - t:.0f}s", flush=True)
-    def bg(bid):
-        nonlocal made
-        f = BG / f"{bid}.jpg"
-        if f.exists(): return
-        t = time.time()
-        img = gen(pipe, steps, cfg, f"{STYLE_B}, {BGS[bid]}", NEG_B, 912, 512, seed_of(bid))
-        img.resize((1600, 900), Image.LANCZOS).save(f, quality=88, optimize=True)
-        made += 1; print(f"bg {bid} {time.time() - t:.0f}s", flush=True)
-    if "1" in PHASES:
-        for i, cid in enumerate(c for c in CHARS if OK(c)):
-            if out_of_time(): break
-            char(cid, "neutral")
-            if i % 6 == 5: commit("Art: characters")
-        commit("Art: characters")
-    if "2" in PHASES:
-        for i, bid in enumerate(b for b in BGS if OK(b)):
-            if out_of_time(): break
-            bg(bid)
-            if i % 8 == 7: commit("Art: backgrounds")
-        commit("Art: backgrounds")
-    if "3" in PHASES:
-        for i, cid in enumerate(c for c in CHARS if OK(c)):
+    for cid in todo:
+        if out_of_time(): break
+        seed = seed_of(cid)
+        base_prompt = f"{STYLE_C}, {CHARS[cid]}"
+        f = CH / f"{cid}-neutral.png"
+        neutral = None
+        if "1" in PHASES and not exists("char", f.name):
+            t = time.time()
+            neutral = P.draw(f"{base_prompt}, {EXPR['neutral']}", NEG, "char", seed)
+            neutral.save(CH / f"{cid}-neutral.raw.jpg", quality=92)
+            cutout(neutral).save(f, optimize=True)
+            made += 1; print(f"char {cid}-neutral {time.time() - t:.0f}s", flush=True)
+        if "3" in PHASES:
+            raw = CH / f"{cid}-neutral.raw.jpg"
+            if neutral is None and raw.exists(): neutral = Image.open(raw).convert("RGB")
+            if neutral is None:
+                src = EXIST_CH / f"{cid}-neutral.png"
+                if src.exists():
+                    im = Image.open(src).convert("RGBA"); bgw = Image.new("RGBA", im.size, (255, 255, 255, 255)); bgw.alpha_composite(im)
+                    neutral = bgw.convert("RGB").resize(P.sizes["char"], Image.LANCZOS)
             for expr in ["smile", "sad", "angry", "shock"]:
-                if out_of_time(): break
-                char(cid, expr)
-            if i % 4 == 3: commit("Art: expressions")
-        commit("Art: expressions")
+                if out_of_time() or neutral is None: break
+                fe = CH / f"{cid}-{expr}.png"
+                if exists("char", fe.name): continue
+                t = time.time()
+                img = P.redraw(neutral, f"{base_prompt}, {EXPR[expr]}, same character, same outfit", NEG, seed + 7)
+                cutout(img).save(fe, optimize=True)
+                made += 1; print(f"char {cid}-{expr} {time.time() - t:.0f}s", flush=True)
+    for bid in todo_b:
+        if out_of_time(): break
+        t = time.time()
+        img = P.draw(f"{STYLE_B}, {BGS[bid]}", NEG_B, "bg", seed_of(bid))
+        img.resize((1600, 900), Image.LANCZOS).save(BG / f"{bid}.jpg", quality=88, optimize=True)
+        made += 1; print(f"bg {bid} {time.time() - t:.0f}s", flush=True)
+    for raw in CH.glob("*.raw.jpg"): raw.unlink()
     print(f"done, {made} new images", flush=True)
 
 if __name__ == "__main__":

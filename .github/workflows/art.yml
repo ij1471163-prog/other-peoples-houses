@@ -1,21 +1,24 @@
 name: Draw the game art (free, open-source AI)
 
-# Runs on GitHub's own computers. Draws every character and background with
-# Stable Diffusion (DreamShaper 8, CreativeML OpenRAIL-M licence: commercial use allowed),
-# removes character backgrounds, saves them into img/, then rebuilds the website and the app.
-# Already-drawn images are kept, so running it again only fills in what's missing.
+# Runs on GitHub's own computers, many at once. Draws every character (5 expressions)
+# and every background with open-source Stable Diffusion XL (DreamShaper XL Turbo),
+# removes character backgrounds, commits everything into img/, then rebuilds the
+# website and the Android app. Pictures that already exist are kept.
 
 on:
   workflow_dispatch:
     inputs:
       only:
-        description: 'Only these (comma separated ids), empty = everything'
+        description: 'Only these ids (comma separated). Empty = everything'
         default: ''
       phases:
-        description: '1 = characters, 2 = backgrounds, 3 = expressions'
+        description: '1 = characters, 2 = backgrounds, 3 = extra expressions'
         default: '1,2,3'
+      shards:
+        description: 'How many computers to use at once (1-16)'
+        default: '16'
       redo:
-        description: 'Delete all generated art and draw it again (yes/no)'
+        description: 'Redraw pictures that already exist (yes/no)'
         default: 'no'
 
 permissions:
@@ -27,11 +30,28 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  draw:
+  plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    outputs:
+      shards: ${{ steps.p.outputs.shards }}
+    steps:
+      - id: p
+        run: |
+          n="${{ github.event.inputs.shards || '16' }}"
+          python3 -c "import json,sys; n=max(1,min(16,int(sys.argv[1]))); print('shards='+json.dumps(list(range(n))))" "$n" >> "$GITHUB_OUTPUT"
+
+  draw:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
     steps:
       - uses: actions/checkout@v4
+      - name: Free disk space for the model
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -42,7 +62,7 @@ jobs:
             ~/.cache/huggingface
             ~/.u2net
             ~/.rembg
-          key: art-models-v1
+          key: art-models-xl-v1
       - name: Install
         run: |
           pip install --upgrade pip
@@ -53,17 +73,49 @@ jobs:
         run: rm -rf img/chars img/bg
       - name: Draw
         env:
-          ART_COMMIT: '1'
-          ART_MINUTES: '300'
+          ART_OUT: out
+          ART_MINUTES: '320'
           ART_ONLY: ${{ github.event.inputs.only }}
           ART_PHASES: ${{ github.event.inputs.phases || '1,2,3' }}
+          ART_SHARD: ${{ matrix.shard }}
+          ART_SHARDS: ${{ github.event.inputs.shards || '16' }}
         run: |
+          mkdir -p out/chars out/bg
+          python tools/art/generate.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: art-${{ matrix.shard }}
+          path: out
+          if-no-files-found: ignore
+          retention-days: 7
+
+  save:
+    needs: draw
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: art-*
+          path: out
+          merge-multiple: true
+      - name: Put the pictures in img/ and commit
+        run: |
+          mkdir -p img/chars img/bg
+          cp -f out/chars/*.png img/chars/ 2>/dev/null || true
+          cp -f out/bg/*.jpg img/bg/ 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          python tools/art/generate.py
+          git add img
+          if git diff --cached --quiet; then echo "No new pictures."; exit 0; fi
+          git commit -m "Art: $(ls img/chars | wc -l) character pictures, $(ls img/bg | wc -l) backgrounds"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
       - name: Rebuild the website and the Android app with the new art
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh workflow run pages.yml --ref main || true
-          gh workflow run android.yml --ref main || true
+          gh workflow run pages.yml --ref "${GITHUB_REF_NAME}" || true
+          gh workflow run android.yml --ref "${GITHUB_REF_NAME}" || true

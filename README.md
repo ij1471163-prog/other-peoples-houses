@@ -52,9 +52,9 @@ The game draws everything itself. To replace any drawing with a real picture, ad
 اللعبة ترسم كل شي بنفسها. ولو تبي تستبدل أي رسمة بصورة، حط الملف بالاسم بالضبط واللعبة تستخدمه تلقائياً (الأسماء فوق).
 
 ## Real illustrated art, drawn for free · رسومات حقيقية مجاناً
-`.github/workflows/art.yml` runs on GitHub's computers the first time you upload these files. It uses the open-source model **DreamShaper 8** (Stable Diffusion, CreativeML OpenRAIL-M licence, commercial use allowed) to draw all 21 characters with 5 expressions and all 42 backgrounds, removes the character backgrounds, saves them in `img/`, then rebuilds the website and the Android app. It takes about 2–3 hours and costs nothing. Watch it in the **Actions** tab ("Draw the game art"). Run it again from there to fill in anything missing, or with **redo = yes** to redraw everything. Until a picture exists, the game uses its own drawing.
+`.github/workflows/art.yml` runs on GitHub's computers the first time you upload these files. Start it from the **Actions** tab ("Draw the game art" → Run workflow). It runs on up to 16 GitHub computers at once with the open-source model **DreamShaper XL Turbo** (Stable Diffusion XL) to draw all 21 characters with 5 expressions (the expressions are redrawn from the neutral picture so it stays the same person) and all 42 backgrounds, removes the character backgrounds, saves them in `img/`, then rebuilds the website and the Android app. It costs nothing on a public repository. Run it again to fill in anything missing, or with **redo = yes** to redraw everything. Until a picture exists, the game uses its own drawing.
 
-أول ما ترفع الملفات، GitHub يشغّل `art.yml` على أجهزته ويرسم كل الشخصيات (٥ تعابير) والخلفيات بذكاء اصطناعي مفتوح المصدر، ويشيل خلفيات الشخصيات، ويحطها في `img/`، وبعدين يعيد بناء الموقع والتطبيق. ياخذ تقريباً ساعتين لثلاث، ومجاني. تتابعه من تبويب **Actions**.
+من تبويب **Actions** تشغّل «Draw the game art»، وGitHub يشغّله على أجهزته ويرسم كل الشخصيات (٥ تعابير) والخلفيات بذكاء اصطناعي مفتوح المصدر، ويشيل خلفيات الشخصيات، ويحطها في `img/`، وبعدين يعيد بناء الموقع والتطبيق. ياخذ تقريباً ساعتين لثلاث، ومجاني. تتابعه من تبويب **Actions**.
 
 ## Play / التشغيل
 Open `index.html` in a browser. No build step, no server needed.
