@@ -27,22 +27,15 @@ ONLY = [x.strip() for x in os.environ.get("ART_ONLY", "").split(",") if x.strip(
 OK = lambda k: not ONLY or k in ONLY
 SHARD, SHARDS = int(os.environ.get("ART_SHARD", "0")), max(1, int(os.environ.get("ART_SHARDS", "1")))
 
-STYLE_C = ("masterpiece, best quality, 2d illustration, visual novel character sprite, polished western cartoon art style like a modern life simulation game, "
-           "clean confident lineart, smooth cel shading with soft highlights, rich saturated colors, appealing attractive face, expressive eyes with highlights, glossy detailed hair, "
-           "natural semi-realistic proportions, one single character standing and facing the viewer, three-quarter body shot from head to knees, "
-           "fully clothed, modest clothing, plain pure white background, centered, sharp focus")
-STYLE_B = ("masterpiece, best quality, 2d illustration, visual novel background art, polished western cartoon game background like a modern life simulation game, "
-           "clean lineart, soft cel shading, warm cinematic lighting, rich colors, highly detailed, cosy and lived-in, wide shot, eye level, one point perspective, "
-           "empty scene with no people, daytime")
-NEG = ("photo, photorealistic, realistic skin texture, 3d, render, cgi, anime chibi, nsfw, nude, naked, cleavage, revealing, sexy, lingerie, swimsuit, bikini, "
-       "multiple people, two people, crowd, text, letters, watermark, signature, logo, frame, border, lowres, blurry, jpeg artifacts, "
-       "deformed, disfigured, ugly, bad anatomy, bad hands, extra fingers, missing fingers, extra limbs, extra arms, cropped head, out of frame, "
-       "scenery behind the character, busy background, shadow on background")
-NEG_B = ("people, person, character, human, face, text, letters, watermark, signature, logo, lowres, blurry, deformed, photo, "
-         "photorealistic, 3d render, nsfw, distorted perspective")
+# Prompts are short on purpose: the text encoders only read ~75 tokens, so the
+# character description goes FIRST and the style comes after it.
+STYLE_C = "solo, plain white background, 2d cartoon illustration, visual novel character art, clean lineart, cel shading, three-quarter body from head to knees, modest clothes"
+STYLE_B = "2d cartoon illustration, visual novel background art, clean lineart, cel shading, warm light, detailed, no people"
+NEG = "photo, realistic, 3d, nsfw, cleavage, tight clothes, revealing, multiple people, text, watermark, blurry, bad hands, extra fingers, cropped head, background scenery"
+NEG_B = "people, person, character, text, watermark, blurry, photo, 3d render, palm trees, tropical"
 
 EXPR = {
-    "neutral": "calm neutral expression, mouth closed",
+    "neutral": "calm expression",
     "smile": "warm happy smile",
     "sad": "sad expression, downturned mouth, worried eyebrows",
     "angry": "angry frown, furrowed eyebrows",
@@ -50,27 +43,27 @@ EXPR = {
 }
 
 CHARS = {
-    "elias": "Elias, 72 year old old fisherman, thick white full beard, blue knitted beanie hat, weathered kind face, blue eyes, yellow fisherman raincoat open over a cream cable-knit wool sweater, dark grey trousers",
-    "sami": "Sami, 29 year old Middle Eastern man, short black hair with a fade, short black beard, warm brown skin, white t-shirt, green grocery shop apron, blue jeans, one hand on hip",
-    "marco": "Marco, 28 year old Italian man, curly brown hair, thin mustache, green eyes, blue striped shirt with rolled-up sleeves, black waist apron, holding a coffee cup, cheerful cafe owner",
-    "irene": "Dr. Irene, 45 year old woman doctor, red hair in a bun, glasses, freckles, white lab coat over teal scrubs, stethoscope around her neck, holding a clipboard",
-    "martha": "Martha, 62 year old plump cleaning lady, grey hair under a blue polka dot headscarf, pink cardigan, white apron with little red flowers, yellow rubber gloves, hands on hips, chatty",
-    "leo": "Leo, 19 year old young man, messy dark brown hair, slim, red jacket over a mustard yellow hoodie, black headphones around his neck, black jeans, hands in pockets, young artist",
-    "frank": "Frank, 54 year old mechanic, balding grey-brown hair, big bushy mustache, broad shoulders, grey t-shirt, navy blue work overalls with a name patch, arms crossed, gruff",
-    "margaret": "Margaret, 54 year old British woman, kind but tired eyes, greying light brown bob haircut, lavender knitted cardigan over a cream blouse, dark grey knee-length skirt, small gold brooch, hands gently clasped in front",
-    "nora": "Nora, 50 year old woman, short dark pixie haircut, sharp eyes, long red coat, yellow scarf, black trousers, one hand on hip, blunt and confident",
-    "evelyn": "Evelyn, 38 year old woman lighthouse keeper, dirty blonde hair in a long side braid, teal eyes, navy blue fisherman cable-knit sweater, red scarf, brown trousers, quirky friendly",
-    "victor": "Victor, 50 year old wealthy hotel owner, slicked back black hair, smug charming smile, dark navy three-piece suit, white shirt, red tie, red pocket square, one hand in pocket, villain",
-    "kell": "Kell, 42 year old very tall broad Black man, buzz cut, short black beard, black suit and black shirt, arms crossed, stoic bodyguard",
-    "ana": "Ana, 31 year old woman hotel maid, wearing a blue hijab that covers her hair and neck, modest long-sleeved dark grey maid dress with a white apron, hands clasped in front, kind face",
-    "stella": "Stella, 32 year old woman florist, wavy ginger hair, freckles, pink t-shirt, green florist apron, blue jeans, holding a small bouquet of flowers, cheerful",
-    "kai": "Kai, 23 year old surfer guy, long sun-bleached blond hair, tanned skin, teal t-shirt, orange board shorts, waving one hand, goofy grin",
-    "rex": "Officer Rex, 46 year old police officer, short dark brown hair, mustache, navy blue police uniform shirt with a gold badge, black belt, hands on his belt, tired but kind",
-    "bella": "Bella, 27 year old hotel receptionist woman, black hair in a high ponytail, burgundy blazer over a white blouse, gold name badge, black skirt below the knee, sassy smile",
-    "ingrid": "Ingrid, 74 year old elderly woman, white hair in a bun, round glasses, green cardigan over a cream blouse, purple skirt, pink brooch, sweet grandmother",
-    "maya": "Maya, 41 year old fisherwoman, tanned skin, dark hair in a ponytail, orange waterproof fishing jacket, dark green trousers, arms crossed, tough",
-    "olivia": "Olivia, 26 year old Black woman activist, big natural afro hair, yellow hoodie covered in colourful badges, blue jeans, holding a clipboard, determined",
-    "gregor": "Gregor, 66 year old gravedigger, bald head, grey full beard, long dark olive coat, holding a shovel, cheerful old man",
+    "elias": "72 year old fisherman, thick white beard, blue knitted beanie, kind blue eyes, yellow raincoat over cream wool sweater",
+    "sami": "29 year old Arab man, short black hair, short black beard, warm smile, white t-shirt, green shop apron, jeans, hand on hip",
+    "marco": "28 year old Italian man, curly brown hair, thin mustache, blue striped shirt with rolled sleeves, black waist apron, holding a coffee cup",
+    "irene": "45 year old woman doctor, red hair in a bun, glasses, white lab coat over teal scrubs, stethoscope, holding a clipboard",
+    "martha": "62 year old plump cleaning lady, grey hair, blue polka dot headscarf, pink cardigan, white floral apron, yellow rubber gloves, hands on hips",
+    "leo": "19 year old skinny young man, messy dark hair, red jacket over mustard yellow hoodie, black headphones around neck, hands in pockets",
+    "frank": "54 year old mechanic, balding, big grey mustache, broad shoulders, grey t-shirt, navy blue work overalls, arms crossed",
+    "margaret": "54 year old woman, greying light brown bob haircut, tired kind eyes, lavender knitted cardigan, cream blouse, grey long skirt, hands clasped",
+    "nora": "50 year old woman, short dark pixie haircut, sharp eyes, long red coat, yellow scarf, black trousers, hand on hip",
+    "evelyn": "38 year old woman, blonde hair in a side braid, navy blue fisherman sweater, red scarf, brown trousers, quirky smile",
+    "victor": "50 year old rich man, slicked back black hair, smug smile, dark navy suit, white shirt, red tie, one hand in pocket",
+    "kell": "42 year old very tall broad black man, buzz cut, short beard, black suit, arms crossed, bodyguard",
+    "ana": "31 year old woman, blue hijab covering hair and neck, long sleeved dark grey maid dress, white apron, hands clasped",
+    "stella": "32 year old woman, wavy ginger hair, freckles, pink t-shirt, green florist apron, jeans, holding a small bouquet",
+    "kai": "23 year old surfer guy, long sun bleached blond hair, tanned, teal t-shirt, orange board shorts, waving hand, goofy grin",
+    "rex": "46 year old policeman, short dark hair, mustache, navy blue police uniform with gold badge, hands on belt",
+    "bella": "27 year old woman receptionist, black hair in high ponytail, burgundy blazer, white blouse, black knee length skirt, sassy smile",
+    "ingrid": "74 year old grandmother, white hair in a bun, round glasses, green cardigan, cream blouse, purple long skirt, sweet smile",
+    "maya": "41 year old fisherwoman, tanned, dark ponytail, orange waterproof jacket, dark green trousers, arms crossed",
+    "olivia": "26 year old black woman, big natural afro hair, yellow hoodie with badges, jeans, holding a clipboard",
+    "gregor": "66 year old gravedigger, bald, grey full beard, long dark olive coat, holding a shovel, cheerful",
 }
 
 BGS = {
@@ -112,7 +105,7 @@ BGS = {
     "hotel_suite": "luxury hotel suite bedroom, big bed, gold and burgundy decor, large window with a sea view",
     "hotel_office": "dark wood luxury office of a rich man, big desk, leather chair, bookcase, safe, portrait on the wall",
     "hotel_staff": "hotel laundry room and staff corridor, washing machines, folded towels, lockers",
-    "beach": "sunny sandy beach, sea waves, red beach umbrella, surfboard, dunes",
+    "beach": "northern european seaside beach, sand dunes with grass, grey-blue sea waves, red beach umbrella, surfboard, cliffs",
     "cemetery": "old seaside churchyard cemetery, gravestones, small stone church, grass, calm and peaceful",
     "florist": "colourful small flower shop interior, buckets of flowers, wooden counter, plants everywhere",
     "police": "small town police station office, desk with old computer, notice board, filing cabinets, holding cell bars",
@@ -206,12 +199,12 @@ def main():
     for cid in todo:
         if out_of_time(): break
         seed = seed_of(cid)
-        base_prompt = f"{STYLE_C}, {CHARS[cid]}"
+        base_prompt = CHARS[cid]
         f = CH / f"{cid}-neutral.png"
         neutral = None
         if "1" in PHASES and not exists("char", f.name):
             t = time.time()
-            neutral = P.draw(f"{base_prompt}, {EXPR['neutral']}", NEG, "char", seed)
+            neutral = P.draw(f"{base_prompt}, {EXPR['neutral']}, {STYLE_C}", NEG, "char", seed)
             neutral.save(CH / f"{cid}-neutral.raw.jpg", quality=92)
             cutout(neutral).save(f, optimize=True)
             made += 1; print(f"char {cid}-neutral {time.time() - t:.0f}s", flush=True)
@@ -228,13 +221,13 @@ def main():
                 fe = CH / f"{cid}-{expr}.png"
                 if exists("char", fe.name): continue
                 t = time.time()
-                img = P.redraw(neutral, f"{base_prompt}, {EXPR[expr]}, same character, same outfit", NEG, seed + 7)
+                img = P.redraw(neutral, f"{base_prompt}, {EXPR[expr]}, {STYLE_C}", NEG, seed + 7)
                 cutout(img).save(fe, optimize=True)
                 made += 1; print(f"char {cid}-{expr} {time.time() - t:.0f}s", flush=True)
     for bid in todo_b:
         if out_of_time(): break
         t = time.time()
-        img = P.draw(f"{STYLE_B}, {BGS[bid]}", NEG_B, "bg", seed_of(bid))
+        img = P.draw(f"{BGS[bid]}, northern european seaside town, {STYLE_B}", NEG_B, "bg", seed_of(bid))
         img.resize((1600, 900), Image.LANCZOS).save(BG / f"{bid}.jpg", quality=88, optimize=True)
         made += 1; print(f"bg {bid} {time.time() - t:.0f}s", flush=True)
     for raw in CH.glob("*.raw.jpg"): raw.unlink()
