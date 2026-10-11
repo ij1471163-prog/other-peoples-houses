@@ -79,7 +79,9 @@ function advance(n = 1) {
   while (s.slot > 4) { s.slot -= 5; s.day++; s.f.newDay = true; dayStartNeeds(); }
 }
 function sleepToMorning() { const s = S(); s.day++; s.slot = 0; s.f.newDay = true; const nd = needs(); nd.energy = 100; nd.food = clamp(nd.food - 15, 0, 100); nd.clean = clamp(nd.clean - 10, 0, 100); dayStartNeeds(); }
-function dayStartNeeds() { const nd = needs(); let pen = 0; if (nd.food < 25) pen++; if (nd.clean < 20) pen++; if (pen) addMood(-Math.min(2, pen)); if (nd.food >= 60 && nd.clean >= 60) addMood(1); }
+/* "once today" marks only matter for the current day; drop older ones so the save doesn't grow forever */
+function pruneOnce() { const s = S(); if (!s || !s.once) return; for (const k of Object.keys(s.once)) { const d = +k.slice(k.lastIndexOf('@') + 1); if (d < s.day) delete s.once[k]; } }
+function dayStartNeeds() { pruneOnce(); const nd = needs(); let pen = 0; if (nd.food < 25) pen++; if (nd.clean < 20) pen++; if (pen) addMood(-Math.min(2, pen)); if (nd.food >= 60 && nd.clean >= 60) addMood(1); }
 
 /* ---------- save ---------- */
 function save() { try { localStorage.setItem('oph.save', JSON.stringify(GAME.S)); } catch (e) {} }
@@ -285,6 +287,7 @@ function renderMenu(st) {
     b.onclick = ev => { if (b.disabled || !RUN || !tapOk(ev)) return; box.querySelectorAll('.opt').forEach(x => { x.disabled = true; }); AUDIO.sfx('tap'); if (o.fx) o.fx(S()); if (o.then) RUN.stack.push({ steps: o.then.slice(), i: 0 }); next(); };
     box.appendChild(b);
   });
+  if (box.children.length > 6) box.classList.add('many');
   panel.appendChild(box);
   $('stage').onclick = null;
 }

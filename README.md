@@ -49,7 +49,8 @@ After Leo, Sami gives you the attic above his grocery, and three doors open. Kno
 ## Your own pictures (optional) / صورك الخاصة (اختياري)
 The game draws everything itself. To replace any drawing with a real picture, add files with these exact names and the game uses them automatically:
 - Backgrounds: `img/bg/<place>.jpg` (or `.png`), e.g. `img/bg/living.jpg`, `img/bg/boathouse.jpg`
-- Characters (transparent PNG, standing, head to mid-thigh): `img/chars/<name>-<expression>.png`, e.g. `img/chars/elias-neutral.png`, `img/chars/leo-smile.png`
+- Characters (transparent PNG or WebP, standing, head to mid-thigh): `img/chars/<name>-<expression>.png`, e.g. `img/chars/elias-neutral.png`, `img/chars/leo-smile.png`
+- Then run `python3 tools/art/finish.py`: it turns character PNGs into WebP (about 1/8 of the size) and writes `img/manifest.js`, the list the game reads so it never has to guess at start-up. The website and Android builds run it for you.
 - Expressions: `neutral`, `smile`, `sad`, `angry`, `shock`. If only `neutral` exists, it's used for all.
 - Places: station, motel, street, grocery, cafe, harbor, elias_ext, living, kitchen, bath, elias_bed, your_room, shed, clinic, boathouse, loft, bh_bath, dock, garage, sami_attic, cliff_road, marg_living, marg_kitchen, marg_guest, marg_bed, dan_room, marg_bath, lh_ext, lh_living, lh_kitchen, lh_room, lh_bath, lh_tower, lh_attic, hotel_lobby, hotel_suite, hotel_office, hotel_staff, beach, cemetery, florist, police
 - Names: elias, sami, marco, irene, martha, leo, frank, margaret, nora, evelyn, victor, kell, ana, bella, stella, kai, rex, ingrid, maya, olivia, gregor
@@ -60,6 +61,11 @@ The game draws everything itself. To replace any drawing with a real picture, ad
 `.github/workflows/art.yml` runs on GitHub's computers the first time you upload these files. Start it from the **Actions** tab ("Draw the game art" → Run workflow). It runs on up to 16 GitHub computers at once with the open-source model **DreamShaper XL Turbo** (Stable Diffusion XL) to draw all 21 characters with 5 expressions (the expressions are redrawn from the neutral picture so it stays the same person) and all 42 backgrounds, removes the character backgrounds, saves them in `img/`, then rebuilds the website and the Android app. It costs nothing on a public repository. Run it again to fill in anything missing, or with **redo = yes** to redraw everything. Until a picture exists, the game uses its own drawing.
 
 من تبويب **Actions** تشغّل «Draw the game art»، وGitHub يشغّله على أجهزته ويرسم كل الشخصيات (٥ تعابير) والخلفيات بذكاء اصطناعي مفتوح المصدر، ويشيل خلفيات الشخصيات، ويحطها في `img/`، وبعدين يعيد بناء الموقع والتطبيق. ياخذ تقريباً ساعتين لثلاث، ومجاني. تتابعه من تبويب **Actions**.
+
+## Sound and battery / الصوت والبطارية
+Sound is made in the browser (no recordings, no voice acting): sea, wind, rooms and the café change with the place and the time; each host has a quiet theme; characters "murmur" when they talk; doors, steps and the 3:07 lighthouse moments have effects. Phone → Settings has an on/off switch and five volume sliders, saved on the device. Sound starts after your first tap and pauses when the app is hidden. Decorative animation pauses after 20 seconds without a touch and while the app is hidden.
+
+الصوت كله يتولد داخل المتصفح (ما فيه تسجيلات ولا تمثيل صوتي). من الجوال ← الإعدادات فيه زر تشغيل/إطفاء وخمس أشرطة للصوت، وتنحفظ. الحركة الزخرفية توقف بعد ٢٠ ثانية بدون لمس، وتوقف مع الصوت لما تطلع من التطبيق، عشان البطارية.
 
 ## Play / التشغيل
 Open `index.html` in a browser. No build step, no server needed.
@@ -103,10 +109,13 @@ If your repository is not `ij1471163-prog/other-peoples-houses`, change `GAME.RE
 |---|---|
 | `index.html` | The page |
 | `css/game.css` | Layout and look |
-| `js/engine.js` | The engine: locations, hotspots, dialogue scripts, time, stats, quests, phone, map, saving |
+| `js/engine.js` | The engine: locations, hotspots, dialogue scripts, time, stats, quests, phone, map, saving, back button |
+| `js/power.js` | Battery saving: pauses decorative animation when you stop touching the screen and when the app is hidden |
+| `js/audio.js` | Sound, all made in the browser: ambience per place, a theme per host, voice murmurs, effects, volume settings |
+| `js/chars/<name>.js` | **One file per character**: who they are, where they are at each time of day, greeting, every conversation topic, drawn look, height |
 | `js/art.js` | All backgrounds and character portraits, drawn as SVG |
-| `js/world.js` | The town: characters and schedules, locations, items, tasks, UI text |
-| `js/elias.js` | Chapter 1: prologue, Elias's story, Martha, talk topics, events, endings |
+| `js/world.js` | The town: locations, items, tasks, UI text (the people are in `js/chars/`) |
+| `js/elias.js` | Chapter 1: prologue, Elias's story, events, endings |
 | `js/leo.js` | Chapter 2: Leo, Frank, the boathouse, events, endings |
 | `js/people.js` | Character drawings (body, outfit, face, hair) and the optional picture loader |
 | `js/art2.js` | Chapter 2 backgrounds |
@@ -119,7 +128,12 @@ If your repository is not `ij1471163-prog/other-peoples-houses`, change `GAME.RE
 | `.github/workflows/android.yml` | Builds the APK and AAB and publishes the release |
 | `.github/workflows/pages.yml` | Publishes the web version to GitHub Pages |
 
+## Adding a character / إضافة شخصية
+Copy any file in `js/chars/` (for example `js/chars/stella.js`), rename it to the new name, change the profile, schedule, topics and look, and add one `<script src="js/chars/<name>.js">` line in `index.html` with the others. Helpers from a chapter (like `inM` for "you live with Margaret") are borrowed with `const { inM } = GAME.H.margaret;`.
+
+كل شخصية لها ملف في `js/chars/`. عشان تضيف شخصية: انسخ أي ملف منها، غيّر الاسم والجدول والمواضيع والشكل، وأضف سطر `<script>` واحد في `index.html`.
+
 ## Adding a chapter / إضافة فصل
-A new house is a new file like `js/elias.js`: its scripts, talk topics, events and endings, plus its rooms and characters in `js/world.js`, and its art in `js/art.js`. Load it in `index.html` before `js/systems.js`.
+A new house is a new file like `js/elias.js`: its scripts, events and endings, plus its rooms and art. Its people go in `js/chars/`. Load the chapter in `index.html` before `js/systems.js`.
 
 Text is written as `T('English', 'العربي')`. Inside text, `{name}` is the player's name and `{man|woman}` picks the word by the player's gender.
