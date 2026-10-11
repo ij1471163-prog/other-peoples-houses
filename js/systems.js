@@ -181,3 +181,7 @@ GAME.ENTER_HOOKS.push(s => {
   s.f['rv_' + e.id] = s.day; s.f.rvKey = key;
   return typeof e.run === 'function' ? e.run(s) : e.run;
 });
+
+/* body heights for the drawn pictures (1 = average) */
+(function () { const H = { elias: .97, sami: .9, marco: .97, irene: 1.04, martha: .86, leo: 1.02, frank: 1.0, margaret: .9, nora: 1.02, evelyn: 1.04, victor: .98, kell: 1.08, ana: .87, stella: .93, kai: 1.01, rex: 1.05, bella: .9, ingrid: .84, maya: .99, olivia: .88, gregor: 1.06 };
+  Object.entries(H).forEach(([id, h]) => { if (GAME.CHAR[id]) GAME.CHAR[id].height = h; }); })();
