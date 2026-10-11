@@ -71,13 +71,13 @@ Open `index.html` in a browser. No build step, no server needed.
 3. كل push على `main` ينشر اللعبة، والرابط يطلع في تبويب **Actions** داخل التشغيل.
 
 ## Android app (APK + AAB) / تطبيق أندرويد
-Every push to `main` runs **Build Android app** in the **Actions** tab. It produces:
+Build it by hand when you want a new version: **Actions** tab → **Build Android app** → **Run workflow**. It produces:
 - `OtherPeoplesHouses.apk` — install it on your phone.
 - `OtherPeoplesHouses.aab` — the file Google Play wants.
 
-Both are attached to a new **Release** on the repository page, and the in-game button **Download the Android app** opens the latest one.
+Both are attached to a **Release** on the repository page (older releases are deleted automatically to save space), and the in-game button **Download the Android app** opens the latest one.
 
-كل push على `main` يشغّل **Build Android app** في تبويب **Actions**، ويطلع:
+تبنيه يدوي متى ما تبي نسخة جديدة: تبويب **Actions** ← **Build Android app** ← **Run workflow**، ويطلع:
 - `OtherPeoplesHouses.apk` تثبته على جوالك.
 - `OtherPeoplesHouses.aab` الملف اللي يطلبه قوقل بلاي.
 

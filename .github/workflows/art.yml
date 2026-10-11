@@ -3,7 +3,7 @@ name: Draw the game art (free, open-source AI)
 # Runs on GitHub's own computers, many at once. Draws every character (5 expressions)
 # and every background with open-source Stable Diffusion XL (DreamShaper XL Turbo),
 # removes character backgrounds, commits everything into img/, then rebuilds the
-# website and the Android app. Pictures that already exist are kept.
+# website. (Build the Android app by hand afterwards.) Pictures that already exist are kept.
 
 on:
   workflow_dispatch:
@@ -88,7 +88,7 @@ jobs:
           name: art-${{ matrix.shard }}
           path: out
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 1
 
   save:
     needs: draw
@@ -113,9 +113,8 @@ jobs:
           git commit -m "Art: $(ls img/chars | wc -l) character pictures, $(ls img/bg | wc -l) backgrounds"
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-      - name: Rebuild the website and the Android app with the new art
+      - name: Rebuild the website with the new art (the Android app is built by hand)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh workflow run pages.yml --ref "${GITHUB_REF_NAME}" || true
-          gh workflow run android.yml --ref "${GITHUB_REF_NAME}" || true

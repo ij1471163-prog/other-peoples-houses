@@ -1,8 +1,7 @@
 name: Build Android app (APK + AAB)
 
+# Manual only (saves space): Actions tab → "Build Android app" → Run workflow.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -91,11 +90,13 @@ jobs:
           fi
           ls -lh dist
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: OtherPeoplesHouses-android
-          path: dist/*
-          retention-days: 30
+      - name: Remove older releases (keep only the newest app, to save space)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for t in $(gh release list -R "$GITHUB_REPOSITORY" --limit 100 --json tagName -q '.[].tagName'); do
+            gh release delete "$t" -R "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
+          done
 
       - name: Publish a release (this is what the in-game "Download" button opens)
         uses: softprops/action-gh-release@v2
