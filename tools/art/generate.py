@@ -32,7 +32,7 @@ SHARD, SHARDS = int(os.environ.get("ART_SHARD", "0")), max(1, int(os.environ.get
 # character description goes FIRST and the style comes after it.
 STYLE_C = "solo, plain white background, 2d cartoon illustration, visual novel character art, clean lineart, cel shading, three-quarter body from head to knees, casual everyday clothes"
 STYLE_B = "2d cartoon illustration, visual novel background art, clean lineart, cel shading, warm light, detailed, no people"
-NEG = "photo, realistic, 3d, nsfw, nude, underwear, multiple people, text, watermark, blurry, bad hands, extra fingers, cropped head, background scenery"
+NEG = "photo, realistic, 3d, nsfw, nude, underwear, multiple people, desk, table, counter, furniture, flower pots, shelves, text, watermark, blurry, bad hands, extra fingers, cropped head, background scenery"
 NEG_B = "people, person, character, text, watermark, blurry, photo, 3d render, palm trees, tropical"
 
 EXPR = {
@@ -57,7 +57,7 @@ CHARS = {
     "victor": "50 year old rich man, well fed with a slight paunch, slicked back black hair, smug smile, dark navy suit, white shirt, red tie, one hand in pocket",
     "kell": "42 year old huge muscular black man, very broad, buzz cut, short beard, black suit, arms crossed, bodyguard",
     "ana": "31 year old short slight latina woman, dark hair in a neat bun, hotel maid uniform, grey dress with white apron, hands clasped, kind face",
-    "stella": "anime style, 32 year old plus size woman, full figured, round cheerful face, wavy ginger hair, freckles, pink t-shirt, green florist apron, jeans, holding flowers",
+    "stella": "anime style, 32 year old plus size woman, full figured, round cheerful face, wavy ginger hair, freckles, pink t-shirt, green florist apron, jeans, holding one small bouquet",
     "kai": "23 year old athletic surfer guy, lean muscles, long sun bleached blond hair, tanned, teal t-shirt, orange board shorts, waving hand, goofy grin",
     "rex": "46 year old tall broad policeman, slight belly, short dark hair, mustache, navy blue police uniform with gold badge, hands on belt",
     "bella": "27 year old petite slim woman receptionist standing, no desk, no furniture, black hair in high ponytail, burgundy blazer, white blouse, black knee length skirt, sassy smile",
