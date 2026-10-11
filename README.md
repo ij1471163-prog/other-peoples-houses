@@ -1,5 +1,10 @@
 # Other People's Houses · بيوت الآخرين
 
+## ⬇️ [Download the Android app (APK) · حمّل تطبيق أندرويد](https://github.com/ij1471163-prog/other-peoples-houses/releases/latest/download/OtherPeoplesHouses.apk)
+
+If the link says *Not Found*, build the app first: **Actions → Build Android app → Run workflow**.
+لو الرابط قال *Not Found*، ابنِ التطبيق أول: **Actions ← Build Android app ← Run workflow**.
+
 A story game in the style of point-and-click life sims: a town map, houses with rooms you can walk into, characters with daily schedules, tasks, money, a bag, a phone, and choices that decide how each person's story ends. No sexual content.
 
 لعبة قصة بأسلوب ألعاب "التنقل والضغط": خريطة بلدة، بيوت بغرف تدخلها، شخصيات لها جدول يومي، مهام، فلوس، شنطة، جوال، وقرارات تحدد نهاية كل شخصية. بدون أي محتوى جنسي.

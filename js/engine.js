@@ -118,7 +118,7 @@ let RUN = null;           // {stack:[{steps,i}], done}
 let VIEW = { sheet: null, tab: 'quests', speaker: null, expr: null, stageChars: null };
 
 function play(steps, done) {
-  document.body.classList.remove('explore');
+  document.body.classList.remove('explore', 'titlemode');
   RUN = { stack: [{ steps: steps.slice(), i: 0 }], done };
   next();
 }
@@ -277,7 +277,7 @@ function renderMenu(st) {
 function renderLocation() {
   const s = S(); const L = GAME.LOC[s.loc];
   VIEW.speaker = null; $('stage').onclick = null;
-  document.body.classList.add('explore');
+  document.body.classList.add('explore'); document.body.classList.remove('titlemode');
   renderStage();
   const panel = $('panel'); panel.innerHTML = '';
   const cap = el('div', 'caption'); cap.setAttribute('role', 'button'); cap.tabIndex = 0;
@@ -473,7 +473,7 @@ function appLink() {
 /* ---------- title & new game ---------- */
 function applyLang() { document.documentElement.lang = GAME.lang; document.documentElement.dir = GAME.lang === 'ar' ? 'rtl' : 'ltr'; }
 function titleScreen(fresh) {
-  document.body.classList.remove('explore');
+  document.body.classList.remove('explore'); document.body.classList.add('titlemode');
   RUN = null; VIEW.sheet = null; VIEW.speaker = null; applyLang();
   GAME.S = GAME.S || newState();
   const st = $('stage');
@@ -499,7 +499,7 @@ function titleScreen(fresh) {
   panel.appendChild(wrap);
 }
 function setupScreen() {
-  document.body.classList.remove('explore');
+  document.body.classList.remove('explore', 'titlemode');
   GAME.S = newState();
   const panel = $('panel'); panel.innerHTML = '';
   panel.appendChild(el('h2', '', tx(T('Who are you?', 'مين أنت؟'))));
