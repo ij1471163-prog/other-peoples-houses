@@ -61,7 +61,11 @@ window.IMG_MANIFEST = {
   },
   "elias": {
    "angry": "img/chars/elias-angry.webp",
+   "cook": "img/chars/elias-cook.webp",
+   "fish": "img/chars/elias-fish.webp",
+   "mend": "img/chars/elias-mend.webp",
    "neutral": "img/chars/elias-neutral.webp",
+   "rest": "img/chars/elias-rest.webp",
    "sad": "img/chars/elias-sad.webp",
    "shock": "img/chars/elias-shock.webp",
    "smile": "img/chars/elias-smile.webp"
@@ -124,6 +128,10 @@ window.IMG_MANIFEST = {
   },
   "leo": {
    "angry": "img/chars/leo-angry.webp",
+   "deliver": "img/chars/leo-deliver.webp",
+   "draw": "img/chars/leo-draw.webp",
+   "eat": "img/chars/leo-eat.webp",
+   "game": "img/chars/leo-game.webp",
    "neutral": "img/chars/leo-neutral.webp",
    "sad": "img/chars/leo-sad.webp",
    "shock": "img/chars/leo-shock.webp",
