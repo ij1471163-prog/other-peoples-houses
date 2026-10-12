@@ -42,6 +42,8 @@ After Leo, Sami gives you the attic above his grocery, and three doors open. Kno
 - **People with lives**: hosts cook, eat, shower, sleep, and take the bathroom on schedules; small house moments happen at random.
 - **New townspeople**: Stella (florist), Kai (surfer), Officer Rex, Ingrid (singer), Olivia (activist), Maya (fisherwoman), Gregor (gravedigger), Bella, Kell, Ana, Nora. Side quests: the lost cat, a present for Lily, Ingrid's Thursday song, the petition, the stolen boat, Operation Seagull.
 - **30+ random town moments** that don't repeat until the pool runs out.
+- **Small stories for the town** (`js/arcs/`): Kai's Sunday phone call, Sami's credit book, Irene's afternoon off, Ada's fish pie (Martha), Gregor's blue door. Each in its own file; none changes an ending.
+- **Play as a young man or a young woman**: every line that speaks to you has both forms.
 - 30 endings in total.
 
 - ٣ خانات حفظ + حفظ تلقائي. احتياجات (أكل، نظافة، طاقة) تأثر على مزاجك. شغلات وألعاب صغيرة (المقهى، الصيد، المقبرة). شخصيات تطبخ وتاكل وتتروش وتشغل الحمام بجدول. شخصيات جديدة ومهام جانبية، وأكثر من ٣٠ موقف عشوائي ما يتكرر. المجموع ٣٠ نهاية.
@@ -122,6 +124,7 @@ If your repository is not `ij1471163-prog/other-peoples-houses`, change `GAME.RE
 | `js/art3.js` | Room builder + backgrounds for chapters 3–5 and the new town places |
 | `js/town.js` | New townspeople, side quests, beach/cemetery/florist/police, random moments |
 | `js/margaret.js`, `js/evelyn.js`, `js/victor.js` | Chapters 3–5 |
+| `js/arcs/<name>.js` | **One file per small town story** (Kai, Sami, Irene, Martha, Gregor), see `docs/STORY.md` §10 |
 | `js/systems.js` | Needs, jobs, mini-games, Sami's attic, chapter flow, the finale |
 | `assets/` | App icon and splash screen for Android |
 | `capacitor.config.json` | Android app name and id (`com.naif.otherpeopleshouses`) |
