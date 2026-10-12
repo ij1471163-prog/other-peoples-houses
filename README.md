@@ -117,6 +117,7 @@ If your repository is not `ij1471163-prog/other-peoples-houses`, change `GAME.RE
 | `js/engine.js` | The engine: locations, hotspots, dialogue scripts, time, stats, quests, phone, map, saving, back button |
 | `js/power.js` | Battery saving: pauses decorative animation when you stop touching the screen and when the app is hidden |
 | `js/audio.js` | Sound, all made in the browser: ambience per place, a theme per host, voice murmurs, effects, volume settings |
+| `js/house-sounds.js` | Each house's own small sounds: Elias's kettle, tap and stove, Leo's ropes, the Grand's lift and piano, a foghorn at the lighthouse, Sami's shop bell and pipes |
 | `js/chars/<name>.js` | **One file per character**: who they are, where they are at each time of day, greeting, every conversation topic, drawn look, height |
 | `js/art.js` | All backgrounds and character portraits, drawn as SVG |
 | `js/world.js` | The town: locations, items, tasks, UI text (the people are in `js/chars/`) |

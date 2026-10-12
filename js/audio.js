@@ -104,6 +104,9 @@ const AUDIO = (() => {
     setTimeout(() => { try { x.g.disconnect(); } catch (e) {} }, (sec + 0.5) * 1000);
   }
   /* small sounds that happen now and then in a place */
+  const HOUSE = {};   // house or place id -> (kit, place, time) => plays one small sound; filled by js/house-sounds.js
+  const KIT = { tone: (f, t, d, p, ty, a) => tone(f, t, d, p, ty, bus.amb, a), burst: (t, d, p, ty, f, soft) => burst(t, d, p, ty, f, bus.amb, soft ? brown : white),
+    gull: t => gull(t), creak: t => creak(t), get now() { return ctx.currentTime; } };
   function ambEvent() {
     evTimer = 0; if (!live() || !amb) return;
     const pr = amb.pr, t = ctx.currentTime + 0.05, r = Math.random();
@@ -114,6 +117,7 @@ const AUDIO = (() => {
     else if ((pr.house === 'margaret' && pr.loc !== 'dan_room') || (pr.loc === 'lh_living' && pr.night)) clock(t, 6);
     else if ((pr.p === 'attic' || pr.p === 'lighthouse') && r < 0.45) creak(t);
     else if (pr.p === 'boathouse' && r < 0.5) burst(t, 0.6, 0.05, 'lowpass', 500, bus.amb, brown);
+    else { const hs = HOUSE[pr.house] || HOUSE[pr.loc]; if (hs && r < 0.6) { try { hs(KIT, pr, t); } catch (e) {} } }   /* each house's own small sounds: js/house-sounds.js */
     evTimer = setTimeout(ambEvent, 3500 + Math.random() * 7000);
   }
   function gull(t) { const o = ctx.createOscillator(); o.type = 'triangle'; const g = ctx.createGain(); const f = 1400 + Math.random() * 500; const b = filt('bandpass', 1800, 2);
@@ -291,6 +295,7 @@ const AUDIO = (() => {
   return {
     get on() { return set.on; }, settings: set, setOn, setVol,
     scene, line, sfx, unlock,
+    houseSounds: HOUSE,
     /* for tests */
     _state: () => ({ ctx: ctx && ctx.state, unlocked, amb: ambKey, music: musKey, evTimer: !!evTimer, musTimer: !!musTimer })
   };
