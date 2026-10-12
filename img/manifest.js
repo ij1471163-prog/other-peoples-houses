@@ -108,6 +108,13 @@ window.IMG_MANIFEST = {
    "shock": "img/chars/kai-shock.webp",
    "smile": "img/chars/kai-smile.webp"
   },
+  "keeper": {
+   "angry": "img/chars/keeper-angry.webp",
+   "neutral": "img/chars/keeper-neutral.webp",
+   "sad": "img/chars/keeper-sad.webp",
+   "shock": "img/chars/keeper-shock.webp",
+   "smile": "img/chars/keeper-smile.webp"
+  },
   "kell": {
    "angry": "img/chars/kell-angry.webp",
    "neutral": "img/chars/kell-neutral.webp",
