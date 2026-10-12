@@ -54,3 +54,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.evelyn.height = 1.04;
 })();
+
+/* Evelyn's day: what Evelyn is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.evelyn) GAME.CHAR.evelyn.life = { lh_kitchen: 'cook', lh_room: 'sleep', lh_bath: 'bath', lh_ext: 'gulls', lh_tower: 'watch', harbor: 'walk' };

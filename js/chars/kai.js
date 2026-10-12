@@ -29,3 +29,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.kai.height = 1.01;
 })();
+
+/* Kai's day: what Kai is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.kai) GAME.CHAR.kai.life = { beach: 'surf', harbor: 'scheme', cafe: 'eat' };

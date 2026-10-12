@@ -481,3 +481,5 @@ body.lbl-tap .spot.show span{display:inline-block}
   .sheet .sliders{display:grid;grid-template-columns:1fr 1fr;column-gap:22px;row-gap:2px}
   .sheet .slider{grid-template-columns:minmax(90px,42%) 1fr;font-size:13px}
 }
+/* daily life (js/life.js): "Now: 🍳 Cooking · Kitchen" in the People tab */
+.sheet .row .now{font-size:12.5px;color:var(--sea);margin-top:2px}

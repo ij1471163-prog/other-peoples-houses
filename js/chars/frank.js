@@ -35,3 +35,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.frank.height = 1;
 })();
+
+/* Frank's day: what Frank is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.frank) GAME.CHAR.frank.life = { garage: 'work' };

@@ -65,3 +65,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.marco.height = 0.97;
 })();
+
+/* Marco's day: what Marco is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.marco) GAME.CHAR.marco.life = { cafe: 'serve', away: s => (s.slot === NIGHT ? 'sleep' : null) };

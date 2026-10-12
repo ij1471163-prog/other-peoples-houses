@@ -36,3 +36,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.maya.height = 0.99;
 })();
+
+/* Maya's day: what Maya is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.maya) GAME.CHAR.maya.life = { harbor: 'mend', cafe: 'eat' };

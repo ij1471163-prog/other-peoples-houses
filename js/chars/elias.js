@@ -73,3 +73,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.elias.height = 0.97;
 })();
+
+/* Elias's day: what Elias is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.elias) GAME.CHAR.elias.life = { harbor: 'fish', bath: 'shower', kitchen: 'cook', shed: 'mend', cafe: 'chess', living: s => (s.slot === NIGHT && s.f.restDay !== s.day ? 'radio' : 'rest') };

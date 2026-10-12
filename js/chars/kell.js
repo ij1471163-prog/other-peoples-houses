@@ -30,3 +30,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.kell.height = 1.08;
 })();
+
+/* Kell's day: what Kell is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.kell) GAME.CHAR.kell.life = { hotel_staff: 'read', hotel_lobby: 'guard', street: 'guard', hotel_office: 'guard' };

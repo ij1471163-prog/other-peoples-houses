@@ -61,3 +61,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.margaret.height = 0.9;
 })();
+
+/* Margaret's day: what Margaret is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.margaret) GAME.CHAR.margaret.life = { marg_bath: 'shower', marg_kitchen: s => (s.slot === 3 ? 'table' : 'cook'), marg_living: 'tea', marg_bed: s => (s.slot === NIGHT ? 'sleep' : 'sick'), dan_room: 'sit', cemetery: 'grave', cafe: 'tea' };

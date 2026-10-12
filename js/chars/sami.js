@@ -55,3 +55,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.sami.height = 0.9;
 })();
+
+/* Sami's day: what Sami is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.sami) GAME.CHAR.sami.life = { grocery: 'shop', away: s => (s.slot === NIGHT ? 'sleep' : null) };

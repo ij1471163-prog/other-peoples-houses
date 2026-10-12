@@ -30,3 +30,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.nora.height = 1.02;
 })();
+
+/* Nora's day: what Nora is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.nora) GAME.CHAR.nora.life = { marg_kitchen: 'tea', cliff_road: 'phone' };

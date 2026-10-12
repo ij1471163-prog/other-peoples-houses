@@ -30,3 +30,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.ana.height = 0.87;
 })();
+
+/* Ana's day: what Ana is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.ana) GAME.CHAR.ana.life = { hotel_suite: 'clean', hotel_staff: 'laundry' };

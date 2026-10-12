@@ -55,3 +55,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.martha.height = 0.86;
 })();
+
+/* Martha's day: what Martha is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.martha) GAME.CHAR.martha.life = { living: 'clean', kitchen: 'clean' };

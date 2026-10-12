@@ -120,6 +120,9 @@ function present(locId) {
 function houseOf(locId) { return GAME.LOC[locId] && GAME.LOC[locId].house; }
 function atHouse(charId, house) { const w = GAME.CHAR[charId].where && GAME.CHAR[charId].where(S()); return !!w && houseOf(w) === house; }
 
+/* daily life (js/life.js): an icon for what someone is doing right now; empty if unknown */
+const lifeIcon = id => (typeof LIFE !== 'undefined' ? LIFE.icon(id) : '');
+
 /* ---------- script runner ---------- */
 let RUN = null;           // {stack:[{steps,i}], done}
 let VIEW = { sheet: null, tab: 'quests', speaker: null, expr: null, stageChars: null };
@@ -201,7 +204,7 @@ function renderStage(charsOverride) {
   const n = list.length;
   const cast = list.map((c, i) => ({ id: c.id, x: n === 1 ? (L.charX || 62) : 30 + (i * 40) / Math.max(1, n - 1),
     expr: (VIEW.speaker === c.id && VIEW.expr) ? VIEW.expr : (c.e || 'neutral'), dim: !!(VIEW.speaker && VIEW.speaker !== c.id) }));
-  const key = JSON.stringify([cast.map(c => [c.id, c.x, c.expr]), !!RUN, GAME.lang, PEOPLE.IMG.v || 0]);
+  const key = JSON.stringify([cast.map(c => [c.id, c.x, c.expr, lifeIcon(c.id)]), !!RUN, GAME.lang, PEOPLE.IMG.v || 0]);
   if (layer._k === key) {
     /* same people, same faces: just move the spotlight to whoever is talking (no re-entry animation, no image reload) */
     [...layer.children].forEach((d, i) => d.classList.toggle('dim', cast[i].dim));
@@ -212,7 +215,7 @@ function renderStage(charsOverride) {
       d.style.left = c.x + '%';
       d.innerHTML = ART.portrait(c.id, c.expr);
       const hh = GAME.CHAR[c.id].height; if (hh && PEOPLE.IMG.chars[c.id]) d.style.setProperty('--h', hh);
-      if (!RUN && !GAME.CHAR[c.id].ghost) { d.addEventListener('click', ev => { if (tapOk(ev)) talkTo(c.id); }); d.appendChild(el('span', 'tag', tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
+      if (!RUN && !GAME.CHAR[c.id].ghost) { d.addEventListener('click', ev => { if (tapOk(ev)) talkTo(c.id); }); d.appendChild(el('span', 'tag', (lifeIcon(c.id) ? lifeIcon(c.id) + ' ' : '') + tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
       layer.appendChild(d);
     });
   }
@@ -344,6 +347,7 @@ function renderLocation() {
   const cap = el('div', 'caption'); cap.setAttribute('role', 'button'); cap.tabIndex = 0;
   cap.appendChild(el('div', 'place', tx(L.name) + (L.private ? ' · ' + UI('private') : '')));
   const acts = present(s.loc).map(id => GAME.CHAR[id].doing && GAME.CHAR[id].doing(s)).filter(Boolean);
+  if (typeof LIFE !== 'undefined') { const h = LIFE.hear(s); if (h) acts.push(T(h, h)); }
   if (L.note) { const nt = L.note(s); if (nt) acts.push(nt); }
   const txt = (L.desc ? [L.desc] : []).concat(acts).map(a => tx(a)).join(' ');
   if (txt) cap.appendChild(el('p', 'line narr', txt));
@@ -463,7 +467,8 @@ function renderSheet() {
         continue;
       }
       const L = GAME.LOC[p.to], name = tx(L.mapName || L.name);
-      const who = present(p.to).concat(...(L.rooms || []).map(r => present(r))).map(w => tx(GAME.CHAR[w].short || GAME.CHAR[w].name));
+      const ids = present(p.to).concat(...(L.rooms || []).map(r => present(r))), who = ids.map(w => tx(GAME.CHAR[w].short || GAME.CHAR[w].name));
+      const whoI = ids.map((w, i) => (lifeIcon(w) ? lifeIcon(w) + ' ' : '') + who[i]);
       const lock = p.lock && p.lock(s), me = isHere(p.to);
       const b = el('button', 'pin' + (me ? ' here' : '') + (lock ? ' locked' : '')); b.type = 'button'; place(pos, b, p.to);
       b.textContent = name; if (who.length) b.appendChild(el('i', 'dot', String(who.length)));
@@ -471,7 +476,7 @@ function renderSheet() {
       b.onclick = lock ? closed(p) : go(p); wrap.appendChild(b);
       const r = el('button', 'mrow' + (me ? ' here' : '') + (lock ? ' locked' : '')); r.type = 'button';
       r.appendChild(el('span', 'mname', (me ? '● ' : '') + name));
-      r.appendChild(el('span', 'mwho', lock ? UI('closed') : who.join('، ')));
+      r.appendChild(el('span', 'mwho', lock ? UI('closed') : whoI.join('، ')));
       r.onclick = lock ? closed(p) : go(p); list.appendChild(r);
     }
     body.appendChild(wrap); body.appendChild(list); sh.appendChild(body);
@@ -493,6 +498,7 @@ function renderSheet() {
         const c = GAME.CHAR[id]; const r = el('div', 'row');
         const left = el('div', ''); left.appendChild(el('strong', '', tx(c.name)));
         if (c.role) left.appendChild(el('div', '', tx(c.role)));
+        if (typeof LIFE !== 'undefined') { const now = LIFE.nowLine(id); if (now) left.appendChild(el('div', 'now', now)); }
         if (c.host) {
           const tr = s.trust[id] || 0; const b = el('div', 'bar'); const i = el('i'); i.style.width = clamp(tr * 10, 0, 100) + '%'; b.appendChild(i); left.appendChild(b);
           const su = s.susp[id] || 0; if (su > 0) { const b2 = el('div', 'bar sus'); const i2 = el('i'); i2.style.width = su * 33 + '%'; b2.appendChild(i2); left.appendChild(b2); }

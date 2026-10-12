@@ -30,3 +30,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.bella.height = 0.9;
 })();
+
+/* Bella's day: what Bella is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.bella) GAME.CHAR.bella.life = { hotel_lobby: 'desk' };

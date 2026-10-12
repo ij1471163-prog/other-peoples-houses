@@ -48,3 +48,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.irene.height = 1.04;
 })();
+
+/* Irene's day: what Irene is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.irene) GAME.CHAR.irene.life = { clinic: 'doctor' };

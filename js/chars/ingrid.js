@@ -28,3 +28,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.ingrid.height = 0.84;
 })();
+
+/* Ingrid's day: what Ingrid is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.ingrid) GAME.CHAR.ingrid.life = { cemetery: 'grave', cafe: 'tea', beach: 'walk' };

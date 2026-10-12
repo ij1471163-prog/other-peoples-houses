@@ -36,3 +36,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.rex.height = 1.05;
 })();
+
+/* Rex's day: what Rex is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.rex) GAME.CHAR.rex.life = { police: 'office', street: 'patrol' };

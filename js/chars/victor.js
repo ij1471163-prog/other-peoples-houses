@@ -45,3 +45,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.victor.height = 0.98;
 })();
+
+/* Victor's day: what Victor is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.victor) GAME.CHAR.victor.life = { hotel_lobby: 'host', hotel_office: 'office', street: 'walk' };

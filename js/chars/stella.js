@@ -28,3 +28,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.stella.height = 0.93;
 })();
+
+/* Stella's day: what Stella is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.stella) GAME.CHAR.stella.life = { florist: 'flowers', beach: 'walk' };

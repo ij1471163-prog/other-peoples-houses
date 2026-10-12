@@ -35,3 +35,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.olivia.height = 0.88;
 })();
+
+/* Olivia's day: what Olivia is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.olivia) GAME.CHAR.olivia.life = { street: 'petition', cafe: 'petition' };

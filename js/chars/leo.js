@@ -50,3 +50,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.leo.height = 1.02;
 })();
+
+/* Leo's day: what Leo is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.leo) GAME.CHAR.leo.life = { loft: 'sleep', bh_bath: 'shower', boathouse: s => (s.slot === NIGHT ? 'game' : 'eat'), street: 'deliver', dock: 'draw' };

@@ -29,3 +29,6 @@
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.gregor.height = 1.06;
 })();
+
+/* Gregor's day: what Gregor is doing in each place (shown by js/life.js) */
+if (GAME.CHAR.gregor) GAME.CHAR.gregor.life = { cemetery: 'dig' };

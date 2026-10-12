@@ -133,6 +133,14 @@ Copy any file in `js/chars/` (for example `js/chars/stella.js`), rename it to th
 
 كل شخصية لها ملف في `js/chars/`. عشان تضيف شخصية: انسخ أي ملف منها، غيّر الاسم والجدول والمواضيع والشكل، وأضف سطر `<script>` واحد في `index.html`.
 
+**Daily life / الحياة اليومية.** At the end of each character file, a small `life` table says what they are doing in each place (`where` decides the place, `life` decides the activity). The list of activities and the engine are in `js/life.js`; nothing else needs changing:
+
+```js
+GAME.CHAR.sami.life = { grocery: 'shop', away: s => (s.slot === NIGHT ? 'sleep' : null) };
+```
+
+في آخر ملف كل شخصية فيه جدول صغير `life`: وش تسوي في كل مكان (طبخ، صيد، تروّش، نوم…). المحرك وقائمة الأنشطة في `js/life.js`. يظهر النشاط كأيقونة على اسم الشخصية، وفي تبويب «الناس» بالجوال، وفي قائمة الخريطة. وتسمع أهل البيت من الغرف الثانية (الدش، المطبخ، الراديو). والحمام أحياناً مشغول دقيقة. الدش والحمام **يُسمع بس، ما ينشاف**.
+
 ## Adding a chapter / إضافة فصل
 A new house is a new file like `js/elias.js`: its scripts, events and endings, plus its rooms and art. Its people go in `js/chars/`. Load the chapter in `index.html` before `js/systems.js`.
 
