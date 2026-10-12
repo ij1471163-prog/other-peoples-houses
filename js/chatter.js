@@ -20,7 +20,7 @@
     const pool = s => c.chat.filter(l => !l.if || l.if(s));
     GAME.TOPICS[id] = GAME.TOPICS[id] || [];
     GAME.TOPICS[id].push({
-      id: 'chat', label: (PEOPLE.SPEC[id] && PEOPLE.SPEC[id].sex === 'f') ? T('Chat for a bit', 'تسولف معها شوي') : T('Chat for a bit', 'تسولف معه شوي'),
+      id: 'chat', label: (PEOPLE.SPEC[id] && PEOPLE.SPEC[id].sex === 'f') ? T('Chat for a bit', '{تسولف|تسولفين} معها شوي') : T('Chat for a bit', '{تسولف|تسولفين} معه شوي'),
       if: s => !doneToday('chat_' + id) && pool(s).length > 0,
       run: s => {
         onceToday('chat_' + id);

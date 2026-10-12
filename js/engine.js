@@ -558,7 +558,8 @@ function renderSheet() {
   st.appendChild(sh);
 }
 function feelWord() { const m = S().mood; return GAME.UI['feel' + Math.min(4, Math.floor(m / 2.5))]; }
-function moodOf(id) { const s = S(); const su = s.susp[id] || 0, tr = s.trust[id] || 0; if (su >= 2) return T('Suspicious of you', 'يشك فيك'); if (su === 1) return T('Wary', 'حذر'); if (tr >= 6) return T('Close', 'قريب منك'); if (tr >= 3) return T('Warming up', 'يرتاح لك'); return T('A stranger', 'غريب'); }
+function moodOf(id) { const s = S(); const su = s.susp[id] || 0, tr = s.trust[id] || 0; const w = (PEOPLE.SPEC[id] && PEOPLE.SPEC[id].sex === 'f') ? 1 : 0;   /* the word follows the character's own gender */
+  if (su >= 2) return T('Suspicious of you', ['يشك فيك', 'تشك فيك'][w]); if (su === 1) return T('Wary', ['حذر', 'حذرة'][w]); if (tr >= 6) return T('Close', ['قريب منك', 'قريبة منك'][w]); if (tr >= 3) return T('Warming up', ['يرتاح لك', 'ترتاح لك'][w]); return T('A stranger', ['غريب', 'غريبة'][w]); }
 
 /* sound lives in js/audio.js (AUDIO) */
 
@@ -644,7 +645,7 @@ function titleScreen(fresh) {
   const panel = $('panel'); panel.innerHTML = ''; panel.onclick = null;
   const wrap = el('div', 'title-screen');
   wrap.appendChild(el('h1', 'logo', tx(T("Other People's Houses", 'بيوت الآخرين'))));
-  wrap.appendChild(el('p', 'logo-sub', tx(T('You came to Saltmere on the last train, with nothing. The people here will open their doors to you. What you do inside is up to you.', 'وصلت سولتمير بآخر قطار، وما معك شي. ناس هالبلدة بيفتحون لك أبوابهم. ووش تسوي داخل بيوتهم، هذا قرارك.'))));
+  wrap.appendChild(el('p', 'logo-sub', tx(T('You came to Saltmere on the last train, with nothing. The people here will open their doors to you. What you do inside is up to you.', '{وصلت|وصلتي} سولتمير بآخر قطار، وما معك شي. ناس هالبلدة بيفتحون لك أبوابهم. ووش {تسوي|تسوين} داخل بيوتهم، هذا قرارك.'))));
   const box = el('div', 'opts');
   const sv = fresh ? null : loadSave();
   if (sv) { const c = el('button', 'opt main', UI('continue')); c.type = 'button'; c.onclick = () => { GAME.S = sv; resumeState(); }; box.appendChild(c); }
@@ -668,12 +669,13 @@ function setupScreen() {
   const panel = $('panel'); panel.innerHTML = '';
   panel.appendChild(el('h2', '', tx(T('Who are you?', 'مين أنت؟'))));
   const box = el('div', 'opts grid');
-  const pick = g => { GAME.S.gender = g; [...box.children].forEach(b => b.classList.toggle('main', b.dataset.g === g)); };
+  let go = null;   /* the start button speaks to the player, so it follows the choice */
+  const pick = g => { GAME.S.gender = g; [...box.children].forEach(b => b.classList.toggle('main', b.dataset.g === g)); if (go) go.textContent = tx(T('Begin · You are 20 years old', '{ابدأ|ابدئي} · عمرك ٢٠ سنة')); };
   [['m', T('A young man', 'شاب')], ['f', T('A young woman', 'شابة')]].forEach(([g, l]) => { const b = el('button', 'opt', tx(l)); b.type = 'button'; b.dataset.g = g; b.onclick = () => pick(g); box.appendChild(b); });
   panel.appendChild(box); pick('m');
   const lab = el('label', 'sec', tx(T('Your name', 'اسمك'))); lab.htmlFor = 'pname'; panel.appendChild(lab);
   const inp = el('input', 'name'); inp.id = 'pname'; inp.maxLength = 16; inp.placeholder = tx(T('Alex', 'أليكس')); panel.appendChild(inp);
-  const go = el('button', 'opt main', tx(T('Begin · You are 20 years old', 'ابدأ · عمرك ٢٠ سنة'))); go.type = 'button';
+  go = el('button', 'opt main', tx(T('Begin · You are 20 years old', '{ابدأ|ابدئي} · عمرك ٢٠ سنة'))); go.type = 'button';
   go.onclick = () => { GAME.S.name = (inp.value || '').trim().slice(0, 16) || tx(T('Alex', 'أليكس')); GAME.S.f.prologue = true; play(GAME.SCRIPTS.intro); };
   panel.appendChild(go);
 }

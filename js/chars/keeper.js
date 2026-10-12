@@ -41,7 +41,7 @@
       K('neutral'), { sfx: 'ghost' },
       N2('The kettle starts to sing. He turns his head towards the sound. Not towards you. Never towards you.', 'الغلاية تبدأ تصفّر. يلف راسه ناحية الصوت. مو ناحيتك. أبداً مو ناحيتك.'),
       GONE,
-      N2('You blink, and the kitchen is empty. The stove is cold. The pot is dry. The kettle is still warm.', 'ترمش، والمطبخ فاضي. الطباخ بارد. القدر ناشف. والغلاية لسا دافية.'),
+      N2('You blink, and the kitchen is empty. The stove is cold. The pot is dry. The kettle is still warm.', '{ترمش|ترمشين}، والمطبخ فاضي. الطباخ بارد. القدر ناشف. والغلاية لسا دافية.'),
       st => { spook(st, 1); return seen(st); }] },
     { id: 'living', loc: 'lh_living', kind: 'quiet', evening: true, run: s => [
       N2('In the armchair by the window, someone is sitting very still, watching the sea.', 'على الكرسي اللي جنب الشباك، فيه أحد جالس بدون حركة، يطالع البحر.'),
@@ -53,24 +53,24 @@
     { id: 'tower', loc: 'lh_tower', kind: 'strong', run: s => [
       N2('Someone is up here, polishing the great lens with a rag. Round and round. Round and round.', 'فيه أحد هنا فوق، يلمّع العدسة الكبيرة بخرقة. يدوّر ويدوّر. يدوّر ويدوّر.'),
       K('neutral'),
-      N2('You take one step closer.', 'تقرب خطوة وحدة.'),
+      N2('You take one step closer.', '{تقرب|تقربين} خطوة وحدة.'),
       { scare: 'keeper', n: T('He turns, and SCREAMS, a sound like a gale tearing through a keyhole.', 'يلتفت، ويصرخ. صوت مثل عاصفة تنشق من ثقب مفتاح.') },
       GONE,
       N2('The rag drops to the floor. Nobody is holding it.', 'الخرقة تطيح على الأرض. وما أحد ماسكها.'),
       st => { spook(st, 2); return seen(st); }] },
     { id: 'mirror', loc: 'lh_bath', kind: 'strong', run: s => [
-      N2('You splash your face. When you look up, the mirror shows the room behind you, and an old man standing right at your shoulder.', 'ترش وجهك بماي. ولما ترفع راسك، المراية توريك الغرفة اللي وراك، ورجل كبير واقف على كتفك بالضبط.'),
+      N2('You splash your face. When you look up, the mirror shows the room behind you, and an old man standing right at your shoulder.', '{ترش|ترشين} وجهك بماي. ولما {ترفع|ترفعين} راسك، المراية توريك الغرفة اللي وراك، ورجل كبير واقف على كتفك بالضبط.'),
       { scare: 'keeper', n: T('His mouth opens far too wide.', 'فمه ينفتح أوسع مما يصير.') },
       GONE,
-      N2('You spin round. Nobody. The mirror shows only you, and the fog of your own breath.', 'تلف بسرعة. ولا أحد. المراية توريك نفسك بس، وضباب نفَسك.'),
+      N2('You spin round. Nobody. The mirror shows only you, and the fog of your own breath.', '{تلف|تلفين} بسرعة. ولا أحد. المراية توريك نفسك بس، وضباب نفَسك.'),
       st => { spook(st, 1); return seen(st); }] },
     { id: 'bed', loc: 'lh_living', kind: 'medium', night: true, run: s => [
-      N2('You lie down on the camp bed for a minute. Footsteps on the tower stairs. Slow, heavy, careful, like someone carrying something hot. They come down, cross the room, and stop beside your camp bed.', 'تتمدد على سرير المخيّم دقيقة. وتسمع خطوات على درج البرج. بطيئة، وثقيلة، وحذرة، كأن أحد شايل شي حار. تنزل، وتمشي في الغرفة، وتوقف جنب سريرك.'),
+      N2('You lie down on the camp bed for a minute. Footsteps on the tower stairs. Slow, heavy, careful, like someone carrying something hot. They come down, cross the room, and stop beside your camp bed.', '{تتمدد|تتمددين} على سرير المخيّم دقيقة. {وتسمع|وتسمعين} خطوات على درج البرج. بطيئة، وثقيلة، وحذرة، كأن أحد شايل شي حار. تنزل، وتمشي في الغرفة، وتوقف جنب سريرك.'),
       { sfx: 'knock' },
       K('sad'),
-      N2('Someone is standing over you. You keep your eyes almost shut. He bends down and puts something on the floor, very gently.', 'فيه أحد واقف فوقك. تخلي عيونك شبه مسكرة. ينحني ويحط شي على الأرض، بهدوء مرة.'),
+      N2('Someone is standing over you. You keep your eyes almost shut. He bends down and puts something on the floor, very gently.', 'فيه أحد واقف فوقك. {تخلي|تخلين} عيونك شبه مسكرة. ينحني ويحط شي على الأرض، بهدوء مرة.'),
       GONE,
-      N2('When you dare to look, there is a cup of tea beside the bed, still steaming, and nobody in the room.', 'لما تتجرأ وتطالع، تلقى كوب شاي جنب السرير، لسا يطلع منه بخار، وما أحد في الغرفة.'),
+      N2('When you dare to look, there is a cup of tea beside the bed, still steaming, and nobody in the room.', 'لما {تتجرأ وتطالع، تلقى|تتجرئين وتطالعين، تلقين} كوب شاي جنب السرير، لسا يطلع منه بخار، وما أحد في الغرفة.'),
       st => { spook(st, 1); return seen(st); }] },
     { id: 'window', loc: 'lh_ext', kind: 'quiet', run: s => [
       N2('High up in the lamp room, a lantern moves slowly past the windows, left to right, the way a keeper walks his round.', 'فوق في غرفة الفانوس، فيه ضو يمشي بشويش ورا الشبابيك، من اليسار لليمين، مثل حارس يسوي جولته.'),
@@ -112,6 +112,6 @@
   GAME.TOPICS.evelyn.push({ id: 'keeper', once: true, label: T('"Who is the old man in the navy coat?"', '«مين الرجل الكبير اللي لابس معطف كحلي؟»'), if: s => !!s.f.sawKeeper, run: s => { addTrust('evelyn', 1); fear(s, -1); return [
     E('neutral', 'Tall? Coat with brass buttons? Smells like lamp oil and bad tobacco?', 'طويل؟ معطفه أزاريره نحاس؟ ريحته زيت فانوس وتبغ رديء؟'),
     E('sad', 'That\'s Grandad. Arthur. He\'s been dead fifteen years and he still makes tea at three. I leave him a cup. He never drinks it. It\'s the thought.', 'هذا جدي. آرثر. له خمسطعش سنة ميت، ولسا يسوي شاي الساعة ثلاث. أحط له كوب. عمره ما شربه. بس المهم النية.'),
-    E('smile', 'If he screams at you, it isn\'t personal. He screamed at everyone. Even the gulls.', 'لو صرخ عليك، لا تاخذها على نفسك. كان يصرخ على الكل. حتى النوارس.'),
-    { n: T('She isn\'t joking. You check her face twice.', 'ما تمزح. تتأكد من وجهها مرتين.') }]; } });
+    E('smile', 'If he screams at you, it isn\'t personal. He screamed at everyone. Even the gulls.', 'لو صرخ عليك، لا {تاخذها|تاخذينها} على نفسك. كان يصرخ على الكل. حتى النوارس.'),
+    { n: T('She isn\'t joking. You check her face twice.', 'ما تمزح. {تتأكد|تتأكدين} من وجهها مرتين.') }]; } });
 })();

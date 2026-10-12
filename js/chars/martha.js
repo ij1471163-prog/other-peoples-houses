@@ -13,11 +13,11 @@
     name: T('Martha', 'مارثا'), role: T('Cleans for Elias on Tuesdays and Fridays. Knows everything.', 'تنظف لإلياس الثلاثاء والجمعة. تعرف كل شي.'), art: true,
     where: s => (s.f.metElias && !s.f.ended && !s.f.prologue && isMarthaDay(s) ? [null, 'living', 'kitchen', null, null][s.slot] : null),
     doing: s => (s.slot === 1 ? T('Martha is dusting things that aren\'t dusty and talking to them.', 'مارثا تنفض أشياء ما فيها غبار، وتكلمها.') : T('Martha is scrubbing the kitchen and humming loudly.', 'مارثا تفرك المطبخ وتدندن بصوت عالي.')),
-    greet: s => (s.day >= 2 && s.day - (s.f.lastShower ?? -1) >= 2) ? { e: 'shock', t: T('Oh, love. When did you last see soap?', 'يا عمري. متى آخر مرة شفت صابونة؟') } : { e: 'smile', t: T('There you are! Elias said he had a lodger. He didn\'t say a nice one.', 'هذا أنت! إلياس قال عنده ساكن. ما قال إنه لطيف.') }
+    greet: s => (s.day >= 2 && s.day - (s.f.lastShower ?? -1) >= 2) ? { e: 'shock', t: T('Oh, love. When did you last see soap?', 'يا عمري. متى آخر مرة {شفت|شفتي} صابونة؟') } : { e: 'smile', t: T('There you are! Elias said he had a lodger. He didn\'t say a nice one.', '{هذا أنت|هذي أنتِ}! إلياس قال عنده {ساكن|ساكنة}. ما قال {إنه لطيف|إنها لطيفة}.') }
   };
   /* things to talk about (Chapter 1, Elias) */
   GAME.TOPICS.martha = [
-    { id: 'clean', label: T('Help her clean', 'تساعدها بالتنظيف'), if: s => !doneToday('clean'), cls: 'main', run: s => {
+    { id: 'clean', label: T('Help her clean', '{تساعدها|تساعدينها} بالتنظيف'), if: s => !doneToday('clean'), cls: 'main', run: s => {
         onceToday('clean'); addMood(1); s.money += 5; s.f.marthaHelp = (s.f.marthaHelp || 0) + 1; advance(1);
         const n = s.f.marthaHelp;
         const gossip = [
@@ -25,9 +25,9 @@
           [{ c: 'martha', e: 'sad', t: T('He stopped eating properly in the spring. And there\'s a letter from a city hospital in his dresser. I dust. I don\'t read. Mostly.', 'وقف ياكل زين من الربيع. وفيه خطاب من مستشفى بالمدينة في تسريحته. أنا أنفض الغبار. ما أقرا. يعني، غالباً.') }, s2 => { s2.f.marthaHint = true; quest('q_secret', 'active'); return null; }],
           [{ c: 'martha', e: 'sad', t: T('Thomas used to climb out of that window to go to parties. Elias always knew. Always left the window unlocked.', 'توماس كان يطلع من هالشباك عشان الحفلات. وإلياس دايم يدري. ودايم يخلي الشباك مفتوح.') }, { c: 'martha', e: 'neutral', t: T('Stubborn, the pair of them. Somebody has to go first. It\'s never the stubborn one.', 'عنيدين الاثنين. لازم واحد يبدأ. وعمره ما يكون العنيد.') }]
         ];
-        return [N_('You scrub, she talks. She does most of the talking and, honestly, most of the scrubbing.', 'أنت تفرك، وهي تسولف. هي تسوي أغلب السوالف، وبصراحة، أغلب الفرك.'), N_('She presses five dollars into your hand: "Don\'t argue."', 'تحط في يدك خمس دولارات: «لا تجادل.»')].concat(n <= 3 ? gossip[n - 1] : [{ c: 'martha', e: 'smile', t: T('You\'re getting good at this. Don\'t tell anyone, they\'ll make you do it.', 'صرت شاطر. لا تقول لأحد، بيخلونك تسويه.') }]);
+        return [N_('You scrub, she talks. She does most of the talking and, honestly, most of the scrubbing.', '{أنت تفرك|أنتِ تفركين}، وهي تسولف. هي تسوي أغلب السوالف، وبصراحة، أغلب الفرك.'), N_('She presses five dollars into your hand: "Don\'t argue."', 'تحط في يدك خمس دولارات: «{لا تجادل|لا تجادلين}.»')].concat(n <= 3 ? gossip[n - 1] : [{ c: 'martha', e: 'smile', t: T('You\'re getting good at this. Don\'t tell anyone, they\'ll make you do it.', '{صرت شاطر|صرتي شاطرة}. {لا تقول|لا تقولين} لأحد، بيخلونك {تسويه|تسوينه}.') }]);
       } },
-    { id: 'ada', once: true, label: T('Ask about Ada', 'تسألها عن آدا'), run: [
+    { id: 'ada', once: true, label: T('Ask about Ada', '{تسألها|تسألينها} عن آدا'), run: [
         { c: 'martha', e: 'sad', t: T('Loud. Funny. Terrible cook. She\'s why Elias laughs the way he does, when he does.', 'صوتها عالي. ومضحكة. وطبخها سيء. هي السبب إن إلياس يضحك بهالطريقة، لما يضحك.') },
         { c: 'martha', e: 'neutral', t: T('He repaints her name on that boat every spring. Silly old man.', 'يصبغ اسمها على القارب كل ربيع. عجوز سخيف.') }] }
   ];
@@ -46,8 +46,8 @@
   { const { CH } = GAME.H.systems;
     /* things to talk about (daily life and jobs) */
     GAME.TOPICS.martha.push(
-      { id: 'help2', label: T('Help her clean', 'تساعدها بالتنظيف'), if: s => s.host === 'margaret' && !doneToday('marthaM'), cls: 'main', run: s => { onceToday('marthaM'); advance(1); s.money += 5; addMood(1); addTrust('margaret', 1); return [{ c: 'martha', e: 'smile', t: fresh('marthaM', [T('Margaret pays me to clean, and I pay her in gossip. Fair trade. Pass me that cloth, love.', 'مارغريت تدفع لي عشان أنظف، وأنا أدفع لها سوالف. تبادل عادل. ناولني هالقماشة يا عمري.'), T('Two years she\'s let me in here and never once let me touch his room. I dust round that door like it\'s a church.', 'لها سنتين تخليني أدخل وعمرها ما خلتني ألمس غرفته. أنفض الغبار حول هالباب كأنه كنيسة.'), T('You\'re good for her. She bought biscuits last week. Biscuits! For guests!', 'أنت زين لها. اشترت بسكويت الأسبوع اللي فات. بسكويت! للضيوف!')]) }, N_('+ $5', '+ ٥$')]; } },
-      { id: 'sami2', once: true, label: T('"How do you know everyone?"', '«كيف تعرفين الكل؟»'), if: s => !!s.f.ended, run: [CH('martha', 'smile', 'I clean half the houses in Saltmere. You can learn more from a person\'s bathroom cabinet than from their priest. I don\'t look, mind. Much.', 'أنظف نص بيوت سولتمير. تتعلم من دولاب حمام الشخص أكثر من قسيسه. بس ما أطالع، انتبه. كثير.')] }
+      { id: 'help2', label: T('Help her clean', '{تساعدها|تساعدينها} بالتنظيف'), if: s => s.host === 'margaret' && !doneToday('marthaM'), cls: 'main', run: s => { onceToday('marthaM'); advance(1); s.money += 5; addMood(1); addTrust('margaret', 1); return [{ c: 'martha', e: 'smile', t: fresh('marthaM', [T('Margaret pays me to clean, and I pay her in gossip. Fair trade. Pass me that cloth, love.', 'مارغريت تدفع لي عشان أنظف، وأنا أدفع لها سوالف. تبادل عادل. {ناولني|ناوليني} هالقماشة يا عمري.'), T('Two years she\'s let me in here and never once let me touch his room. I dust round that door like it\'s a church.', 'لها سنتين تخليني أدخل وعمرها ما خلتني ألمس غرفته. أنفض الغبار حول هالباب كأنه كنيسة.'), T('You\'re good for her. She bought biscuits last week. Biscuits! For guests!', '{أنت زين|أنتِ زينة} لها. اشترت بسكويت الأسبوع اللي فات. بسكويت! للضيوف!')]) }, N_('+ $5', '+ ٥$')]; } },
+      { id: 'sami2', once: true, label: T('"How do you know everyone?"', '«كيف تعرفين الكل؟»'), if: s => !!s.f.ended, run: [CH('martha', 'smile', 'I clean half the houses in Saltmere. You can learn more from a person\'s bathroom cabinet than from their priest. I don\'t look, mind. Much.', 'أنظف نص بيوت سولتمير. تتعلم من دولاب حمام الشخص أكثر من قسيسه. بس ما أطالع، {انتبه|انتبهي}. كثير.')] }
     );
   }
   /* how Martha looks when drawn in code (used when there is no AI picture in img/chars) */
@@ -63,7 +63,7 @@ if (GAME.CHAR.martha) GAME.CHAR.martha.life = { living: 'clean', kitchen: 'clean
 if (GAME.CHAR.martha) GAME.CHAR.martha.chat = [
   { e: 'smile', t: T("I clean half the houses in Saltmere. I know who irons their socks. I'll take it to my grave. Most of it.", "أنظف نص بيوت سولتمير. أعرف مين يكوي شرّاباته. وبآخذ هالسر معي للقبر. أغلبه.") },
   { e: 'sad', t: T("Ada used to hum while she dried the dishes. Same song every time. I hum it now, so somebody does.", "آدا كانت تدندن وهي تنشّف الصحون. نفس الأغنية كل مرة. وأنا أدندنها الحين، عشان أحد يدندنها.") },
-  { if: s => s.host === 'elias', e: 'sad', t: T("He's eating less. Don't tell him I said. Put an extra sugar in his tea. He won't notice.", "صار ياكل أقل. لا تقول له إني قلت. حط له سكر زيادة في الشاي. ما بينتبه.") },
+  { if: s => s.host === 'elias', e: 'sad', t: T("He's eating less. Don't tell him I said. Put an extra sugar in his tea. He won't notice.", "صار ياكل أقل. {لا تقول|لا تقولين} له إني قلت. {حط|حطي} له سكر زيادة في الشاي. ما بينتبه.") },
   { if: s => s.host === 'margaret', e: 'neutral', t: T("That house is too clean. Clean like nobody's allowed to touch anything.", "هالبيت نظيف زيادة. نظيف كأن ما أحد مسموح له يلمس شي.") },
-  { e: 'neutral', t: T("Rubber gloves are the secret. And never clean a mirror in the sun. Streaks. Write that down.", "السر في القفازات. ولا تنظف مراية والشمس عليها أبداً. تطلع خطوط. اكتبها.") }
+  { e: 'neutral', t: T("Rubber gloves are the secret. And never clean a mirror in the sun. Streaks. Write that down.", "السر في القفازات. {ولا تنظف|ولا تنظفين} مراية والشمس عليها أبداً. تطلع خطوط. {اكتبها|اكتبيها}.") }
 ];

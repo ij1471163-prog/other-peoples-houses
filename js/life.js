@@ -69,7 +69,7 @@ const LIFE = (() => {
   };
   /* things you can hear (or smell) from another room of the same house */
   const HEAR = {
-    shower: T('{n} is in the shower. You can hear the water through the wall.', '{n} يتروّش. تسمع صوت الموية من ورا الجدار.'),
+    shower: T('{n} is in the shower. You can hear the water through the wall.', '{n} يتروّش. {تسمع|تسمعين} صوت الموية من ورا الجدار.'),
     bath:   T('{n} is in the bath. A radio is playing behind the door.', '{n} في الحمام. وفيه راديو شغّال ورا الباب.'),
     cook:   T('Something is frying in the kitchen. {n} is cooking.', 'فيه شي ينقلي في المطبخ. {n} يطبخ.'),
     radio:  T('A radio is playing low in the other room. {n}.', 'راديو شغّال بصوت واطي في الغرفة الثانية. {n}.'),
