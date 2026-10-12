@@ -234,6 +234,7 @@ GAME.SCRIPTS = {
     N_('Elias doesn\'t make it. He dies the night before the train arrives.', 'إلياس ما يلحق. يموت الليلة اللي قبل وصول القطار.'),
     N_('At the cemetery, a man in his twenties stands beside you. "You\'re the one who was with him?" You nod.', 'في المقبرة، شاب في العشرينات يوقف جنبك. «أنت اللي كان معه؟» تهز راسك.'),
     N_('"Thank you for not letting him be alone."', '«شكراً إنك ما خليته لحاله.»'),
+    st => st.f.shipDone ? [N_('Later, in his old room, Thomas finds the model ship finished, the last mast crooked. He laughs, and then he doesn\'t.', 'بعدين، في غرفته القديمة، توماس يلقى مجسم السفينة مخلص، وآخر صاري معوج. يضحك، وبعدين ما يضحك.')] : null, // links.js
     { end: 'ELIAS_LETTER' }],
   endLetterSneak: [
     E('sad', 'I should be angry. I am angry.', 'المفروض أكون زعلان. وأنا زعلان.'),
@@ -241,6 +242,7 @@ GAME.SCRIPTS = {
     { show: [] },
     N_('Elias dies on Friday night, in his armchair, with the radio on.', 'إلياس يموت ليلة الجمعة، على كرسيه، والراديو شغال.'),
     N_('Thomas arrives the next morning and finds you sitting on the doorstep. He sits down next to you and doesn\'t say anything for a long time.', 'توماس يوصل الصبح، ويلقاك جالس على عتبة الباب. يجلس جنبك وما يقول شي وقت طويل.'),
+    st => st.f.shipDone ? [N_('Later, in his old room, Thomas finds the model ship finished, the last mast crooked. He laughs, and then he doesn\'t.', 'بعدين، في غرفته القديمة، توماس يلقى مجسم السفينة مخلص، وآخر صاري معوج. يضحك، وبعدين ما يضحك.')] : null, // links.js
     { end: 'ELIAS_LETTER' }],
   endPeace: [{ show: [{ id: 'elias', e: 'neutral' }] },
     N_('You don\'t do anything big. You sit with him.', 'ما تسوي شي كبير. تجلس معه.'),

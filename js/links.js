@@ -72,3 +72,36 @@
       N_('He slides the postcard back across the desk. "Keep it. It was never posted. It was never mine."', 'يرجّع لك الكرت على المكتب. «خله عندك. ما انرسل أصلاً. وعمره ما كان لي.»'),
       st => { st.f.vJonah = true; quest('q_postcard', 'done'); return null; }] });
 })();
+
+/* ---------- loose ends (docs/STORY.md §5) ---------- */
+(function () {
+  const say = (c, e, en, ar) => ({ c, e, t: T(en, ar) });
+  const { inV } = GAME.H.victor;
+
+  /* Thomas's half-finished model ship: you finish it with Elias (pays off in ELIAS_LETTER) */
+  GAME.TOPICS.elias.push({ id: 'ship', once: true, label: T('Finish Thomas\'s model ship together', 'تخلصون مجسم سفينة توماس مع بعض'),
+    if: s => s.host === 'elias' && !s.f.shipDone, need: s => (s.trust.elias || 0) >= 5,
+    why: T('It isn\'t yours to touch. Not yet.', 'مو لك تلمسه. للحين.'),
+    run: s => [
+      N_('Elias finds the glue in a drawer that still smells of it. You work in silence for an evening, his big hands holding, yours gluing.', 'إلياس يلقى الغرا في درج لسا ريحته فيه. تشتغلون ساكتين طول المغرب، يدينه الكبار تمسك، ويدينك تلزق.'),
+      N_('The last mast goes on crooked. You reach to fix it. Elias stops your hand.', 'آخر صاري يركب معوج. تمد يدك تعدله. وإلياس يوقف يدك.'),
+      say('elias', 'sad', 'Leave it. He always put the last one on crooked. Said a ship should look like someone made it.', 'خله. هو دايم يركّب آخر واحد معوج. يقول السفينة لازم يبان إن أحد سواها.'),
+      st => { st.f.shipDone = true; addTrust('elias', 1); addMood(1); return null; }] });
+
+  /* Bella's key card: bring it back and she is on your side ("Bella, now") */
+  GAME.TOPICS.bella.push({ id: 'cardback', once: true, label: T('Give the key card back', 'ترجّع لها كرت المفتاح'),
+    if: s => inV(s) && has('keycard'),
+    run: s => [
+      st => { take('keycard'); return null; },
+      say('bella', 'shock', 'You brought it back. Nobody brings anything back in this building.', 'رجعته. ما أحد يرجّع شي في هالمبنى.'),
+      say('bella', 'neutral', 'If you ever need a door opened at the right moment, the ballroom, say, ring the desk. I\'ll be here. I\'m always here.', 'لو احتجت باب ينفتح في الوقت الصح، القاعة مثلاً، اتصل على الاستقبال. بكون هنا. أنا دايم هنا.'),
+      st => { st.f.bellaAlly = true; return null; }] });
+
+  /* ...and if you don't, Friday comes */
+  GAME.EVENTS.push({ id: 'bellaFriday', once: true,
+    when: s => inV(s) && has('keycard') && weekday(s.day) === 5 && s.loc === 'hotel_lobby' && !RUN,
+    run: [{ show: [{ id: 'bella', e: 'neutral' }] },
+      N_('Bella looks at you. Then at the clock. Then at you. Friday.', 'بيلا تطالعك. وبعدين الساعة. وبعدين تطالعك. الجمعة.'),
+      say('bella', 'neutral', 'Towels all clean, then?', 'المناشف كلها نظيفة، يعني؟'),
+      N_('She doesn\'t say anything else. She doesn\'t need to.', 'ما تقول شي ثاني. وما تحتاج.')] });
+})();
