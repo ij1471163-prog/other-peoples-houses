@@ -49,7 +49,7 @@
         { to: 'lh_kitchen', x: 6, y: 46, label: T('Kitchen', 'المطبخ') },
         { to: 'lh_room', x: 30, y: 18, label: T('Evelyn\'s room', 'غرفة إيفلين'), risk: s => eHome(s) },
         { to: 'lh_bath', x: 50, y: 18, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.eveBathLock(s) },
-        { to: 'lh_tower', x: 70, y: 18, label: T('Stairs up the tower', 'درج البرج') },
+        { to: 'lh_tower', x: 76, y: 18, label: T('Stairs up the tower', 'درج البرج') },
         { to: 'lh_attic', x: 90, y: 14, label: T('The attic door', 'باب العلية'), lock: s => GAME.SCRIPTS.atticLock(s) }
       ],
       spots: [
@@ -75,7 +75,7 @@
     lh_tower: {
       name: T('The lantern room', 'غرفة الفانوس'), bg: 'lh_tower', house: 'evelyn', charX: 70, exits: [{ to: 'lh_living', x: 22, y: 86, label: T('Down the stairs', 'انزل الدرج') }],
       spots: [
-        { x: 50, y: 40, label: T('The lens', 'العدسة'), run: s => [N_('A beehive of glass taller than you, rings within rings. When it turns, the whole room turns with it, and your stomach takes a second to follow.', 'خلية زجاج أطول منك، حلقات داخل حلقات. لما تدور، الغرفة كلها تدور معها، وبطنك ياخذ ثانية عشان يلحق.')] },
+        { x: 55, y: 74, label: T('The lens', 'العدسة'), run: s => [N_('A beehive of glass taller than you, rings within rings. When it turns, the whole room turns with it, and your stomach takes a second to follow.', 'خلية زجاج أطول منك، حلقات داخل حلقات. لما تدور، الغرفة كلها تدور معها، وبطنك ياخذ ثانية عشان يلحق.')] },
         { x: 84, y: 70, label: T('The gallery door', 'باب الشرفة'), risk: s => !!s.f.eStormNow, run: s => GAME.SCRIPTS.eveGallery(s) }
       ]
     },

@@ -54,7 +54,7 @@
     hotel_suite: {
       name: T('Suite 7', 'جناح ٧'), bg: 'hotel_suite', house: 'victor', exits: [{ to: 'hotel_lobby', x: 6, y: 86, label: T('Lift down', 'المصعد تحت') }],
       spots: [
-        { x: 30, y: 56, label: s => (s.slot === NIGHT ? T('Sleep', 'نام') : T('Lie down', 'تمدد')), run: s => GAME.SCRIPTS.bed(s) },
+        { x: 60, y: 62, label: s => (s.slot === NIGHT ? T('Sleep', 'نام') : T('Lie down', 'تمدد')), run: s => GAME.SCRIPTS.bed(s) },
         { x: 94, y: 40, label: T('Marble bathroom', 'حمام رخام'), run: s => GAME.SCRIPTS.shower(s) },
         { x: 56, y: 62, label: T('Minibar', 'الثلاجة الصغيرة'), run: s => GAME.SCRIPTS.vicMinibar(s) },
         { x: 46, y: 22, label: T('Window', 'الشباك'), run: s => [N_('The whole of Saltmere, small and lit up, like a model on a table. From up here you can see exactly which houses Victor has circled on the brochure.', 'سولتمير كلها، صغيرة ومنوّرة، مثل مجسم على طاولة. ومن فوق تشوف بالضبط أي بيوت فيكتور حاط عليها دواير في البروشور.')] }

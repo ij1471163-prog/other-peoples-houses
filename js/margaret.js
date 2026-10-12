@@ -55,13 +55,13 @@
         { to: 'cliff_road', x: 94, y: 76, label: T('Front door', 'باب البيت') },
         { to: 'marg_kitchen', x: 6, y: 50, label: T('Kitchen', 'المطبخ') },
         { to: 'marg_guest', x: 24, y: 18, label: T('Your room', 'غرفتك') },
-        { to: 'marg_bath', x: 44, y: 18, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.margBathLock(s) },
-        { to: 'marg_bed', x: 64, y: 18, label: T('Margaret\'s room', 'غرفة مارغريت'), risk: s => mHome(s) },
+        { to: 'marg_bath', x: 38, y: 18, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.margBathLock(s) },
+        { to: 'marg_bed', x: 68, y: 18, label: T('Margaret\'s room', 'غرفة مارغريت'), risk: s => mHome(s) },
         { to: 'dan_room', x: 84, y: 18, label: T('Daniel\'s room', 'غرفة دانيال'), risk: s => mHome(s), lock: s => GAME.SCRIPTS.danLock(s) }
       ],
       spots: [
         { x: 18, y: 30, label: T('Portrait', 'الصورة'), run: s => [N_('A boy of about seventeen in a school blazer, grinning like he\'s just got away with something. The glass has been cleaned so often it\'s gone cloudy at the edges.', 'ولد عمره تقريباً سبعطعش بجاكيت المدرسة، يبتسم كأنه توه نفد من شي. الزجاج انمسح كثير لدرجة إن أطرافه صارت مغبشة.')] },
-        { x: 86, y: 16, label: T('The clock', 'الساعة'), run: s => [N_('Stopped at seven. Dinner time. Margaret winds every other clock in the house; never this one.', 'واقفة على سبعة. وقت العشا. مارغريت تعبّي كل ساعة في البيت؛ إلا هذي.')] },
+        { x: 60, y: 28, label: T('The clock', 'الساعة'), run: s => [N_('Stopped at seven. Dinner time. Margaret winds every other clock in the house; never this one.', 'واقفة على سبعة. وقت العشا. مارغريت تعبّي كل ساعة في البيت؛ إلا هذي.')] },
         { x: 80, y: 60, label: T('Help with the ironing', 'تساعد في الكوي'), if: s => inM(s) && GAME.CHAR.margaret.where(s) === 'marg_living' && !doneToday('mIron'), cls: 'main', run: s => GAME.SCRIPTS.margIron(s) },
         { x: 40, y: 40, label: T('Open the curtains', 'تفتح الستارة'), if: s => inM(s) && !s.f.mCurtains, run: s => GAME.SCRIPTS.margCurtain(s) }
       ]
@@ -86,15 +86,15 @@
       name: T('Bathroom', 'الحمام'), bg: 'marg_bath', house: 'margaret', canWait: false, exits: [back('marg_living')],
       spots: [
         { x: 18, y: 46, label: T('Take a shower', 'تروّش'), run: s => GAME.SCRIPTS.shower(s) },
-        { x: 56, y: 32, label: T('Mirror', 'المراية'), run: s => [{ n: s.f.mWore ? T('Someone in Daniel\'s jumper looks back at you. For half a second, you don\'t know who.', 'واحد لابس كنزة دانيال يطالعك. لنص ثانية، ما تعرف مين.') : T('A tired face. Yours. You check, just to be sure.', 'وجه تعبان. وجهك. تتأكد، بس عشان تتأكد.') }] },
-        { x: 66, y: 34, label: T('Medicine cabinet', 'دولاب الأدوية'), risk: s => mHome(s), run: s => GAME.SCRIPTS.margCabinet(s) }
+        { x: 84, y: 26, label: T('Mirror', 'المراية'), run: s => [{ n: s.f.mWore ? T('Someone in Daniel\'s jumper looks back at you. For half a second, you don\'t know who.', 'واحد لابس كنزة دانيال يطالعك. لنص ثانية، ما تعرف مين.') : T('A tired face. Yours. You check, just to be sure.', 'وجه تعبان. وجهك. تتأكد، بس عشان تتأكد.') }] },
+        { x: 88, y: 66, label: T('Medicine cabinet', 'دولاب الأدوية'), risk: s => mHome(s), run: s => GAME.SCRIPTS.margCabinet(s) }
       ]
     },
     marg_bed: {
       name: T('Margaret\'s bedroom', 'غرفة مارغريت'), bg: 'marg_bed', house: 'margaret', private: true, exits: [back('marg_living')],
       onEnter: s => GAME.SCRIPTS.margEnter(s, 'marg_bed'),
       spots: [
-        { x: 16, y: 50, label: T('Dresser', 'التسريحة'), risk: s => mHome(s), run: s => GAME.SCRIPTS.margDresser(s) },
+        { x: 92, y: 56, label: T('Dresser', 'التسريحة'), risk: s => mHome(s), run: s => GAME.SCRIPTS.margDresser(s) },
         { x: 82, y: 22, label: T('Photographs', 'الصور'), run: s => [N_('A wedding photo, the husband cut out with scissors, neatly. And Daniel at every age, in order, like a timeline that stops.', 'صورة زواج، والزوج مقصوص منها بالمقص، بترتيب. ودانيال بكل الأعمار، بالترتيب، مثل خط زمني يوقف فجأة.')] }
       ]
     },

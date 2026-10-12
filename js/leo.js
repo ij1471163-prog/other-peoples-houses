@@ -39,7 +39,7 @@ Object.assign(GAME.LOC, {
     spots: [
       { x: 52, y: 28, label: T('The mural', 'الجدارية'), run: s => [{ n: T('Gulls over a blue sea, painted straight onto the wall. Signed in the corner: "L. — not for sale, not for Victor."', 'نوارس فوق بحر أزرق، مرسومة على الجدار مباشرة. موقّعة في الزاوية: «L. — مو للبيع، ومو لفيكتور.»') }] },
       { x: 80, y: 46, label: T('The easel', 'الحامل'), run: s => [{ n: T('A half-finished painting of a sunrise. Or a house on fire. Hard to say yet. Maybe that\'s the point.', 'لوحة نصها مخلص لشروق شمس. أو بيت يحترق. صعب تعرف للحين. يمكن هذا المقصود.') }] },
-      { x: 24, y: 54, label: s => (s.slot === NIGHT ? T('Sleep on the sofa', 'نام على الكنب') : T('Lie on the sofa', 'تمدد على الكنب')), run: s => GAME.SCRIPTS.bed(s) }
+      { x: 48, y: 58, label: s => (s.slot === NIGHT ? T('Sleep on the sofa', 'نام على الكنب') : T('Lie on the sofa', 'تمدد على الكنب')), run: s => GAME.SCRIPTS.bed(s) }
     ]
   },
   loft: {
@@ -53,7 +53,7 @@ Object.assign(GAME.LOC, {
   },
   bh_bath: {
     name: T('The boathouse bathroom', 'حمام بيت القوارب'), bg: 'bh_bath', house: 'leo', canWait: false, exits: [{ to: 'boathouse', x: 6, y: 86 }],
-    spots: [{ x: 23, y: 48, label: T('Take a shower', 'تروّش'), run: s => GAME.SCRIPTS.shower(s) }, { x: 66, y: 34, label: T('Mirror', 'المراية'), run: s => [{ n: T('Stickers all round the mirror: gulls, a skull with a party hat, "YOU\'RE DOING FINE (probably)".', 'ستيكرات حول المراية: نوارس، جمجمة لابسة طاقية حفلة، و«أنت ماشي زين (غالباً)».') }] }]
+    spots: [{ x: 54, y: 60, label: T('Take a shower', 'تروّش'), run: s => GAME.SCRIPTS.shower(s) }, { x: 24, y: 38, label: T('Mirror', 'المراية'), run: s => [{ n: T('Stickers all round the mirror: gulls, a skull with a party hat, "YOU\'RE DOING FINE (probably)".', 'ستيكرات حول المراية: نوارس، جمجمة لابسة طاقية حفلة، و«أنت ماشي زين (غالباً)».') }] }]
   },
   dock: {
     name: T('The dock', 'الرصيف'), bg: 'dock', house: 'leo', charX: 34, exits: [{ to: 'boathouse', x: 76, y: 66, label: T('Back inside', 'ارجع داخل') }],

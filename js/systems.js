@@ -211,7 +211,7 @@ GAME.ENTER_HOOKS.push(s => {
   add('lh_kitchen', cookSpot(36, 44), cleanSpot(70, 74, T('Wash the dishes', 'تغسل الصحون')));
   add('lh_living', cleanSpot(70, 74));
   add('lh_bath', laundry(70, 64));
-  add('hotel_suite', cookSpot(70, 70), cleanSpot(20, 76, T('Tidy the suite', 'ترتب الجناح')));
+  add('hotel_suite', cookSpot(20, 62), cleanSpot(20, 76, T('Tidy the suite', 'ترتب الجناح')));
   add('hotel_staff', laundry(60, 74));
   add('sami_attic', cookSpot(40, 70), cleanSpot(60, 80), laundry(24, 70));
 

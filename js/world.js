@@ -56,9 +56,9 @@ GAME.LOC = {
     name: T('Harbor Motel, room 6', 'موتيل الميناء، غرفة ٦'), bg: 'motel', canWait: false,
     exits: [{ to: 'street', x: 92, y: 50, label: T('Go outside', 'اطلع برا') }],
     spots: [
-      { x: 52, y: 62, label: T('Phone', 'الجوال'), run: s => [{ n: T('47 unread messages. 12 missed calls from "Mom".', '٤٧ رسالة ما انقرت. ١٢ مكالمة فايتة من «أمي».') }, { n: T('The last one: "Just tell me you\'re okay. That\'s all I want."', 'آخر وحدة: «بس طمّني عليك. ما أبي شي ثاني.»') }, { n: T('You turn the phone face down.', 'تقلب الجوال على وجهه.') }] },
+      { x: 6, y: 47, label: T('Phone', 'الجوال'), run: s => [{ n: T('47 unread messages. 12 missed calls from "Mom".', '٤٧ رسالة ما انقرت. ١٢ مكالمة فايتة من «أمي».') }, { n: T('The last one: "Just tell me you\'re okay. That\'s all I want."', 'آخر وحدة: «بس طمّني عليك. ما أبي شي ثاني.»') }, { n: T('You turn the phone face down.', 'تقلب الجوال على وجهه.') }] },
       { x: 72, y: 30, label: T('Window', 'الشباك'), run: s => [{ n: T('A red neon sign buzzes outside: VACANCY. One letter flickers. The sea is out there somewhere, black.', 'لوحة نيون حمرا تطن برا: «غرف شاغرة». حرف منها يرمش. البحر هناك في مكان ما، أسود.') }] },
-      { x: 25, y: 58, label: T('Bed', 'السرير'), run: s => [{ n: T('You lie down. Sleep doesn\'t come. The checkout note on the door stares back at you.', 'تتمدد. النوم ما يجي. ورقة الخروج على الباب تطالعك.') }] }
+      { x: 64, y: 64, label: T('Bed', 'السرير'), run: s => [{ n: T('You lie down. Sleep doesn\'t come. The checkout note on the door stares back at you.', 'تتمدد. النوم ما يجي. ورقة الخروج على الباب تطالعك.') }] }
     ]
   },
   street: {
@@ -119,14 +119,14 @@ GAME.LOC = {
     name: T('Bathroom', 'الحمام'), bg: 'bath', house: 'elias', canWait: false, exits: [back('living')],
     spots: [
       { x: 25, y: 46, label: T('Take a shower', 'تروّش'), run: s => GAME.SCRIPTS.shower(s) },
-      { x: 74, y: 30, label: T('Mirror', 'المراية'), run: s => [{ n: s.mood <= 3 ? T('Someone tired looks back at you. You don\'t hold eye contact.', 'واحد تعبان يطالعك. ما تطول النظرة.') : T('Someone looks back at you. They look a bit less tired than last week.', 'واحد يطالعك. شكله أقل تعب من الأسبوع اللي فات.') }] }
+      { x: 10, y: 26, label: T('Mirror', 'المراية'), run: s => [{ n: s.mood <= 3 ? T('Someone tired looks back at you. You don\'t hold eye contact.', 'واحد تعبان يطالعك. ما تطول النظرة.') : T('Someone looks back at you. They look a bit less tired than last week.', 'واحد يطالعك. شكله أقل تعب من الأسبوع اللي فات.') }] }
     ]
   },
   elias_bed: {
     name: T('Elias\'s bedroom', 'غرفة إلياس'), bg: 'elias_bed', house: 'elias', private: true, exits: [back('living')],
     onEnter: s => GAME.SCRIPTS.enterPrivate(s),
     spots: [
-      { x: 64, y: 60, label: T('Dresser drawer', 'درج التسريحة'), risk: s => eliasHome(s), run: s => GAME.SCRIPTS.drawer(s) },
+      { x: 30, y: 52, label: T('Dresser drawer', 'درج التسريحة'), risk: s => eliasHome(s), run: s => GAME.SCRIPTS.drawer(s) },
       { x: 63, y: 43, label: T('Photograph', 'صورة'), run: s => [{ n: T('Ada again. Older here, in a garden. On the back, in his handwriting: "Forty-one years. Not enough."', 'آدا مرة ثانية. أكبر بالعمر، في حديقة. ورا الصورة بخطه: «إحدى وأربعين سنة. ما كفّت.»') }] }
     ]
   },
