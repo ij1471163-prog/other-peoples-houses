@@ -20,9 +20,9 @@
     if: s => has('postcard') && !!s.f.metElias, need: s => (s.trust.elias || 0) >= 4,
     why: T('You\'re not ready to show anyone yet.', 'مو جاهز توريه لأحد للحين.'),
     run: s => [
-      N_('You put the postcard on the table. Elias puts his glasses on, which he never does.', 'تحط الكرت على الطاولة. وإلياس يلبس نظارته، وهو عمره ما يلبسها.'),
+      N_('You put the postcard on the table. Elias puts his glasses on, which you\'ve never seen him do.', 'تحط الكرت على الطاولة. وإلياس يلبس نظارته، وعمرك ما شفته يلبسها.'),
       say('elias', 'neutral', 'That\'s the old harbor. Before the sea wall. Nobody\'s sold that card in thirty years.', 'هذا الميناء القديم. قبل الحاجز. ما أحد باع هالكرت من ثلاثين سنة.'),
-      say('elias', 'sad', '"J."... There was a boy at number 9. Jonah. Came down every morning before school to learn the nets. Clumsy hands. Good heart. Him and the boy from number 3, never apart.', '«ج.»... كان فيه ولد في رقم ٩. جونا. ينزل كل صبح قبل المدرسة يتعلم الشباك. يدينه خرقا. وقلبه طيب. هو وولد رقم ٣، ما يتفارقون.'),
+      say('elias', 'sad', '"J."... There was a boy at number 9. Jonah. Came down every morning before school to learn the nets. Clumsy hands. Good heart. Him and the boy from number 3, never apart.', '«ج.»... كان فيه ولد في رقم ٩. جونا. ينزل كل صبح قبل المدرسة يتعلم الشباك. يدينه لخمة. وقلبه طيب. هو وولد رقم ٣، ما يتفارقون.'),
       say('elias', 'neutral', 'He left on the last train when he was seventeen. Never wrote. I always thought he\'d done well for himself, somewhere.', 'طلع بآخر قطار وعمره سبعطعش. وما كتب أبداً. كنت دايم أحسب إنه صار له شأن، في مكان ما.'),
       N_('He looks at you for a long time.', 'يطالعك وقت طويل.'),
       say('elias', 'sad', 'You have his eyes. I thought so on the bench, the first night. I didn\'t want to say. Old men see ghosts everywhere.', 'عيونك عيونه. حسيت كذا على الكرسي، أول ليلة. وما بغيت أقول. الشياب يشوفون أشباح في كل مكان.'),
@@ -35,7 +35,7 @@
       say('gregor', 'neutral', 'Let\'s see. Old harbor, before the wall. Late eighties. I collect these, you know. Nobody else does.', 'خلني أشوف. الميناء القديم، قبل الحاجز. آخر الثمانينات. أنا أجمع هالكروت، تدري. ما أحد غيري يجمعها.'),
       say('gregor', 'sad', '"V."... On Fisher\'s Row, in those years, there was only one V. Victor, from number 3. Before he was Mr Grand. Before he was anything.', '«ف.»... في شارع الصيادين، بذيك السنين، ما كان فيه إلا «ف.» واحد. فيكتور، من رقم ٣. قبل لا يصير مستر غراند. قبل لا يصير أي شي.'),
       say('gregor', 'neutral', 'He had one friend. The two of them used to sit on my cemetery wall and plan how they\'d leave. One of them did.', 'كان عنده صديق واحد. الاثنين كانوا يجلسون على سور مقبرتي ويخططون كيف بيطلعون. واحد منهم طلع.'),
-      st => { st.f.knowV = true; return null; }] });
+      st => { st.f.knowV = true; quest('q_postcard', 'done'); return null; }] });
 
   /* ---------- Leo draws the house you lost (this is "the drawing of the house" in his endings) ---------- */
   GAME.TOPICS.leo.push({ id: 'yourhouse', once: true, label: T('Tell him about your house', 'تحكي له عن بيتكم'),
@@ -52,7 +52,7 @@
   GAME.TOPICS.frank.push({ id: 'calendar', once: true, label: T('Ask about the old calendar in the office', 'تسأله عن الرزنامة القديمة في المكتب'),
     if: s => !!s.f.sawOffice && !!s.f.metFrank,
     run: s => [
-      say('frank', 'sad', 'The calendar? That\'s the month I took a loan to keep this place open. A year later a company called Grand Holdings bought the loan. Nice letters. Very polite. Every month.', 'الرزنامة؟ هذا الشهر اللي أخذت فيه قرض عشان يبقى المحل مفتوح. بعد سنة، شركة اسمها غراند القابضة اشترت القرض. رسايل حلوة. مؤدبة مرة. كل شهر.'),
+      say('frank', 'sad', 'The calendar? That\'s the month I took a loan to keep this place open. A year later a company called Saltmere Grand Holdings bought the loan. Nice letters. Very polite. Every month.', 'الرزنامة؟ هذا الشهر اللي أخذت فيه قرض عشان يبقى المحل مفتوح. بعد سنة، شركة اسمها سولتمير غراند القابضة اشترت القرض. رسايل حلوة. مؤدبة مرة. كل شهر.'),
       say('frank', 'neutral', 'I stopped turning the pages. Stupid, I know. As long as it\'s still that month, I still own the garage.', 'وقفت أقلب الصفحات. غباء، أدري. دام إنه لسا نفس الشهر، فالكراج لسا حقي.'),
       N_('Your father must have had letters like that. You never saw a single one.', 'أكيد أبوك كانت تجيه رسايل مثلها. وأنت عمرك ما شفت وحدة.')] });
 
@@ -66,7 +66,7 @@
       N_('You tell him. The key that didn\'t fit. The boxes by the gate.', 'تقول له. المفتاح اللي ما ركب. والكراتين عند البوابة.'),
       say('victor', 'neutral', 'Jonah. Number 9. He could gut a fish faster than his father, and he hated every second of it. We swore we\'d both get out of Fisher\'s Row.', 'جونا. رقم ٩. كان ينظف السمكة أسرع من أبوه، ويكره كل ثانية فيها. حلفنا إننا الاثنين بنطلع من شارع الصيادين.'),
       say('victor', 'sad', 'He got out first. I stayed, and got rich. Every time he was in trouble, he wrote. Every time, I sent money. Twenty-five years. He never paid back a cent, and I never asked him to.', 'هو طلع أول. وأنا قعدت، وصرت غني. كل ما ضاقت عليه، كتب لي. وكل مرة، أرسلت له فلوس. خمس وعشرين سنة. ما رجّع ولا سنت، وأنا ما طلبت.'),
-      say('victor', 'neutral', 'He came the day I bought this place. 7 March. Stood across the street in the rain for an hour and never came in. I watched him from that window. I didn\'t go down either.', 'جا يوم اشتريت المكان. ٧ مارس. وقف قدام الشارع تحت المطر ساعة كاملة وما دخل. وأنا كنت أطالعه من هالشباك. وما نزلت بعد.'),
+      say('victor', 'neutral', 'He came the day I bought this place. 7 March. Stood across the street in the rain for an hour and never came in. I watched him from that window. I didn\'t go down either.', 'جا يوم اشتريت المكان. ٧ مارس. وقف على الرصيف اللي قدام، تحت المطر، ساعة كاملة وما دخل. وأنا كنت أطالعه من هالشباك. وما نزلت بعد.'),
       say('victor', 'angry', 'When he died, the lawyers found the file. Grand Holdings collects its debts. I read the name. I signed anyway. I told myself it was business.', 'لما مات، المحامين لقوا الملف. وغراند القابضة تحصّل ديونها. قريت الاسم. ووقعت. وقلت لنفسي إنه شغل.'),
       say('victor', 'sad', 'You walked into my lobby with his face. Why do you think the suite was free?', 'دخلت الاستقبال حقي بوجهه. ليش تحسب الجناح كان ببلاش؟'),
       N_('He slides the postcard back across the desk. "Keep it. It was never posted. It was never mine."', 'يرجّع لك الكرت على المكتب. «خله عندك. ما انرسل أصلاً. وعمره ما كان لي.»'),
@@ -80,7 +80,7 @@
 
   /* Thomas's half-finished model ship: you finish it with Elias (pays off in ELIAS_LETTER) */
   GAME.TOPICS.elias.push({ id: 'ship', once: true, label: T('Finish Thomas\'s model ship together', 'تخلصون مجسم سفينة توماس مع بعض'),
-    if: s => s.host === 'elias' && !s.f.shipDone, need: s => (s.trust.elias || 0) >= 5,
+    if: s => s.host === 'elias' && s.loc === 'your_room' && !s.f.shipDone, need: s => (s.trust.elias || 0) >= 5,
     why: T('It isn\'t yours to touch. Not yet.', 'مو لك تلمسه. للحين.'),
     run: s => [
       N_('Elias finds the glue in a drawer that still smells of it. You work in silence for an evening, his big hands holding, yours gluing.', 'إلياس يلقى الغرا في درج لسا ريحته فيه. تشتغلون ساكتين طول المغرب، يدينه الكبار تمسك، ويدينك تلزق.'),
@@ -93,13 +93,13 @@
     if: s => inV(s) && has('keycard'),
     run: s => [
       st => { take('keycard'); return null; },
-      say('bella', 'shock', 'You brought it back. Nobody brings anything back in this building.', 'رجعته. ما أحد يرجّع شي في هالمبنى.'),
+      say('bella', 'shock', 'You brought it back. Nobody brings anything back in this building.', 'رجّعته. ما أحد يرجّع شي في هالمبنى.'),
       say('bella', 'neutral', 'If you ever need a door opened at the right moment, the ballroom, say, ring the desk. I\'ll be here. I\'m always here.', 'لو احتجت باب ينفتح في الوقت الصح، القاعة مثلاً، اتصل على الاستقبال. بكون هنا. أنا دايم هنا.'),
       st => { st.f.bellaAlly = true; return null; }] });
 
   /* ...and if you don't, Friday comes */
   GAME.EVENTS.push({ id: 'bellaFriday', once: true,
-    when: s => inV(s) && has('keycard') && weekday(s.day) === 5 && s.loc === 'hotel_lobby' && !RUN,
+    when: s => inV(s) && has('keycard') && weekday(s.day) === 5 && s.day > (s.f.cardDay || 0) && s.slot < NIGHT && s.loc === 'hotel_lobby' && !RUN,
     run: [{ show: [{ id: 'bella', e: 'neutral' }] },
       N_('Bella looks at you. Then at the clock. Then at you. Friday.', 'بيلا تطالعك. وبعدين الساعة. وبعدين تطالعك. الجمعة.'),
       say('bella', 'neutral', 'Towels all clean, then?', 'المناشف كلها نظيفة، يعني؟'),

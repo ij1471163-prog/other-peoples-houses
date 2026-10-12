@@ -37,7 +37,7 @@
       E('sad', 'Ten years she\'s gone. I repaint the name every spring. The rest of the boat can fall apart, it\'s fine.', 'عشر سنين من راحت. أصبغ الاسم كل ربيع. والباقي من القارب يتفكك عادي.')]; } },
     { id: 'town', once: true, label: T('Ask about the town', 'تسأله عن البلدة'), run: [
       E('neutral', 'Saltmere\'s fine. Small. Everyone knows your business, which is useful if you\'ve forgotten it.', 'سولتمير زينة. صغيرة. الكل يعرف وش عندك، وهذا مفيد إذا نسيت.'),
-      E('angry', 'There\'s a man called Victor who wants our whole street for his hotel. Offered me money twice. I told him the house comes with me in it.', 'فيه واحد اسمه فيكتور يبي شارعنا كله عشان فندقه. عرض علي فلوس مرتين. قلت له البيت يجي وأنا داخله.')] },
+      E('angry', 'That Victor from number 3 wants our whole street for his hotel. Offered me money twice. I told him the house comes with me in it.', 'فيكتور ذاك اللي من رقم ٣ يبي شارعنا كله عشان فندقه. عرض علي فلوس مرتين. قلت له البيت يجي وأنا داخله.')] },
     { id: 'thomas', once: true, label: T('Ask about Thomas', 'تسأله عن توماس'), if: s => !s.f.knowsSonTalk, need: s => (s.trust.elias || 0) >= 3, why: T('He\'s not ready to talk about that. Spend more time with him.', 'مو جاهز يتكلم عن هذا. اقعد معه أكثر.'), run: s => { s.f.knowsSon = true; s.f.knowsSonTalk = true; quest('q_thomas', 'active'); addTrust('elias', 1); return [
       E('sad', 'He wanted to study the sea. Properly, in the city, at a university. I told him: you go, you don\'t come back.', 'كان يبي يدرس البحر. صح، في المدينة، في جامعة. قلت له: تروح، ما ترجع.'),
       E('neutral', 'He went. He studied. He didn\'t come back. Turns out I was right.', 'راح. ودرس. وما رجع. طلعت صادق، شف.'),

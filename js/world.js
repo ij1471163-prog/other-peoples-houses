@@ -39,7 +39,7 @@ GAME.QUESTS = {
   q_chess: { title: T('The evening game', 'لعبة المغرب'), hint: T('Elias plays chess at Marco\'s café in the evenings.', 'إلياس يلعب شطرنج في مقهى ماركو وقت المغرب.') },
   q_secret: { title: T('What Elias hides', 'وش يخبي إلياس'), hint: T('Something is wrong with Elias. His bedroom is private. Snoop when he\'s busy, and watch out for Martha on Tuesdays and Fridays.', 'فيه شي في إلياس مو طبيعي. غرفته خاصة. فتّش لما يكون مشغول، وانتبه لمارثا يوم الثلاثاء والجمعة.') },
   q_thomas: { title: T('The son', 'الولد'), hint: T('Thomas hasn\'t spoken to his father in eight years.', 'توماس ما كلّم أبوه من ثمان سنين.') },
-  q_postcard: { title: T('Who is "V."?', 'مين «ف.»؟'), hint: T('Your father wrote to someone in Saltmere and never posted it. Someone who has lived here a long time might remember him. Show people the postcard.', 'أبوك كتب لأحد في سولتمير وما أرسل. يمكن أحد عايش هنا من زمان يتذكره. ورّي الناس الكرت.') },
+  q_postcard: { title: T('Who is "V."?', 'مين «ف.»؟'), hint: T('Your father wrote to someone in Saltmere and never posted it. Someone who has lived here a long time might remember him. Show people the postcard.', 'أبوك كتب لأحد في سولتمير وما أرسله. يمكن أحد عايش هنا من زمان يتذكره. ورّي الناس الكرت.') },
   q_final: { title: T('One more night', 'ليلة أخيرة'), hint: T('Elias wants to talk to you tonight, in the living room.', 'إلياس يبي يكلمك الليلة في الصالة.') }
 };
 
@@ -137,7 +137,7 @@ GAME.LOC = {
     spots: [
       { x: 80, y: 60, label: s => (s.slot === NIGHT ? T('Sleep', 'نام') : T('Lie down', 'تمدد')), run: s => GAME.SCRIPTS.bed(s) },
       { x: 76, y: 80, label: T('Box under the bed', 'صندوق تحت السرير'), if: s => s.day >= 2, run: s => { s.f.sawBox = true; return [{ n: T('A shoebox of photographs. Thomas at every age, until about eighteen. Then nothing.', 'علبة جزمة مليانة صور. توماس بكل الأعمار، لين تقريباً ثمنطعش. وبعدها ولا شي.') }, { n: T('The last one: Thomas and Elias on the pier, not looking at each other.', 'آخر صورة: توماس وإلياس على الرصيف، كل واحد يطالع جهة.') }]; } },
-      { x: 20, y: 48, label: T('Model ship', 'مجسم سفينة'), run: s => [{ n: T('A model ship, half finished. The glue dried years ago. The instructions are still folded under it.', 'مجسم سفينة نصه مخلص. الغرا نشف من سنين. والتعليمات لسا مطوية تحته.') }] }
+      { x: 20, y: 48, label: T('Model ship', 'مجسم سفينة'), run: s => s.f.shipDone ? [{ n: T('The model ship, finished. The last mast is crooked, on purpose.', 'مجسم السفينة، مخلص. وآخر صاري معوج، بقصد.') }] /* links.js */ : [{ n: T('A model ship, half finished. The glue dried years ago. The instructions are still folded under it.', 'مجسم سفينة نصه مخلص. الغرا نشف من سنين. والتعليمات لسا مطوية تحته.') }] }
     ]
   },
   shed: {
@@ -155,7 +155,7 @@ GAME.MAP = [
   { to: 'harbor' },
   { to: 'elias_ext', if: s => !!s.f.metElias },
   { to: 'clinic', lock: s => s.slot > 2 },
-  { to: 'station', lock: () => true, lockMsg: T('No train leaves Saltmere today. The next one is in the morning, the day you choose to take it.', 'ما فيه قطار يطلع من سولتمير اليوم. القطار الجاي الصبح، اليوم اللي تقرر تركبه.') },
+  { to: 'station', lock: () => true, lockMsg: T('No train leaves Saltmere today. There\'s one every morning. It\'ll be there the day you\'re ready.', 'ما فيه قطار يطلع من سولتمير اليوم. فيه قطار كل صبح. بيكون موجود اليوم اللي تكون فيه جاهز.') },
   { place: 'margaret', label: T('Margaret\'s house', 'بيت مارغريت'), msg: T('A neat white house with every curtain closed. A pressed shirt hangs in an upstairs window. (Margaret\'s chapter is coming.)', 'بيت أبيض مرتب، وكل الستاير مسكّرة. وقميص مكوي معلق في شباك فوق. (فصل مارغريت جاي.)') },
   { place: 'hotel', label: T('The Saltmere Grand', 'فندق سولتمير غراند'), msg: T('Marble steps, a doorman, and a smile on every poster. Victor\'s hotel. (Victor\'s chapter is coming.)', 'درج رخام، وبواب، وابتسامة على كل بوستر. فندق فيكتور. (فصل فيكتور جاي.)') },
   { place: 'lighthouse', label: T('The lighthouse', 'المنارة'), msg: T('The old keeper\'s house at the foot of the lighthouse. Someone inside laughs at 3:07 every night. (Evelyn\'s chapter is coming.)', 'بيت الحارس القديم تحت المنارة. أحد داخله يضحك الساعة ٣:٠٧ كل ليلة. (فصل إيفلين جاي.)') },
