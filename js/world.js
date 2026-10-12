@@ -25,7 +25,8 @@ GAME.ITEMS = {
   bread: { name: T('Bread', 'خبز'), desc: T('Still warm.', 'لسا دافي.') },
   beans: { name: T('Good coffee', 'قهوة فاخرة'), desc: T('Elias drinks the cheap kind.', 'إلياس يشرب الرخيصة.') },
   fish: { name: T('A fish', 'سمكة'), desc: T('Beginner\'s share.', 'نصيب المبتدئ.') },
-  water: { name: T('Water bottle', 'قارورة ماي'), desc: T('From Sami. On the house.', 'من سامي. على حسابه.') }
+  water: { name: T('Water bottle', 'قارورة ماي'), desc: T('From Sami. On the house.', 'من سامي. على حسابه.') },
+  postcard: { name: T('Your father\'s postcard', 'كرت أبوك البريدي'), desc: T('Saltmere harbor. "V. — I\'m sorry. — J." 7 March. Never posted.', 'ميناء سولتمير. «ف. — آسف. — ج.» ٧ مارس. ما انرسل.') }
 };
 
 GAME.QUESTS = {
@@ -38,6 +39,7 @@ GAME.QUESTS = {
   q_chess: { title: T('The evening game', 'لعبة المغرب'), hint: T('Elias plays chess at Marco\'s café in the evenings.', 'إلياس يلعب شطرنج في مقهى ماركو وقت المغرب.') },
   q_secret: { title: T('What Elias hides', 'وش يخبي إلياس'), hint: T('Something is wrong with Elias. His bedroom is private. Snoop when he\'s busy, and watch out for Martha on Tuesdays and Fridays.', 'فيه شي في إلياس مو طبيعي. غرفته خاصة. فتّش لما يكون مشغول، وانتبه لمارثا يوم الثلاثاء والجمعة.') },
   q_thomas: { title: T('The son', 'الولد'), hint: T('Thomas hasn\'t spoken to his father in eight years.', 'توماس ما كلّم أبوه من ثمان سنين.') },
+  q_postcard: { title: T('Who is "V."?', 'مين «ف.»؟'), hint: T('Your father wrote to someone in Saltmere and never posted it. Someone who has lived here a long time might remember him. Show people the postcard.', 'أبوك كتب لأحد في سولتمير وما أرسل. يمكن أحد عايش هنا من زمان يتذكره. ورّي الناس الكرت.') },
   q_final: { title: T('One more night', 'ليلة أخيرة'), hint: T('Elias wants to talk to you tonight, in the living room.', 'إلياس يبي يكلمك الليلة في الصالة.') }
 };
 
@@ -56,7 +58,7 @@ GAME.LOC = {
     name: T('Harbor Motel, room 6', 'موتيل الميناء، غرفة ٦'), bg: 'motel', canWait: false,
     exits: [{ to: 'street', x: 92, y: 50, label: T('Go outside', 'اطلع برا') }],
     spots: [
-      { x: 6, y: 47, label: T('Phone', 'الجوال'), run: s => [{ n: T('47 unread messages. 12 missed calls from "Mom".', '٤٧ رسالة ما انقرت. ١٢ مكالمة فايتة من «أمي».') }, { n: T('The last one: "Just tell me you\'re okay. That\'s all I want."', 'آخر وحدة: «بس طمّني عليك. ما أبي شي ثاني.»') }, { n: T('You turn the phone face down.', 'تقلب الجوال على وجهه.') }] },
+      { x: 6, y: 47, label: T('Phone', 'الجوال'), run: s => [{ n: T('47 unread messages. 12 missed calls from "Mom".', '٤٧ رسالة ما انقرت. ١٢ مكالمة فايتة من «أمي».') }, { n: T('One from last week: "I\'m sorry about the house. I should have told you. Please let me explain."', 'وحدة من الأسبوع اللي فات: «آسفة على البيت. كان لازم أقولك. خلني أشرح لك.»') }, { n: T('The last one: "Just tell me you\'re okay. That\'s all I want."', 'آخر وحدة: «بس طمّني عليك. ما أبي شي ثاني.»') }, { n: T('You turn the phone face down.', 'تقلب الجوال على وجهه.') }] },
       { x: 72, y: 30, label: T('Window', 'الشباك'), run: s => [{ n: T('A red neon sign buzzes outside: VACANCY. One letter flickers. The sea is out there somewhere, black.', 'لوحة نيون حمرا تطن برا: «غرف شاغرة». حرف منها يرمش. البحر هناك في مكان ما، أسود.') }] },
       { x: 64, y: 64, label: T('Bed', 'السرير'), run: s => [{ n: T('You lie down. Sleep doesn\'t come. The checkout note on the door stares back at you.', 'تتمدد. النوم ما يجي. ورقة الخروج على الباب تطالعك.') }] }
     ]

@@ -21,12 +21,18 @@ GAME.SCRIPTS = {
   intro: [
     { go: 'station' },
     N_('The last train. The line ends here.', 'آخر قطار. الخط ينتهي هنا.'),
-    N_('You didn\'t plan to come to Saltmere. You just didn\'t get off.', 'ما خططت تجي سولتمير. بس ما نزلت من القطار.'),
+    /* why you are here (docs/STORY.md §2) */
+    N_('A month ago you came home from a trip and your key didn\'t fit the door. A family you\'d never seen was eating dinner in your kitchen.', 'قبل شهر رجعت من سفرة، والمفتاح ما ركب في الباب. عايلة عمرك ما شفتها كانت تتعشى في مطبخكم.'),
+    N_('Your things were in boxes by the gate. Your mother had sold the house to pay debts your father hid until the day he died. She hadn\'t found the words to tell you.', 'أغراضك كانت في كراتين عند البوابة. أمك باعت البيت عشان تسدد ديون خبّاها أبوك لين يوم مات. وما لقت الكلام اللي تقوله لك.'),
+    N_('In one of the boxes, a postcard of a harbor you\'d never seen. SALTMERE. Your father\'s handwriting: "V. — I saw the hotel today. You did it, like you always said you would. I\'ll pay you back, every cent. I\'m sorry. — J." Dated 7 March. Never posted.', 'في واحد من الكراتين، كرت بريدي لميناء عمرك ما شفته. سولتمير. بخط أبوك: «ف. — شفت الفندق اليوم. سويتها مثل ما كنت تقول دايم. برجّع لك كل شي، كل سنت. آسف. — ج.» مكتوب عليه ٧ مارس. وما انرسل.'),
+    N_('Your father never once said the word Saltmere. So you got on the last train, to find out who "V." was.', 'أبوك عمره ما قال كلمة سولتمير. فركبت آخر قطار، عشان تعرف مين «ف.».'),
     N_('One bag. Three dollars. A phone you keep face down.', 'شنطة وحدة. ثلاث دولارات. وجوال تقلبه على وجهه.'),
+    s => { give('postcard'); return null; },
     { go: 'motel' },
     N_('Harbor Motel, room 6. You paid for three weeks. That was three weeks ago.', 'موتيل الميناء، غرفة ٦. دفعت ثلاث أسابيع. وهذا كان قبل ثلاث أسابيع.'),
+    N_('Three weeks, and you haven\'t asked anyone a single question. The postcard stays in your pocket. Some days you don\'t leave the room.', 'ثلاث أسابيع، وما سألت أحد ولا سؤال. الكرت باقي في جيبك. وفيه أيام ما تطلع من الغرفة أبداً.'),
     N_('A note on the door: "Checkout tomorrow, noon. No exceptions."', 'ورقة على الباب: «الخروج بكرة الظهر. بدون استثناء.»'),
-    s => { quest('q_bed', 'active'); return null; }
+    s => { quest('q_bed', 'active'); quest('q_postcard', 'active'); return null; }
   ],
   meet: [
     N_('You walk until the street runs out of light, and sit on the bench across from a small grocery.', 'تمشي لين ينتهي الضو في الشارع، وتجلس على كرسي قدام بقالة صغيرة.'),

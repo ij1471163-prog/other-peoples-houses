@@ -141,7 +141,7 @@ Object.assign(GAME.SCRIPTS, {
       N_('You know that look. You\'ve seen it in the mirror.', 'تعرف هالنظرة. شفتها بالمراية.'),
       dark ? { jump: 'endDark' } : lost ? { jump: 'endLost' } : { menu: [
         { t: T('Sit beside him, and hold out half a loaf', 'تجلس جنبه، وتمد له نص خبزة'), need: st => st.mood >= 5 && (st.conscience || 0) >= 0, why: T('You want to. But you have nothing to give. Not yet.', 'تبي. بس ما عندك شي تعطيه. بعد.'), then: [{ jump: 'endHost' }] },
-        { t: T('Take the morning train home to your mother', 'تركب قطار الصبح وترجع لأمك'), need: st => !!st.f.calledMother, why: T('You haven\'t spoken to her yet.', 'ما كلمتها للحين.'), then: [{ jump: 'endHome' }] },
+        { t: T('Take the morning train back to your mother', 'تركب قطار الصبح وترجع لأمك'), need: st => !!st.f.calledMother, why: T('You haven\'t spoken to her yet.', 'ما كلمتها للحين.'), then: [{ jump: 'endHome' }] },
         { t: T('Keep walking', 'تكمل طريقك'), then: [{ jump: 'endPass' }] }
       ] }]);
   },
