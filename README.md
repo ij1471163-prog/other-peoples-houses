@@ -46,6 +46,7 @@ After Leo, Sami gives you the attic above his grocery, and three doors open. Kno
 - **Play as a young man or a young woman**: every line that speaks to you has both forms.
 - **Hints when stuck** (`js/hints.js`): if a whole day passes with no progress, one of your open tasks comes back to you as a thought. Once a day at most; can be turned off in Settings.
 - **Skip the opening** on replays (`js/replay.js`), once you have read it on this device.
+- **Endings list** (`js/endings.js`): tap "Endings found" on the title screen to see every ending by house. Found ones show their name; the rest stay locked as ???.
 - 30 endings in total.
 
 - ٣ خانات حفظ + حفظ تلقائي. احتياجات (أكل، نظافة، طاقة) تأثر على مزاجك. شغلات وألعاب صغيرة (المقهى، الصيد، المقبرة). شخصيات تطبخ وتاكل وتتروش وتشغل الحمام بجدول. شخصيات جديدة ومهام جانبية، وأكثر من ٣٠ موقف عشوائي ما يتكرر. المجموع ٣٠ نهاية.
