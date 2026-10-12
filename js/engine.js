@@ -124,6 +124,8 @@ function atHouse(charId, house) { const w = GAME.CHAR[charId].where && GAME.CHAR
 const lifeIcon = id => (typeof LIFE !== 'undefined' ? LIFE.icon(id) : '');
 /* ...and the drawn pose for it (holding a pan, a net, a cup); null until that picture exists */
 const lifePose = id => (typeof LIFE !== 'undefined' ? LIFE.pose(id) : null);
+/* ...or a small drawing of what they are using (js/props.js): a pan, a cup, a broom */
+const lifeProp = id => (typeof PROPS !== 'undefined' ? PROPS.html(id) : '');
 
 /* ---------- script runner ---------- */
 let RUN = null;           // {stack:[{steps,i}], done}
@@ -216,6 +218,7 @@ function renderStage(charsOverride) {
       const d = el('div', 'char' + (c.dim ? ' dim' : '') + (GAME.CHAR[c.id].ghost ? ' ghost' : ''));
       d.style.left = c.x + '%';
       d.innerHTML = ART.portrait(c.id, c.expr);
+      if (!RUN && !GAME.CHAR[c.id].ghost) d.insertAdjacentHTML('beforeend', lifeProp(c.id));
       const hh = GAME.CHAR[c.id].height; if (hh && PEOPLE.IMG.chars[c.id]) d.style.setProperty('--h', hh);
       if (!RUN && !GAME.CHAR[c.id].ghost) { d.addEventListener('click', ev => { if (tapOk(ev)) talkTo(c.id); }); d.appendChild(el('span', 'tag', (lifeIcon(c.id) ? lifeIcon(c.id) + ' ' : '') + tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
       layer.appendChild(d);
@@ -368,7 +371,8 @@ function placeCaption() {
   const ALL = ['cap-end', 'cap-mini', 'cap-mid'];
   b.classList.remove(...ALL);
   if (!b.classList.contains('explore') || getComputedStyle(panel).position !== 'fixed') return;
-  const spots = [...document.querySelectorAll('#stage .spots .spot i')].map(x => { const r = x.getBoundingClientRect(); return { left: r.left - 8, right: r.right + 8, top: r.top - 8, bottom: r.bottom + 8 }; });
+  const spots = [...document.querySelectorAll('#stage .spots .spot i')].map(x => { const r = x.getBoundingClientRect(); return { left: r.left - 8, right: r.right + 8, top: r.top - 8, bottom: r.bottom + 8 }; })
+    .concat([...document.querySelectorAll('#stage .char .prop-front')].map(x => x.getBoundingClientRect()));   // nor what someone is holding
   const covered = () => { const p = panel.getBoundingClientRect();
     return spots.filter(r => Math.min(p.right, r.right) - Math.max(p.left, r.left) > 0 && Math.min(p.bottom, r.bottom) - Math.max(p.top, r.top) > 0).length; };
   if (!covered()) return;

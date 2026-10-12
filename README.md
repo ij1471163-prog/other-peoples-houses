@@ -141,6 +141,8 @@ GAME.CHAR.sami.life = { grocery: 'shop', away: s => (s.slot === NIGHT ? 'sleep' 
 
 في آخر ملف كل شخصية فيه جدول صغير `life`: وش تسوي في كل مكان (طبخ، صيد، تروّش، نوم…). المحرك وقائمة الأنشطة في `js/life.js`. يظهر النشاط كأيقونة على اسم الشخصية، وفي تبويب «الناس» بالجوال، وفي قائمة الخريطة. وتسمع أهل البيت من الغرف الثانية (الدش، المطبخ، الراديو). والحمام أحياناً مشغول دقيقة. الدش والحمام **يُسمع بس، ما ينشاف**.
 
+**Props / الأغراض.** `js/props.js` draws in code what someone is using (a pan with steam, a mug, a broom, a book, a crate, a fishing rod, Zzz…) next to their picture, chosen from their `life` activity. To add one: add a drawing under the activity's name in `ART`. — `js/props.js` يرسم بالكود الغرض اللي تستخدمه الشخصية (مقلاة، كوب، مكنسة، كتاب، صنارة، Zzz…) حسب نشاطها.
+
 ## Adding a chapter / إضافة فصل
 A new house is a new file like `js/elias.js`: its scripts, events and endings, plus its rooms and art. Its people go in `js/chars/`. Load the chapter in `index.html` before `js/systems.js`.
 

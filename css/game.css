@@ -483,3 +483,20 @@ body.lbl-tap .spot.show span{display:inline-block}
 }
 /* daily life (js/life.js): "Now: 🍳 Cooking · Kitchen" in the People tab */
 .sheet .row .now{font-size:12.5px;color:var(--sea);margin-top:2px}
+/* props (js/props.js): what a character is using, drawn in code */
+.char .prop{position:absolute;pointer-events:none;z-index:1}
+.char .prop svg{width:100%;height:auto;display:block;filter:drop-shadow(0 4px 5px rgba(0,0,0,.45))}
+.char .prop-front{left:50%;bottom:9%;width:72%;transform:translateX(-50%)}
+.char .prop-side{right:-22%;bottom:4%;width:30%}
+.char .prop-head{right:-14%;top:0;width:40%}
+.prop .steam path{animation:steamUp 2.6s ease-in-out infinite}
+.prop .steam path:nth-child(2){animation-delay:.8s}.prop .steam path:nth-child(3){animation-delay:1.6s}
+@keyframes steamUp{0%{transform:translateY(6px);opacity:0}30%{opacity:.8}100%{transform:translateY(-14px);opacity:0}}
+.prop .zzz{animation:zzz 3.2s ease-in-out infinite}
+@keyframes zzz{0%,100%{transform:translateY(0);opacity:.85}50%{transform:translateY(-6px);opacity:.55}}
+.prop .gulls{animation:gulls 4s ease-in-out infinite}
+@keyframes gulls{50%{transform:translate(6px,-5px)}}
+.prop .ring{animation:ring 1.4s ease-in-out infinite}
+@keyframes ring{50%{opacity:.2}}
+html.idle .prop *,html.asleep .prop *{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){.prop *{animation:none!important}}
