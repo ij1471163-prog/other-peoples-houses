@@ -109,3 +109,12 @@ jobs:
             dist/OtherPeoplesHouses.apk
             dist/OtherPeoplesHouses.aab
           make_latest: true
+
+      - name: Download link on this page
+        run: |
+          URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/v1.0.${GITHUB_RUN_NUMBER}/OtherPeoplesHouses.apk"
+          {
+            echo "## ⬇️ [Download the app (APK) · حمّل التطبيق]($URL)"
+            echo ""
+            echo "Always the newest: https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/OtherPeoplesHouses.apk"
+          } >> "$GITHUB_STEP_SUMMARY"
