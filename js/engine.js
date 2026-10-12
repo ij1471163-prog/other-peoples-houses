@@ -172,7 +172,7 @@ function goTo(locId) {
 }
 /* mini-games: GAME.MINI[name](panel, done) renders into the panel and calls done(result) */
 function renderMini(st) {
-  const panel = $('panel'); panel.innerHTML = ''; renderStage(); $('stage').onclick = null;
+  const panel = $('panel'); panel.innerHTML = ''; panel.onclick = null; renderStage(); $('stage').onclick = null;
   GAME.MINI[st.mini](panel, res => { const r = st.then ? st.then(res, S()) : null; if (Array.isArray(r)) RUN.stack.push({ steps: r, i: 0 }); next(); }, st);
 }
 
@@ -266,13 +266,15 @@ function renderLine(st) {
     VIEW.speaker = null; renderStage();
     panel.appendChild(el('p', 'line narr', tx(st.n)));
   }
-  const b = el('button', 'tap', UI('next')); b.type = 'button'; b.onclick = ev => { if (tapOk(ev)) next(); }; panel.appendChild(b);
+  const b = el('button', 'tap', UI('next')); b.type = 'button'; b.onclick = ev => { ev.stopPropagation(); if (tapOk(ev)) next(); }; panel.appendChild(b);
+  /* tapping anywhere on the dialogue box also continues */
+  panel.onclick = ev => { if (ev.target.closest('button,a,input')) return; if (RUN && !panel.querySelector('.opt') && tapOk(ev)) next(); };
   AUDIO.line(st);
   $('stage').onclick = ev => { if (ev.target.closest('.hbtn,.ibtn,.sheet')) return; if (RUN && !$('panel').querySelector('.opt') && tapOk(ev)) next(); };
   b.focus({ preventScroll: true });
 }
 function renderMenu(st) {
-  const panel = $('panel'); panel.innerHTML = '';
+  const panel = $('panel'); panel.innerHTML = ''; panel.onclick = null;
   if (st.c) { setSpeaker(st.c, st.e); }
   renderStage();
   if (st.q) panel.appendChild(el('p', 'line' + (st.c ? '' : ' narr'), tx(st.q)));
@@ -301,7 +303,7 @@ function renderLocation() {
   VIEW.speaker = null; $('stage').onclick = null;
   document.body.classList.add('explore'); document.body.classList.remove('titlemode');
   renderStage();
-  const panel = $('panel'); panel.innerHTML = '';
+  const panel = $('panel'); panel.innerHTML = ''; panel.onclick = null;
   const cap = el('div', 'caption'); cap.setAttribute('role', 'button'); cap.tabIndex = 0;
   cap.appendChild(el('div', 'place', tx(L.name) + (L.private ? ' · ' + UI('private') : '')));
   const acts = present(s.loc).map(id => GAME.CHAR[id].doing && GAME.CHAR[id].doing(s)).filter(Boolean);
@@ -524,7 +526,7 @@ function titleScreen(fresh) {
   st.querySelector('.tint').style.background = ART.tint('harbor', 'evening');
   setLayer(st.querySelector('.chars'), ''); st.querySelector('.spots').innerHTML = ''; st.querySelector('.hud .chips').innerHTML = ''; st.querySelector('.hud .btns').innerHTML = '';
   const old = st.querySelector('.sheet'); if (old) old.remove();
-  const panel = $('panel'); panel.innerHTML = '';
+  const panel = $('panel'); panel.innerHTML = ''; panel.onclick = null;
   const wrap = el('div', 'title-screen');
   wrap.appendChild(el('h1', 'logo', tx(T("Other People's Houses", 'بيوت الآخرين'))));
   wrap.appendChild(el('p', 'logo-sub', tx(T('You came to Saltmere on the last train, with nothing. The people here will open their doors to you. What you do inside is up to you.', 'وصلت سولتمير بآخر قطار، وما معك شي. ناس هالبلدة بيفتحون لك أبوابهم. ووش تسوي داخل بيوتهم، هذا قرارك.'))));

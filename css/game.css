@@ -14,7 +14,7 @@
   --f-text:"Spectral",Georgia,"Times New Roman",serif;
   --f-ui:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --f-ar:"Noto Naskh Arabic","Geeza Pro","Times New Roman",serif;
-  --f-ar-ui:"Reem Kufi","Noto Naskh Arabic",sans-serif;
+  --f-ar-ui:"Noto Kufi Arabic","Noto Naskh Arabic",system-ui,sans-serif;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -253,4 +253,92 @@ html[lang=ar] .slider{font-family:var(--f-ar-ui)}
   .panel .opts.many{grid-template-columns:repeat(3,1fr)}
   .panel .opts.many .opt{font-size:13px;padding:6px 9px;line-height:1.3}
   html[lang=ar] .panel .opts.many .opt{font-size:14px}
+}
+
+/* ===================================================================
+   v9: a lighter, smaller, easier-to-read interface
+   - title: the picture fills the screen; a slim menu on the side
+   - buttons: small, quiet, clear; the main one is lamp-amber
+   - dialogue: a compact glass box with a name chip
+   =================================================================== */
+.opt{font-size:15px;line-height:1.35;padding:8px 12px;border-radius:10px;background:rgba(30,42,49,.82);border:1px solid rgba(255,255,255,.10);transition:background .15s,border-color .15s}
+html[lang=ar] .opt{font-size:15.5px}
+.opt:hover:not(:disabled),.opt:active:not(:disabled){background:rgba(46,62,72,.92);border-color:rgba(240,178,90,.7)}
+.opt.main{border-color:rgba(240,178,90,.75);color:#ffe0ac}
+.opt small{font-size:12px}
+.tap{font-size:13px;padding:4px 12px;border-color:rgba(255,255,255,.14);color:#c9d3d6}
+.ibtn{width:36px;height:36px;border-width:1.5px}
+.ibtn svg{width:18px;height:18px}
+.chip{font-size:13px;padding:2px 9px}
+.panel .who{display:inline-block;align-self:flex-start;font-size:12.5px;padding:2px 10px;border-radius:999px;background:rgba(240,178,90,.14);border:1px solid rgba(240,178,90,.35)}
+html[lang=ar] .panel .who{font-size:13.5px}
+.panel .line{font-size:16.5px;line-height:1.55}
+html[lang=ar] .panel .line{font-size:17px;line-height:1.75}
+
+/* ---- title screen: a slim menu, not a big box ---- */
+.title-screen .opts{display:flex;flex-direction:column;gap:3px}
+.title-screen .opt{background:transparent;border:0;border-radius:8px;padding:7px 12px;font-size:16px;color:var(--salt);position:relative}
+html[lang=ar] .title-screen .opt{font-size:16px}
+.title-screen .opt:hover,.title-screen .opt:active{background:rgba(255,255,255,.07)}
+.title-screen .opt.main{color:var(--lamp);font-weight:600}
+.title-screen .opt.main::before{content:'';position:absolute;inset-inline-start:0;top:22%;bottom:22%;width:3px;border-radius:2px;background:var(--lamp)}
+.title-screen .opt.dl{grid-column:auto;text-align:start;font-size:13px;color:var(--sea);padding:6px 12px;margin-top:4px}
+.title-screen .opt.dl small{display:none}
+.title-screen .logo{font-size:clamp(26px,5vw,40px)}
+.title-screen .logo-sub{font-size:14px;line-height:1.5}
+.title-screen .sec{font-size:11px;margin:0;opacity:.8}
+html[lang=ar] .title-screen .sec{font-size:12px}
+
+@media (orientation:landscape) and (max-height:560px){
+  /* the picture fills the whole screen on the title */
+  body.titlemode .game{padding:0}
+  body.titlemode .stage{width:100vw;height:100vh;aspect-ratio:auto;border-radius:0}
+  body.titlemode .panel{position:fixed;top:0;bottom:0;left:0;right:auto;transform:none;width:min(330px,44vw);max-height:none;height:100vh;
+    border:0;border-radius:0;padding:14px 18px calc(10px + env(safe-area-inset-bottom,0px));overflow:auto;backdrop-filter:none;
+    background:linear-gradient(90deg,rgba(10,14,17,.94) 0%,rgba(10,14,17,.86) 70%,rgba(10,14,17,0) 100%)}
+  html[dir=rtl] body.titlemode .panel{left:auto;right:0;background:linear-gradient(270deg,rgba(10,14,17,.94) 0%,rgba(10,14,17,.86) 70%,rgba(10,14,17,0) 100%)}
+  body.titlemode .title-screen{min-height:100%;justify-content:center;gap:6px;padding-inline-end:24px}
+  body.titlemode .title-screen .logo{font-size:30px}
+  body.titlemode .title-screen .logo-sub{font-size:12.5px;-webkit-line-clamp:3}
+  body.titlemode .title-screen .opts{display:flex;grid-template-columns:none;margin-block:6px}
+  body.titlemode .title-screen .opt{font-size:15px;padding:6px 12px}
+  /* setup / confirm screens in the same slim panel */
+  body.titlemode .panel > h2{font-size:20px;margin-top:auto}
+  body.titlemode .panel > .opts.grid{grid-template-columns:1fr 1fr;gap:6px}
+  body.titlemode .panel > .opt.main{margin-bottom:auto}
+  body.titlemode .panel > .opts:not(.grid){display:flex;flex-direction:column;gap:6px}
+  body.titlemode .panel > .line{margin-top:auto}
+  body.titlemode .panel > .opts:last-child{margin-bottom:auto}
+
+  /* dialogue box */
+  .panel{width:min(640px,72vw);padding:9px 14px;gap:6px;border-radius:14px;border-color:rgba(255,255,255,.08);background:rgba(13,18,22,.88)}
+  .panel .line{font-size:15px;line-height:1.5}
+  html[lang=ar] .panel .line{font-size:15.5px;line-height:1.65}
+  .opt,html[lang=ar] .opt{font-size:13.5px;padding:6px 10px;border-radius:9px}
+  html[lang=ar] .opt{font-size:14px}
+  .opts{gap:5px}
+  .ibtn{width:32px;height:32px}
+  .ibtn svg{width:16px;height:16px}
+  .chip{font-size:12px}
+}
+/* portrait: the menu sits under the picture */
+@media (orientation:portrait){
+  body.titlemode .panel{background:transparent;border:0;padding:6px 4px}
+}
+/* v9b: "continue" sits small in the corner of the dialogue box; the whole box can be tapped */
+.panel .tap{border-radius:999px}
+.tap:focus-visible{outline:1px solid rgba(240,178,90,.55);outline-offset:1px}
+@media (orientation:landscape) and (max-height:560px){
+  .panel:has(> .tap){padding-bottom:30px}
+  .panel > .tap{position:absolute;bottom:6px;inset-inline-end:10px;font-size:12px;padding:3px 10px}
+  body.titlemode .panel{width:min(360px,48vw);background:linear-gradient(90deg,rgba(10,14,17,.95) 0%,rgba(10,14,17,.9) 80%,rgba(10,14,17,0) 100%)}
+  html[dir=rtl] body.titlemode .panel{background:linear-gradient(270deg,rgba(10,14,17,.95) 0%,rgba(10,14,17,.9) 80%,rgba(10,14,17,0) 100%)}
+  body.titlemode .title-screen{padding-inline-end:40px}
+}
+@media (orientation:landscape) and (max-height:560px){
+  body.titlemode .title-screen .logo-sub{display:block;-webkit-line-clamp:unset;overflow:visible;font-size:12px;line-height:1.45;opacity:.9}
+  body.titlemode .panel,html[dir=rtl] body.titlemode .panel{box-shadow:none}
+  body.titlemode .panel{background:linear-gradient(90deg,rgba(10,14,17,.95) 0%,rgba(10,14,17,.92) 86%,rgba(10,14,17,0) 100%)}
+  html[dir=rtl] body.titlemode .panel{background:linear-gradient(270deg,rgba(10,14,17,.95) 0%,rgba(10,14,17,.92) 86%,rgba(10,14,17,0) 100%)}
+  body.titlemode input.name{max-width:none}
 }
