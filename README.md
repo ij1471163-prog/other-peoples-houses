@@ -44,6 +44,8 @@ After Leo, Sami gives you the attic above his grocery, and three doors open. Kno
 - **30+ random town moments** that don't repeat until the pool runs out.
 - **Small stories for the town** (`js/arcs/`): Kai's Sunday phone call, Sami's credit book, Irene's afternoon off, Ada's fish pie (Martha), Gregor's blue door. Each in its own file; none changes an ending.
 - **Play as a young man or a young woman**: every line that speaks to you has both forms.
+- **Hints when stuck** (`js/hints.js`): if a whole day passes with no progress, one of your open tasks comes back to you as a thought. Once a day at most; can be turned off in Settings.
+- **Skip the opening** on replays (`js/replay.js`), once you have read it on this device.
 - 30 endings in total.
 
 - ٣ خانات حفظ + حفظ تلقائي. احتياجات (أكل، نظافة، طاقة) تأثر على مزاجك. شغلات وألعاب صغيرة (المقهى، الصيد، المقبرة). شخصيات تطبخ وتاكل وتتروش وتشغل الحمام بجدول. شخصيات جديدة ومهام جانبية، وأكثر من ٣٠ موقف عشوائي ما يتكرر. المجموع ٣٠ نهاية.

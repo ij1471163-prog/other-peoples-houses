@@ -26,6 +26,7 @@ Object.assign(GAME.UI, {
   textSize: T('Text size', 'حجم الخط'), small: T('Small', 'صغير'), normal: T('Normal', 'عادي'), large: T('Large', 'كبير'),
   names: T('Names of things', 'أسماء الأشياء'), always: T('Always', 'دايم'), onTap: T('On first tap', 'أول لمسة'),
   scares: T('Jump scares', 'المفاجآت المرعبة'),
+  hints: T('Hints when stuck', 'تلميح لو علقت'),
   autoNote: T('The game saves by itself every time you move. Slots are extra copies you keep.', 'اللعبة تحفظ نفسها تلقائياً كل ما {تتنقل|تتنقلين}. الخانات تحت نسخ إضافية {تحتفظ|تحتفظين} فيها.'),
   saveGame: T('Save game', 'حفظ اللعبة'), loadGame: T('Load game', 'تحميل لعبة'),
   keepLiving: T('Keep living in Saltmere', '{كمّل|كمّلي} حياتك في سولتمير'), continueStory: T('Continue the story', '{كمّل|كمّلي} القصة'),

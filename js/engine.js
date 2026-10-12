@@ -543,6 +543,7 @@ function renderSheet() {
       seg(UI('names'), [['always', UI('always')], ['tap', UI('onTap')]], PREFS.get('labels'), v => PREFS.set('labels', v));
       sec('secPlay');
       seg(UI('scares'), [[true, UI('on')], [false, UI('off')]], SCARES.on, v => { SCARES.on = v; });
+      seg(UI('hints'), [[true, UI('on')], [false, UI('off')]], PREFS.get('hints') !== false, v => PREFS.set('hints', v));   /* js/hints.js */
       sec('secProgress');
       body.appendChild(el('p', 'setnote', UI('autoNote')));
       /* saving in the middle of a conversation would store half a scene; finish it first */
