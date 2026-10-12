@@ -54,7 +54,7 @@
       ],
       spots: [
         { x: 30, y: 62, label: s => (s.slot === NIGHT ? T('Sleep on the camp bed', 'نام على سرير المخيّم') : T('Lie on the camp bed', 'تمدد على سرير المخيّم')), run: s => GAME.SCRIPTS.eveBed(s) },
-        { x: 16, y: 26, label: T('Portrait', 'الصورة'), run: s => [N_('An old man in a keeper\'s jacket, white beard, eyes like he hasn\'t slept in decades. "Arthur Wren, Keeper, 1951–2009." Someone has stuck a tiny paper party hat on the frame.', 'رجّال كبير بجاكيت حارس، لحيته بيضا، وعيونه كأنه ما نام من عقود. «آرثر رن، حارس، ١٩٥١–٢٠٠٩.» وأحد لاصق طاقية حفلة ورق صغيرة على البرواز.')] },
+        { x: 16, y: 26, label: T('Portrait', 'الصورة'), run: s => [N_('An old man in a keeper\'s jacket, white beard, eyes like he hasn\'t slept in decades. "Arthur Wren, Keeper, 1961–2009." Someone has stuck a tiny paper party hat on the frame.', 'رجّال كبير بجاكيت حارس، لحيته بيضا، وعيونه كأنه ما نام من عقود. «آرثر رن، حارس، ١٩٦١–٢٠٠٩.» وأحد لاصق طاقية حفلة ورق صغيرة على البرواز.')] },
         { x: 92, y: 40, label: T('Grandfather clock', 'الساعة الكبيرة'), run: s => [N_('It keeps perfect time. Next to it, on a card in old handwriting: "Never stop this clock. Never wind the attic one. — A.W."', 'تمشي بالضبط. وجنبها، على كرت بخط قديم: «لا توقف هالساعة أبداً. ولا تعبّي حقت العلية أبداً. — آ.ر.»')] },
         { x: 52, y: 66, label: T('Accordion', 'الأكورديون'), run: s => onceToday('eAcc') ? (addMood(1), [N_('You squeeze it once. It makes a sound like a cow sitting on a balloon. Somewhere above, a gull screams back in what you choose to believe is applause.', 'تضغطه مرة. يطلع صوت كأن بقرة جلست على بالونة. وفوق في مكان، نورس يصرخ، وتختار تصدق إنه تصفيق.')]) : [N_('It wheezes at you reproachfully.', 'يتنهّد عليك بعتاب.')] }
       ]
@@ -204,7 +204,7 @@
       s.f.eFinaleDone = true; s.f.eFinaleNow = true;
       return [{ go: 'lh_living' }, { show: [{ id: 'evelyn', e: 'shock' }] },
         N_('3:07. The laughter starts, and it doesn\'t stop. Ten seconds. Thirty. A minute. Louder. Like it\'s calling.', '٣:٠٧. الضحك يبدأ، وما يوقف. عشر ثواني. ثلاثين. دقيقة. يعلى. كأنه ينادي.'),
-        E('shock', 'It\'s never done this. Never. Forty years. Never this long.', 'عمره ما سوى كذا. أبداً. أربعين سنة. أبداً بهالطول.'),
+        E('shock', 'It\'s never done this. Never. My whole life. Never this long.', 'عمره ما سوى كذا. أبداً. طول عمري. أبداً بهالطول.'),
         E('sad', 'I\'m going up. Tonight. I can\'t do another forty years. With you or without you.', 'بطلع. الليلة. ما أقدر أكمل أربعين سنة ثانية. معك أو بدونك.'),
         st => [{ c: 'evelyn', e: 'sad', menu: [
           { t: T('Take her hand, go up, and tell her what\'s behind the clock', 'تمسك يدها، تطلعون، وتقول لها وش ورا الساعة'), need: x => !!x.f.eMech && !!x.f.eLog && (x.trust.evelyn || 0) >= 6, why: T('You\'d need to know the whole truth, and she\'d need to trust you with it.', 'تحتاج تعرف الحقيقة كاملة، وتحتاج هي تثق فيك فيها.'), hide: x => !x.f.eMech, cls: 'main', then: [{ jump: 'endEvePeace' }] },

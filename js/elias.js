@@ -225,7 +225,7 @@ GAME.SCRIPTS = {
     N_('Thomas answers two days later: "I\'m coming."', 'توماس يرد بعد يومين: «جاي.»'),
     { show: [] },
     N_('Elias doesn\'t make it. He dies the night before the train arrives.', 'إلياس ما يلحق. يموت الليلة اللي قبل وصول القطار.'),
-    N_('At the cemetery, a man about thirty stands beside you. "You\'re the one who was with him?" You nod.', 'في المقبرة، رجل في الثلاثين يوقف جنبك. «أنت اللي كان معه؟» تهز راسك.'),
+    N_('At the cemetery, a man in his twenties stands beside you. "You\'re the one who was with him?" You nod.', 'في المقبرة، شاب في العشرينات يوقف جنبك. «أنت اللي كان معه؟» تهز راسك.'),
     N_('"Thank you for not letting him be alone."', '«شكراً إنك ما خليته لحاله.»'),
     { end: 'ELIAS_LETTER' }],
   endLetterSneak: [

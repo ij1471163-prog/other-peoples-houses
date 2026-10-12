@@ -70,7 +70,7 @@ GAME.LOC = {
       { to: 'elias_ext', x: 8, y: 86, label: T('Fisher\'s Row', 'شارع الصيادين'), if: s => !!s.f.metElias }
     ],
     spots: [
-      { x: 63, y: 57, label: T('Notice board', 'لوحة الإعلانات'), run: s => [{ n: T('A glossy poster: "THE SALTMERE GRAND — luxury seafront living. Fisher\'s Row redevelopment approved." Someone has written across it in marker: NOT FOR SALE.', 'بوستر لامع: «فندق سولتمير غراند — حياة فاخرة على البحر. تمت الموافقة على تطوير شارع الصيادين.» وأحد كاتب عليه بالقلم: «مو للبيع».') }] }
+      { x: 63, y: 57, label: T('Notice board', 'لوحة الإعلانات'), run: s => [{ n: T('A glossy poster: "THE SALTMERE GRAND — luxury seafront living. Fisher\'s Row redevelopment: council vote pending." Someone has written across it in marker: NOT FOR SALE.', 'بوستر لامع: «فندق سولتمير غراند — حياة فاخرة على البحر. تطوير شارع الصيادين: بانتظار تصويت المجلس.» وأحد كاتب عليه بالقلم: «مو للبيع».') }] }
     ]
   },
   grocery: { name: T('Sami\'s Grocery', 'بقالة سامي'), bg: 'grocery', charX: 70, exits: [back('street')],
@@ -153,7 +153,7 @@ GAME.MAP = [
   { to: 'harbor' },
   { to: 'elias_ext', if: s => !!s.f.metElias },
   { to: 'clinic', lock: s => s.slot > 2 },
-  { to: 'station', lock: () => true, lockMsg: T('No train leaves Saltmere today.', 'ما فيه قطار يطلع من سولتمير اليوم.') },
+  { to: 'station', lock: () => true, lockMsg: T('No train leaves Saltmere today. The next one is in the morning, the day you choose to take it.', 'ما فيه قطار يطلع من سولتمير اليوم. القطار الجاي الصبح، اليوم اللي تقرر تركبه.') },
   { place: 'margaret', label: T('Margaret\'s house', 'بيت مارغريت'), msg: T('A neat white house with every curtain closed. A pressed shirt hangs in an upstairs window. (Margaret\'s chapter is coming.)', 'بيت أبيض مرتب، وكل الستاير مسكّرة. وقميص مكوي معلق في شباك فوق. (فصل مارغريت جاي.)') },
   { place: 'hotel', label: T('The Saltmere Grand', 'فندق سولتمير غراند'), msg: T('Marble steps, a doorman, and a smile on every poster. Victor\'s hotel. (Victor\'s chapter is coming.)', 'درج رخام، وبواب، وابتسامة على كل بوستر. فندق فيكتور. (فصل فيكتور جاي.)') },
   { place: 'lighthouse', label: T('The lighthouse', 'المنارة'), msg: T('The old keeper\'s house at the foot of the lighthouse. Someone inside laughs at 3:07 every night. (Evelyn\'s chapter is coming.)', 'بيت الحارس القديم تحت المنارة. أحد داخله يضحك الساعة ٣:٠٧ كل ليلة. (فصل إيفلين جاي.)') },

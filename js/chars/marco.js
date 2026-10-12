@@ -35,7 +35,7 @@
         { t: T('Tell the truth', 'تقول الحقيقة'), fx: s => addMood(2), then: [N_('"I came here on the last train because I didn\'t get off. An old man gave me half a loaf of bread. That\'s the whole act."', '«جيت هنا بآخر قطار لأني ما نزلت منه. وعجوز عطاني نص خبزة. وهذا كل العرض.»'), N_('Silence. Then the disappointed old woman starts clapping, slowly, and doesn\'t stop until everyone joins in.', 'سكوت. وبعدين العجوز اللي خاب ظنها تبدأ تصفق، شوي شوي، وما توقف لين الكل يصفق معها.')] }
       ] }] },
     { id: 'elias', once: true, label: T('Ask about Elias', 'تسأله عن إلياس'), if: s => s.f.metElias, run: [
-      { c: 'marco', e: 'sad', t: T('Forty years he\'s been beating me at chess. Lately he forgets moves.', 'أربعين سنة وهو يغلبني بالشطرنج. وأخيراً صار ينسى النقلات.') },
+      { c: 'marco', e: 'sad', t: T('Since I was a boy he\'s been beating me at chess. Lately he forgets moves.', 'من وأنا صغير وهو يغلبني بالشطرنج. وأخيراً صار ينسى النقلات.') },
       { c: 'marco', e: 'sad', t: T('Last week he called me Thomas. Then he pretended he didn\'t. I pretended too.', 'الأسبوع اللي فات ناداني توماس. وبعدين سوّى نفسه ما قال. وأنا بعد سويت نفسي ما سمعت.') },
       s => { s.f.forgot = true; quest('q_secret', 'active'); return null; }] }
   ];
