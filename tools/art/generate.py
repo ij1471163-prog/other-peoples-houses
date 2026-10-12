@@ -76,7 +76,8 @@ ACT_ART = {
     "stella":   {"flowers": "holding a bouquet of flowers"},
     "ingrid":   {"tea": "holding a teacup and saucer"},
 }
-ACT_STRENGTH = float(os.environ.get("ART_ACT_STRENGTH", "0.62"))
+# 0.62 kept the original pose with empty hands (first try), so the redraw is stronger now
+ACT_STRENGTH = float(os.environ.get("ART_ACT_STRENGTH", "0.78"))
 
 # per-character expression wording (the ghost's "angry" face is his scream)
 EXPR_FOR = {"keeper": {"angry": "screaming, mouth wide open, furious wild eyes", "smile": "faint gentle peaceful smile"}}
@@ -279,7 +280,7 @@ def main():
                 fa = CH / f"{cid}-{act}.png"
                 if exists("char", fa.name): continue
                 t = time.time()
-                img = P.redraw(neutral, f"{base_prompt}, calm expression, {what}, {STYLE_C}", NEG, seed + 11, strength=ACT_STRENGTH)
+                img = P.redraw(neutral, f"{what}, {base_prompt}, {STYLE_C}", NEG, seed + 11, strength=ACT_STRENGTH)  # activity first: only ~75 tokens are read
                 img.save(RAW / f"{cid}-{act}.png")
                 made += 1; print(f"char {cid}-{act} {time.time() - t:.0f}s", flush=True)
     for bid in todo_b:
