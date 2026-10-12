@@ -342,3 +342,68 @@ html[lang=ar] .title-screen .sec{font-size:12px}
   html[dir=rtl] body.titlemode .panel{background:linear-gradient(270deg,rgba(10,14,17,.95) 0%,rgba(10,14,17,.92) 86%,rgba(10,14,17,0) 100%)}
   body.titlemode input.name{max-width:none}
 }
+
+/* ===== v10: town map that fits the screen, with a list of places ===== */
+.sheet.mapsheet{padding:8px 10px;gap:6px;overflow:hidden}
+.sheet.mapsheet .tabs{position:static;margin:0;padding:0;flex:none}
+.mapbody{flex:1;min-height:0;display:flex;gap:10px;align-items:flex-start}
+.sheet.mapsheet .mapwrap{min-width:0;flex:none;aspect-ratio:16/9;height:auto;max-width:none;border-radius:10px}
+.maplist{flex:1;min-width:0;align-self:stretch;overflow:auto;display:flex;flex-direction:column;gap:3px;padding-inline-end:2px}
+.mrow{display:flex;flex-direction:column;align-items:flex-start;gap:0;text-align:start;background:rgba(30,42,49,.7);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:5px 9px;cursor:pointer;font-family:var(--f-ui);min-width:0}
+html[lang=ar] .mrow{font-family:var(--f-ar-ui)}
+.mrow .mname{font-size:13.5px;color:var(--salt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.mrow .mwho{font-size:11.5px;color:var(--sea);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.mrow .mwho:empty{display:none}
+.mrow.here{border-color:rgba(240,178,90,.75);background:rgba(240,178,90,.12)}
+.mrow.here .mname{color:var(--lamp)}
+.mrow.locked{opacity:.55}
+.mrow.locked .mwho{color:var(--fog)}
+.mrow.future{border-style:dashed;opacity:.7}
+.mrow:hover:not(.locked){border-color:rgba(240,178,90,.6)}
+/* pins: small labels; a little number shows how many people are there */
+.sheet.mapsheet .pin{font-size:11px;font-weight:600;padding:2px 7px;border-width:1.5px;border-radius:7px;transform:translate(-50%,0);line-height:1.3;display:inline-flex;align-items:center;gap:4px}
+html[lang=ar] .sheet.mapsheet .pin{font-size:11px}
+.sheet.mapsheet .pin.edge-l{transform:translate(-12%,0)}
+.sheet.mapsheet .pin.edge-r{transform:translate(-88%,0)}
+.sheet.mapsheet .pin.locked{opacity:.5;border-color:var(--rope)}
+.sheet.mapsheet .pin em{font-weight:400}
+.pin .dot{font-style:normal;min-width:15px;height:15px;border-radius:8px;background:var(--sea);color:#06201c;font-size:10px;line-height:15px;text-align:center;padding:0 3px}
+.pin.here .dot{background:#1a1206;color:var(--lamp)}
+/* landscape: map on one side, list on the other, both fully visible */
+@media (orientation:landscape){
+  .sheet.mapsheet .mapwrap{height:100%;width:auto;max-height:100%}
+  .maplist{max-width:240px}
+}
+/* portrait: map across the top, list below */
+@media (orientation:portrait){
+  body.sheet-open .stage{aspect-ratio:auto;height:calc(100dvh - 16px)}
+  .mapbody{flex-direction:column;align-items:stretch}
+  .sheet.mapsheet .mapwrap{width:100%;height:auto}
+  .maplist{display:grid;grid-template-columns:1fr 1fr;align-content:start;gap:4px}
+}
+@media (orientation:portrait){ body.sheet-open .sheet.mapsheet .mapwrap{height:auto;width:100%;aspect-ratio:16/9} }
+/* portrait: the map is small, so pins become dots (the list below has the names); only "you are here" keeps its label */
+@media (orientation:portrait){
+  .sheet.mapsheet .pin{font-size:0;padding:0;width:14px;height:14px;border-radius:50%;justify-content:center;transform:translate(-50%,-50%)}
+  .sheet.mapsheet .pin .dot,.sheet.mapsheet .pin em{display:none}
+  .sheet.mapsheet .pin.here{font-size:10px;width:auto;height:auto;padding:1px 6px;border-radius:6px;z-index:2}
+  .sheet.mapsheet .pin.edge-l,.sheet.mapsheet .pin.edge-r{transform:translate(-50%,-50%)}
+}
+@media (orientation:portrait){
+  .sheet.mapsheet .pin.here.edge-r{transform:translate(-92%,-50%)}
+  .sheet.mapsheet .pin.here.edge-l{transform:translate(-8%,-50%)}
+}
+@media (orientation:portrait){
+  html .sheet.mapsheet .pin:not(.here),html[lang=ar] .sheet.mapsheet .pin:not(.here){font-size:0;padding:0}
+}
+@media (orientation:landscape){
+  .maplist{flex:0 0 172px;max-width:172px}
+  .sheet.mapsheet .mapwrap{height:auto;width:auto;flex:1 1 auto;max-width:calc(100% - 182px);max-height:100%}
+  .mapbody{justify-content:flex-start}
+}
+/* pin text scales with the map so labels never pile up on small screens */
+.sheet.mapsheet .mapwrap{container-type:inline-size}
+@media (orientation:landscape){
+  .sheet.mapsheet .pin,html[lang=ar] .sheet.mapsheet .pin{font-size:clamp(8px,2.05cqi,12px);padding:.1em .45em;gap:.3em;border-radius:.5em}
+  .pin .dot{min-width:1.35em;height:1.35em;line-height:1.35em;font-size:.9em;border-radius:.7em}
+}

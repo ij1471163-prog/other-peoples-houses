@@ -381,25 +381,45 @@ function renderSheet() {
   const head = el('div', 'tabs');
   const close = el('button', 'tab', UI('close')); close.type = 'button'; close.onclick = closeSheet;
   if (VIEW.sheet === 'map') {
+    /* the whole town fits on screen (no panning); a list of places beside/below it says who is where
+       and why a place is closed. Tapping a pin or a list row does the same thing. */
+    sh.classList.add('mapsheet');
     head.appendChild(close); sh.appendChild(head);
+    const body = el('div', 'mapbody');
     const wrap = el('div', 'mapwrap'); wrap.innerHTML = ART.map(S());
+    const list = el('div', 'maplist');
+    const s = S(), here = s.loc, hereHouse = houseOf(here);
+    /* a house's rooms count as "here" for the pin at its front door */
+    const DOOR = { elias: 'elias_ext', leo: 'boathouse', margaret: 'cliff_road', evelyn: 'lh_ext', victor: 'hotel_lobby' };
+    const isHere = to => to === here || (hereHouse && (DOOR[hereHouse] === to || houseOf(to) === hereHouse));
+    const NUDGE = { florist: [0, -4], cemetery: [0, -1], beach: [-3, 2], margaret: [-2, 5], cliff_road: [-2, 5] };   /* keep neighbouring labels apart */
+    const place = (x, b, k) => { const n = NUDGE[k] || [0, 0]; x = [x[0] + n[0], x[1] + n[1]]; b.style.left = x[0] + '%'; b.style.top = (x[1] + 7) + '%'; if (x[0] < 14) b.classList.add('edge-l'); else if (x[0] > 86) b.classList.add('edge-r'); };
+    const go = (p) => ev => { if (!tapOk(ev)) return; VIEW.sheet = null; AUDIO.sfx('steps'); goTo(p.to); };
+    const closed = (p) => ev => { if (!tapOk(ev)) return; toast(tx(p.lockMsg || GAME.UI.closedNow)); };
+    const story = (p) => () => { VIEW.sheet = null; play([{ n: p.msg }]); };
     for (const p of GAME.MAP) {
-      if (p.if && !p.if(S())) continue;
+      if (p.if && !p.if(s)) continue;
       const pos = ART.PLACES[p.place || p.to] || [p.x, p.y];
-      if (!p.to) { const b = el('button', 'pin future'); b.type = 'button'; b.style.left = pos[0] + '%'; b.style.top = (pos[1] + 7) + '%'; b.textContent = tx(p.label); b.appendChild(el('em', '', ' · ' + UI('soon'))); b.onclick = () => { VIEW.sheet = null; play([{ n: p.msg }]); }; wrap.appendChild(b); continue; }
-      const b = el('button', 'pin' + (houseOf(S().loc) === p.to || S().loc === p.to ? ' here' : '')); b.type = 'button';
-      b.style.left = pos[0] + '%'; b.style.top = (pos[1] + 7) + '%';
-      b.textContent = tx(GAME.LOC[p.to].mapName || GAME.LOC[p.to].name);
-      const who = present(p.to).concat(...(GAME.LOC[p.to].rooms || []).map(r => present(r)));
-      if (who.length) { const em = el('em', '', ' · ' + who.map(w => tx(GAME.CHAR[w].short || GAME.CHAR[w].name)).join(', ')); b.appendChild(em); }
-      const lock = p.lock && p.lock(S());
-      if (lock) b.disabled = true;
-      b.onclick = ev => { if (!tapOk(ev)) return; VIEW.sheet = null; AUDIO.sfx('steps'); goTo(p.to); };
-      wrap.appendChild(b);
+      if (!p.to) {
+        const b = el('button', 'pin future'); b.type = 'button'; place(pos, b, p.place || p.to); b.textContent = tx(p.label);
+        if (p.soon !== false) b.appendChild(el('em', '', ' · ' + UI('soon'))); b.onclick = story(p); wrap.appendChild(b);
+        const r = el('button', 'mrow future'); r.type = 'button'; r.appendChild(el('span', 'mname', tx(p.label))); if (p.soon !== false) r.appendChild(el('span', 'mwho', UI('soon'))); r.onclick = story(p); list.appendChild(r);
+        continue;
+      }
+      const L = GAME.LOC[p.to], name = tx(L.mapName || L.name);
+      const who = present(p.to).concat(...(L.rooms || []).map(r => present(r))).map(w => tx(GAME.CHAR[w].short || GAME.CHAR[w].name));
+      const lock = p.lock && p.lock(s), me = isHere(p.to);
+      const b = el('button', 'pin' + (me ? ' here' : '') + (lock ? ' locked' : '')); b.type = 'button'; place(pos, b, p.to);
+      b.textContent = name; if (who.length) b.appendChild(el('i', 'dot', String(who.length)));
+      b.setAttribute('aria-label', name + (who.length ? ' · ' + who.join(', ') : '') + (lock ? ' · ' + UI('closed') : '')); if (lock) b.setAttribute('aria-disabled', 'true');
+      b.onclick = lock ? closed(p) : go(p); wrap.appendChild(b);
+      const r = el('button', 'mrow' + (me ? ' here' : '') + (lock ? ' locked' : '')); r.type = 'button';
+      r.appendChild(el('span', 'mname', (me ? '● ' : '') + name));
+      r.appendChild(el('span', 'mwho', lock ? UI('closed') : who.join('، ')));
+      r.onclick = lock ? closed(p) : go(p); list.appendChild(r);
     }
-    sh.appendChild(wrap);
-    requestAnimationFrame(() => { const h = wrap.querySelector('.pin.here') || wrap.querySelector('.pin'); if (h && h.scrollIntoView) h.scrollIntoView({ block: 'center', inline: 'center' }); });
-  } else {
+    body.appendChild(wrap); body.appendChild(list); sh.appendChild(body);
+    } else {
     const tabs = [['quests', UI('quests')], ['people', UI('people')], ['bag', UI('bag')], ['me', UI('me')], ['settings', UI('settings')]];
     tabs.forEach(([k, label]) => { const b = el('button', 'tab' + (VIEW.tab === k ? ' on' : ''), label); b.type = 'button'; b.onclick = () => { VIEW.tab = k; renderSheet(); }; head.appendChild(b); });
     head.appendChild(close); sh.appendChild(head);

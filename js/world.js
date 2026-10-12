@@ -153,9 +153,9 @@ GAME.MAP = [
   { to: 'harbor' },
   { to: 'elias_ext', if: s => !!s.f.metElias },
   { to: 'clinic', lock: s => s.slot > 2 },
-  { to: 'station', lock: () => true },
+  { to: 'station', lock: () => true, lockMsg: T('No train leaves Saltmere today.', 'ما فيه قطار يطلع من سولتمير اليوم.') },
   { place: 'margaret', label: T('Margaret\'s house', 'بيت مارغريت'), msg: T('A neat white house with every curtain closed. A pressed shirt hangs in an upstairs window. (Margaret\'s chapter is coming.)', 'بيت أبيض مرتب، وكل الستاير مسكّرة. وقميص مكوي معلق في شباك فوق. (فصل مارغريت جاي.)') },
   { place: 'hotel', label: T('The Saltmere Grand', 'فندق سولتمير غراند'), msg: T('Marble steps, a doorman, and a smile on every poster. Victor\'s hotel. (Victor\'s chapter is coming.)', 'درج رخام، وبواب، وابتسامة على كل بوستر. فندق فيكتور. (فصل فيكتور جاي.)') },
   { place: 'lighthouse', label: T('The lighthouse', 'المنارة'), msg: T('The old keeper\'s house at the foot of the lighthouse. Someone inside laughs at 3:07 every night. (Evelyn\'s chapter is coming.)', 'بيت الحارس القديم تحت المنارة. أحد داخله يضحك الساعة ٣:٠٧ كل ليلة. (فصل إيفلين جاي.)') },
-  { place: 'motel', label: T('Harbor Motel', 'موتيل الميناء'), msg: T('Your old room. Someone else\'s now. The V in VACANCY still flickers.', 'غرفتك القديمة. صارت لغيرك. وحرف «غرف شاغرة» لسا يرمش.') }
+  { place: 'motel', soon: false, label: T('Harbor Motel', 'موتيل الميناء'), msg: T('Your old room. Someone else\'s now. The V in VACANCY still flickers.', 'غرفتك القديمة. صارت لغيرك. وحرف «غرف شاغرة» لسا يرمش.') }
 ];

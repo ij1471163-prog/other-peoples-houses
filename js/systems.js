@@ -6,6 +6,7 @@
    ===================================================================== */
 'use strict';
 Object.assign(GAME.UI, {
+  closed: T('Closed now', 'مسكّر الحين'), closedNow: T('Closed right now. Try another time of day.', 'مسكّر الحين. جرّب وقت ثاني من اليوم.'),
   yes: T('Yes', 'إيه'), no: T('No', 'لا'),
   saveAfterTalk: T('Finish the conversation first', 'خلّص السالفة أول'),
   overwriteSlot: T('Replace what is saved in slot', 'تستبدل اللي محفوظ في الخانة'),
