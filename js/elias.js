@@ -43,6 +43,7 @@ GAME.SCRIPTS = {
     N_('The shutter comes down. A minute later, an old man in a knit cap walks up from the harbor with a paper bag of bread, and sits at the other end of your bench.', 'الباب ينقفل. بعد دقيقة، رجل عجوز بطاقية صوف يطلع من جهة الميناء، معه كيس خبز ورق، ويجلس على طرف الكرسي الثاني.'),
     { show: [{ id: 'elias' }] },
     N_('He tears a loaf in two and holds out half. He doesn\'t ask.', 'يقسم خبزة نصين ويمد لك النص. ما يسأل.'),
+    N_('He looks at your face a moment too long, the way you look at a word you\'re sure you know.', 'يطالع وجهك أطول من اللازم، مثل ما تطالع كلمة متأكد إنك تعرفها.'), // links.js
     { c: 'elias', e: 'neutral', q: null, menu: [
       { t: T('Take it', 'تاخذها'), fx: s => { addMood(1); }, then: [] },
       { t: T('"I\'m fine."', '«أنا بخير.»'), then: [N_('He sets it on the bench between you and keeps eating. After a while, you pick it up. He doesn\'t say anything.', 'يحطها على الكرسي بينكم ويكمل أكل. بعد شوي، تاخذها. هو ما يعلق.')] }

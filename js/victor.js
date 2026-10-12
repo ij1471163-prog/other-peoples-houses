@@ -31,7 +31,7 @@
 
   /* ---------- places ---------- */
   const officeLock = s => {
-    if (!inV(s)) return T('Locked. A brass plate: "V. — PRIVATE".', 'مقفول. لوحة نحاس: «ف. — خاص».');
+    if (!inV(s)) return has('postcard') ? T('Locked. A brass plate: "V. — PRIVATE". The same V as on your postcard, in a better font.', 'مقفول. لوحة نحاس: «ف. — خاص». نفس الـ«ف.» اللي على كرتك، بخط أحلى.') : T('Locked. A brass plate: "V. — PRIVATE".', 'مقفول. لوحة نحاس: «ف. — خاص».'); // links.js
     if (has('keycard')) return null;
     if (GAME.CHAR.victor.where(s) === 'hotel_office') return [N_('Voices inside. Victor\'s, warm. Someone else\'s, pleading. You keep walking.', 'أصوات داخل. صوت فيكتور، دافي. وصوت أحد ثاني، يترجى. تكمل مشيك.')];
     if (s.slot === 0) return null; // the cleaners prop it open in the mornings
@@ -146,7 +146,10 @@
       if (has('passport')) return [N_('The safe is shut. You\'ve taken what wasn\'t his.', 'الخزنة مسكّرة. أخذت اللي مو له.')];
       if (roll(GAME.SCRIPTS.vicRisk(s, 0.1))) return [N_('The dial clicks loudly on the last number, and the door opens behind you at the same moment.', 'القرص يطق بقوة على آخر رقم، والباب ينفتح وراك بنفس اللحظة.'), { jump: 'vicCaught' }];
       give('passport'); s.f.vPass = true;
-      return [N_('0-3-0-7. The date he bought the hotel. The safe opens. Cash, deeds, a revolver you don\'t touch, and a small stack of passports. Ana\'s is on top.', '٠-٣-٠-٧. تاريخ شرائه للفندق. الخزنة تنفتح. كاش، وصكوك، ومسدس ما تلمسه، ومجموعة جوازات صغيرة. جواز آنا فوق.'), N_('You take hers. The others aren\'t yours to decide. You make a note of the names.', 'تاخذ جوازها. الباقي مو لك تقرر فيه. وتسجل الأسماء.')]; },
+      return [N_('0-3-0-7. The date he bought the hotel. The safe opens. Cash, deeds, a revolver you don\'t touch, and a small stack of passports. Ana\'s is on top.', '٠-٣-٠-٧. تاريخ شرائه للفندق. الخزنة تنفتح. كاش، وصكوك، ومسدس ما تلمسه، ومجموعة جوازات صغيرة. جواز آنا فوق.'), N_('You take hers. The others aren\'t yours to decide. You make a note of the names.', 'تاخذ جوازها. الباقي مو لك تقرر فيه. وتسجل الأسماء.'),
+        /* links.js: the safe code is the date on your father's postcard, and his file is inside */
+        st => has('postcard') ? [N_('0307. 7 March. The date on your father\'s postcard.', '٠٣٠٧. ٧ مارس. نفس التاريخ اللي على كرت أبوك.')] : null,
+        st => has('postcard') ? (st.f.vFile = true, [N_('Under the deeds, a thin folder with your father\'s name on it. "J. — personal loans, 1998–2023. Called in by Grand Holdings after death. Property sold. Settled." At the bottom, in Victor\'s handwriting: "Should have torn this up."', 'تحت الصكوك، ملف خفيف عليه اسم أبوك. «ج. — قروض شخصية، ١٩٩٨–٢٠٢٣. طالبت فيها غراند القابضة بعد الوفاة. العقار انباع. مسدّد.» وتحت، بخط فيكتور: «كان لازم أشقّه.»')]) : null]; },
 
     /* ----- events ----- */
     vicFire: s => [{ go: 'hotel_suite' }, { show: [] },

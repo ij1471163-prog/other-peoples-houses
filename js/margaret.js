@@ -258,6 +258,7 @@
       M('angry', 'I did not.', 'ما سويت.'),
       NR('sad', 'Mags. Come to the city. Live with me. Sell this museum. Victor\'s people have been sending letters for a year, the money would set you up.', 'ماقز. تعالي المدينة. اسكني عندي. بيعي هالمتحف. ناس فيكتور يرسلون خطابات من سنة، والفلوس بتكفيك.'),
       M('angry', 'This is his HOUSE.', 'هذا بيته هو.'),
+      N_('You think of strangers carrying boxes out of your house. Somebody must have told your mother it was sensible, too.', 'تتذكر غرب يشيلون كراتين من بيتكم. أكيد أحد قال لأمك بعد إن هذا هو العقل.'), // links.js
       N_('Margaret leaves the room. Nora looks at you over her glasses, if she had glasses. She has the look of someone who would.', 'مارغريت تطلع من الغرفة. ونورا تطالعك كأنها تطالع من فوق نظارة، لو كان عندها نظارة. عندها شكل وحدة ممكن يكون عندها.'),
       NR('sad', 'You seem kind. Kind isn\'t enough here. If you find out what she\'s taking, tell me. Or tell the doctor. Just tell someone.', 'شكلك طيب. والطيبة ما تكفي هنا. لو عرفت وش تاخذ، قول لي. أو قول للدكتورة. بس قول لأحد.'),
       st => { st.f.metNora = true; st.met.nora = true; return null; }],
