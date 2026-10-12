@@ -143,6 +143,8 @@ function next() {
     if (st.time) { advance(st.time); continue; }
     if (st.end) { showEnding(st.end); return; }
     if (st.show !== undefined) { VIEW.stageChars = st.show; continue; }
+    if (st.sfx && !st.n && !st.t) { AUDIO.sfx(st.sfx); continue; }
+    if (st.scare) scare(st.scare);
     if (st.n || st.t) { renderLine(st); return; }
     if (st.menu) { renderMenu(st); return; }
     if (st.jump) { const sc = GAME.SCRIPTS[st.jump]; RUN.stack.push({ steps: typeof sc === 'function' ? sc(S()) : sc, i: 0 }); continue; }
@@ -198,11 +200,11 @@ function renderStage(charsOverride) {
   } else {
     layer.innerHTML = ''; layer._k = key;
     cast.forEach(c => {
-      const d = el('div', 'char' + (c.dim ? ' dim' : ''));
+      const d = el('div', 'char' + (c.dim ? ' dim' : '') + (GAME.CHAR[c.id].ghost ? ' ghost' : ''));
       d.style.left = c.x + '%';
       d.innerHTML = ART.portrait(c.id, c.expr);
       const hh = GAME.CHAR[c.id].height; if (hh && PEOPLE.IMG.chars[c.id]) d.style.setProperty('--h', hh);
-      if (!RUN) { d.addEventListener('click', ev => { if (tapOk(ev)) talkTo(c.id); }); d.appendChild(el('span', 'tag', tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
+      if (!RUN && !GAME.CHAR[c.id].ghost) { d.addEventListener('click', ev => { if (tapOk(ev)) talkTo(c.id); }); d.appendChild(el('span', 'tag', tx(GAME.CHAR[c.id].short || GAME.CHAR[c.id].name))); }
       layer.appendChild(d);
     });
   }
@@ -463,6 +465,7 @@ function renderSheet() {
       mk(GAME.lang === 'ar' ? 'English' : 'العربية', () => { GAME.lang = GAME.lang === 'ar' ? 'en' : 'ar'; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} applyLang(); renderStage(); if (!RUN) renderLocation(); else { const top = RUN.stack[RUN.stack.length - 1]; if (top) { top.i--; next(); } } });
       mk(AUDIO.on ? UI('soundOff') : UI('soundOn'), () => { AUDIO.setOn(!AUDIO.on); renderSheet(); });
       if (AUDIO.on) body.appendChild(soundSliders());
+      mk(SCARES.on ? UI('scaresOff') : UI('scaresOn'), () => { SCARES.on = !SCARES.on; renderSheet(); });
       body.appendChild(el('p', 'sec', UI('saveGame')));
       /* saving in the middle of a conversation would store half a scene; finish it first */
       [1, 2, 3].forEach(i => { const b = el('button', 'opt', '💾 ' + slotLabel(i)); b.type = 'button'; if (RUN) { b.disabled = true; b.appendChild(el('small', '', UI('saveAfterTalk'))); } else b.onclick = () => { if (!readSlot(i)) { saveSlot(i); renderSheet(); return; } confirmIn(body, UI('overwriteSlot') + ' ' + i + '?', () => { saveSlot(i); renderSheet(); }, renderSheet); }; body.appendChild(b); });
@@ -498,6 +501,19 @@ function appLink() {
   a.target = '_blank'; a.rel = 'noopener';
   a.appendChild(el('small', '', UI('downloadHint')));
   return a;
+}
+
+/* ---------- jump scares (can be turned off in Settings; then only a soft sound) ---------- */
+const SCARES = { get on() { try { return localStorage.getItem('oph.scares') !== '0'; } catch (e) { return true; } },
+  set on(v) { try { localStorage.setItem('oph.scares', v ? '1' : '0'); } catch (e) {} } };
+function scare(id) {
+  if (!SCARES.on) { AUDIO.sfx('ghost'); return; }
+  AUDIO.sfx('scream');
+  try { if (navigator.vibrate) navigator.vibrate([60, 40, 140]); } catch (e) {}
+  const st = $('stage'); const old = st.querySelector('.scare'); if (old) old.remove();
+  const o = el('div', 'scare'); o.innerHTML = ART.portrait(id, 'angry'); st.appendChild(o);
+  st.classList.remove('shake'); void st.offsetWidth; st.classList.add('shake');
+  setTimeout(() => { o.remove(); st.classList.remove('shake'); }, 950);
 }
 
 /* ---------- small dialogs ---------- */

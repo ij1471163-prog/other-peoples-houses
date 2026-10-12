@@ -43,6 +43,11 @@ EXPR = {
     "shock": "shocked surprised expression, wide eyes, open mouth",
 }
 
+# per-character expression wording (the ghost's "angry" face is his scream)
+EXPR_FOR = {"keeper": {"angry": "screaming, mouth wide open, furious wild eyes", "smile": "faint gentle peaceful smile"}}
+def expr_text(cid, e):
+    return EXPR_FOR.get(cid, {}).get(e, EXPR[e])
+
 CHARS = {
     "elias": "72 year old fisherman, lean wiry build, thick white beard, blue knitted beanie, kind blue eyes, yellow raincoat over cream wool sweater",
     "sami": "29 year old Arab man, short and stocky, round face, short black hair, short black beard, white t-shirt, green shop apron, jeans, hand on hip",
@@ -53,6 +58,7 @@ CHARS = {
     "frank": "54 year old heavyset mechanic, big belly, broad shoulders, balding, big grey mustache, grey t-shirt, navy blue work overalls, arms crossed",
     "margaret": "anime style, 54 year old petite slim woman, greying light brown bob haircut, tired kind eyes, lavender knitted cardigan, cream blouse, grey long skirt, hands clasped",
     "nora": "50 year old tall sturdy woman, short dark pixie haircut, sharp eyes, long red coat, yellow scarf, black trousers, hand on hip",
+    "keeper": "ghost of an 80 year old lighthouse keeper, very tall gaunt old man, pale grey skin, white full beard, hollow sleepless eyes, long dark navy keeper coat with brass buttons, peaked cap, holding a teacup",
     "evelyn": "38 year old tall athletic woman, blonde hair in a side braid, navy blue fisherman sweater, red scarf, brown trousers, quirky smile",
     "victor": "50 year old rich man, well fed with a slight paunch, slicked back black hair, smug smile, dark navy suit, white shirt, red tie, one hand in pocket",
     "kell": "42 year old huge muscular black man, very broad, buzz cut, short beard, black suit, arms crossed, bodyguard",
@@ -210,7 +216,7 @@ def main():
         neutral = None
         if "1" in PHASES and not exists("char", f.name):
             t = time.time()
-            neutral = P.draw(f"{base_prompt}, {EXPR['neutral']}, {STYLE_C}", NEG, "char", seed)
+            neutral = P.draw(f"{base_prompt}, {expr_text(cid, 'neutral')}, {STYLE_C}", NEG, "char", seed)
             neutral.save(CH / f"{cid}-neutral.raw.jpg", quality=92)
             neutral.save(RAW / f"{cid}-neutral.png")
             made += 1; print(f"char {cid}-neutral {time.time() - t:.0f}s", flush=True)
@@ -228,7 +234,7 @@ def main():
                 fe = CH / f"{cid}-{expr}.png"
                 if exists("char", fe.name): continue
                 t = time.time()
-                img = P.redraw(neutral, f"{base_prompt}, {EXPR[expr]}, {STYLE_C}", NEG, seed + 7)
+                img = P.redraw(neutral, f"{base_prompt}, {expr_text(cid, expr)}, {STYLE_C}", NEG, seed + 7)
                 img.save(RAW / f"{cid}-{expr}.png")
                 made += 1; print(f"char {cid}-{expr} {time.time() - t:.0f}s", flush=True)
     for bid in todo_b:

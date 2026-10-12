@@ -407,3 +407,18 @@ html[lang=ar] .sheet.mapsheet .pin{font-size:11px}
   .sheet.mapsheet .pin,html[lang=ar] .sheet.mapsheet .pin{font-size:clamp(8px,2.05cqi,12px);padding:.1em .45em;gap:.3em;border-radius:.5em}
   .pin .dot{min-width:1.35em;height:1.35em;line-height:1.35em;font-size:.9em;border-radius:.7em}
 }
+
+/* ===== the Keeper: a ghost, and his jump scare ===== */
+.char.ghost{filter:drop-shadow(0 0 18px rgba(160,210,255,.55)) saturate(.25) brightness(1.15);opacity:.72;animation:ghostIn 1.4s ease-out both}
+.char.ghost img,.char.ghost svg{animation:ghostFlicker 3.1s steps(1,end) infinite}
+.char.ghost .tag{display:none}
+@keyframes ghostIn{0%{opacity:0;transform:translateX(-50%) translateY(6px) scale(.98)}100%{opacity:.72}}
+@keyframes ghostFlicker{0%,100%{opacity:1}46%{opacity:1}47%{opacity:.35}49%{opacity:.95}83%{opacity:1}84%{opacity:.55}85%{opacity:1}}
+.scare{position:absolute;inset:0;z-index:20;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(ellipse at 50% 55%,rgba(220,235,255,.18),rgba(0,0,0,.92) 70%);animation:scareIn .95s ease-out both}
+.scare > *{height:230%;max-width:none;filter:grayscale(1) contrast(1.35) brightness(1.05) sepia(.2) hue-rotate(180deg) drop-shadow(0 0 40px rgba(200,225,255,.8));transform:translateY(46%)}
+.scare img{height:230%!important;width:auto!important}
+@keyframes scareIn{0%{opacity:0;transform:scale(1.25)}8%{opacity:1;transform:scale(1)}14%{background-color:rgba(255,255,255,.55)}22%{background-color:transparent}75%{opacity:1}100%{opacity:0}}
+.stage.shake{animation:shake .45s linear}
+@keyframes shake{0%,100%{transform:none}20%{transform:translate(-7px,3px)}40%{transform:translate(6px,-4px)}60%{transform:translate(-4px,2px)}80%{transform:translate(3px,-2px)}}
+html.idle .char.ghost img,html.idle .char.ghost svg,html.asleep .char.ghost img,html.asleep .char.ghost svg{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.stage.shake{animation:none}.scare{animation-duration:.95s}}

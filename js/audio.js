@@ -227,6 +227,18 @@ const AUDIO = (() => {
     knock: t => { [0, 0.22, 0.75, 0.97].forEach(d => { tone(95, t + d, 0.12, 0.14, 'sine'); burst(t + d, 0.04, 0.06, 'bandpass', 900); }); },
     clock: t => clock(t, 3),
     thunder: t => burst(t, 2.8, 0.22, 'lowpass', 180, bus.sfx, brown),
+    /* the Keeper appears: a cold breath and a high glassy shimmer */
+    ghost: t => { burst(t, 1.6, 0.09, 'bandpass', 420, bus.sfx, brown); [1760, 1864, 2637].forEach((f, i) => tone(f, t + 0.1 + i * 0.05, 1.4, 0.012, 'sine', bus.sfx, 0.5)); tone(55, t, 1.8, 0.05, 'sine', bus.sfx, 0.4); },
+    /* the Keeper screams: a torn, falling howl with a noise blast. Loud, short, never stacked. */
+    scream: t => {
+      const ws = ctx.createWaveShaper(); const c = new Float32Array(1024); for (let i = 0; i < 1024; i++) { const x = i / 512 - 1; c[i] = Math.tanh(x * 4); } ws.curve = c;
+      const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.32, t + 0.03); g.gain.setTargetAtTime(0.0001, t + 0.7, 0.18);
+      const lp = filt('lowpass', 3800); ws.connect(lp).connect(g).connect(bus.sfx);
+      [[880, 0], [1245, 7], [660, -9]].forEach(([f, d]) => { const o = ctx.createOscillator(); o.type = 'sawtooth'; o.detune.value = d * 10; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * 0.45, t + 1.1);
+        const v = ctx.createOscillator(); v.frequency.value = 13; const vg = ctx.createGain(); vg.gain.value = f * 0.05; v.connect(vg).connect(o.frequency); v.start(t); v.stop(t + 1.2); o.connect(ws); o.start(t); o.stop(t + 1.2); });
+      burst(t, 0.5, 0.25, 'highpass', 1200);
+      setTimeout(() => { try { g.disconnect(); } catch (e) {} }, 2500);
+    },
     /* 3:07: distant, delighted laughter through a wall — quiet, a few seconds, never stacked */
     laugh: t => {
       const lp = filt('lowpass', 1700); const dl = ctx.createDelay(1); dl.delayTime.value = 0.23; const fb = ctx.createGain(); fb.gain.value = 0.33;
@@ -240,7 +252,7 @@ const AUDIO = (() => {
   };
   function sfx(name) {
     if (!live() || !FX[name]) return;
-    const now = performance.now(); const gap = name === 'laugh' || name === 'knock' || name === 'thunder' ? 20000 : name === 'tap' ? 60 : 250;
+    const now = performance.now(); const gap = name === 'laugh' || name === 'knock' || name === 'thunder' ? 20000 : name === 'scream' ? 8000 : name === 'tap' ? 60 : 250;
     if (now - (lastCue[name] || 0) < gap) return; lastCue[name] = now;
     FX[name](ctx.currentTime + 0.02);
   }

@@ -6,6 +6,7 @@
    ===================================================================== */
 'use strict';
 Object.assign(GAME.UI, {
+  scaresOn: T('Jump scares: off · turn on', 'المفاجآت المرعبة: مطفية · شغّل'), scaresOff: T('Jump scares: on · turn off', 'المفاجآت المرعبة: شغّالة · طفّي'),
   closed: T('Closed now', 'مسكّر الحين'), closedNow: T('Closed right now. Try another time of day.', 'مسكّر الحين. جرّب وقت ثاني من اليوم.'),
   yes: T('Yes', 'إيه'), no: T('No', 'لا'),
   saveAfterTalk: T('Finish the conversation first', 'خلّص السالفة أول'),
