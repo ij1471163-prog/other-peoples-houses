@@ -121,12 +121,13 @@ const LIFE = (() => {
     if (!BATHS.includes(to) || RUN) return null;
     const h = houseOf(to); const key = s.day * 10 + s.slot;
     if (s.f.looAt === key) return null;                           // at most once per time of day
-    const home = Object.keys(GAME.CHAR).filter(id => { const c = GAME.CHAR[id]; if (!c.life || !c.where) return false; const w = c.where(s); return !!w && w !== s.loc && w !== to && houseOf(w) === h; });
+    const busy = ['sleep', 'sick', 'cook', 'watch', 'eat', 'table', 'shower', 'bath'];   // someone asleep or at the stove isn't in the bathroom
+    const home = Object.keys(GAME.CHAR).filter(id => { const c = GAME.CHAR[id]; if (!c.life || !c.where) return false; const w = c.where(s); if (!w || w === s.loc || w === to || houseOf(w) !== h) return false; const a = act(id, s); return !a || !busy.includes(a.key); });
     if (!home.length || !roll(0.15)) return null;
     s.f.looAt = key;
     const id = home[Math.floor(Math.random() * home.length)], nm = GAME.CHAR[id].short || GAME.CHAR[id].name;
     return [{ n: T(nm.en + ' calls through the locked door: "One minute!"', nm.ar + ' ' + (female(id) ? 'تنادي' : 'ينادي') + ' من ورا الباب المقفول: «دقيقة وحدة!»') },
-      { n: T('A flush, a tap, and the door opens. The bathroom is free.', 'صوت سيفون، وحنفية، والباب ينفتح. الحمام فاضي.') }];
+      { n: T('A flush, a tap, and the door opens. The bathroom is free.', 'صوت سيفون، وحنفية، والباب ينفتح. الحمام فاضي.') }, { go: to }];
   }
 
   /* bathrooms: keep each house's own lock (the host's shower), then the occasional "one minute!" */

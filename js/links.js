@@ -80,7 +80,7 @@
 
   /* Thomas's half-finished model ship: you finish it with Elias (pays off in ELIAS_LETTER) */
   GAME.TOPICS.elias.push({ id: 'ship', once: true, label: T('Finish Thomas\'s model ship together', 'تخلصون مجسم سفينة توماس مع بعض'),
-    if: s => s.host === 'elias' && s.loc === 'your_room' && !s.f.shipDone, need: s => (s.trust.elias || 0) >= 5,
+    if: s => s.host === 'elias' && s.loc === 'living' && s.slot === NIGHT && !s.f.shipDone, need: s => (s.trust.elias || 0) >= 5,
     why: T('It isn\'t yours to touch. Not yet.', 'مو لك تلمسه. للحين.'),
     run: s => [
       N_('Elias finds the glue in a drawer that still smells of it. You work in silence for an evening, his big hands holding, yours gluing.', 'إلياس يلقى الغرا في درج لسا ريحته فيه. تشتغلون ساكتين طول المغرب، يدينه الكبار تمسك، ويدينك تلزق.'),
