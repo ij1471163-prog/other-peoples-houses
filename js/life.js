@@ -94,6 +94,10 @@ const LIFE = (() => {
     return { key: k, icon, at: w, label: T(en, female(id) ? arF : arM) };
   }
   const icon = (id, s) => { const a = act(id, s); return a ? a.icon : ''; };
+  /* the drawn pose for what they are doing (img/chars/<id>-<activity>.webp), if one was drawn */
+  const ALIAS = { radio: 'rest' };   // the radio pose is the same as resting with a mug of tea
+  const pose = (id, s) => { const a = act(id, s), im = PEOPLE.IMG.chars[id]; if (!a || !im) return null;
+    return im[a.key] ? a.key : (ALIAS[a.key] && im[ALIAS[a.key]] ? ALIAS[a.key] : null); };
 
   /* "Now: 🍳 Cooking · Kitchen" for the People tab */
   function nowLine(id, s = S()) {
@@ -133,6 +137,6 @@ const LIFE = (() => {
       e.lock = s => (own && own(s)) || loo(e.to, s);
     }
   }
-  return { ACTS, act, icon, nowLine, hear, wireBathrooms };
+  return { ACTS, act, icon, pose, nowLine, hear, wireBathrooms };
 })();
 LIFE.wireBathrooms();

@@ -26,7 +26,7 @@ def manifest():
     for f in sorted((IMG / "chars").glob("*")):
         if f.suffix not in (".webp", ".png") or "-" not in f.stem: continue
         cid, expr = f.stem.rsplit("-", 1)
-        if expr not in EXPRS: continue
+        if expr not in EXPRS and not expr.isalpha(): continue   # expressions, and activity poses (cook, mend…)
         cur = chars.setdefault(cid, {})
         if expr not in cur or f.suffix == ".webp": cur[expr] = f"img/chars/{f.name}"
     for f in sorted((IMG / "bg").glob("*")):

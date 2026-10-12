@@ -43,6 +43,41 @@ EXPR = {
     "shock": "shocked surprised expression, wide eyes, open mouth",
 }
 
+# Activity poses (phase 4): the same person, drawn from their neutral picture, holding what they use
+# for that part of their day. File: img/chars/<id>-<activity>.png. The activity names are the ones in
+# each character's `life` table (js/chars/<id>.js); the game shows the pose while they are doing it.
+ACT_ART = {
+    "elias":    {"cook": "holding a frying pan and a wooden spatula, cooking breakfast",
+                 "mend": "holding a tangled fishing net in both hands, mending it",
+                 "fish": "holding a fishing rod over his shoulder, fisherman",
+                 "rest": "holding a steaming mug of tea in both hands, relaxed"},
+    "leo":      {"eat": "holding a bowl of cereal and a spoon, eating",
+                 "draw": "holding a sketchbook and a pencil, drawing",
+                 "game": "holding a video game controller, playing",
+                 "deliver": "holding a bike helmet under one arm and a phone, delivery rider"},
+    "margaret": {"cook": "holding a saucepan and a wooden spoon, cooking",
+                 "tea": "holding a teacup and saucer",
+                 "table": "carrying three white dinner plates"},
+    "evelyn":   {"cook": "holding a frying pan, cooking",
+                 "gulls": "holding a paper bag of bread crumbs, throwing crumbs",
+                 "watch": "holding a polishing cloth and a glass lens"},
+    "martha":   {"clean": "holding a feather duster and a bucket, cleaning"},
+    "sami":     {"shop": "carrying a cardboard box of groceries"},
+    "marco":    {"serve": "holding a tray with two cups of coffee, waiter"},
+    "nora":     {"phone": "holding a phone to her ear, talking"},
+    "kell":     {"read": "holding an open paperback book, reading"},
+    "ana":      {"clean": "holding a stack of folded white towels",
+                 "laundry": "carrying a laundry basket full of sheets"},
+    "gregor":   {"dig": "holding a shovel, leaning on it"},
+    "irene":    {"doctor": "stethoscope around her neck, holding a clipboard"},
+    "maya":     {"mend": "holding a fishing net in both hands, mending it"},
+    "kai":      {"surf": "holding a surfboard under one arm"},
+    "olivia":   {"petition": "holding a clipboard and a pen"},
+    "stella":   {"flowers": "holding a bouquet of flowers"},
+    "ingrid":   {"tea": "holding a teacup and saucer"},
+}
+ACT_STRENGTH = float(os.environ.get("ART_ACT_STRENGTH", "0.62"))
+
 # per-character expression wording (the ghost's "angry" face is his scream)
 EXPR_FOR = {"keeper": {"angry": "screaming, mouth wide open, furious wild eyes", "smile": "faint gentle peaceful smile"}}
 def expr_text(cid, e):
@@ -201,7 +236,8 @@ def main():
     bgs = [b for b in BGS if OK(b)]
     mine_c = [c for i, c in enumerate(chars) if i % SHARDS == SHARD]
     mine_b = [b for i, b in enumerate(bgs) if (i + len(chars)) % SHARDS == SHARD]
-    todo = [c for c in mine_c if any(not exists("char", f"{c}-{e}.png") for e in (EXPR if "3" in PHASES else ["neutral"]))]
+    need = lambda c: list(EXPR if "3" in PHASES else ["neutral"]) + (list(ACT_ART.get(c, {})) if "4" in PHASES else [])
+    todo = [c for c in mine_c if any(not exists("char", f"{c}-{e}.png") for e in need(c))]
     todo_b = [b for b in mine_b if "2" in PHASES and not exists("bg", f"{b}.jpg")]
     print(f"shard {SHARD}/{SHARDS}: characters {todo}, backgrounds {todo_b}", flush=True)
     if not todo and not todo_b:
@@ -220,7 +256,7 @@ def main():
             neutral.save(CH / f"{cid}-neutral.raw.jpg", quality=92)
             neutral.save(RAW / f"{cid}-neutral.png")
             made += 1; print(f"char {cid}-neutral {time.time() - t:.0f}s", flush=True)
-        if "3" in PHASES:
+        if "3" in PHASES or "4" in PHASES:
             raw = CH / f"{cid}-neutral.raw.jpg"
             if neutral is None and raw.exists(): neutral = Image.open(raw).convert("RGB")
             if neutral is None:
@@ -229,7 +265,7 @@ def main():
                 if src.exists():
                     im = Image.open(src).convert("RGBA"); bgw = Image.new("RGBA", im.size, (255, 255, 255, 255)); bgw.alpha_composite(im)
                     neutral = bgw.convert("RGB").resize(P.sizes["char"], Image.LANCZOS)
-            for expr in ["smile", "sad", "angry", "shock"]:
+            for expr in (["smile", "sad", "angry", "shock"] if "3" in PHASES else []):
                 if out_of_time() or neutral is None: break
                 fe = CH / f"{cid}-{expr}.png"
                 if exists("char", fe.name): continue
@@ -237,6 +273,15 @@ def main():
                 img = P.redraw(neutral, f"{base_prompt}, {expr_text(cid, expr)}, {STYLE_C}", NEG, seed + 7)
                 img.save(RAW / f"{cid}-{expr}.png")
                 made += 1; print(f"char {cid}-{expr} {time.time() - t:.0f}s", flush=True)
+            # phase 4: what they do during the day (a stronger redraw, so the hands and the object change)
+            for act, what in (ACT_ART.get(cid, {}).items() if "4" in PHASES else []):
+                if out_of_time() or neutral is None: break
+                fa = CH / f"{cid}-{act}.png"
+                if exists("char", fa.name): continue
+                t = time.time()
+                img = P.redraw(neutral, f"{base_prompt}, calm expression, {what}, {STYLE_C}", NEG, seed + 11, strength=ACT_STRENGTH)
+                img.save(RAW / f"{cid}-{act}.png")
+                made += 1; print(f"char {cid}-{act} {time.time() - t:.0f}s", flush=True)
     for bid in todo_b:
         if out_of_time(): break
         t = time.time()

@@ -122,6 +122,8 @@ function atHouse(charId, house) { const w = GAME.CHAR[charId].where && GAME.CHAR
 
 /* daily life (js/life.js): an icon for what someone is doing right now; empty if unknown */
 const lifeIcon = id => (typeof LIFE !== 'undefined' ? LIFE.icon(id) : '');
+/* ...and the drawn pose for it (holding a pan, a net, a cup); null until that picture exists */
+const lifePose = id => (typeof LIFE !== 'undefined' ? LIFE.pose(id) : null);
 
 /* ---------- script runner ---------- */
 let RUN = null;           // {stack:[{steps,i}], done}
@@ -203,7 +205,7 @@ function renderStage(charsOverride) {
   list = list.filter(c => c && GAME.CHAR[c.id] && GAME.CHAR[c.id].art);
   const n = list.length;
   const cast = list.map((c, i) => ({ id: c.id, x: n === 1 ? (L.charX || 62) : 30 + (i * 40) / Math.max(1, n - 1),
-    expr: (VIEW.speaker === c.id && VIEW.expr) ? VIEW.expr : (c.e || 'neutral'), dim: !!(VIEW.speaker && VIEW.speaker !== c.id) }));
+    expr: (VIEW.speaker === c.id && VIEW.expr) ? VIEW.expr : (c.e || lifePose(c.id) || 'neutral'), dim: !!(VIEW.speaker && VIEW.speaker !== c.id) }));
   const key = JSON.stringify([cast.map(c => [c.id, c.x, c.expr, lifeIcon(c.id)]), !!RUN, GAME.lang, PEOPLE.IMG.v || 0]);
   if (layer._k === key) {
     /* same people, same faces: just move the spotlight to whoever is talking (no re-entry animation, no image reload) */
