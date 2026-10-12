@@ -123,6 +123,14 @@ function atHouse(charId, house) { const w = GAME.CHAR[charId].where && GAME.CHAR
 /* ---------- script runner ---------- */
 let RUN = null;           // {stack:[{steps,i}], done}
 let VIEW = { sheet: null, tab: 'quests', speaker: null, expr: null, stageChars: null };
+/* display preferences, kept on this device: text size and whether object names are always shown */
+const PREFS = (() => { let p = { text: 'm', labels: 'always' };
+  try { Object.assign(p, JSON.parse(localStorage.getItem('oph.prefs') || '{}')); } catch (e) {}
+  return { get: k => p[k], set(k, v) { p[k] = v; try { localStorage.setItem('oph.prefs', JSON.stringify(p)); } catch (e) {} applyPrefs(); } }; })();
+function applyPrefs() {
+  const h = document.documentElement; h.classList.remove('ts-s', 'ts-l'); if (PREFS.get('text') !== 'm') h.classList.add('ts-' + PREFS.get('text'));
+  document.body.classList.toggle('lbl-tap', PREFS.get('labels') === 'tap');
+}
 
 function play(steps, done) {
   document.body.classList.remove('explore', 'titlemode');
@@ -227,15 +235,42 @@ function renderStage(charsOverride) {
   if (!RUN && !VIEW.sheet) {
     for (const h of visibleSpots()) {
       const b = el('button', 'spot' + (h.exit ? ' exit' : '') + (h.risk && h.risk(S()) ? ' risk' : ''));
-      b.type = 'button'; b.style.left = h.x + '%'; b.style.top = h.y + '%'; if (h.x > 55) b.classList.add('flip');
+      b.type = 'button'; b.style.setProperty('--x', h.x + '%'); b.style.setProperty('--y', h.y + '%'); if (h.x > 55) b.classList.add('flip', 'flip0');
       b.appendChild(el('i')); b.appendChild(el('span', '', tx(h.label)));
-      b.onclick = ev => { if (tapOk(ev)) useSpot(h); };
+      b.onclick = ev => { if (!tapOk(ev)) return;
+        if (PREFS.get('labels') === 'tap' && !b.classList.contains('show')) { sp.querySelectorAll('.spot.show').forEach(o => o.classList.remove('show')); b.classList.add('show'); untangleSpots(sp); return; }
+        useSpot(h); };
       sp.appendChild(b);
     }
+    untangleSpots(sp);
   }
   renderSheet();
   if (typeof AUDIO !== 'undefined') AUDIO.scene(s);
 }
+/* labels of neighbouring spots must not sit on top of each other: first try the other side, then
+   move the label up or down a little. The glowing circle itself never moves (it marks the object). */
+function untangleSpots(sp) {
+  const bs = [...sp.querySelectorAll('.spot')]; if (!bs.length) return;
+  bs.forEach(b => { b.style.removeProperty('--ly'); b.style.removeProperty('--dy'); b.classList.toggle('flip', b.classList.contains('flip0')); });
+  const box = b => b.querySelector('span').getBoundingClientRect();
+  const hit = (p, q) => Math.min(p.right, q.right) - Math.max(p.left, q.left) > 2 && Math.min(p.bottom, q.bottom) - Math.max(p.top, q.top) > 2;
+  const hud = [...document.querySelectorAll('#stage .hud .chip, #stage .hud .ibtn')].map(e => e.getBoundingClientRect());
+  const clashes = b => hud.some(r => hit(box(b), r)) || bs.some(o => o !== b && (hit(box(b), box(o)) || hit(box(b), o.querySelector('i').getBoundingClientRect())));
+  /* a circle hidden under the top bar slides down just below it */
+  for (const b of bs) { const i = b.querySelector('i').getBoundingClientRect();
+    const r = hud.find(r => i.right > r.left - 4 && i.left < r.right + 4 && i.top < r.bottom + 4);
+    if (r) b.style.setProperty('--dy', Math.ceil(r.bottom + 6 - i.top) + 'px'); }
+  for (const b of bs) {
+    if (!clashes(b)) continue;
+    b.classList.toggle('flip'); if (!clashes(b)) continue;
+    b.classList.toggle('flip');
+    const h = box(b).height + 2; let ok = false;
+    for (const dy of [h, -h, 2 * h, -2 * h]) { b.style.setProperty('--ly', dy + 'px'); if (!clashes(b)) { ok = true; break; } }
+    if (!ok) b.style.removeProperty('--ly');
+  }
+}
+let _untT = 0;
+window.addEventListener('resize', () => { clearTimeout(_untT); _untT = setTimeout(() => { const sp = document.querySelector('#stage .spots'); if (sp) untangleSpots(sp); placeCaption(); }, 150); });
 function visibleSpots() {
   const L = GAME.LOC[S().loc]; const out = [];
   (L.spots || []).forEach(h => { if (!h.if || h.if(S())) out.push(h); });
@@ -314,9 +349,28 @@ function renderLocation() {
   if (txt) cap.appendChild(el('p', 'line narr', txt));
   s.f.hintTaps = (s.f.hintTaps || 0) + 1;
   if (s.f.hintTaps <= 6) cap.appendChild(el('p', 'hint', UI('tapHint')));
-  cap.onclick = () => cap.classList.toggle('open');
+  cap.onclick = () => { cap.classList.toggle('open'); placeCaption(); };
   panel.appendChild(cap);
+  placeCaption();
   save();
+}
+/* the caption floats over a corner of the picture: it must never cover a glowing circle, or that
+   circle can't be tapped. Try the usual corner, then the other one, then shrink it to just the
+   place name. */
+function placeCaption() {
+  const b = document.body, panel = $('panel');
+  const ALL = ['cap-end', 'cap-mini', 'cap-mid'];
+  b.classList.remove(...ALL);
+  if (!b.classList.contains('explore') || getComputedStyle(panel).position !== 'fixed') return;
+  const spots = [...document.querySelectorAll('#stage .spots .spot i')].map(x => { const r = x.getBoundingClientRect(); return { left: r.left - 8, right: r.right + 8, top: r.top - 8, bottom: r.bottom + 8 }; });
+  const covered = () => { const p = panel.getBoundingClientRect();
+    return spots.filter(r => Math.min(p.right, r.right) - Math.max(p.left, r.left) > 0 && Math.min(p.bottom, r.bottom) - Math.max(p.top, r.top) > 0).length; };
+  if (!covered()) return;
+  const open = panel.querySelector('.caption.open');
+  const tries = [['cap-end'], ['cap-mini'], ['cap-end', 'cap-mini'], ['cap-mid', 'cap-mini']].filter(c => !(open && c.includes('cap-mini')));
+  let best = [], least = covered();
+  for (const c of tries) { b.classList.remove(...ALL); b.classList.add(...c); const n = covered(); if (n < least) { least = n; best = c; } if (!n) return; }
+  b.classList.remove(...ALL); if (best.length) b.classList.add(...best);
 }
 
 /* talking: a menu of topics for that character, built from GAME.TOPICS */
@@ -460,16 +514,26 @@ function renderSheet() {
       const msg = el('p', 'line narr', tx(s.f.calledMother ? GAME.UI.momOk : GAME.UI.momMsgs)); body.appendChild(msg);
     } else {
       const mk = (label, fn) => { const b = el('button', 'opt', label); b.type = 'button'; b.onclick = fn; body.appendChild(b); };
-      const box = el('div', 'opts');
-      body.appendChild(box);
-      mk(GAME.lang === 'ar' ? 'English' : 'العربية', () => { GAME.lang = GAME.lang === 'ar' ? 'en' : 'ar'; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} applyLang(); renderStage(); if (!RUN) renderLocation(); else { const top = RUN.stack[RUN.stack.length - 1]; if (top) { top.i--; next(); } } });
-      mk(AUDIO.on ? UI('soundOff') : UI('soundOn'), () => { AUDIO.setOn(!AUDIO.on); renderSheet(); });
+      /* one row: a name, then a small switch of choices; the chosen one is lit */
+      const seg = (label, choices, cur, pick) => { const r = el('div', 'setrow'); r.appendChild(el('span', '', label)); const g = el('div', 'seg'); g.setAttribute('role', 'radiogroup'); g.setAttribute('aria-label', label);
+        choices.forEach(([v, t]) => { const b = el('button', v === cur ? 'on' : '', t); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', v === cur ? 'true' : 'false'); b.onclick = ev => { ev.stopPropagation(); if (v !== cur && tapOk(ev)) { pick(v); renderSheet(); } }; g.appendChild(b); });
+        r.appendChild(g); body.appendChild(r); };
+      const sec = k => body.appendChild(el('p', 'sec', UI(k)));
+      sec('secSound');
+      seg(UI('sound'), [[true, UI('on')], [false, UI('off')]], AUDIO.on, v => AUDIO.setOn(v));
       if (AUDIO.on) body.appendChild(soundSliders());
-      mk(SCARES.on ? UI('scaresOff') : UI('scaresOn'), () => { SCARES.on = !SCARES.on; renderSheet(); });
-      body.appendChild(el('p', 'sec', UI('saveGame')));
+      sec('secDisplay');
+      seg(UI('language'), [['ar', 'العربية'], ['en', 'English']], GAME.lang, v => { GAME.lang = v; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} applyLang(); renderStage(); if (!RUN) renderLocation(); else { const top = RUN.stack[RUN.stack.length - 1]; if (top) { top.i--; next(); } } });
+      seg(UI('textSize'), [['s', UI('small')], ['m', UI('normal')], ['l', UI('large')]], PREFS.get('text'), v => PREFS.set('text', v));
+      seg(UI('names'), [['always', UI('always')], ['tap', UI('onTap')]], PREFS.get('labels'), v => PREFS.set('labels', v));
+      sec('secPlay');
+      seg(UI('scares'), [[true, UI('on')], [false, UI('off')]], SCARES.on, v => { SCARES.on = v; });
+      sec('secProgress');
+      body.appendChild(el('p', 'setnote', UI('autoNote')));
       /* saving in the middle of a conversation would store half a scene; finish it first */
+      body.appendChild(el('p', 'sub', UI('saveGame')));
       [1, 2, 3].forEach(i => { const b = el('button', 'opt', '💾 ' + slotLabel(i)); b.type = 'button'; if (RUN) { b.disabled = true; b.appendChild(el('small', '', UI('saveAfterTalk'))); } else b.onclick = () => { if (!readSlot(i)) { saveSlot(i); renderSheet(); return; } confirmIn(body, UI('overwriteSlot') + ' ' + i + '?', () => { saveSlot(i); renderSheet(); }, renderSheet); }; body.appendChild(b); });
-      body.appendChild(el('p', 'sec', UI('loadGame')));
+      if ([1, 2, 3].some(i => readSlot(i))) body.appendChild(el('p', 'sub', UI('loadGame')));
       [1, 2, 3].forEach(i => { if (readSlot(i)) mk('↺ ' + slotLabel(i), () => confirmIn(body, UI('loadConfirm'), () => loadSlot(i), renderSheet)); });
       mk(UI('toTitle'), () => { if (RUN) confirmIn(body, UI('leaveTalk'), () => titleScreen(false), renderSheet); else { save(); titleScreen(false); } });
       const dl = appLink(); if (dl) body.appendChild(dl);
@@ -598,4 +662,4 @@ function setupScreen() {
   go.onclick = () => { GAME.S.name = (inp.value || '').trim().slice(0, 16) || tx(T('Alex', 'أليكس')); GAME.S.f.prologue = true; play(GAME.SCRIPTS.intro); };
   panel.appendChild(go);
 }
-function boot() { applyLang(); titleScreen(false); }
+function boot() { applyLang(); applyPrefs(); titleScreen(false); }

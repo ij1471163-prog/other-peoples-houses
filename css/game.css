@@ -422,3 +422,62 @@ html[lang=ar] .sheet.mapsheet .pin{font-size:11px}
 @keyframes shake{0%,100%{transform:none}20%{transform:translate(-7px,3px)}40%{transform:translate(6px,-4px)}60%{transform:translate(-4px,2px)}80%{transform:translate(3px,-2px)}}
 html.idle .char.ghost img,html.idle .char.ghost svg,html.asleep .char.ghost img,html.asleep .char.ghost svg{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.stage.shake{animation:none}.scare{animation-duration:.95s}}
+
+/* ===================================================================
+   v11: the picture fills the whole screen (no black bars)
+   The stage itself now takes the full screen in landscape. Inside it,
+   .scene keeps the art's real 16:9 shape and is scaled to COVER the
+   stage (like a phone wallpaper): nothing is stretched, a sliver of
+   the picture is trimmed top/bottom on very wide phones. Hotspots
+   live on the scene so they stay glued to the objects they mark, and
+   are nudged inside the visible part if the trim would hide them.
+   Characters stand on the bottom of the screen, sized to the screen.
+   =================================================================== */
+.stage{container-type:size}
+.scene{position:absolute;left:50%;top:50%;width:100%;height:100%;transform:translate(-50%,-50%)}
+.spot{left:var(--x);top:var(--y)}
+@supports (width:1cqh){
+  .scene{width:max(100cqw,calc(100cqh * 16 / 9));height:max(100cqh,calc(100cqw * 9 / 16))}
+  .spot{left:clamp(calc(50% - 50cqw + 18px),var(--x),calc(50% + 50cqw - 18px));top:clamp(calc(50% - 50cqh + 20px),var(--y),calc(50% + 50cqh - 20px))}
+  .char{bottom:calc(50% - 50cqh);height:calc(98cqh * var(--h,1))}
+  @media (orientation:portrait){.char{height:calc(84cqh * var(--h,1))}}
+}
+@media (orientation:landscape) and (max-height:560px){
+  .game{padding:0}
+  .stage{width:100vw;height:100vh;height:100dvh;aspect-ratio:auto;border-radius:0;margin:0}
+  .hud{top:max(6px,env(safe-area-inset-top,0px));left:max(8px,env(safe-area-inset-left,0px));right:max(8px,env(safe-area-inset-right,0px))}
+  body.sheet-open .stage{height:100vh;height:100dvh}
+}
+.spot span{transform:translateY(var(--ly,0px))}
+.spot{margin-top:var(--dy,0px)}
+/* the caption moves to the other corner, or shrinks to the place name, so it never hides a circle */
+@media (orientation:landscape) and (max-height:560px){
+  body.explore.cap-end .panel{left:auto;right:12px}
+  html[dir=rtl] body.explore.cap-end .panel{right:auto;left:12px}
+  body.explore.cap-mini .caption:not(.open) .line.narr,body.explore.cap-mini .caption:not(.open) .hint{display:none}
+}
+@media (orientation:landscape) and (max-height:560px){
+  body.explore.cap-mid .panel,html[dir=rtl] body.explore.cap-mid .panel{left:50%;right:auto;transform:translateX(-50%)}
+}
+/* v11: settings in sections, each row a name + a small switch */
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:5px 0;font-family:var(--f-ui);font-size:14px;color:var(--salt)}
+html[lang=ar] .setrow{font-family:var(--f-ar-ui)}
+.seg{display:inline-flex;border:1px solid var(--rope);border-radius:999px;overflow:hidden;flex-shrink:0}
+.seg button{border:0;background:transparent;color:var(--fog);font:inherit;font-size:13px;padding:6px 12px;min-height:34px;cursor:pointer}
+.seg button+button{border-inline-start:1px solid var(--rope)}
+.seg button.on{background:var(--lamp);color:#1a1206;font-weight:600}
+.seg button:focus-visible{outline:2px solid var(--salt);outline-offset:-2px}
+.sheet .sec{border-top:1px solid rgba(255,255,255,.08);padding-top:10px;margin:8px 0 2px;color:var(--lamp)}
+.sheet .sec:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.sheet .sub{margin:6px 0 0;font-size:13px;color:var(--fog)}
+.setnote{margin:0 0 4px;font-size:13px;line-height:1.5;color:var(--fog)}
+/* text size (Settings > Display) */
+html.ts-s .panel .line,html.ts-s .panel .who,html.ts-s .panel .opt,html.ts-s .panel .tap{zoom:.88}
+html.ts-l .panel .line,html.ts-l .panel .who,html.ts-l .panel .opt,html.ts-l .panel .tap{zoom:1.18}
+/* names of things on first tap only (Settings > Display): circles stay, names appear when touched */
+body.lbl-tap .spot span{display:none}
+body.lbl-tap .spot.show span{display:inline-block}
+@media (orientation:landscape) and (max-height:560px){
+  .sheet .sliders{display:grid;grid-template-columns:1fr 1fr;column-gap:22px;row-gap:2px}
+  .sheet .slider{grid-template-columns:minmax(90px,42%) 1fr;font-size:13px}
+}

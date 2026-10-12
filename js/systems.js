@@ -15,12 +15,18 @@ Object.assign(GAME.UI, {
   leaveTalk: T('Leave in the middle of this conversation? You\'ll go back to just before it started.', 'تطلع وأنت في نص السالفة؟ بترجع لقبل ما تبدأ.'),
   replaceAuto: T('This replaces the game behind "Continue". Your save slots are kept. Go ahead?', 'هذا بيستبدل اللعبة اللي ورا «كمّل». خانات الحفظ ما تنمسح. تكمل؟'),
   backAgain: T('Press back again to leave the game', 'اضغط رجوع مرة ثانية عشان تطلع من اللعبة'),
-  volMaster: T('Volume', 'الصوت'), volMusic: T('Music', 'الموسيقى'), volAmb: T('Places (sea, wind, rooms)', 'أصوات الأماكن (بحر، ريح، غرف)'),
+  volMaster: T('Overall volume', 'المستوى العام'), volMusic: T('Music', 'الموسيقى'), volAmb: T('Places (sea, wind, rooms)', 'أصوات الأماكن (بحر، ريح، غرف)'),
   volSfx: T('Effects', 'المؤثرات'), volVoice: T('Voices (murmurs, not words)', 'أصوات الشخصيات (همهمة، مو كلام)'),
   tapHint: T('Tap people to talk. Tap the glowing circles to look around or go somewhere. ⌛ passes time, the map takes you anywhere.', 'اضغط على الناس عشان تكلمهم، وعلى الدواير المضيئة عشان تشوف أو تروح مكان. ⌛ يمشّي الوقت، والخريطة توديك أي مكان.'),
   need_hungry: T('Hungry', 'جوعان'), need_grubby: T('Needs a shower', 'يبي ترويش'), need_tired: T('Tired', 'تعبان'),
   nFood: T('Food', 'الأكل'), nClean: T('Clean', 'النظافة'), nEnergy: T('Energy', 'الطاقة'),
   momOk: T('Mom · "Call me whenever. I\'m here."', 'أمي · «اتصل متى ما تبي. أنا هنا.»'),
+  secSound: T('Sound', 'الصوت'), secDisplay: T('Display', 'العرض'), secPlay: T('Play', 'اللعب'), secProgress: T('Progress', 'التقدم والحفظ'),
+  sound: T('Play sound', 'تشغيل الصوت'), on: T('On', 'شغّال'), off: T('Off', 'مطفي'), language: T('Language', 'اللغة'),
+  textSize: T('Text size', 'حجم الخط'), small: T('Small', 'صغير'), normal: T('Normal', 'عادي'), large: T('Large', 'كبير'),
+  names: T('Names of things', 'أسماء الأشياء'), always: T('Always', 'دايم'), onTap: T('On first tap', 'أول لمسة'),
+  scares: T('Jump scares', 'المفاجآت المرعبة'),
+  autoNote: T('The game saves by itself every time you move. Slots are extra copies you keep.', 'اللعبة تحفظ نفسها تلقائياً كل ما تتنقل. الخانات تحت نسخ إضافية تحتفظ فيها.'),
   saveGame: T('Save game', 'حفظ اللعبة'), loadGame: T('Load game', 'تحميل لعبة'),
   keepLiving: T('Keep living in Saltmere', 'كمّل حياتك في سولتمير'), continueStory: T('Continue the story', 'كمّل القصة'),
   reel: T('Reel in', 'اسحب'), gotIt: T('Got it', 'حفظتها'), fishTitle: T('Tap when the light is in the green.', 'اضغط لما يكون الضو في الأخضر.'), cafeTitle: T('Remember the order.', 'احفظ الطلب.'), cafePick: T('Now serve it, in order.', 'الحين قدّمه، بالترتيب.')
@@ -100,7 +106,7 @@ GAME.LOC.sami_attic = {
 GAME.LOC.grocery.exits.push({ to: 'sami_attic', x: 92, y: 30, label: T('Upstairs (your room)', 'فوق (غرفتك)'), if: s => !!s.f.hasAttic });
 /* the attic has its own side door, so you can always get home, even after Sami closes */
 GAME.LOC.street.exits.push({ to: 'sami_attic', x: 30, y: 30, label: T('Side stairs to your attic', 'الدرج الجانبي لغرفتك'), if: s => !!s.f.hasAttic && s.slot === NIGHT });
-GAME.LOC.sami_attic.exits.push({ to: 'street', x: 94, y: 86, label: T('Side stairs to the street', 'الدرج الجانبي للشارع') });
+GAME.LOC.sami_attic.exits.push({ to: 'street', x: 95, y: 64, label: T('Side stairs to the street', 'الدرج الجانبي للشارع') });
 GAME.LOC.sami_attic.mapName = T('Your attic', 'غرفتك');
 ART.PLACES.sami_attic = [44, 27];
 GAME.MAP.push({ to: 'sami_attic', if: s => !!s.f.hasAttic });
