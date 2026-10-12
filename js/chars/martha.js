@@ -58,3 +58,12 @@
 
 /* Martha's day: what Martha is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.martha) GAME.CHAR.martha.life = { living: 'clean', kitchen: 'clean' };
+
+/* small talk: what Martha says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.martha) GAME.CHAR.martha.chat = [
+  { e: 'smile', t: T("I clean half the houses in Saltmere. I know who irons their socks. I'll take it to my grave. Most of it.", "أنظف نص بيوت سولتمير. أعرف مين يكوي شرّاباته. وبآخذ هالسر معي للقبر. أغلبه.") },
+  { e: 'sad', t: T("Ada used to hum while she dried the dishes. Same song every time. I hum it now, so somebody does.", "آدا كانت تدندن وهي تنشّف الصحون. نفس الأغنية كل مرة. وأنا أدندنها الحين، عشان أحد يدندنها.") },
+  { if: s => s.host === 'elias', e: 'sad', t: T("He's eating less. Don't tell him I said. Put an extra sugar in his tea. He won't notice.", "صار ياكل أقل. لا تقول له إني قلت. حط له سكر زيادة في الشاي. ما بينتبه.") },
+  { if: s => s.host === 'margaret', e: 'neutral', t: T("That house is too clean. Clean like nobody's allowed to touch anything.", "هالبيت نظيف زيادة. نظيف كأن ما أحد مسموح له يلمس شي.") },
+  { e: 'neutral', t: T("Rubber gloves are the secret. And never clean a mirror in the sun. Streaks. Write that down.", "السر في القفازات. ولا تنظف مراية والشمس عليها أبداً. تطلع خطوط. اكتبها.") }
+];

@@ -33,3 +33,10 @@
 
 /* Ana's day: what Ana is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.ana) GAME.CHAR.ana.life = { hotel_suite: 'clean', hotel_staff: 'laundry' };
+
+/* small talk: what Ana says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.ana) GAME.CHAR.ana.chat = [
+  { e: 'sad', t: T("My mother sends photos of fabric. I tell her I'm fine. I am fine. Mostly.", "أمي ترسل لي صور أقمشة. وأقول لها إني بخير. وأنا بخير. أغلب الوقت.") },
+  { e: 'smile', t: T("Room 12 leaves a tip every day with a note: “for your mother”. I don't know how he knows.", "غرفة ١٢ تترك لي بقشيش كل يوم وورقة: «لأمك». ما أدري كيف يعرف.") },
+  { e: 'neutral', t: T("If you need fresh towels, ask me, not the desk. The desk counts them.", "لو تبي مناشف نظيفة، اطلبها مني مو من الاستقبال. الاستقبال يعدّها.") }
+];

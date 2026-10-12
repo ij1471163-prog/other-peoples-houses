@@ -38,3 +38,11 @@
 
 /* Olivia's day: what Olivia is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.olivia) GAME.CHAR.olivia.life = { street: 'petition', cafe: 'petition' };
+
+/* small talk: what Olivia says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.olivia) GAME.CHAR.olivia.chat = [
+  { e: 'smile', t: T("Thirty-one signatures today! Two were the same man in different hats, but still.", "واحد وثلاثين توقيع اليوم! اثنين منهم نفس الرجّال بقبعتين مختلفتين، بس مو مشكلة.") },
+  { e: 'neutral', t: T("Fisher's Row isn't just houses. It's forty families who remember each other's birthdays.", "شارع الصيادين مو بس بيوت. هو أربعين عيلة يتذكرون أعياد ميلاد بعض.") },
+  { if: s => !!s.f.knowJonah, e: 'sad', t: T("Number 9? It's been empty for years. The petition counts it anyway. Somebody should come home to it.", "رقم ٩؟ فاضي من سنين. والعريضة تحسبه على كل حال. لازم أحد يرجع له.") },
+  { e: 'smile', t: T("A clipboard is armor. Nobody argues with a clipboard.", "اللوح درع. ما أحد يجادل لوح.") }
+];

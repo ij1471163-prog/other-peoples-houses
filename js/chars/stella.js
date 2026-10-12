@@ -31,3 +31,11 @@
 
 /* Stella's day: what Stella is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.stella) GAME.CHAR.stella.life = { florist: 'flowers', beach: 'walk' };
+
+/* small talk: what Stella says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.stella) GAME.CHAR.stella.chat = [
+  { e: 'smile', t: T("Flowers for no reason are the best kind. Nobody can say no to them.", "الورد اللي بدون سبب هو أحلى ورد. ما أحد يقدر يرفضه.") },
+  { e: 'neutral', t: T("The roses are sulking. I moved them away from the tulips. They're very political.", "الورد الجوري زعلان. بعّدته عن التوليب. سياسة.") },
+  { if: s => s.host === 'margaret', e: 'sad', t: T("Margaret buys one white lily every Saturday. Never says who for. I know who for.", "مارغريت تشتري زنبقة بيضا وحدة كل سبت. عمرها ما قالت لمين. وأنا أعرف لمين.") },
+  { e: 'smile', t: T("If you're sad, smell basil. Instant summer. That's science. Probably.", "إذا زعلان، شم ريحان. صيف فوري. هذا علم. تقريباً.") }
+];

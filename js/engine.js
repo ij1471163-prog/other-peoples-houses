@@ -181,7 +181,10 @@ function checkEvents() {
   return false;
 }
 function goTo(locId) {
+  const moved = S().loc !== locId;
   S().loc = locId; VIEW.stageChars = null;
+  /* a short fade instead of the picture jumping (stays off for reduced motion, see css) */
+  const sc = document.querySelector('#stage .scene'); if (sc && moved) { sc.classList.remove('arrive'); void sc.offsetWidth; sc.classList.add('arrive'); }
   const L = GAME.LOC[locId];
   if (L.onEnter) { const r = L.onEnter(S()); if (Array.isArray(r) && r.length) { play(r); return; } }
   for (const h of (GAME.ENTER_HOOKS || [])) { const r = h(S()); if (Array.isArray(r) && r.length) { play(r); return; } }

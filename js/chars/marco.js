@@ -68,3 +68,14 @@
 
 /* Marco's day: what Marco is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.marco) GAME.CHAR.marco.life = { cafe: 'serve', away: s => (s.slot === NIGHT ? 'sleep' : null) };
+
+/* small talk: what Marco says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.marco) GAME.CHAR.marco.chat = [
+  { e: 'smile', t: T("New joke: what does a gull say to a fisherman? “Thanks for lunch.” ...It's about Kevin. Everything is about Kevin.", "نكتة جديدة: وش يقول النورس للصياد؟ «شكراً على الغدا.» ...النكتة عن كيفن. كل شي عن كيفن.") },
+  { if: s => s.slot <= 1, e: 'neutral', t: T("Morning rush: three fishermen and Ingrid. I call it a rush for morale.", "زحمة الصبح: ثلاث صيادين وإنغريد. أسميها زحمة عشان المعنويات.") },
+  { if: s => s.host === 'elias', e: 'smile', t: T("Tell Elias the board's set up. He pretends he doesn't care. He's here at six, exactly.", "قل لإلياس إن الشطرنج جاهز. يسوي نفسه ما يهتم. ويجي الساعة ست بالضبط.") },
+  { if: s => s.host === 'leo', e: 'neutral', t: T("Leo owes me for four sandwiches. I'm not asking. I'm just saying the number out loud. Often.", "ليو عليه أربع سندويشات. ما أطالب. بس أقول الرقم بصوت عالي. كثير.") },
+  { if: s => (s.ch || 1) >= 3, e: 'neutral', t: T("Victor came in once. Ordered water. Tipped a hundred. I framed it. Then I unframed it and paid my rent.", "فيكتور جا مرة. طلب ماي. وعطاني بقشيش مية. برْوزتها. وبعدين طلّعتها ودفعت إيجاري.") },
+  { e: 'sad', t: T("My nonna had this café before me. She said a café is a living room for people who don't have one.", "جدتي كانت تملك المقهى قبلي. كانت تقول المقهى صالة للناس اللي ما عندهم صالة.") },
+  { if: s => s.slot >= 2, e: 'smile', t: T("Open mic on Thursday. Come. Laugh at the right bits. Or the wrong bits. I'm not proud.", "الأمسية المفتوحة يوم الخميس. تعال. اضحك في الأماكن الصح. أو الغلط. ما عندي كرامة.") }
+];

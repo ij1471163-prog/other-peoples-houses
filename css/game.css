@@ -500,3 +500,7 @@ body.lbl-tap .spot.show span{display:inline-block}
 @keyframes ring{50%{opacity:.2}}
 html.idle .prop *,html.asleep .prop *{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){.prop *{animation:none!important}}
+/* moving between places: a short fade instead of a jump */
+.scene.arrive{animation:arrive .34s ease-out}
+@keyframes arrive{from{opacity:0;filter:brightness(.55)}to{opacity:1;filter:none}}
+@media (prefers-reduced-motion:reduce){.scene.arrive{animation:none}}

@@ -58,3 +58,13 @@
 
 /* Sami's day: what Sami is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.sami) GAME.CHAR.sami.life = { grocery: 'shop', away: s => (s.slot === NIGHT ? 'sleep' : null) };
+
+/* small talk: what Sami says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.sami) GAME.CHAR.sami.chat = [
+  { e: 'neutral', t: T("The delivery's late again. The driver has a girlfriend in the next town. We all pay for love.", "التوصيلة متأخرة مرة ثانية. السواق عنده حبيبة في البلدة اللي جنبنا. كلنا ندفع ثمن الحب.") },
+  { if: s => s.mood <= 4, e: 'sad', t: T("Did you eat today? Don't answer. Take a banana. It's going brown anyway.", "أكلت اليوم؟ لا ترد. خذ موزة. بتسوّد على كل حال.") },
+  { if: s => s.host === 'elias', e: 'smile', t: T("Elias buys the same three things every week. Bread, tea, tobacco. Thirty years. I keep them by the till.", "إلياس يشتري نفس الثلاث أشياء كل أسبوع. خبز، وشاي، وتبغ. ثلاثين سنة. أحطها له عند الكاشير.") },
+  { if: s => s.host === 'leo', e: 'neutral', t: T("Leo still owes me for a sandwich from two years ago. I wrote it on the wall. It's a monument now.", "ليو لسا عليه سندويشة من سنتين. كتبتها على الجدار. صارت معلَم سياحي.") },
+  { if: s => (s.ch || 1) >= 3, e: 'neutral', t: T("Half the street owes Victor. The other half owes me. Only one of us sends letters.", "نص الشارع مديون لفيكتور. والنص الثاني مديون لي. واحد بس فينا يرسل رسايل.") },
+  { e: 'smile', t: T("My father opened this shop. He said: give credit, keep a list, burn the list at New Year. I burn it every year.", "أبوي فتح المحل. قال: دين الناس، واكتب قائمة، واحرقها في رأس السنة. أحرقها كل سنة.") }
+];

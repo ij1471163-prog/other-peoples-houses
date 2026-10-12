@@ -51,3 +51,32 @@
 
 /* Irene's day: what Irene is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.irene) GAME.CHAR.irene.life = { clinic: 'doctor' };
+
+/* small talk: what Irene says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.irene) GAME.CHAR.irene.chat = [
+  { e: 'neutral', t: T("Make it quick, I have a waiting room. ...Actually, sit. The waiting room is Mrs Pike's cat.", "خلّها سريعة، عندي غرفة انتظار. ...لا، اجلس. غرفة الانتظار فيها قطوة مدام بايك بس.") },
+  { if: s => s.host === 'elias', e: 'sad', t: T("How is he eating? Don't lie for him. He lies enough for himself.", "كيف أكله؟ لا تكذب عنه. هو يكذب عن نفسه كفاية.") },
+  { if: s => s.host === 'leo', e: 'neutral', t: T("If the boy in the boathouse can't breathe again, you call me. Not the internet. Me.", "لو الولد اللي في بيت القوارب ضاق نفَسه مرة ثانية، كلمني أنا. مو الإنترنت. أنا.") },
+  { if: s => s.host === 'margaret', e: 'sad', t: T("Margaret Hart stopped coming to me two years ago. If she starts again, I'll know you did something.", "مارغريت هارت وقفت تجيني من سنتين. لو رجعت، بعرف إنك سويت شي.") },
+  { if: s => s.host === 'evelyn', e: 'smile', t: T("Tell Evelyn I still have her prescription. It says “sleep”. Underlined twice.", "قل لإيفلين إن وصفتها لسا عندي. مكتوب فيها «نوم». وتحتها خطين.") },
+  { if: s => s.host === 'victor', e: 'angry', t: T("Your host's spa sends me patients. I send them home with water and a bill I never post.", "سبا مضيفك يرسل لي مرضى. وأرجعهم بيوتهم بماي وفاتورة عمري ما أرسلها.") },
+  { e: 'neutral', t: T("I wanted to be a surgeon in a big city. Then I came here for one summer. That was nineteen summers ago.", "كنت أبي أصير جرّاحة في مدينة كبيرة. وبعدين جيت هنا صيف واحد. وهذا كان قبل تسعطعش صيف.") },
+  { if: s => s.mood <= 3, e: 'sad', t: T("You look like you're carrying a piano. Sleep, eat, walk by the sea. Doctor's orders. They're free.", "شكلك شايل بيانو. نام، كل، وامش جنب البحر. أوامر الدكتورة. ومجانية.") }
+];
+
+/* a quick check-up, once a day at the clinic: she looks at how you really are (food, sleep, washing) */
+GAME.TOPICS.irene = GAME.TOPICS.irene || [];
+GAME.TOPICS.irene.push({ id: 'checkup', label: T('Ask for a quick check-up', 'تطلب منها كشف سريع'),
+  if: s => s.loc === 'clinic' && !doneToday('checkup'),
+  run: s => {
+    onceToday('checkup');
+    const nd = needs(), out = [{ n: T('She listens to your chest, looks in your eyes, and writes nothing down.', 'تسمع صدرك، وتطالع في عيونك، وما تكتب ولا شي.') }];
+    const say = (e, en, ar) => out.push({ c: 'irene', e, t: T(en, ar) });
+    if (nd.food < 35) say('angry', 'When did you last eat a real meal? Not coffee. A meal. Go to Sami, today.', 'متى آخر مرة أكلت وجبة صدق؟ مو قهوة. وجبة. روح لسامي، اليوم.');
+    if (nd.energy < 35) say('sad', 'You\'re running on nothing. Sleep tonight. Not “later”. Tonight.', 'أنت شغّال على الفاضي. نام الليلة. مو «بعدين». الليلة.');
+    if (nd.clean < 35) say('neutral', 'And a shower. Medically speaking. Also socially speaking.', 'وتروّش. من الناحية الطبية. ومن الناحية الاجتماعية بعد.');
+    if (s.mood <= 3) say('sad', 'The heavy feeling has a name, and it isn\'t “lazy”. Come back and talk to me. I mean it.', 'الثقل اللي تحسه له اسم، ومو «كسل». ارجع وكلمني. أقولها جد.');
+    if (out.length === 1) say('smile', 'You\'re fine. Annoyingly fine. Go and be fine somewhere else, I have a waiting room.', 'أنت بخير. بخير لدرجة مزعجة. روح كن بخير في مكان ثاني، عندي غرفة انتظار.');
+    out.push(st => { addMood(1); return null; });
+    return out;
+  } });

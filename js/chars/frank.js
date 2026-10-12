@@ -38,3 +38,10 @@
 
 /* Frank's day: what Frank is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.frank) GAME.CHAR.frank.life = { garage: 'work' };
+
+/* small talk: what Frank says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.frank) GAME.CHAR.frank.chat = [
+  { e: 'neutral', t: T("A car's like a person. Make a noise long enough and somebody finally listens.", "السيارة مثل الإنسان. تسوي صوت مدة كافية، وأخيراً أحد يسمع.") },
+  { if: s => s.host === 'leo', e: 'sad', t: T("How is he? Don't tell me. Just tell me if he's eating.", "كيفه؟ لا تقول لي. بس قل لي إذا ياكل.") },
+  { e: 'smile', t: T("Blood pressure's fine. Doctor says it isn't. Doctor's never fixed a Mustang.", "الضغط تمام. الدكتورة تقول لا. الدكتورة عمرها ما صلّحت موستنج.") }
+];

@@ -33,3 +33,9 @@
 
 /* Nora's day: what Nora is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.nora) GAME.CHAR.nora.life = { marg_kitchen: 'tea', cliff_road: 'phone' };
+
+/* small talk: what Nora says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.nora) GAME.CHAR.nora.chat = [
+  { e: 'neutral', t: T("Mags was the clever one. I was the loud one. Now she's quiet and I'm still loud.", "ماقز كانت الذكية. وأنا الصوت العالي. الحين هي ساكتة وأنا لسا صوتي عالي.") },
+  { e: 'sad', t: T("I bring her soup. She doesn't eat it. I bring it anyway. That's sisters.", "أجيب لها شوربة. ما تاكلها. وأجيبها على كل حال. هذي الأخوات.") }
+];

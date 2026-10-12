@@ -39,3 +39,12 @@
 
 /* Rex's day: what Rex is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.rex) GAME.CHAR.rex.life = { police: 'office', street: 'patrol' };
+
+/* small talk: what Rex says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.rex) GAME.CHAR.rex.chat = [
+  { e: 'sad', t: T("Lily asked what I do all day. I said “keep the town safe”. She said “from what?” I didn't have an answer.", "ليلي سألتني وش أسوي طول اليوم. قلت «أحمي البلدة». قالت «من وشو؟» وما عرفت أرد.") },
+  { e: 'neutral', t: T("Three reports today. Two lost cats, one stolen bin. The bin was found. In a tree. I have questions.", "ثلاث بلاغات اليوم. قطوتين ضايعات، وزبالة مسروقة. لقينا الزبالة. فوق شجرة. عندي أسئلة.") },
+  { if: s => (s.ch || 1) >= 3, e: 'angry', t: T("I know what Victor is. Knowing isn't proof. Proof is paper.", "أعرف وش فيكتور. بس المعرفة مو دليل. الدليل ورق.") },
+  { if: s => s.host === 'evelyn', e: 'shock', t: T("If you see anything strange at the lighthouse at night, don't tell me. I'm a man of reason and I'm scared.", "لو شفت شي غريب في المنارة بالليل، لا تقول لي. أنا رجّال عاقل وخايف.") },
+  { if: s => s.mood <= 3, e: 'neutral', t: T("Eat something. Cops notice who isn't eating.", "كل لك شي. الشرطة ينتبهون مين ما ياكل.") }
+];

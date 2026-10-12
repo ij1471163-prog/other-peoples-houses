@@ -31,3 +31,12 @@
 
 /* Ingrid's day: what Ingrid is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.ingrid) GAME.CHAR.ingrid.life = { cemetery: 'grave', cafe: 'tea', beach: 'walk' };
+
+/* small talk: what Ingrid says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.ingrid) GAME.CHAR.ingrid.chat = [
+  { e: 'smile', t: T("Henrik used to say I sang like the sea: loud, and nobody asked.", "هنريك كان يقول إني أغني مثل البحر: بصوت عالي، وبدون ما أحد يطلب.") },
+  { e: 'smile', t: T("Sit, dear. Young people never sit.", "اجلس يا حبيبي. الشباب عمرهم ما يجلسون.") },
+  { e: 'neutral', t: T("Seventy-four years in Saltmere. I've seen three lighthouse keepers and one decent baker.", "أربعة وسبعين سنة في سولتمير. شفت ثلاث حراس منارة وخبّاز واحد يستاهل.") },
+  { e: 'sad', t: T("I knit a scarf for everyone I lose. I have a lot of scarves.", "أحيك شال لكل أحد أفقده. وعندي شالات كثير.") },
+  { if: s => weekday(s.day) === 4, e: 'sad', t: T("It's Thursday. On Thursdays my throat remembers.", "اليوم خميس. وفي الخميس حلقي يتذكر.") }
+];

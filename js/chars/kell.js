@@ -33,3 +33,10 @@
 
 /* Kell's day: what Kell is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.kell) GAME.CHAR.kell.life = { hotel_staff: 'read', hotel_lobby: 'guard', street: 'guard', hotel_office: 'guard' };
+
+/* small talk: what Kell says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.kell) GAME.CHAR.kell.chat = [
+  { e: 'neutral', t: T("...Rilke. You wouldn't like him. He's honest.", "...ريلكه. ما بيعجبك. صادق زيادة.") },
+  { e: 'neutral', t: T("Don't stand near the office door. For your sake.", "لا توقف عند باب المكتب. عشانك.") },
+  { e: 'sad', t: T("My sister grew tomatoes on the windowsill of number 12. I think about those tomatoes.", "أختي كانت تزرع طماط على شباك رقم ١٢. أفكر في هالطماط.") }
+];

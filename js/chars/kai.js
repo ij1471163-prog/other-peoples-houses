@@ -32,3 +32,11 @@
 
 /* Kai's day: what Kai is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.kai) GAME.CHAR.kai.life = { beach: 'surf', harbor: 'scheme', cafe: 'eat' };
+
+/* small talk: what Kai says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.kai) GAME.CHAR.kai.chat = [
+  { e: 'smile', t: T("Waves are flat today. Flat is just the sea having a nap, legend.", "الموج هادي اليوم. الهدوء يعني البحر ماخذ قيلولة، يا بطل.") },
+  { e: 'smile', t: T("Kevin stole my sandwich again. I respect him. He's an entrepreneur.", "كيفن سرق سندويشتي مرة ثانية. أحترمه. رجل أعمال.") },
+  { if: s => s.host === 'victor', e: 'shock', t: T("You live at the Grand? Can you get me into the pool at night? For science.", "ساكن في الغراند؟ تقدر تدخلني المسبح بالليل؟ عشان العلم.") },
+  { e: 'neutral', t: T("Surfing tip: fall off a lot. That's the whole tip.", "نصيحة ركوب الموج: اطيح كثير. هذي النصيحة كلها.") }
+];

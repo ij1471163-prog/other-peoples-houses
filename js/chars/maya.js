@@ -39,3 +39,11 @@
 
 /* Maya's day: what Maya is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.maya) GAME.CHAR.maya.life = { harbor: 'mend', cafe: 'eat' };
+
+/* small talk: what Maya says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.maya) GAME.CHAR.maya.chat = [
+  { e: 'neutral', t: T("The fish are moving north. So am I, if Victor gets the harbor.", "السمك ينزح للشمال. وأنا بعد، لو فيكتور أخذ الميناء.") },
+  { e: 'smile', t: T("My grandmother fished these waters with a wooden boat and a temper. I kept the temper.", "جدتي كانت تصيد هنا بقارب خشب وعصبية. وأنا ورثت العصبية.") },
+  { if: s => s.host === 'elias', e: 'smile', t: T("Elias taught half this harbor to tie a knot. Me included. Don't tell him. He'll get proud.", "إلياس علّم نص الميناء يربطون عقدة. وأنا منهم. لا تقول له. بيشوف نفسه.") },
+  { e: 'neutral', t: T("A tip for free: never trust a calm sea before noon.", "نصيحة ببلاش: لا تثق ببحر هادي قبل الظهر.") }
+];

@@ -32,3 +32,10 @@
 
 /* Gregor's day: what Gregor is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.gregor) GAME.CHAR.gregor.life = { cemetery: 'dig' };
+
+/* small talk: what Gregor says when you just chat (js/chatter.js picks one a day) */
+if (GAME.CHAR.gregor) GAME.CHAR.gregor.chat = [
+  { e: 'smile', t: T("The dead are good neighbours. Quiet, punctual, and they never borrow your ladder.", "الميتين جيران زينين. هاديين، ومواعيدهم مضبوطة، وعمرهم ما يستلفون سلّمك.") },
+  { e: 'neutral', t: T("My mother was born on Fisher's Row. She said you could tell the weather by which wives were shouting.", "أمي انولدت في شارع الصيادين. كانت تقول تعرف الطقس من أي زوجات يصارخون.") },
+  { e: 'smile', t: T("Every stone here has a story. Most of them are “he ate too much butter”.", "كل حجر هنا له قصة. أغلبها «كان ياكل زبدة كثير».") }
+];
