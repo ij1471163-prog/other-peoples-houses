@@ -47,8 +47,6 @@ window.IMG_MANIFEST = {
  "chars": {
   "ana": {
    "angry": "img/chars/ana-angry.webp",
-   "clean": "img/chars/ana-clean.webp",
-   "laundry": "img/chars/ana-laundry.webp",
    "neutral": "img/chars/ana-neutral.webp",
    "sad": "img/chars/ana-sad.webp",
    "shock": "img/chars/ana-shock.webp",
@@ -63,24 +61,17 @@ window.IMG_MANIFEST = {
   },
   "elias": {
    "angry": "img/chars/elias-angry.webp",
-   "cook": "img/chars/elias-cook.webp",
-   "fish": "img/chars/elias-fish.webp",
-   "mend": "img/chars/elias-mend.webp",
    "neutral": "img/chars/elias-neutral.webp",
-   "rest": "img/chars/elias-rest.webp",
    "sad": "img/chars/elias-sad.webp",
    "shock": "img/chars/elias-shock.webp",
    "smile": "img/chars/elias-smile.webp"
   },
   "evelyn": {
    "angry": "img/chars/evelyn-angry.webp",
-   "cook": "img/chars/evelyn-cook.webp",
-   "gulls": "img/chars/evelyn-gulls.webp",
    "neutral": "img/chars/evelyn-neutral.webp",
    "sad": "img/chars/evelyn-sad.webp",
    "shock": "img/chars/evelyn-shock.webp",
-   "smile": "img/chars/evelyn-smile.webp",
-   "watch": "img/chars/evelyn-watch.webp"
+   "smile": "img/chars/evelyn-smile.webp"
   },
   "frank": {
    "angry": "img/chars/frank-angry.webp",
@@ -91,7 +82,6 @@ window.IMG_MANIFEST = {
   },
   "gregor": {
    "angry": "img/chars/gregor-angry.webp",
-   "dig": "img/chars/gregor-dig.webp",
    "neutral": "img/chars/gregor-neutral.webp",
    "sad": "img/chars/gregor-sad.webp",
    "shock": "img/chars/gregor-shock.webp",
@@ -102,12 +92,10 @@ window.IMG_MANIFEST = {
    "neutral": "img/chars/ingrid-neutral.webp",
    "sad": "img/chars/ingrid-sad.webp",
    "shock": "img/chars/ingrid-shock.webp",
-   "smile": "img/chars/ingrid-smile.webp",
-   "tea": "img/chars/ingrid-tea.webp"
+   "smile": "img/chars/ingrid-smile.webp"
   },
   "irene": {
    "angry": "img/chars/irene-angry.webp",
-   "doctor": "img/chars/irene-doctor.webp",
    "neutral": "img/chars/irene-neutral.webp",
    "sad": "img/chars/irene-sad.webp",
    "shock": "img/chars/irene-shock.webp",
@@ -118,8 +106,7 @@ window.IMG_MANIFEST = {
    "neutral": "img/chars/kai-neutral.webp",
    "sad": "img/chars/kai-sad.webp",
    "shock": "img/chars/kai-shock.webp",
-   "smile": "img/chars/kai-smile.webp",
-   "surf": "img/chars/kai-surf.webp"
+   "smile": "img/chars/kai-smile.webp"
   },
   "keeper": {
    "angry": "img/chars/keeper-angry.webp",
@@ -131,17 +118,12 @@ window.IMG_MANIFEST = {
   "kell": {
    "angry": "img/chars/kell-angry.webp",
    "neutral": "img/chars/kell-neutral.webp",
-   "read": "img/chars/kell-read.webp",
    "sad": "img/chars/kell-sad.webp",
    "shock": "img/chars/kell-shock.webp",
    "smile": "img/chars/kell-smile.webp"
   },
   "leo": {
    "angry": "img/chars/leo-angry.webp",
-   "deliver": "img/chars/leo-deliver.webp",
-   "draw": "img/chars/leo-draw.webp",
-   "eat": "img/chars/leo-eat.webp",
-   "game": "img/chars/leo-game.webp",
    "neutral": "img/chars/leo-neutral.webp",
    "sad": "img/chars/leo-sad.webp",
    "shock": "img/chars/leo-shock.webp",
@@ -151,23 +133,18 @@ window.IMG_MANIFEST = {
    "angry": "img/chars/marco-angry.webp",
    "neutral": "img/chars/marco-neutral.webp",
    "sad": "img/chars/marco-sad.webp",
-   "serve": "img/chars/marco-serve.webp",
    "shock": "img/chars/marco-shock.webp",
    "smile": "img/chars/marco-smile.webp"
   },
   "margaret": {
    "angry": "img/chars/margaret-angry.webp",
-   "cook": "img/chars/margaret-cook.webp",
    "neutral": "img/chars/margaret-neutral.webp",
    "sad": "img/chars/margaret-sad.webp",
    "shock": "img/chars/margaret-shock.webp",
-   "smile": "img/chars/margaret-smile.webp",
-   "table": "img/chars/margaret-table.webp",
-   "tea": "img/chars/margaret-tea.webp"
+   "smile": "img/chars/margaret-smile.webp"
   },
   "martha": {
    "angry": "img/chars/martha-angry.webp",
-   "clean": "img/chars/martha-clean.webp",
    "neutral": "img/chars/martha-neutral.webp",
    "sad": "img/chars/martha-sad.webp",
    "shock": "img/chars/martha-shock.webp",
@@ -175,7 +152,6 @@ window.IMG_MANIFEST = {
   },
   "maya": {
    "angry": "img/chars/maya-angry.webp",
-   "mend": "img/chars/maya-mend.webp",
    "neutral": "img/chars/maya-neutral.webp",
    "sad": "img/chars/maya-sad.webp",
    "shock": "img/chars/maya-shock.webp",
@@ -184,7 +160,6 @@ window.IMG_MANIFEST = {
   "nora": {
    "angry": "img/chars/nora-angry.webp",
    "neutral": "img/chars/nora-neutral.webp",
-   "phone": "img/chars/nora-phone.webp",
    "sad": "img/chars/nora-sad.webp",
    "shock": "img/chars/nora-shock.webp",
    "smile": "img/chars/nora-smile.webp"
@@ -192,7 +167,6 @@ window.IMG_MANIFEST = {
   "olivia": {
    "angry": "img/chars/olivia-angry.webp",
    "neutral": "img/chars/olivia-neutral.webp",
-   "petition": "img/chars/olivia-petition.webp",
    "sad": "img/chars/olivia-sad.webp",
    "shock": "img/chars/olivia-shock.webp",
    "smile": "img/chars/olivia-smile.webp"
@@ -209,12 +183,10 @@ window.IMG_MANIFEST = {
    "neutral": "img/chars/sami-neutral.webp",
    "sad": "img/chars/sami-sad.webp",
    "shock": "img/chars/sami-shock.webp",
-   "shop": "img/chars/sami-shop.webp",
    "smile": "img/chars/sami-smile.webp"
   },
   "stella": {
    "angry": "img/chars/stella-angry.webp",
-   "flowers": "img/chars/stella-flowers.webp",
    "neutral": "img/chars/stella-neutral.webp",
    "sad": "img/chars/stella-sad.webp",
    "shock": "img/chars/stella-shock.webp",
