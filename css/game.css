@@ -510,3 +510,64 @@ html.idle .prop *,html.asleep .prop *{animation-play-state:paused!important}
 .endings .end-row { padding: 5px 11px; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14); font-size: .92em; }
 .endings .end-row.locked { opacity: .5; }
 body.titlemode .title-screen.endings { justify-content: flex-start; }   /* a long list starts at the top, not centred past the edge */
+
+/* ===== main menu v2: the picture fills the screen, solid buttons stacked in the middle =====
+   Only the main menu (.title-screen.menu-v2) uses this; the setup, load and endings screens keep their own layout.
+   Browsers without :has() simply keep the previous menu layout. */
+body.titlemode:has(.menu-v2) .game{padding:0}
+body.titlemode:has(.menu-v2) .stage{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;aspect-ratio:auto;border-radius:0;max-width:none}
+body.titlemode .panel:has(> .menu-v2),html[dir=rtl] body.titlemode .panel:has(> .menu-v2){position:fixed;inset:0;width:auto;height:auto;max-height:none;transform:none;margin:0;
+  border:0;border-radius:0;box-shadow:none;backdrop-filter:none;overflow-y:auto;overflow-x:hidden;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) max(10px,env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));
+  background:radial-gradient(ellipse 60% 75% at 50% 52%,rgba(8,12,15,.55) 0%,rgba(8,12,15,.25) 60%,rgba(8,12,15,0) 100%),
+             linear-gradient(180deg,rgba(8,12,15,.55) 0%,rgba(8,12,15,0) 22%,rgba(8,12,15,0) 78%,rgba(8,12,15,.6) 100%)}
+.menu-v2{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(8px,2.2vh,16px);padding:0;text-align:center}
+body.titlemode .menu-v2{min-height:100%;padding:0;gap:clamp(8px,2.2vh,16px);justify-content:center}
+
+/* corner: language and sound, small pills like a top bar */
+.menu-v2 .ts-corner{position:absolute;top:max(10px,env(safe-area-inset-top,0px));inset-inline:max(12px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;gap:8px;pointer-events:none}
+.menu-v2 .ts-corner > *{pointer-events:auto}
+.menu-v2 .ts-corner .ts-pill:last-child{order:-1}   /* language first (start side), sound on the other side */
+.ts-pill{font-family:var(--f-ui);font-size:14px;font-weight:600;color:#fff;cursor:pointer;min-height:36px;padding:6px 14px;border-radius:10px;
+  background:linear-gradient(180deg,#2c4f7a 0%,#1d3557 100%);border:2px solid #0b1726;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 2px 0 #0b1726;white-space:nowrap}
+html[lang=ar] .ts-pill{font-family:var(--f-ar-ui);font-size:13px}
+
+/* the name of the game */
+.menu-v2 .ts-head{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:min(560px,92vw);margin-top:40px}
+.menu-v2 .logo,body.titlemode .menu-v2 .logo{font-size:clamp(26px,5.2vmin,44px);line-height:1.1;margin:0;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.55),0 0 18px rgba(0,0,0,.55)}
+.menu-v2 .logo-sub,body.titlemode .menu-v2 .logo-sub{display:block;-webkit-line-clamp:unset;overflow:visible;margin:0;max-width:46ch;font-size:clamp(12.5px,1.9vmin,15px);line-height:1.5;color:#e9edf0;opacity:1;text-shadow:0 1px 3px rgba(0,0,0,.9)}
+
+/* the main buttons: solid, stacked, centred */
+.menu-v2 .ts-menu,body.titlemode .menu-v2 .ts-menu{display:flex;flex-direction:column;align-items:stretch;gap:clamp(8px,1.8vh,12px);width:min(300px,82vw);margin:0}
+.menu-v2 .ts-menu .opt,body.titlemode .menu-v2 .ts-menu .opt{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;min-height:46px;padding:8px 16px;margin:0;
+  font-family:var(--f-ui);font-size:19px;font-weight:600;letter-spacing:.02em;color:#fff;line-height:1.2;white-space:normal;
+  background:linear-gradient(180deg,#3a5f8c 0%,#24456d 55%,#1c3758 100%);border:2px solid #0b1726;border-radius:10px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -2px 0 rgba(0,0,0,.25),0 3px 0 #0b1726,0 6px 14px rgba(0,0,0,.35);
+  text-shadow:0 1px 0 rgba(0,0,0,.6);cursor:pointer;transition:transform .08s ease,filter .12s ease}
+html[lang=ar] .menu-v2 .ts-menu .opt,html[lang=ar] body.titlemode .menu-v2 .ts-menu .opt{font-family:var(--f-ar-ui);font-size:17px;letter-spacing:0}
+.menu-v2 .ts-menu .opt::before{content:none}
+.menu-v2 .ts-menu .opt.main,body.titlemode .menu-v2 .ts-menu .opt.main,html[lang=ar] body.titlemode .menu-v2 .ts-menu .opt.main{background:linear-gradient(180deg,#f6c46f 0%,#e9a645 55%,#d08e2e 100%);color:#2a1a06;text-shadow:0 1px 0 rgba(255,255,255,.35);border-color:#4a2e0a;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(0,0,0,.18),0 3px 0 #4a2e0a,0 6px 14px rgba(0,0,0,.35)}
+.menu-v2 .ts-menu .opt:hover,.menu-v2 .ts-pill:hover{filter:brightness(1.1)}
+.menu-v2 .ts-menu .opt:active,.menu-v2 .ts-pill:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 0 #0b1726}
+.menu-v2 .ts-menu .opt:focus-visible,.menu-v2 .ts-pill:focus-visible,.menu-v2 .ts-foot a:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+/* the endings button (js/endings.js) sits in the stack, a little quieter */
+.menu-v2 .ts-menu .opt:last-child:not(.main){font-size:16px;background:linear-gradient(180deg,#2b3f52 0%,#1d2c3a 100%)}
+html[lang=ar] .menu-v2 .ts-menu .opt:last-child:not(.main){font-size:15px}
+
+/* bottom: the app link and the content warning, readable but quiet */
+.menu-v2 .ts-foot{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:min(560px,92vw)}
+.menu-v2 .ts-foot .opt.dl,body.titlemode .menu-v2 .ts-foot .opt.dl{font-family:var(--f-ui);display:inline-flex;align-items:center;min-height:36px;font-size:13px;color:#9fe0d6;padding:4px 10px;margin:0;background:none;border:0;text-shadow:0 1px 3px rgba(0,0,0,.9)}
+.menu-v2 .ts-warn,body.titlemode .menu-v2 .ts-warn,html[lang=ar] .menu-v2 .ts-warn{font-family:var(--f-ui);margin:0;font-size:12.5px;letter-spacing:0;text-transform:none;color:#d6dde1;opacity:1;line-height:1.45;text-shadow:0 1px 3px rgba(0,0,0,.95)}
+.menu-v2 .ts-warn::before{content:'⚠ '}
+
+/* short landscape phones: tighter, the two-line story text hides under 400px height */
+@media (orientation:landscape) and (max-height:430px){
+  .menu-v2 .ts-head{margin-top:30px}
+  .menu-v2 .logo,body.titlemode .menu-v2 .logo{font-size:clamp(22px,7vh,30px)}
+  .menu-v2 .ts-menu .opt,body.titlemode .menu-v2 .ts-menu .opt{min-height:44px;padding:6px 14px;font-size:17px}
+  html[lang=ar] .menu-v2 .ts-menu .opt{font-size:15.5px}
+  .menu-v2 .ts-menu,body.titlemode .menu-v2 .ts-menu{gap:7px}
+}
+@media (orientation:landscape) and (max-height:400px){ .menu-v2 .logo-sub,body.titlemode .menu-v2 .logo-sub{display:none} }
+@media (prefers-reduced-motion:reduce){ .menu-v2 .ts-menu .opt{transition:none} }
+html[lang=ar] .menu-v2 .ts-foot .opt.dl,html[lang=ar] .menu-v2 .ts-warn{font-family:var(--f-ar-ui)}

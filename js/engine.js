@@ -644,23 +644,25 @@ function titleScreen(fresh) {
   setLayer(st.querySelector('.chars'), ''); st.querySelector('.spots').innerHTML = ''; st.querySelector('.hud .chips').innerHTML = ''; st.querySelector('.hud .btns').innerHTML = '';
   const old = st.querySelector('.sheet'); if (old) old.remove();
   const panel = $('panel'); panel.innerHTML = ''; panel.onclick = null;
-  const wrap = el('div', 'title-screen');
-  wrap.appendChild(el('h1', 'logo', tx(T("Other People's Houses", 'بيوت الآخرين'))));
-  wrap.appendChild(el('p', 'logo-sub', tx(T('You came to Saltmere on the last train, with nothing. The people here will open their doors to you. What you do inside is up to you.', '{وصلت|وصلتي} سولتمير بآخر قطار، وما معك شي. ناس هالبلدة بيفتحون لك أبوابهم. ووش {تسوي|تسوين} داخل بيوتهم، هذا قرارك.'))));
-  const box = el('div', 'opts');
+  const wrap = el('div', 'title-screen menu-v2');
+  /* layout (css: .menu-v2): language and sound in the corner, the name on top, the main buttons stacked in the middle, the warning at the bottom */
+  const corner = el('div', 'ts-corner'), head = el('div', 'ts-head'), foot = el('div', 'ts-foot');
+  head.appendChild(el('h1', 'logo', tx(T("Other People's Houses", 'بيوت الآخرين'))));
+  head.appendChild(el('p', 'logo-sub', tx(T('You came to Saltmere on the last train, with nothing. The people here will open their doors to you. What you do inside is up to you.', '{وصلت|وصلتي} سولتمير بآخر قطار، وما معك شي. ناس هالبلدة بيفتحون لك أبوابهم. ووش {تسوي|تسوين} داخل بيوتهم، هذا قرارك.'))));
+  const box = el('div', 'opts ts-menu');
   const sv = fresh ? null : loadSave();
   if (sv) { const c = el('button', 'opt main', UI('continue')); c.type = 'button'; c.onclick = () => { GAME.S = sv; resumeState(); }; box.appendChild(c); }
   /* starting over or loading a slot replaces the autosave behind "Continue": ask first */
   const guard = (go) => () => { if (!sv) return go(); panel.innerHTML = ''; confirmIn(panel, UI('replaceAuto'), go, () => titleScreen(fresh)); };
-  if ([1, 2, 3].some(i => readSlot(i))) { const lb = el('button', 'opt', UI('loadGame')); lb.type = 'button'; lb.onclick = () => { panel.innerHTML = ''; const lbx = el('div', 'opts'); [1, 2, 3].forEach(i => { if (readSlot(i)) { const b = el('button', 'opt', slotLabel(i)); b.type = 'button'; b.onclick = guard(() => loadSlot(i)); lbx.appendChild(b); } }); const bk = el('button', 'opt', UI('close')); bk.type = 'button'; bk.onclick = () => titleScreen(fresh); lbx.appendChild(bk); panel.appendChild(lbx); }; box.appendChild(lb); }
   const n = el('button', 'opt' + (sv ? '' : ' main'), UI('newGame')); n.type = 'button'; n.onclick = guard(setupScreen); box.appendChild(n);
-  const snd = el('button', 'opt', AUDIO.on ? UI('soundOff') : UI('soundOn')); snd.type = 'button'; snd.onclick = () => { AUDIO.setOn(!AUDIO.on); snd.textContent = AUDIO.on ? UI('soundOff') : UI('soundOn'); }; box.appendChild(snd);
-  const lg = el('button', 'opt', GAME.lang === 'ar' ? 'English' : 'العربية'); lg.type = 'button'; lg.onclick = () => { GAME.lang = GAME.lang === 'ar' ? 'en' : 'ar'; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} titleScreen(fresh); }; box.appendChild(lg);
-  const dl = appLink(); if (dl) box.appendChild(dl);
-  wrap.appendChild(box);
+  if ([1, 2, 3].some(i => readSlot(i))) { const lb = el('button', 'opt', UI('loadGame')); lb.type = 'button'; lb.onclick = () => { panel.innerHTML = ''; const lbx = el('div', 'opts'); [1, 2, 3].forEach(i => { if (readSlot(i)) { const b = el('button', 'opt', slotLabel(i)); b.type = 'button'; b.onclick = guard(() => loadSlot(i)); lbx.appendChild(b); } }); const bk = el('button', 'opt', UI('close')); bk.type = 'button'; bk.onclick = () => titleScreen(fresh); lbx.appendChild(bk); panel.appendChild(lbx); }; box.appendChild(lb); }
+  const snd = el('button', 'ts-pill', AUDIO.on ? UI('soundOff') : UI('soundOn')); snd.type = 'button'; snd.onclick = () => { AUDIO.setOn(!AUDIO.on); snd.textContent = AUDIO.on ? UI('soundOff') : UI('soundOn'); }; corner.appendChild(snd);
+  const lg = el('button', 'ts-pill', '🌐 ' + (GAME.lang === 'ar' ? 'English' : 'العربية')); lg.type = 'button'; lg.onclick = () => { GAME.lang = GAME.lang === 'ar' ? 'en' : 'ar'; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} titleScreen(fresh); }; corner.appendChild(lg);
+  const dl = appLink(); if (dl) foot.appendChild(dl);
+  wrap.appendChild(corner); wrap.appendChild(head); wrap.appendChild(box); wrap.appendChild(foot);
   const se = seenEnds().length, tot = Object.keys(GAME.END).length;
-  wrap.appendChild(el('p', 'sec', tx(T('Endings found: ', 'النهايات اللي اكتشفتها: ')) + se + ' / ' + tot));
-  wrap.appendChild(el('p', 'sec', tx(T('Contains: grief, depression, illness, death and horror. No sexual content.', 'فيها: فقد، اكتئاب، مرض، موت، ورعب. بدون أي محتوى جنسي.'))));
+  box.appendChild(el('p', 'sec', tx(T('Endings found: ', 'النهايات اللي اكتشفتها: ')) + se + ' / ' + tot));
+  foot.appendChild(el('p', 'sec ts-warn', tx(T('Contains: grief, depression, illness, death and horror. No sexual content.', 'فيها: فقد، اكتئاب، مرض، موت، ورعب. بدون أي محتوى جنسي.'))));
   panel.appendChild(wrap);
   AUDIO.scene(GAME.S, true); navArm();
 }
