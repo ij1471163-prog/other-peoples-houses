@@ -48,7 +48,12 @@ def main():
     todo = {k: v for k, v in SCENES.items() if not only or k in only}
     P = G.Painter()
     pipe = P.pipe
-    pipe.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models", weight_name="ip-adapter_sdxl.bin")
+    # the smaller picture reader (ViT-H, ~1 GB) so everything fits in the free computer's memory
+    from transformers import CLIPVisionModelWithProjection
+    import torch as _t
+    pipe.register_modules(image_encoder=CLIPVisionModelWithProjection.from_pretrained("h94/IP-Adapter", subfolder="models/image_encoder", torch_dtype=_t.float32))
+    pipe.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models", weight_name="ip-adapter_sdxl_vit-h.safetensors", image_encoder_folder=None)
+    pipe.enable_attention_slicing()
     from diffusers import StableDiffusionXLImg2ImgPipeline
     i2i = StableDiffusionXLImg2ImgPipeline(**pipe.components); i2i.set_progress_bar_config(disable=True)
     import torch
