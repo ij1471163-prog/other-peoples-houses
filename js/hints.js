@@ -22,7 +22,10 @@
   const now = s => s.day * 5 + s.slot;
 
   function pick(s) {
-    const open = Object.keys(s.quests).filter(k => s.quests[k] === 'active' && GAME.QUESTS[k] && GAME.QUESTS[k].hint);
+    /* a house's own tasks are only hinted while you live in that house (js/quest-close.js says which house):
+       the hint must never send you to a door that isn't open to you, or to someone who is gone */
+    const own = GAME.QUEST_OWNER || {};
+    const open = Object.keys(s.quests).filter(k => s.quests[k] === 'active' && GAME.QUESTS[k] && GAME.QUESTS[k].hint && (!own[k] || own[k] === s.host));
     if (!open.length) return null;
     const rank = k => (SIDE.includes(k) ? 2 : SLOW.includes(k) ? 1 : 0);
     const best = Math.min(...open.map(rank));
