@@ -589,3 +589,15 @@ html[lang=ar] .menu-v2 .ts-foot .opt.dl,html[lang=ar] .menu-v2 .ts-warn{font-fam
   .sheet.mapsheet .pin.edge-l,.sheet.mapsheet .pin.here.edge-l{transform:translate(-12%,0)}
   .sheet.mapsheet .pin.edge-r,.sheet.mapsheet .pin.here.edge-r{transform:translate(-88%,0)}
 }
+
+/* ===== v12: exits as arrows and doors, names always readable (js/nav.js) ===== */
+.spot.exit.nav i,.spot.exit.nav i{width:30px;height:30px;border-radius:9px;border:2px solid var(--sea);background:rgba(10,30,30,.78);color:#bff0e8;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 0 rgba(0,0,0,.4);animation:none}
+.spot.exit.nav i::after{display:none}
+.spot.exit.nav i svg{width:19px;height:19px}
+.spot.exit.nav span{border:1px solid rgba(95,179,168,.55);background:rgba(8,22,24,.82);color:#dff6f2;opacity:1}
+body.lbl-tap .spot.exit.nav span{display:inline-block}
+.spot.exit.nav-locked i{border-color:var(--rope);color:var(--fog);background:rgba(20,20,22,.78)}
+.spot.exit.nav-locked span{border-color:rgba(255,255,255,.15);color:var(--fog)}
+.spot.exit.nav:hover i,.spot.exit.nav:focus-visible i{background:rgba(95,179,168,.35)}
+@media (max-width:520px){ .spot.exit.nav i{width:26px;height:26px} .spot.exit.nav i svg{width:16px;height:16px} }
+.ibtn.back{border-color:var(--sea);color:#bff0e8}
