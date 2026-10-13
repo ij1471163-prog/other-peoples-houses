@@ -37,7 +37,7 @@
     { id: 'elias', once: true, label: T('Ask about Elias', '{تسأله|تسألينه} عن إلياس'), if: s => s.f.metElias, run: [
       { c: 'marco', e: 'sad', t: T('Since I was a boy he\'s been beating me at chess. Lately he forgets moves.', 'من وأنا صغير وهو يغلبني بالشطرنج. وأخيراً صار ينسى النقلات.') },
       { c: 'marco', e: 'sad', t: T('Last week he called me Thomas. Then he pretended he didn\'t. I pretended too.', 'الأسبوع اللي فات ناداني توماس. وبعدين سوّى نفسه ما قال. وأنا بعد سويت نفسي ما سمعت.') },
-      s => { s.f.forgot = true; quest('q_secret', 'active'); return null; }] }
+      s => { s.f.forgot = true; if (!s.f.ended) quest('q_secret', 'active'); return null; }] }
   ];
   { const { C } = GAME.H.town;
     /* things to talk about (the town) */
