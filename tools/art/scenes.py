@@ -72,4 +72,7 @@ def main():
             img.save(OUT / f"{sid}-{n}.jpg", quality=88); print("drew", sid, n, flush=True)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        import traceback; (OUT / "error.txt").write_text(traceback.format_exc()); raise
