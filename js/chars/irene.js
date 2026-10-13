@@ -28,7 +28,7 @@
   ];
   /* things to talk about (Margaret's chapter) */
   GAME.TOPICS.irene.push(
-    { id: 'gpills', label: T('Show her the gold "G" pills', '{توريها|تورينها} حبوب «G» الذهبية'), if: s => has('pillsM') && !s.f.pillsIrene, cls: 'main', run: s => { s.f.pillsIrene = true; quest('q_m_pills', 'active'); return [
+    { id: 'gpills', label: T('Show her the gold "G" pills', '{توريها|تورينها} حبوب «G» الذهبية'), if: s => has('pillsM') && !s.f.pillsIrene, cls: 'main', run: s => { s.f.pillsIrene = true; if (!(s.done || {}).margaret) quest('q_m_pills', 'active'); return [
       { c: 'irene', e: 'angry', t: T('Where did you get these? No, don\'t tell me. Margaret Hart. I prescribed her something gentle and she barely touches it.', 'من وين {جبتها|جبتيها}؟ لا، {لا تقول|لا تقولين}. مارغريت هارت. وصفت لها شي خفيف وبالكاد تلمسه.') },
       { c: 'irene', e: 'angry', t: T('This isn\'t from any pharmacy. A strong sedative, cut with something that causes vivid dreams. Hallucinations, in some people. Grief plus this is a very bad night waiting to happen.', 'هذي مو من أي صيدلية. منوّم قوي، مخلوط بشي يسبب أحلام واضحة. وهلوسة، عند بعض الناس. حزن مع هذا يعني ليلة سيئة مرة تنتظر.') },
       { c: 'irene', e: 'sad', t: T('Get her to stop. Gently. And if you find out who\'s selling them, I want a name.', '{خلها|خليها} توقف. بلطف. ولو {عرفت|عرفتي} مين يبيعها، أبي اسم.') }]; } }
