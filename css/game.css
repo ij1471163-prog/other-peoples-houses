@@ -571,3 +571,21 @@ html[lang=ar] .menu-v2 .ts-menu .opt:last-child:not(.main),html[lang=ar] body.ti
 @media (orientation:landscape) and (max-height:400px){ .menu-v2 .logo-sub,body.titlemode .menu-v2 .logo-sub{display:none} }
 @media (prefers-reduced-motion:reduce){ .menu-v2 .ts-menu .opt{transition:none} }
 html[lang=ar] .menu-v2 .ts-foot .opt.dl,html[lang=ar] .menu-v2 .ts-warn{font-family:var(--f-ar-ui)}
+
+/* ===== v11: painted map, no list beside it; small labels on the map itself ===== */
+.sheet.mapsheet .maplist{display:none}
+.sheet.mapsheet .mapbody{justify-content:center}
+@media (orientation:landscape){ .sheet.mapsheet .mapwrap{flex:none;max-width:100%;max-height:100%} }
+.sheet.mapsheet .pin,html[lang=ar] .sheet.mapsheet .pin{font-size:9.5px;font-weight:600;padding:1px 5px;border-width:1px;border-radius:5px;gap:3px;line-height:1.25;background:rgba(18,24,30,.82)}
+.sheet.mapsheet .pin.here,html[lang=ar] .sheet.mapsheet .pin.here{background:var(--lamp);color:#1a1206}
+.sheet.mapsheet .pin .dot{min-width:12px;height:12px;line-height:12px;font-size:8.5px;border-radius:6px;padding:0 2px}
+/* portrait: the map is shown big and slides sideways (it opens on where you are), so every name stays readable */
+@media (orientation:portrait){
+  .sheet.mapsheet .mapbody{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;direction:ltr;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;align-self:stretch}
+  body.sheet-open .sheet.mapsheet .mapwrap,.sheet.mapsheet .mapwrap{width:220vw;max-width:none;height:auto;aspect-ratio:16/9;flex:none}
+  html .sheet.mapsheet .pin:not(.here),html[lang=ar] .sheet.mapsheet .pin:not(.here),.sheet.mapsheet .pin,.sheet.mapsheet .pin.here{font-size:9.5px;width:auto;height:auto;padding:1px 5px;border-radius:5px;transform:translate(-50%,0)}
+  .sheet.mapsheet .pin .dot{display:inline-block}
+  .sheet.mapsheet .pin em{display:inline}
+  .sheet.mapsheet .pin.edge-l,.sheet.mapsheet .pin.here.edge-l{transform:translate(-12%,0)}
+  .sheet.mapsheet .pin.edge-r,.sheet.mapsheet .pin.here.edge-r{transform:translate(-88%,0)}
+}

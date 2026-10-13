@@ -20,3 +20,28 @@
     return done ? out.replace(/<rect width="1600" height="900" fill="#0a1030" opacity="\.35"\/>/, '') : out;
   };
 })();
+
+/* portrait: the map is wider than the screen, so open it centred on where you are */
+(function () {
+  /* landscape: the biggest exact 16:9 that fits (so each pin stays on its building) */
+  function fit() {
+    const body = document.querySelector('.sheet.mapsheet .mapbody'), wrap = body && body.querySelector('.mapwrap');
+    if (!wrap) return;
+    if (!matchMedia('(orientation:landscape)').matches) { wrap.style.width = wrap.style.height = ''; return; }
+    const w = Math.floor(Math.min(body.clientWidth, body.clientHeight * 16 / 9));
+    wrap.style.width = w + 'px'; wrap.style.height = Math.floor(w * 9 / 16) + 'px';
+  }
+  addEventListener('resize', fit);
+  const base = renderSheet;
+  renderSheet = function () {
+    base.apply(this, arguments);
+    const body = document.querySelector('.sheet.mapsheet .mapbody');
+    if (!body) return;
+    fit();
+    if (body.scrollWidth <= body.clientWidth + 2) return;
+    const pin = body.querySelector('.pin.here'), wrap = body.querySelector('.mapwrap');
+    const x = pin ? pin.offsetLeft : wrap.offsetWidth / 2;
+    const max = body.scrollWidth - body.clientWidth, want = Math.max(0, Math.min(max, x - body.clientWidth / 2));
+    body.scrollLeft = want;   // the scroller is always left-to-right (css), in Arabic too
+  };
+})();
