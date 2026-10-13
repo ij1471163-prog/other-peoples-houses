@@ -19,7 +19,7 @@
 
   /* 1. the book */
   GAME.TOPICS.sami.push({ id: 'book', label: T('Ask about the notebook under the counter', '{تسأله|تسألينه} عن الدفتر اللي تحت الكاونتر'),
-    if: s => B(s) === 0 && s.day >= 4 && s.slot === 3 && !doneToday('samiBook'),
+    if: s => B(s) === 0 && s.day >= 4 && (s.slot === 2 || s.slot === 3) && !doneToday('samiBook'),   // afternoon or evening (evening alone clashed with chess)
     run: s => { onceToday('samiBook'); return [
       N_('Sami has counted the till twice. Now he is looking at a fat notebook, and not counting anything.', 'سامي عدّ الصندوق مرتين. والحين يطالع دفتر سمين، وما يعد شي.'),
       say('sami', 'neutral', 'This year\'s book. Since New Year, everyone in it owes me something. Eleven hundred and forty dollars, in a town where bread is two.', 'دفتر هالسنة. من رأس السنة، كل اللي فيه عليهم لي شي. ألف ومية وأربعين دولار، في بلدة الخبز فيها بدولارين.'),
@@ -68,6 +68,9 @@
       st => { st.f.samiBook = 2; st.money += 5; addTrust('sami', 2); addMood(1); quest('q_sami', 'done'); return null; }] });
 
   GAME.CHAR.sami.chat = GAME.CHAR.sami.chat || [];
+  /* a hint before it starts (phase 3): the book exists, and when to ask */
+  GAME.CHAR.sami.chat.push({ if: s => B(s) === 0 && s.day >= 3, e: 'sad',
+    t: T('That notebook under the counter gets heavier every week. Ask me about it some afternoon. Or don\'t.', 'الدفتر اللي تحت الكاونتر يثقل كل أسبوع. {اسألني|اسأليني} عنه عصرية من العصاري. أو لا.') });
   GAME.CHAR.sami.chat.push({ if: s => B(s) === 2, e: 'smile',
     t: T('The book\'s thinner. I sleep better. Turns out paper is heavy.', 'الدفتر صار أخف. وصرت أنام أحسن. طلع الورق ثقيل.') });
 })();

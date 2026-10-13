@@ -123,6 +123,8 @@
     R('starNight', ['harbor', 'beach', 'lh_ext', 'street'], 'The sky clears and there are more stars than you have ever seen. You stand with your head back until your neck hurts, which takes a while.', 'السما تصفى وفيه نجوم أكثر من أي مرة {شفتها|شفتيها}. {توقف|توقفين} وراسك لورا لين يوجعك رقبتك، وهذا ياخذ وقت.', s => (addMood(1), []))
   ]);
   GAME.RANDOM.find(e => e.id === 'starNight').when = s => s.slot === NIGHT;
+  /* everyday moments may come back after a week (phase 3); one-off and story moments still happen once */
+  ['gullChips', 'busker', 'samiRadio', 'fogHorn', 'rainDash', 'gullWar', 'starNight', 'hotelPiano'].forEach(id => { GAME.RANDOM.find(e => e.id === id).repeat = 7; });
   GAME.RANDOM.find(e => e.id === 'kidKite').when = s => s.slot < NIGHT;
   GAME.RANDOM.find(e => e.id === 'busker').when = s => s.slot < NIGHT;
 

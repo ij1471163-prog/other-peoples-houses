@@ -23,7 +23,7 @@
 
   /* 1. Martha */
   GAME.TOPICS.martha.push({ id: 'pie', once: true, label: T('"Does he eat what you bring?"', '«ياكل اللي تجيبينه؟»'),
-    if: s => M(s) === 0 && atElias(s) && (s.f.marthaHelp || 0) >= 1,
+    if: s => M(s) === 0 && atElias(s),   // no longer waits for a cleaning session: she is only in on Tuesdays and Fridays
     run: [
       say('martha', 'sad', 'Not properly. I bring soup, he says "lovely", and it\'s still there on Friday.', 'مو زين. أجيب شوربة، يقول «حلوة»، وتبقى مكانها لين الجمعة.'),
       say('martha', 'neutral', 'Ada made one thing. A fish pie. Burnt on top, every single time. He ate it every Sunday for forty years and called it the best thing in Saltmere.', 'آدا كانت تسوي شي واحد. فطيرة سمك. محروقة من فوق، كل مرة. وهو ياكلها كل أحد أربعين سنة، ويقول إنها أحسن شي في سولتمير.'),

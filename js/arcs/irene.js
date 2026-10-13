@@ -68,6 +68,9 @@
       s => { s.f.irArc = 3; needs().food = clamp(needs().food + 20, 0, 100); addTrust('irene', 1); addMood(1); quest('q_irene', 'done'); return null; }] });
 
   GAME.CHAR.irene.chat = GAME.CHAR.irene.chat || [];
+  /* a hint before it starts (phase 3): afternoons at the clinic */
+  GAME.CHAR.irene.chat.push({ if: s => A(s) === 0 && s.day >= 3, e: 'sad',
+    t: T('Afternoons are the worst. The waiting room empties and my eyes close on their own. Don\'t tell anyone.', 'العصر أصعب وقت. غرفة الانتظار تفضى وعيوني تتسكر لحالها. {لا تقول|لا تقولين} لأحد.') });
   GAME.CHAR.irene.chat.push({ if: s => A(s) === 3, e: 'smile',
     t: T('I sat down for lunch yesterday. Nobody died. One man did ring to ask if I was dead. I said not yet.', 'أمس جلست وأنا أتغدى. وما أحد مات. واحد بس اتصل يسأل إذا أنا ميتة. قلت له مو للحين.') });
 })();
