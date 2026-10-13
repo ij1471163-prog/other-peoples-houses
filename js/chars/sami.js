@@ -66,5 +66,8 @@ if (GAME.CHAR.sami) GAME.CHAR.sami.chat = [
   { if: s => s.host === 'elias', e: 'smile', t: T("Elias buys the same three things every week. Bread, tea, tobacco. Thirty years. I keep them by the till.", "إلياس يشتري نفس الثلاث أشياء كل أسبوع. خبز، وشاي، وتبغ. ثلاثين سنة. أحطها له عند الكاشير.") },
   { if: s => s.host === 'leo', e: 'neutral', t: T("Leo still owes me for a sandwich from two years ago. I wrote it on the wall. It's a monument now.", "ليو لسا عليه سندويشة من سنتين. كتبتها على الجدار. صارت معلَم سياحي.") },
   { if: s => (s.ch || 1) >= 3, e: 'neutral', t: T("Half the street owes Victor. The other half owes me. Only one of us sends letters.", "نص الشارع مديون لفيكتور. والنص الثاني مديون لي. واحد بس فينا يرسل رسايل.") },
-  { e: 'smile', t: T("My father opened this shop. He said: give credit, keep a list, burn the list at New Year. I burn it every year.", "أبوي فتح المحل. قال: دين الناس، واكتب قائمة، واحرقها في رأس السنة. أحرقها كل سنة.") }
+  { e: 'smile', t: T("My father opened this shop. He said: give credit, keep a list, burn the list at New Year. I burn it every year.", "أبوي فتح المحل. قال: دين الناس، واكتب قائمة، واحرقها في رأس السنة. أحرقها كل سنة.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.sb_rex, e: 'neutral', t: T("Rex put forty on top. Didn't say a word. Policemen.", "ريكس حط أربعين زيادة. وما قال ولا كلمة. شرطة.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.f.kaiArc || 0) >= 3 && !!s.f.sb_kai, e: 'smile', t: T("Kai paid me the eleven. In wet coins, with a speech. Something's changed with that boy.", "كاي دفع لي الإحدعش. فكة مبلولة، ومعها خطبة. فيه شي تغير في هالولد.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.trust.sami || 0) >= 4, e: 'smile', t: T("You can owe me. I won't even write it down. That's the highest honour this shop has.", "{تقدر تتدين|تقدرين تتدينين} مني. وما بكتبها حتى. هذا أعلى شرف في هالمحل.") }
 ];

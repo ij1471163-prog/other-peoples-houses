@@ -65,5 +65,6 @@ if (GAME.CHAR.martha) GAME.CHAR.martha.chat = [
   { e: 'sad', t: T("Ada used to hum while she dried the dishes. Same song every time. I hum it now, so somebody does.", "آدا كانت تدندن وهي تنشّف الصحون. نفس الأغنية كل مرة. وأنا أدندنها الحين، عشان أحد يدندنها.") },
   { if: s => s.host === 'elias', e: 'sad', t: T("He's eating less. Don't tell him I said. Put an extra sugar in his tea. He won't notice.", "صار ياكل أقل. {لا تقول|لا تقولين} له إني قلت. {حط|حطي} له سكر زيادة في الشاي. ما بينتبه.") },
   { if: s => s.host === 'margaret', e: 'neutral', t: T("That house is too clean. Clean like nobody's allowed to touch anything.", "هالبيت نظيف زيادة. نظيف كأن ما أحد مسموح له يلمس شي.") },
-  { e: 'neutral', t: T("Rubber gloves are the secret. And never clean a mirror in the sun. Streaks. Write that down.", "السر في القفازات. {ولا تنظف|ولا تنظفين} مراية والشمس عليها أبداً. تطلع خطوط. {اكتبها|اكتبيها}.") }
+  { e: 'neutral', t: T("Rubber gloves are the secret. And never clean a mirror in the sun. Streaks. Write that down.", "السر في القفازات. {ولا تنظف|ولا تنظفين} مراية والشمس عليها أبداً. تطلع خطوط. {اكتبها|اكتبيها}.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.f.mArc || 0) >= 4, e: 'sad', t: T("He ate it all, you know. Burnt top and all. Don't tell him I cried in his kitchen.", "أكلها كلها، {تدري|تدرين}. بالوجه المحروق وكل شي. {لا تقول|لا تقولين} له إني بكيت في مطبخه.") }
 ];

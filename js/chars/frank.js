@@ -43,5 +43,7 @@ if (GAME.CHAR.frank) GAME.CHAR.frank.life = { garage: 'work' };
 if (GAME.CHAR.frank) GAME.CHAR.frank.chat = [
   { e: 'neutral', t: T("A car's like a person. Make a noise long enough and somebody finally listens.", "السيارة مثل الإنسان. تسوي صوت مدة كافية، وأخيراً أحد يسمع.") },
   { if: s => s.host === 'leo', e: 'sad', t: T("How is he? Don't tell me. Just tell me if he's eating.", "كيفه؟ {لا تقول|لا تقولين} لي. بس {قل|قولي} لي إذا ياكل.") },
-  { e: 'smile', t: T("Blood pressure's fine. Doctor says it isn't. Doctor's never fixed a Mustang.", "الضغط تمام. الدكتورة تقول لا. الدكتورة عمرها ما صلّحت موستنج.") }
+  { e: 'smile', t: T("Blood pressure's fine. Doctor says it isn't. Doctor's never fixed a Mustang.", "الضغط تمام. الدكتورة تقول لا. الدكتورة عمرها ما صلّحت موستنج.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.tp_frank_calendar, e: 'sad', t: T("That calendar in the office. Three years on the same month. I keep meaning to turn it.", "التقويم اللي في المكتب. ثلاث سنين على نفس الشهر. كل مرة أقول بقلبه.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.done || {}).leo === 'LEO_HOME', e: 'smile', t: T("He comes in on Sundays now. Draws the cars instead of fixing them. I let him.", "صار يجي كل أحد. يرسم السيارات بدال ما يصلحها. وأنا أخليه.") }
 ];

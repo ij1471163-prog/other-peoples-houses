@@ -38,5 +38,7 @@ if (GAME.CHAR.kai) GAME.CHAR.kai.chat = [
   { e: 'smile', t: T("Waves are flat today. Flat is just the sea having a nap, legend.", "الموج هادي اليوم. الهدوء يعني البحر ماخذ قيلولة، {يا بطل|يا بطلة}.") },
   { e: 'smile', t: T("Kevin stole my sandwich again. I respect him. He's an entrepreneur.", "كيفن سرق سندويشتي مرة ثانية. أحترمه. رجل أعمال.") },
   { if: s => s.host === 'victor', e: 'shock', t: T("You live at the Grand? Can you get me into the pool at night? For science.", "{ساكن|ساكنة} في الغراند؟ {تقدر|تقدرين} تدخلني المسبح بالليل؟ عشان العلم.") },
-  { e: 'neutral', t: T("Surfing tip: fall off a lot. That's the whole tip.", "نصيحة ركوب الموج: {اطيح|طيحي} كثير. هذي النصيحة كلها.") }
+  { e: 'neutral', t: T("Surfing tip: fall off a lot. That's the whole tip.", "نصيحة ركوب الموج: {اطيح|طيحي} كثير. هذي النصيحة كلها.") },
+  /* reacts to what happened (phase 2) */ { if: s => s.quests.q_seagull === 'done', e: 'smile', t: T("Kevin's famous now. He won't even look at me. Typical celebrity.", "كيفن صار مشهور. ما عاد يطالعني حتى. نجوم.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.sb_kai && (s.f.kaiArc || 0) < 3, e: 'neutral', t: T("Tell Sami the eleven is coming. Emotionally, it's already there.", "{قل|قولي} لسامي إن الإحدعش جاية. عاطفياً، هي وصلت.") }
 ];

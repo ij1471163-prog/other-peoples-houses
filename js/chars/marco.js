@@ -77,5 +77,22 @@ if (GAME.CHAR.marco) GAME.CHAR.marco.chat = [
   { if: s => s.host === 'leo', e: 'neutral', t: T("Leo owes me for four sandwiches. I'm not asking. I'm just saying the number out loud. Often.", "ليو عليه أربع سندويشات. ما أطالب. بس أقول الرقم بصوت عالي. كثير.") },
   { if: s => (s.ch || 1) >= 3, e: 'neutral', t: T("Victor came in once. Ordered water. Tipped a hundred. I framed it. Then I unframed it and paid my rent.", "فيكتور جا مرة. طلب ماي. وعطاني بقشيش مية. برْوزتها. وبعدين طلّعتها ودفعت إيجاري.") },
   { e: 'sad', t: T("My nonna had this café before me. She said a café is a living room for people who don't have one.", "جدتي كانت تملك المقهى قبلي. كانت تقول المقهى صالة للناس اللي ما عندهم صالة.") },
-  { if: s => s.slot >= 2, e: 'smile', t: T("Open mic on Thursday. Come. Laugh at the right bits. Or the wrong bits. I'm not proud.", "الأمسية المفتوحة يوم الخميس. {تعال|تعالي}. {اضحك|اضحكي} في الأماكن الصح. أو الغلط. ما عندي كرامة.") }
+  { if: s => s.slot >= 2, e: 'smile', t: T("Open mic on Thursday. Come. Laugh at the right bits. Or the wrong bits. I'm not proud.", "الأمسية المفتوحة يوم الخميس. {تعال|تعالي}. {اضحك|اضحكي} في الأماكن الصح. أو الغلط. ما عندي كرامة.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.ingridSang, e: 'sad', t: T("Ingrid on Thursday. Eleven people cried. Two of them were me.", "إنغريد يوم الخميس. إحدعش شخص بكوا. اثنين منهم أنا.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.tp_marco_openmic, e: 'smile', t: T("People still ask when you're back on stage. I tell them you're between tours.", "الناس للحين يسألون متى {ترجع|ترجعين} للمسرح. أقول لهم إنك بين جولتين.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.f.shifts || 0) >= 3, e: 'smile', t: T("You're the only one who remembers who ordered the oat milk. I'm thinking of promoting you.", "{أنت الوحيد اللي يتذكر|أنتِ الوحيدة اللي تتذكر} مين طلب حليب الشوفان. أفكر أرقّيك.") },
+  /* reacts to what happened (phase 2) */ { if: s => s.quests.q_seagull === 'done', e: 'smile', t: T("The bagel video. I watch it when I'm sad. I'm never sad for long.", "فيديو الخبزة. أشوفه لما أزعل. وما أطوّل زعلان.") }
 ];
+
+/* the café reacts to who is in it (phase 2): what Marco is doing depends on who else is there right now */
+if (GAME.CHAR.marco) {
+  const base = GAME.CHAR.marco.doing;
+  const at = (id, s) => GAME.CHAR[id] && GAME.CHAR[id].where && GAME.CHAR[id].where(s) === 'cafe';
+  GAME.CHAR.marco.doing = s => {
+    if (at('elias', s)) return base(s);   // chess evenings stay as they are
+    if (at('margaret', s)) return T('Marco has put a cushion on the window seat for Margaret. He pretends it was always there.', 'ماركو حط مخدة على الكرسي اللي جنب الشباك عشان مارغريت. ويسوي نفسه إنها كانت هناك من زمان.');
+    if (at('ingrid', s)) return T('Marco brings Ingrid her tea before she asks, and stays to hear about Henrik again.', 'ماركو يجيب لإنغريد شايها قبل لا تطلب، ويقعد يسمع عن هنريك مرة ثانية.');
+    if (at('kai', s)) return T('Marco is pretending not to see Kai eat chips off other people\'s plates.', 'ماركو يسوي نفسه ما يشوف كاي ياكل بطاطس من صحون الناس.');
+    return base(s);
+  };
+}

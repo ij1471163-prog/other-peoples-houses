@@ -61,7 +61,9 @@ if (GAME.CHAR.irene) GAME.CHAR.irene.chat = [
   { if: s => s.host === 'evelyn', e: 'smile', t: T("Tell Evelyn I still have her prescription. It says “sleep”. Underlined twice.", "{قل|قولي} لإيفلين إن وصفتها لسا عندي. مكتوب فيها «نوم». وتحتها خطين.") },
   { if: s => s.host === 'victor', e: 'angry', t: T("Your host's spa sends me patients. I send them home with water and a bill I never post.", "سبا مضيفك يرسل لي مرضى. وأرجعهم بيوتهم بماي وفاتورة عمري ما أرسلها.") },
   { e: 'neutral', t: T("I wanted to be a surgeon in a big city. Then I came here for one summer. That was nineteen summers ago.", "كنت أبي أصير جرّاحة في مدينة كبيرة. وبعدين جيت هنا صيف واحد. وهذا كان قبل تسعطعش صيف.") },
-  { if: s => s.mood <= 3, e: 'sad', t: T("You look like you're carrying a piano. Sleep, eat, walk by the sea. Doctor's orders. They're free.", "شكلك {شايل|شايلة} بيانو. {نام، كل، وامش|نامي، كلي، وامشي} جنب البحر. أوامر الدكتورة. ومجانية.") }
+  { if: s => s.mood <= 3, e: 'sad', t: T("You look like you're carrying a piano. Sleep, eat, walk by the sea. Doctor's orders. They're free.", "شكلك {شايل|شايلة} بيانو. {نام، كل، وامش|نامي، كلي، وامشي} جنب البحر. أوامر الدكتورة. ومجانية.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.irLet, e: 'smile', t: T("Mrs Okafor says the new receptionist has a lovely voice. I didn't correct her. Thank you for those forty minutes.", "السيدة أوكافور تقول إن {موظف الاستقبال الجديد صوته|موظفة الاستقبال الجديدة صوتها} حلو. ما صححت لها. شكراً على الأربعين دقيقة.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.pillsDone, e: 'neutral', t: T("Margaret Hart takes my prescription now. I don't know what you said to her. Keep saying it.", "مارغريت هارت صارت تاخذ دواي. ما أدري وش {قلت|قلتي} لها. {كمّل|كمّلي} تقوله.") }
 ];
 
 /* a quick check-up, once a day at the clinic: she looks at how you really are (food, sleep, washing) */

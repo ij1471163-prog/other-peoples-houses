@@ -236,6 +236,7 @@ Object.assign(GAME.SCRIPTS, {
     N_('In the morning he starts the bike one-handed, which is illegal, and rides up the hill to Frank\'s Motors.', 'الصبح يشغّل الدراجة بيد وحدة، وهذا ممنوع، ويطلع الطلعة لكراج فرانك.'),
     N_('Later, a message: a photo of Frank holding the scholarship form, pen in hand, eyes red. "He signed. He also cried. Never tell anyone."', 'بعدين، رسالة: صورة فرانك ماسك ورقة المنحة، والقلم بيده، وعيونه حمرا. «وقّع. وبكى بعد. {لا تقول|لا تقولين} لأحد أبداً.»'),
     N_('He leaves you the boathouse key and the drawing of the house. The figure who stood outside the door is inside now.', 'يترك لك مفتاح بيت القوارب ورسمة البيت. الشخص اللي كان واقف برا الباب، صار داخل.'),
+    st => st.f.leoHouse ? [N_('It is your house: the blue door that sticks, the lemon tree, your window over the garage. He finished the shading.', 'هو بيتك: الباب الأزرق اللي يعلق، وشجرة الليمون، وشباكك فوق الكراج. خلّص التظليل.')] : null, // links.js: only if you told him about your house
     { end: 'LEO_HOME' }],
   endLeoHomeFrank: [F_('sad', 'Your friend came to the garage. Told me where you were. Showed me a drawing.', '{صديقك جا|صديقتك جت} الكراج. {قال|قالت} لي وينك. {وراني|ورتني} رسمة.'),
     F_('sad', 'I burned the wrong things, son.', 'أحرقت الأشياء الغلط يا ولدي.'),
@@ -254,6 +255,7 @@ Object.assign(GAME.SCRIPTS, {
     { end: 'LEO_STAY' }],
   endLeoRun: [{ show: [] }, N_('You wake up and the bike is gone.', '{تصحى|تصحين} والدراجة مو موجودة.'),
     N_('On the sofa: the drawing of the house, the figure still standing outside the door. Underneath: "Sorry. I couldn\'t. Keep the PlayStation."', 'على الكنب: رسمة البيت، والشخص لسا واقف برا الباب. وتحتها: «آسف. ما قدرت. {خذ|خذي} البلايستيشن.»'),
+    st => st.f.leoHouse ? [N_('It is your house: the blue door that sticks, the lemon tree. He never finished the shading.', 'هو بيتك: الباب الأزرق اللي يعلق، وشجرة الليمون. وما خلّص التظليل.')] : null, // links.js: only if you told him about your house
     N_('His phone is off. At noon, Victor\'s man changes the locks with you still holding the drawing.', 'جواله مطفي. الظهر، رجّال فيكتور يغير الأقفال {وأنت لسا ماسك|وأنتِ لسا ماسكة} الرسمة.'),
     { end: 'LEO_RUN' }],
   endLeoKick: [N_('You call his father behind his back. Frank arrives in twenty minutes. Leo sees the truck from the window, and turns to you.', '{تتصل|تتصلين} بأبوه من وراه. فرانك يوصل بعد عشرين دقيقة. ليو يشوف الشاحنة من الشباك، ويلتفت لك.'),

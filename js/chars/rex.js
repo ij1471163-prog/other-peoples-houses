@@ -46,5 +46,9 @@ if (GAME.CHAR.rex) GAME.CHAR.rex.chat = [
   { e: 'neutral', t: T("Three reports today. Two lost cats, one stolen bin. The bin was found. In a tree. I have questions.", "ثلاث بلاغات اليوم. قطوتين ضايعات، وزبالة مسروقة. لقينا الزبالة. فوق شجرة. عندي أسئلة.") },
   { if: s => (s.ch || 1) >= 3, e: 'angry', t: T("I know what Victor is. Knowing isn't proof. Proof is paper.", "أعرف وش فيكتور. بس المعرفة مو دليل. الدليل ورق.") },
   { if: s => s.host === 'evelyn', e: 'shock', t: T("If you see anything strange at the lighthouse at night, don't tell me. I'm a man of reason and I'm scared.", "لو {شفت|شفتي} شي غريب في المنارة بالليل، {لا تقول|لا تقولين} لي. أنا رجّال عاقل وخايف.") },
-  { if: s => s.mood <= 3, e: 'neutral', t: T("Eat something. Cops notice who isn't eating.", "{كل|كلي} لك شي. الشرطة ينتبهون مين ما ياكل.") }
+  { if: s => s.mood <= 3, e: 'neutral', t: T("Eat something. Cops notice who isn't eating.", "{كل|كلي} لك شي. الشرطة ينتبهون مين ما ياكل.") },
+  /* reacts to what happened (phase 2) */ { if: s => s.quests.q_gift === 'done', e: 'smile', t: T("Lily keeps your present on her windowsill. Best thing anyone ever got her, she says. Apart from the dog I still haven't got her.", "ليلي حاطة هديتك على الشباك. تقول إنها أحسن شي أحد جابه لها. غير الكلب اللي للحين ما جبته.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.sb_rex, e: 'neutral', t: T("Sami can't look me in the eye since the envelope. Good. Means it worked.", "سامي ما يقدر يطالع في عيوني من يوم الظرف. زين. يعني نفعت.") },
+  /* reacts to what happened (phase 2) */ { if: s => s.quests.q_seagull === 'done', e: 'smile', t: T("Officially, I saw nothing on the hotel terrace. Unofficially, I've watched it eleven times.", "رسمياً، ما شفت شي في تراس الفندق. وغير رسمي، شفته إحدعش مرة.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.trust.rex || 0) >= 4, e: 'neutral', t: T("If anyone gives you trouble, you tell me first. Before Victor's people hear about it.", "لو أحد ضايقك، {قل|قولي} لي أنا أول. قبل لا يسمعون جماعة فيكتور.") }
 ];

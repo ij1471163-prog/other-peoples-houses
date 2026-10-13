@@ -37,5 +37,8 @@ if (GAME.CHAR.gregor) GAME.CHAR.gregor.life = { cemetery: 'dig' };
 if (GAME.CHAR.gregor) GAME.CHAR.gregor.chat = [
   { e: 'smile', t: T("The dead are good neighbours. Quiet, punctual, and they never borrow your ladder.", "الميتين جيران زينين. هاديين، ومواعيدهم مضبوطة، وعمرهم ما يستلفون سلّمك.") },
   { e: 'neutral', t: T("My mother was born on Fisher's Row. She said you could tell the weather by which wives were shouting.", "أمي انولدت في شارع الصيادين. كانت تقول تعرف الطقس من أي زوجات يصارخون.") },
-  { e: 'smile', t: T("Every stone here has a story. Most of them are “he ate too much butter”.", "كل حجر هنا له قصة. أغلبها «كان ياكل زبدة كثير».") }
+  { e: 'smile', t: T("Every stone here has a story. Most of them are “he ate too much butter”.", "كل حجر هنا له قصة. أغلبها «كان ياكل زبدة كثير».") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.f.graves || 0) >= 3, e: 'smile', t: T("Someone left flowers on a stone nobody has visited since 1960. Tidy graves get visitors. You did that.", "أحد حط ورد على حجر ما زاره أحد من ١٩٦٠. القبور المرتبة يجيها زوار. وهذا {سويته أنت|سويتيه أنتِ}.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.f.gArc || 0) >= 3, e: 'sad', t: T("I look at your picture of the blue door every night before I write. Silly old man.", "أطالع صورتك للباب الأزرق كل ليلة قبل لا أكتب. عجوز سخيف.") },
+  /* reacts to what happened (phase 2) */ { if: s => s.quests.q_petition === 'done' && (s.f.gArc || 0) >= 1, e: 'neutral', t: T("Olivia's signatures and my list. Between the two, Fisher's Row has a memory now.", "تواقيع أوليفيا وقايمتي. بين الثنتين، شارع الصيادين صار له ذاكرة.") }
 ];

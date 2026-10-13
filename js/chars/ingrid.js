@@ -38,5 +38,7 @@ if (GAME.CHAR.ingrid) GAME.CHAR.ingrid.chat = [
   { e: 'smile', t: T("Sit, dear. Young people never sit.", "{اجلس يا حبيبي|اجلسي يا حبيبتي}. الشباب عمرهم ما يجلسون.") },
   { e: 'neutral', t: T("Seventy-four years in Saltmere. I've seen three lighthouse keepers and one decent baker.", "أربعة وسبعين سنة في سولتمير. شفت ثلاث حراس منارة وخبّاز واحد يستاهل.") },
   { e: 'sad', t: T("I knit a scarf for everyone I lose. I have a lot of scarves.", "أحيك شال لكل أحد أفقده. وعندي شالات كثير.") },
-  { if: s => weekday(s.day) === 4, e: 'sad', t: T("It's Thursday. On Thursdays my throat remembers.", "اليوم خميس. وفي الخميس حلقي يتذكر.") }
+  { if: s => weekday(s.day) === 4, e: 'sad', t: T("It's Thursday. On Thursdays my throat remembers.", "اليوم خميس. وفي الخميس حلقي يتذكر.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.ingridSang, e: 'smile', t: T("Thursday. My hands shook the whole song. My voice didn't. Henrik would have laughed at me, and then cried.", "الخميس. يديني رجفت طول الأغنية. وصوتي ما رجف. هنريك كان بيضحك علي، وبعدين يبكي.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.trust.ingrid || 0) >= 3, e: 'sad', t: T("You listen like someone who has lost something. Sit. We can be quiet together.", "{تسمع|تسمعين} مثل أحد ضيّع شي. {اجلس|اجلسي}. نقدر نسكت مع بعض.") }
 ];

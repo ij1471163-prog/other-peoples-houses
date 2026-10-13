@@ -37,5 +37,8 @@ if (GAME.CHAR.stella) GAME.CHAR.stella.chat = [
   { e: 'smile', t: T("Flowers for no reason are the best kind. Nobody can say no to them.", "الورد اللي بدون سبب هو أحلى ورد. ما أحد يقدر يرفضه.") },
   { e: 'neutral', t: T("The roses are sulking. I moved them away from the tulips. They're very political.", "الورد الجوري زعلان. بعّدته عن التوليب. سياسة.") },
   { if: s => s.host === 'margaret', e: 'sad', t: T("Margaret buys one white lily every Saturday. Never says who for. I know who for.", "مارغريت تشتري زنبقة بيضا وحدة كل سبت. عمرها ما قالت لمين. وأنا أعرف لمين.") },
-  { e: 'smile', t: T("If you're sad, smell basil. Instant summer. That's science. Probably.", "إذا {زعلان|زعلانة}، {شم|شمي} ريحان. صيف فوري. هذا علم. تقريباً.") }
+  { e: 'smile', t: T("If you're sad, smell basil. Instant summer. That's science. Probably.", "إذا {زعلان|زعلانة}، {شم|شمي} ريحان. صيف فوري. هذا علم. تقريباً.") },
+  /* reacts to what happened (phase 2) */ { if: s => s.quests.q_cat === 'done', e: 'smile', t: T("The Admiral sleeps on the till now. He's decided he's management. You did that.", "الأدميرال صار ينام على الكاشير. قرر إنه هو المدير. وهذا بسببك.") },
+  /* reacts to what happened (phase 2) */ { if: s => s.quests.q_gift === 'done', e: 'smile', t: T("Rex came back for more flowers. \"For no reason,\" he said. The reason is ten and has pigtails.", "ريكس رجع ياخذ ورد ثاني. قال «بدون سبب». والسبب عمرها عشر سنين وعندها ضفاير.") },
+  /* reacts to what happened (phase 2) */ { if: s => (s.trust.stella || 0) >= 3, e: 'neutral', t: T("Take a bruised rose. Free. Don't tell the other roses.", "{خذ|خذي} وردة مكسورة. ببلاش. {لا تقول|لا تقولين} للورود الثانية.") }
 ];
