@@ -528,9 +528,9 @@ body.titlemode .menu-v2{min-height:100%;padding:0;gap:clamp(8px,2.2vh,16px);just
 .menu-v2 .ts-corner{position:absolute;top:max(10px,env(safe-area-inset-top,0px));inset-inline:max(12px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;gap:8px;pointer-events:none}
 .menu-v2 .ts-corner > *{pointer-events:auto}
 .menu-v2 .ts-corner .ts-pill:last-child{order:-1}   /* language first (start side), sound on the other side */
-.ts-pill{font-family:var(--f-ui);font-size:14px;font-weight:600;color:#fff;cursor:pointer;min-height:36px;padding:6px 14px;border-radius:10px;
+.ts-pill{font-family:var(--f-ui);font-size:13px;font-weight:600;color:#fff;cursor:pointer;min-height:34px;padding:4px 12px;border-radius:10px;
   background:linear-gradient(180deg,#2c4f7a 0%,#1d3557 100%);border:2px solid #0b1726;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 2px 0 #0b1726;white-space:nowrap}
-html[lang=ar] .ts-pill{font-family:var(--f-ar-ui);font-size:13px}
+html[lang=ar] .ts-pill{font-family:var(--f-ar-ui);font-size:12.5px}
 
 /* the name of the game */
 .menu-v2 .ts-head{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:min(560px,92vw);margin-top:40px}
@@ -538,21 +538,21 @@ html[lang=ar] .ts-pill{font-family:var(--f-ar-ui);font-size:13px}
 .menu-v2 .logo-sub,body.titlemode .menu-v2 .logo-sub{display:block;-webkit-line-clamp:unset;overflow:visible;margin:0;max-width:46ch;font-size:clamp(12.5px,1.9vmin,15px);line-height:1.5;color:#e9edf0;opacity:1;text-shadow:0 1px 3px rgba(0,0,0,.9)}
 
 /* the main buttons: solid, stacked, centred */
-.menu-v2 .ts-menu,body.titlemode .menu-v2 .ts-menu{display:flex;flex-direction:column;align-items:stretch;gap:clamp(8px,1.8vh,12px);width:min(300px,82vw);margin:0}
-.menu-v2 .ts-menu .opt,body.titlemode .menu-v2 .ts-menu .opt{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;min-height:46px;padding:8px 16px;margin:0;
-  font-family:var(--f-ui);font-size:19px;font-weight:600;letter-spacing:.02em;color:#fff;line-height:1.2;white-space:normal;
+.menu-v2 .ts-menu,body.titlemode .menu-v2 .ts-menu{display:flex;flex-direction:column;align-items:stretch;gap:clamp(7px,1.6vh,10px);width:min(205px,60vw);margin:0}
+.menu-v2 .ts-menu .opt,body.titlemode .menu-v2 .ts-menu .opt{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;min-height:40px;padding:5px 12px;margin:0;
+  font-family:var(--f-ui);font-size:17px;font-weight:600;letter-spacing:.02em;color:#fff;line-height:1.2;white-space:normal;
   background:linear-gradient(180deg,#3a5f8c 0%,#24456d 55%,#1c3758 100%);border:2px solid #0b1726;border-radius:10px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -2px 0 rgba(0,0,0,.25),0 3px 0 #0b1726,0 6px 14px rgba(0,0,0,.35);
   text-shadow:0 1px 0 rgba(0,0,0,.6);cursor:pointer;transition:transform .08s ease,filter .12s ease}
-html[lang=ar] .menu-v2 .ts-menu .opt,html[lang=ar] body.titlemode .menu-v2 .ts-menu .opt{font-family:var(--f-ar-ui);font-size:17px;letter-spacing:0}
+html[lang=ar] .menu-v2 .ts-menu .opt,html[lang=ar] body.titlemode .menu-v2 .ts-menu .opt{font-family:var(--f-ar-ui);font-size:15px;letter-spacing:0}
 .menu-v2 .ts-menu .opt::before{content:none}
 .menu-v2 .ts-menu .opt.main,body.titlemode .menu-v2 .ts-menu .opt.main,html[lang=ar] body.titlemode .menu-v2 .ts-menu .opt.main{background:linear-gradient(180deg,#f6c46f 0%,#e9a645 55%,#d08e2e 100%);color:#2a1a06;text-shadow:0 1px 0 rgba(255,255,255,.35);border-color:#4a2e0a;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -2px 0 rgba(0,0,0,.18),0 3px 0 #4a2e0a,0 6px 14px rgba(0,0,0,.35)}
 .menu-v2 .ts-menu .opt:hover,.menu-v2 .ts-pill:hover{filter:brightness(1.1)}
 .menu-v2 .ts-menu .opt:active,.menu-v2 .ts-pill:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 0 #0b1726}
 .menu-v2 .ts-menu .opt:focus-visible,.menu-v2 .ts-pill:focus-visible,.menu-v2 .ts-foot a:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
 /* the endings button (js/endings.js) sits in the stack, a little quieter */
-.menu-v2 .ts-menu .opt:last-child:not(.main){font-size:16px;background:linear-gradient(180deg,#2b3f52 0%,#1d2c3a 100%)}
-html[lang=ar] .menu-v2 .ts-menu .opt:last-child:not(.main){font-size:15px}
+.menu-v2 .ts-menu .opt:last-child:not(.main),body.titlemode .menu-v2 .ts-menu .opt:last-child:not(.main){white-space:nowrap;padding-inline:8px;font-size:14px;background:linear-gradient(180deg,#2b3f52 0%,#1d2c3a 100%)}
+html[lang=ar] .menu-v2 .ts-menu .opt:last-child:not(.main),html[lang=ar] body.titlemode .menu-v2 .ts-menu .opt:last-child:not(.main){font-size:12.5px}
 
 /* bottom: the app link and the content warning, readable but quiet */
 .menu-v2 .ts-foot{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:min(560px,92vw)}
@@ -564,8 +564,8 @@ html[lang=ar] .menu-v2 .ts-menu .opt:last-child:not(.main){font-size:15px}
 @media (orientation:landscape) and (max-height:430px){
   .menu-v2 .ts-head{margin-top:30px}
   .menu-v2 .logo,body.titlemode .menu-v2 .logo{font-size:clamp(22px,7vh,30px)}
-  .menu-v2 .ts-menu .opt,body.titlemode .menu-v2 .ts-menu .opt{min-height:44px;padding:6px 14px;font-size:17px}
-  html[lang=ar] .menu-v2 .ts-menu .opt{font-size:15.5px}
+  .menu-v2 .ts-menu .opt,body.titlemode .menu-v2 .ts-menu .opt{min-height:38px;padding:4px 12px;font-size:16px}
+  html[lang=ar] .menu-v2 .ts-menu .opt,html[lang=ar] body.titlemode .menu-v2 .ts-menu .opt{font-size:14.5px}
   .menu-v2 .ts-menu,body.titlemode .menu-v2 .ts-menu{gap:7px}
 }
 @media (orientation:landscape) and (max-height:400px){ .menu-v2 .logo-sub,body.titlemode .menu-v2 .logo-sub{display:none} }

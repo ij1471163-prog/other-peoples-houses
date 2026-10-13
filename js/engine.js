@@ -662,7 +662,7 @@ function titleScreen(fresh) {
   wrap.appendChild(corner); wrap.appendChild(head); wrap.appendChild(box); wrap.appendChild(foot);
   const se = seenEnds().length, tot = Object.keys(GAME.END).length;
   box.appendChild(el('p', 'sec', tx(T('Endings found: ', 'النهايات اللي اكتشفتها: ')) + se + ' / ' + tot));
-  foot.appendChild(el('p', 'sec ts-warn', tx(T('Contains: grief, depression, illness, death and horror. No sexual content.', 'فيها: فقد، اكتئاب، مرض، موت، ورعب. بدون أي محتوى جنسي.'))));
+  foot.appendChild(el('p', 'sec ts-warn', tx(T('Contains: grief, depression, illness, death and horror.', 'فيها: فقد، اكتئاب، مرض، موت، ورعب.'))));
   panel.appendChild(wrap);
   AUDIO.scene(GAME.S, true); navArm();
 }
