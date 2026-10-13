@@ -53,7 +53,6 @@ def main():
     import torch as _t
     pipe.register_modules(image_encoder=CLIPVisionModelWithProjection.from_pretrained("h94/IP-Adapter", subfolder="models/image_encoder", torch_dtype=_t.float32))
     pipe.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models", weight_name="ip-adapter_sdxl_vit-h.safetensors", image_encoder_folder=None)
-    pipe.enable_attention_slicing()
     from diffusers import StableDiffusionXLImg2ImgPipeline
     i2i = StableDiffusionXLImg2ImgPipeline(**pipe.components); i2i.set_progress_bar_config(disable=True)
     import torch
