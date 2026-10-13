@@ -54,10 +54,13 @@ def main():
     pipe.register_modules(image_encoder=CLIPVisionModelWithProjection.from_pretrained("h94/IP-Adapter", subfolder="models/image_encoder", torch_dtype=_t.float32))
     pipe.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models", weight_name="ip-adapter_sdxl_vit-h.safetensors", image_encoder_folder=None)
     from diffusers import StableDiffusionXLImg2ImgPipeline
+    import torch, gc
+    pipe.to(torch.bfloat16)   # half the memory: the free computer has 16 GB
     i2i = StableDiffusionXLImg2ImgPipeline(**pipe.components); i2i.set_progress_bar_config(disable=True)
-    import torch
+    i2i.vae.to(torch.float32); i2i.upcast_vae() if hasattr(i2i, "upcast_vae") else None
+    del P.pipe, P.i2i, pipe; gc.collect()
     for sid, (cid, room, what, (x, hf)) in todo.items():
-        bg = Image.open(ROOT / "img" / "bg" / f"{room}.jpg").convert("RGB").resize((1344, 768), Image.LANCZOS)
+        bg = Image.open(ROOT / "img" / "bg" / f"{room}.jpg").convert("RGB").resize((1152, 640), Image.LANCZOS)
         ch = char_png(cid)
         start = composite(bg, ch, x, hf); start.save(OUT / f"{sid}-0-start.jpg", quality=88)
         ref = Image.new("RGB", ch.size, "white"); ref.paste(ch, mask=ch.split()[3])
