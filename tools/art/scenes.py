@@ -57,7 +57,6 @@ def main():
     import torch, gc
     pipe.to(torch.bfloat16)   # half the memory: the free computer has 16 GB
     i2i = StableDiffusionXLImg2ImgPipeline(**pipe.components); i2i.set_progress_bar_config(disable=True)
-    i2i.vae.to(torch.float32); i2i.upcast_vae() if hasattr(i2i, "upcast_vae") else None
     del P.pipe, P.i2i, pipe; gc.collect()
     for sid, (cid, room, what, (x, hf)) in todo.items():
         bg = Image.open(ROOT / "img" / "bg" / f"{room}.jpg").convert("RGB").resize((1152, 640), Image.LANCZOS)
