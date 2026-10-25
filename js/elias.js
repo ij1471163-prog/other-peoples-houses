@@ -336,12 +336,12 @@ Object.assign(GAME.SCRIPTS, {
     return [N_('Locked. Martha\'s voice through the door: "Five minutes, love! This tub has seen things."', 'مقفول. صوت مارثا من ورا الباب: «خمس دقايق يا عمري! هالبانيو شاف أشياء.»')];
   },
   shower: s => {
-    if (s.f.lastShower === s.day) return [N_('You already showered today. The towel is still damp.', '{تروشت|تروشتي} اليوم. المنشفة لسا رطبة.')];
+    if (s.f.lastShower === s.day) return [N_('You already showered today.', '{تروشت|تروشتي} اليوم.')];
     const gap = s.f.lastShower == null ? 99 : s.day - s.f.lastShower;
     s.f.lastShower = s.day; addMood(gap >= 2 ? 2 : 1); s.f.showers = (s.f.showers || 0) + 1;
     if (s.f.showers >= 2 && s.f.ate >= 2) quest('q_care', 'done');
     if (s.slot < NIGHT) advance(1);
-    return [gap >= 2 ? N_('Hot water. You stand under it longer than you need to. You forgot this was something you could just do.', 'موية حارة. {توقف|توقفين} تحتها أطول من اللازم. {نسيت إن هذا شي تقدر تسويه|نسيتي إن هذا شي تقدرين تسوينه} وخلاص.') : N_('A quick shower. The pipes bang like they\'re applauding.', 'ترويشة سريعة. البايبات تطق كأنها تصفق.')];
+    return [gap >= 2 ? N_('A shower. You feel lighter.', '{تروّشت|تروّشتي}. {حسيت|حسيتي} إنك أخف.') : N_('A quick shower.', 'ترويشة سريعة.')];
   },
   eat: s => {
     if (doneToday('ate')) return [N_('You\'ve eaten today. That counts.', '{أكلت|أكلتي} اليوم. وهذا يحسب.')];

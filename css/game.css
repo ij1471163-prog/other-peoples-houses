@@ -719,3 +719,5 @@ html[lang=ar] .hud .chips .chip.goal{font-size:12px}
 .tasks2 .q.side{opacity:.82;border-inline-start:3px solid rgba(255,255,255,.15)}
 .tasks2 .q-done{margin-top:12px;opacity:.75}
 .tasks2 .q-done summary{cursor:pointer;font-size:13px;padding:4px 0}
+.sheet.mapsheet .pin em.when,.sheet.mapsheet .pin em.nyet{font-style:normal;font-weight:400;opacity:.85;color:#ffd9a0}
+.sheet.mapsheet .pin.locked{opacity:.72}

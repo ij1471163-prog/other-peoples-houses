@@ -16,9 +16,9 @@
      · "Now: …" in the People tab of the phone
      · icons next to names in the map's list
      · a line in the caption when you can hear them elsewhere in the house
-       (the shower, the kitchen, the radio)
+       (the kitchen, the radio)
      · bathrooms are sometimes occupied for a minute by someone at home
-   Showers and baths are only ever heard, never shown.
+   Showers and baths are private: never shown, named or described.
    ===================================================================== */
 'use strict';
 const LIFE = (() => {
@@ -69,8 +69,6 @@ const LIFE = (() => {
   };
   /* things you can hear (or smell) from another room of the same house */
   const HEAR = {
-    shower: T('{n} is in the shower. You can hear the water through the wall.', '{n} يتروّش. {تسمع|تسمعين} صوت الموية من ورا الجدار.'),
-    bath:   T('{n} is in the bath. A radio is playing behind the door.', '{n} في الحمام. وفيه راديو شغّال ورا الباب.'),
     cook:   T('Something is frying in the kitchen. {n} is cooking.', 'فيه شي ينقلي في المطبخ. {n} يطبخ.'),
     radio:  T('A radio is playing low in the other room. {n}.', 'راديو شغّال بصوت واطي في الغرفة الثانية. {n}.'),
     game:   T('Muffled explosions from the next room: {n} is playing games.', 'أصوات انفجارات مكتومة من الغرفة اللي جنبك: {n} يلعب.'),
@@ -78,6 +76,8 @@ const LIFE = (() => {
     sleep:  T('From the next room, the slow breathing of {n}, asleep.', 'من الغرفة اللي جنبك، نفَس {n} البطيء، نايم.')
   };
   const BATHS = ['bath', 'bh_bath', 'marg_bath', 'lh_bath'];
+  /* bathroom time stays private: it still keeps people busy (and the bathroom locked), but it is never shown or described */
+  const PRIVATE = ['shower', 'bath'];
 
   const female = id => PEOPLE.SPEC[id] && PEOPLE.SPEC[id].sex === 'f';
   const nameOf = id => tx(GAME.CHAR[id].short || GAME.CHAR[id].name);
@@ -93,7 +93,7 @@ const LIFE = (() => {
     const [icon, en, arM, arF] = ACTS[k];
     return { key: k, icon, at: w, label: T(en, female(id) ? arF : arM) };
   }
-  const icon = (id, s) => { const a = act(id, s); return a ? a.icon : ''; };
+  const icon = (id, s) => { const a = act(id, s); return a && !PRIVATE.includes(a.key) ? a.icon : ''; };
   /* the drawn pose for what they are doing (img/chars/<id>-<activity>.webp), if one was drawn */
   const ALIAS = { radio: 'rest' };   // the radio pose is the same as resting with a mug of tea
   const pose = (id, s) => { const a = act(id, s), im = PEOPLE.IMG.chars[id]; if (!a || !im) return null;
@@ -101,7 +101,7 @@ const LIFE = (() => {
 
   /* "Now: 🍳 Cooking · Kitchen" for the People tab */
   function nowLine(id, s = S()) {
-    const a = act(id, s); if (!a) return '';
+    const a = act(id, s); if (!a || PRIVATE.includes(a.key)) return '';
     const place = a.at && GAME.LOC[a.at] ? ' · ' + tx(GAME.LOC[a.at].name) : '';
     return tx(T('Now: ', 'الحين: ')) + a.icon + ' ' + tx(a.label) + place;
   }

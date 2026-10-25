@@ -22,7 +22,7 @@
         const w = GAME.CHAR.margaret.where(s);
         if (w === 'cafe') return T('Margaret is at the window table, curtains wide open, reading.', 'مارغريت على طاولة الشباك، والستارة مفتوحة على الآخر، تقرا.');
         return ({
-          marg_bath: T('The bathroom door is shut. The shower runs, then stops, then runs again.', 'باب الحمام مسكّر. الدش يشتغل، ويوقف، ويرجع يشتغل.'),
+          marg_bath: T('The bathroom door is shut.', 'باب الحمام مسكّر.'),
           marg_kitchen: s.slot === 0 ? byDay(s, [T('Margaret is eating toast standing up, looking at the third chair.', 'مارغريت تاكل توست وهي واقفة، وعينها على الكرسي الثالث.'), T('Margaret is making porridge. Enough for three.', 'مارغريت تسوي شوفان. يكفي ثلاثة.')]) : byDay(s, [T('Margaret is cooking. Roast chicken. His favourite, she says, to nobody.', 'مارغريت تطبخ. دجاج بالفرن. أكلته المفضلة، تقول، لولا أحد.'), T('Margaret is stirring soup and humming something from the radio twenty years ago.', 'مارغريت تحرك الشوربة وتدندن أغنية من راديو قبل عشرين سنة.'), T('Margaret is laying three plates, three forks, three glasses.', 'مارغريت تحط ثلاث صحون، ثلاث شوك، ثلاث كاسات.')]),
           marg_living: byDay(s, [T('Margaret is ironing a shirt that is already ironed.', 'مارغريت تكوي قميص مكوي أصلاً.'), T('Margaret is dusting a trophy: "D. Hart, under-15s, Most Improved".', 'مارغريت تنفض كأس: «د. هارت، تحت ١٥ سنة، أكثر لاعب تحسّن».'), T('Margaret is folding laundry. Some of it is yours. Some of it is his.', 'مارغريت تطوي غسيل. بعضه حقك. وبعضه حقه.')]),
           marg_bed: T('Margaret is lying down with a cloth on her forehead.', 'مارغريت متمددة وعلى جبهتها قطعة قماش.'),
