@@ -1,0 +1,155 @@
+raw/chanting.wav
+raw/ghost_moans/qubodup-GhostMoans/mp3/qubodup-GhostMoan01.mp3
+raw/ghost_moans/qubodup-GhostMoans/mp3/qubodup-GhostMoan02.mp3
+raw/ghost_moans/qubodup-GhostMoans/mp3/qubodup-GhostMoan03.mp3
+raw/ghost_moans/qubodup-GhostMoans/mp3/qubodup-GhostMoan04.mp3
+raw/ghost_moans/qubodup-GhostMoans/mp3/qubodup-GhostMoan05.mp3
+raw/ghost_moans/qubodup-GhostMoans/wav/qubodup-GhostMoan01.wav
+raw/ghost_moans/qubodup-GhostMoans/wav/qubodup-GhostMoan02.wav
+raw/ghost_moans/qubodup-GhostMoans/wav/qubodup-GhostMoan03.wav
+raw/ghost_moans/qubodup-GhostMoans/wav/qubodup-GhostMoan04.wav
+raw/ghost_moans/qubodup-GhostMoans/wav/qubodup-GhostMoan05.wav
+raw/ghost_squeal.ogg
+raw/ghost_voices/Ghost and Lich Voice Pack/output (1).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (10).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (11).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (12).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (13).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (14).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (15).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (2).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (3).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (4).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (5).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (6).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (7).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (8).wav
+raw/ghost_voices/Ghost and Lich Voice Pack/output (9).wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 1.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 10.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 11.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 2.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 3.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 4.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 5.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 6.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 7.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 8.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Bassy/Bassy 9.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 1.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 10.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 11.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 12.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 13.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 14.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 15.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 16.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 17.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 18.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 19.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 2.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 20.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 3.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 4.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 5.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 6.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 7.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 8.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/High/High 9.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 1.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 10.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 11.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 12.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 13.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 14.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 15.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 16.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 17.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 18.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 19.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 2.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 20.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 3.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 4.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 5.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 6.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 7.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 8.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Mid/Mid 9.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Very Bassy/Very Bassy 1.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Very Bassy/Very Bassy 2.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Very Bassy/Very Bassy 3.wav
+raw/horror_hits/Horror Hit Soundpack 1/Sound/Pitches/Very Bassy/Very Bassy 4.wav
+raw/horror_sfx/horror_effect1.wav
+raw/horror_sfx/horror_effect2.wav
+raw/kenney_rpg/OGG/beltHandle1.ogg
+raw/kenney_rpg/OGG/beltHandle2.ogg
+raw/kenney_rpg/OGG/bookClose.ogg
+raw/kenney_rpg/OGG/bookFlip1.ogg
+raw/kenney_rpg/OGG/bookFlip2.ogg
+raw/kenney_rpg/OGG/bookFlip3.ogg
+raw/kenney_rpg/OGG/bookOpen.ogg
+raw/kenney_rpg/OGG/bookPlace1.ogg
+raw/kenney_rpg/OGG/bookPlace2.ogg
+raw/kenney_rpg/OGG/bookPlace3.ogg
+raw/kenney_rpg/OGG/chop.ogg
+raw/kenney_rpg/OGG/cloth1.ogg
+raw/kenney_rpg/OGG/cloth2.ogg
+raw/kenney_rpg/OGG/cloth3.ogg
+raw/kenney_rpg/OGG/cloth4.ogg
+raw/kenney_rpg/OGG/clothBelt.ogg
+raw/kenney_rpg/OGG/clothBelt2.ogg
+raw/kenney_rpg/OGG/creak1.ogg
+raw/kenney_rpg/OGG/creak2.ogg
+raw/kenney_rpg/OGG/creak3.ogg
+raw/kenney_rpg/OGG/doorClose_1.ogg
+raw/kenney_rpg/OGG/doorClose_2.ogg
+raw/kenney_rpg/OGG/doorClose_3.ogg
+raw/kenney_rpg/OGG/doorClose_4.ogg
+raw/kenney_rpg/OGG/doorOpen_1.ogg
+raw/kenney_rpg/OGG/doorOpen_2.ogg
+raw/kenney_rpg/OGG/drawKnife1.ogg
+raw/kenney_rpg/OGG/drawKnife2.ogg
+raw/kenney_rpg/OGG/drawKnife3.ogg
+raw/kenney_rpg/OGG/dropLeather.ogg
+raw/kenney_rpg/OGG/footstep00.ogg
+raw/kenney_rpg/OGG/footstep01.ogg
+raw/kenney_rpg/OGG/footstep02.ogg
+raw/kenney_rpg/OGG/footstep03.ogg
+raw/kenney_rpg/OGG/footstep04.ogg
+raw/kenney_rpg/OGG/footstep05.ogg
+raw/kenney_rpg/OGG/footstep06.ogg
+raw/kenney_rpg/OGG/footstep07.ogg
+raw/kenney_rpg/OGG/footstep08.ogg
+raw/kenney_rpg/OGG/footstep09.ogg
+raw/kenney_rpg/OGG/handleCoins.ogg
+raw/kenney_rpg/OGG/handleCoins2.ogg
+raw/kenney_rpg/OGG/handleSmallLeather.ogg
+raw/kenney_rpg/OGG/handleSmallLeather2.ogg
+raw/kenney_rpg/OGG/knifeSlice.ogg
+raw/kenney_rpg/OGG/knifeSlice2.ogg
+raw/kenney_rpg/OGG/metalClick.ogg
+raw/kenney_rpg/OGG/metalLatch.ogg
+raw/kenney_rpg/OGG/metalPot1.ogg
+raw/kenney_rpg/OGG/metalPot2.ogg
+raw/kenney_rpg/OGG/metalPot3.ogg
+raw/madness_whispers/a2-scared.ogg
+raw/madness_whispers/a3-menacing.ogg
+raw/madness_whispers/a4-scared.ogg
+raw/madness_whispers/a5-menacing.ogg
+raw/madness_whispers/b1-menacing.ogg
+raw/madness_whispers/b2-large.ogg
+raw/madness_whispers/b3-excited.ogg
+raw/madness_whispers/b4-scared.ogg
+raw/madness_whispers/b5-excited.ogg
+raw/madness_whispers/b6-excited.ogg
+raw/steps_kdd/gravel.ogg
+raw/steps_kdd/leaves01.ogg
+raw/steps_kdd/leaves02.ogg
+raw/steps_kdd/mud02.ogg
+raw/steps_kdd/stone01.ogg
+raw/steps_kdd/wood01.ogg
+raw/steps_kdd/wood02.ogg
+raw/steps_kdd/wood03.ogg
+raw/wave_01.flac
+raw/wave_03.flac
