@@ -1,0 +1,10 @@
+All sounds in this folder are public domain (CC0), cut and level-matched for the game.
+  whisper1-5   "Voices of Madness"            https://opengameart.org/node/141912
+  gravel       "Different steps" (kdd)         https://opengameart.org/node/5701
+  wood1-4, creak1-3   "50 RPG sound effects" (Kenney)   https://opengameart.org/content/50-rpg-sound-effects
+  wave1-2      "Beach Ocean Waves" (jasinski)  https://opengameart.org/content/beach-ocean-waves
+  moan1-3      "Ghost moans" (qubodup)         https://opengameart.org/content/ghost-monster-voice-moaning-growling
+  scream       "Scary high-pitched ghost"      https://opengameart.org/node/114589
+  hit1-2       "Horror hit soundpack 1"        https://opengameart.org/content/horror-hit-soundpack-1
+  dread1-2     "Horror sfx"                    https://opengameart.org/content/horror-sfx
+  chant        "Weird chanting sound"          https://opengameart.org/node/147361

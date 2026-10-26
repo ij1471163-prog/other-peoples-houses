@@ -5,10 +5,13 @@
                    yours, and now and then a far-off scream
      Harbor, dock, the buoy bell in the dark, water slapping under the
      beach         boards, a rope pulling tight, a whisper off the water
+     Elias's shed  ropes pulling tight and creaking, a whisper (night only)
      Lighthouse    steps on the floor above, a knock on the attic door
                    (the keeper's own sounds are left as they are)
    The scream only plays with Jump scares on (phone > Settings).
-   Everything is made in the browser on the ambience volume.
+   Real recordings (img/snd/, all CC0 public domain, see img/snd/SOURCES.txt)
+   are used when they have loaded; until then, or if they can't load, the
+   same moment is made in the browser instead. Ambience volume.
    ===================================================================== */
 'use strict';
 (function () {
@@ -90,33 +93,99 @@
     o.connect(b).connect(g).connect(k.out); o.start(t); o.stop(t + 1.4);
   }
 
-  AUDIO.houseSounds._dreadParts = { whisper, swell, steps, knocks, scream, bell, slap, rope };   /* for listening tests */
+  /* ---- real recordings ---- */
+  const FILES = {
+    whisper: [1, 2, 3, 4, 5].map(i => 'whisper' + i), gravel: ['gravel'], wood: [1, 2, 3, 4].map(i => 'wood' + i),
+    creak: ['creak1', 'creak2', 'creak3'], wave: ['wave1', 'wave2'], moan: ['moan1', 'moan2', 'moan3'],
+    scream: ['scream'], dread: ['dread1', 'dread2'], chant: ['chant']
+  };
+  const BUF = {}; let loading = false;
+  function loadAll(c) {
+    if (loading || !c || !window.fetch) return; loading = true;
+    Object.values(FILES).flat().forEach(n => {
+      fetch('img/snd/' + n + '.mp3').then(r => r.ok ? r.arrayBuffer() : Promise.reject())
+        .then(ab => new Promise((ok, no) => c.decodeAudioData(ab, ok, no))).then(b => { BUF[n] = b; }).catch(() => {});
+    });
+  }
+  const any = kind => { const ready = FILES[kind].filter(n => BUF[n]); return ready.length ? BUF[ready[Math.random() * ready.length | 0]] : null; };
+  /* play a recording: gain, playback rate, a low-pass for "far away / through the floor", left-right */
+  function play(k, buf, t, o = {}) {
+    const c = k.ctx, s = c.createBufferSource(); s.buffer = buf; s.playbackRate.value = o.rate || 1;
+    let node = s;
+    if (o.lp) { const f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = o.lp; node.connect(f); node = f; }
+    const g = c.createGain(); g.gain.value = o.gain || 0.06; node.connect(g); node = g;
+    if (c.createStereoPanner) { const p = c.createStereoPanner(); p.pan.value = o.pan == null ? rnd(-0.7, 0.7) : o.pan; node.connect(p); node = p; }
+    node.connect(k.out); s.start(t, o.from || 0); return s;
+  }
+  /* each moment: the recording if it is ready, otherwise the made one */
+  const REAL = {
+    whisper: (k, t) => { const b = any('whisper'); if (!b) return whisper(k, t); play(k, b, t, { gain: 0.16, lp: 3800 }); },
+    steps: (k, t, gravel) => {
+      const n = 3 + (Math.random() * 4 | 0), gap = rnd(0.5, 0.72), pan = rnd(-0.8, 0.8);
+      if (gravel) { const b = any('gravel'); if (!b) return steps(k, t, true); for (let i = 0; i < n; i++) play(k, b, t + i * gap, { gain: 0.22, rate: rnd(0.9, 1.1), pan }); return; }
+      if (!any('wood')) return steps(k, t, false);
+      for (let i = 0; i < n; i++) play(k, any('wood'), t + i * gap, { gain: 0.11, rate: rnd(0.85, 1), lp: 600, pan });   /* through the ceiling */
+    },
+    swell: (k, t) => { const b = any('dread'); if (!b) return swell(k, t); play(k, b, t, { gain: 0.07, pan: 0 }); },
+    scream: (k, t) => { const b = any('scream'); if (!b) return scream(k, t); play(k, b, t, { gain: 0.05, lp: 2200, rate: rnd(0.85, 1) }); },
+    slap: (k, t) => { const b = any('wave'); if (!b) return slap(k, t); play(k, b, t, { gain: 0.12, lp: 1400, pan: rnd(-0.3, 0.3) }); },
+    rope: (k, t) => { const b = any('creak'); if (!b) return rope(k, t); play(k, b, t, { gain: 0.08, rate: rnd(0.7, 0.9) }); },
+    creak: (k, t) => { const b = any('creak'); if (!b) return k.creak(t); play(k, b, t, { gain: 0.07, rate: rnd(0.8, 1) }); },
+    moan: (k, t) => { const b = any('moan'); if (!b) return whisper(k, t); play(k, b, t, { gain: 0.045, lp: 1800, rate: rnd(0.8, 0.95) }); },
+    chant: (k, t) => { const b = any('chant'); if (!b) return swell(k, t); play(k, b, t, { gain: 0.035, lp: 1600, pan: rnd(-0.4, 0.4) }); }
+  };
+
+  AUDIO.houseSounds._dreadParts = { whisper, swell, steps, knocks, scream, bell, slap, rope, real: REAL, load: loadAll };   /* for listening tests */
   const SHORE = ['harbor', 'dock', 'beach'];
   AUDIO.houseSounds._dread = (k, pr, t) => {
     const dark = pr.night, dusk = pr.evening, r = Math.random();
-    if (pr.loc === 'cemetery' && (dark || dusk)) {
+    const scary = pr.loc === 'cemetery' ? (dark || dusk) : (SHORE.includes(pr.loc) || pr.house === 'evelyn' || pr.loc === 'shed') && dark;
+    if (!scary) return false;
+    loadAll(k.ctx);
+    const R = REAL;
+    if (pr.loc === 'cemetery') {
       const m = dark ? 1 : 0.5;
-      if (r < 0.22 * m) { whisper(k, t); return true; }
-      if (r < 0.38 * m) { swell(k, t); return true; }
-      if (r < 0.52 * m) { steps(k, t, true); return true; }
-      if (dark && r < 0.58 && scaresOn()) { scream(k, t); return true; }
+      if (r < 0.18 * m) { R.whisper(k, t); return true; }
+      if (r < 0.3 * m) { R.swell(k, t); return true; }
+      if (r < 0.42 * m) { R.steps(k, t, true); return true; }
+      if (r < 0.48 * m) { R.chant(k, t); return true; }
+      if (dark && r < 0.53) { R.moan(k, t); return true; }
+      if (dark && r < 0.58 && scaresOn()) { R.scream(k, t); return true; }
       return false;
     }
-    if (SHORE.includes(pr.loc) && dark) {
-      if (r < 0.2) { bell(k, t); return true; }
-      if (r < 0.34) { slap(k, t); return true; }
-      if (r < 0.44) { rope(k, t); return true; }
-      if (r < 0.52) { whisper(k, t); return true; }
-      if (r < 0.58) { swell(k, t); return true; }
+    if (SHORE.includes(pr.loc)) {
+      if (r < 0.18) { bell(k, t); return true; }
+      if (r < 0.34) { R.slap(k, t); return true; }
+      if (r < 0.44) { R.rope(k, t); return true; }
+      if (r < 0.51) { R.whisper(k, t); return true; }
+      if (r < 0.56) { R.moan(k, t); return true; }
+      if (r < 0.6) { R.swell(k, t); return true; }
       return false;
     }
-    if (pr.house === 'evelyn' && dark) {
-      if (r < 0.14) { steps(k, t, false); return true; }
-      if (pr.loc === 'lh_attic' && r < 0.24) { knocks(k, t); return true; }
-      if (r < 0.3) { whisper(k, t); return true; }
-      if (r < 0.34 && scaresOn()) { scream(k, t); return true; }
+    if (pr.loc === 'shed') {   /* Elias's shed at night: the nets and ropes move by themselves */
+      if (r < 0.2) { R.rope(k, t); return true; }
+      if (r < 0.32) { R.creak(k, t); return true; }
+      if (r < 0.38) { R.whisper(k, t); return true; }
       return false;
     }
+    /* the lighthouse */
+    if (r < 0.14) { R.steps(k, t, false); return true; }
+    if (pr.loc === 'lh_attic' && r < 0.24) { knocks(k, t); return true; }
+    if (r < 0.3) { R.creak(k, t); return true; }
+    if (r < 0.36) { R.whisper(k, t); return true; }
+    if (r < 0.39 && scaresOn()) { R.scream(k, t); return true; }
     return false;
   };
+
+  /* a jump scare hits harder with a real low hit under the scream */
+  if (typeof scare === 'function') {
+    const sc0 = scare;
+    scare = function () {
+      const r = sc0.apply(this, arguments);
+      try {
+        if (SCARES.on && AUDIO.on) { const a = new Audio('img/snd/hit' + (1 + (Math.random() * 2 | 0)) + '.mp3'); const st = AUDIO.settings; a.volume = Math.max(0, Math.min(1, (st.master || 0.8) * (st.sfx || 0.7) * 0.9)); a.play().catch(() => {}); }
+      } catch (e) {}
+      return r;
+    };
+  }
 })();

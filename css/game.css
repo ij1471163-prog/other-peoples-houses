@@ -742,3 +742,4 @@ html[lang=ar] .hud .chips .chip.goal{font-size:12px}
 @keyframes snoopPulse{50%{background:rgba(224,122,95,.12)}}
 .spot.armed span{background:rgba(120,30,20,.85)!important;border-color:var(--warn)!important;color:#fff}
 .toast.wrap{white-space:normal;max-width:min(78%,420px);text-align:center;line-height:1.35;animation-duration:3.4s}
+.stage[data-own-night="1"] .bg,.stage[data-own-night="1"] .bg-old{filter:none!important}.stage[data-own-night="1"] .tint{opacity:0!important}
