@@ -784,3 +784,25 @@ body.lbl-auto .spot:not(.exit):not(.risk):not(.armed):not(.show) span{opacity:0;
 body.lbl-auto .stage.peek .spot span{opacity:.92!important;transform:none!important;transition:opacity .25s ease,transform .25s ease}
 body.lbl-auto .spot:not(.exit) i{width:14px;height:14px;border-width:2px;background:rgba(240,178,90,.45);box-shadow:0 0 10px 3px rgba(240,178,90,.35)}
 body.lbl-auto .spot.risk i{box-shadow:0 0 10px 3px rgba(224,122,95,.35)}
+/* ---------- nell.js: the girl on the pier ---------- */
+.nell-ghost{position:absolute;pointer-events:none;z-index:5;transform:translateX(-50%);opacity:0;animation:nellIn 2.2s ease forwards,nellFlick 3.7s steps(1) 2.2s infinite}
+.nell-ghost img{height:100%;display:block;filter:brightness(.78) saturate(.55) drop-shadow(0 0 16px rgba(150,190,255,.35))}
+.nell-ghost.far{left:60%;bottom:33%;height:34%}
+.nell-ghost.far img{filter:brightness(1.05) saturate(.5) drop-shadow(0 0 22px rgba(170,205,255,.6))}
+.nell-ghost.near{left:70%;bottom:-2%;height:92%}
+@keyframes nellIn{0%{opacity:0;filter:blur(4px)}100%{opacity:.84;filter:blur(0)}}
+@keyframes nellFlick{0%,100%{opacity:.84}47%{opacity:.84}48%{opacity:.35}50%{opacity:.84}83%{opacity:.6}84%{opacity:.84}}
+.nell-ghost.out{animation:none;opacity:0;transition:opacity 1.4s ease}
+.nell-ghost.away{animation:nellAway 4s ease-in forwards}
+@keyframes nellAway{0%{opacity:.84;transform:translateX(-50%) scale(1)}100%{opacity:0;transform:translateX(-10%) translateY(-6%) scale(.62);filter:blur(3px)}}
+.nell-face{position:absolute;inset:0;z-index:30;background:#000;overflow:hidden;pointer-events:none;animation:nellFace .9s ease-out forwards}
+.nell-face img{position:absolute;left:50%;top:50%;width:120%;transform:translate(-50%,-42%) scale(1.25);filter:grayscale(.5) contrast(1.2) brightness(.95);animation:nellFaceZ .9s cubic-bezier(.1,.9,.2,1) forwards}
+@keyframes nellFace{0%{opacity:0}6%{opacity:1}75%{opacity:1}100%{opacity:0}}
+@keyframes nellFaceZ{0%{transform:translate(-50%,-42%) scale(1.6)}100%{transform:translate(-50%,-42%) scale(1.15)}}
+.radio-card{display:flex;flex-direction:column;gap:10px}
+.radio-scale{display:flex;justify-content:space-between;font-family:var(--f-ui);font-size:11px;opacity:.6;direction:ltr}
+.radio-dial{width:100%;direction:ltr;accent-color:#e7b65a;height:28px}
+.radio-meter{height:8px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;direction:ltr}
+.radio-meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5fb3a8,#e7b65a);transition:width .12s linear}
+.radio-card.near .radio-meter i{box-shadow:0 0 10px #e7b65a}
+@media (prefers-reduced-motion:reduce){.nell-ghost,.nell-ghost.away{animation:none;opacity:.8}.nell-face img{animation:none}}

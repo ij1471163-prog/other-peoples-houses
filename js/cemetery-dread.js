@@ -7,9 +7,9 @@
    2. Quiet dread at the cemetery, in the afternoon and the evening, once a
       day at most and not every visit:
         afternoon  a whisper you can't make out
-        evening    first a cat you can't find; after that, sometimes a hand
-                   claws its way up out of the earth in front of a grave, the
-                   ground shakes, it grips the soil and drags itself back down.
+        evening    first a cat you can't find, then whispers again.
+      The hand that claws up out of a grave belongs to one night only: the
+      night of the radio in the Nell mystery (js/nell.js uses handScene).
       The hand is drawn in layers (img/fx: the arm, each finger, the grip); the sounds
       are the real recordings in img/snd. Gregor has one line about it.
       Nothing here touches fear, trust, quests or endings.
@@ -124,7 +124,7 @@
   function pick(s) {
     const lvl = s.f.cd || 0;
     if (s.slot === 2) return 'whisper';
-    if (s.slot === 3) return lvl === 0 ? 'cat' : (lvl === 1 || roll(0.5) ? 'hand' : 'whisper');
+    if (s.slot === 3) return lvl === 0 ? 'cat' : 'whisper';   /* the hand only comes up on one night, in the Nell mystery (js/nell.js) */
     return null;
   }
   GAME.ENTER_HOOKS = GAME.ENTER_HOOKS || [];
