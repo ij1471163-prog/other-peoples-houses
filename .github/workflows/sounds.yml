@@ -1,0 +1,48 @@
+name: Fetch free sounds (CC0) to listen to
+
+# Downloads real recorded sound effects that are public domain (CC0) and puts
+# them, unpacked, on the branch "sounds-raw" so they can be chosen and cut.
+# Nothing goes into the game from here.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Download
+        run: |
+          set -u
+          mkdir -p raw && cd raw
+          get() { echo "== $1"; curl -fsSL --retry 3 -o "$1" "$2" || echo "FAILED $1 $2" >> ../failed.txt; }
+          # Kenney (CC0)
+          get kenney_impact.zip https://github.com/Loppansson/kenney-impact-sounds-for-godot/archive/999dd1684873f8b020a3aa5b26e713da21688924.zip
+          get kenney_rpg.zip    https://github.com/Loppansson/kenney-rpg-audio-for-godot/archive/214a7dabca3594f933e96133b6cf66dddc5771ef.zip
+          # OpenGameArt (each page says CC0)
+          get steps_kdd.zip       "https://opengameart.org/sites/default/files/%5Bkdd%5DDifferentSteps_0.zip"
+          get horror_hits.zip      https://opengameart.org/sites/default/files/horror_hit_soundpack_1.zip
+          get horror_sfx.zip       https://opengameart.org/sites/default/files/horror_sfx.zip
+          get ghost_voices.zip     https://opengameart.org/sites/default/files/ghost_and_lich_voice_pack.zip
+          get ghost_squeal.ogg     https://opengameart.org/sites/default/files/scaryhighpitchedghost_0.ogg
+          get chanting.wav         https://opengameart.org/sites/default/files/wierdcreepyeffect.wav
+          get wave_01.flac         https://opengameart.org/sites/default/files/wave_01_cc0-18363__jasinski__alkaibeach.flac
+          get wave_03.flac         https://opengameart.org/sites/default/files/wave_03_cc0-18363__jasinski__alkaibeach.flac
+          for z in *.zip; do d="${z%.zip}"; mkdir -p "$d"; unzip -q -o "$z" -d "$d" || echo "BADZIP $z" >> ../failed.txt; rm -f "$z"; done
+          cd ..
+          find raw -type f \( -iname '*.wav' -o -iname '*.ogg' -o -iname '*.mp3' -o -iname '*.flac' \) | sort > list.txt
+          find raw -type f ! \( -iname '*.wav' -o -iname '*.ogg' -o -iname '*.mp3' -o -iname '*.flac' -o -iname '*.txt' -o -iname '*license*' -o -iname '*.md' \) -delete
+          wc -l list.txt; du -sh raw; cat failed.txt 2>/dev/null || true
+      - name: Put on branch sounds-raw
+        run: |
+          git init -q out && cd out
+          git config user.name "sounds-bot"; git config user.email "sounds-bot@users.noreply.github.com"
+          git checkout -q -b sounds-raw
+          mv ../raw ../list.txt . ; [ -f ../failed.txt ] && mv ../failed.txt . || true
+          printf 'All files here are CC0 (public domain) per their source pages: Kenney.nl packs, and OpenGameArt pages for DifferentSteps (kdd), horror hit soundpack 1, horror sfx, ghost and lich voice pack, scary high-pitched ghost, weird chanting sound, Beach Ocean Waves (jasinski via qubodup).\n' > SOURCES.txt
+          git add -A && git commit -q -m "CC0 sounds to listen to"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" sounds-raw
