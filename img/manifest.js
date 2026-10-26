@@ -62,6 +62,7 @@ window.IMG_MANIFEST = {
   "elias": {
    "angry": "img/chars/elias-angry.webp",
    "neutral": "img/chars/elias-neutral.webp",
+   "rest": "img/chars/elias-rest.webp",
    "sad": "img/chars/elias-sad.webp",
    "shock": "img/chars/elias-shock.webp",
    "smile": "img/chars/elias-smile.webp"

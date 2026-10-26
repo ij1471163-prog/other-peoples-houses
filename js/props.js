@@ -81,6 +81,7 @@ const PROPS = (() => {
       <path d="M38 20 h24 v10 h-24 z" fill="#3a3e45" ${O}/><path d="M32 30 h36 l-4 60 h-28 z" fill="#ffd36b" ${O}/><path d="M30 90 h40 v10 h-40 z" fill="#3a3e45" ${O}/></svg>`]
   };
   /* who already holds their thing in the picture itself */
+  const STEAM = { 'elias-rest': [27, 37] };   // where the cup is in a drawn pose (% of the picture)
   const HOLDS = { marco: 1, irene: 1, gregor: 1, olivia: 1, stella: 1 };
   /* aliases: resting with the radio on looks like resting with a mug */
   const ALIAS = { rest: 'tea', radio: 'tea', table: 'eat', serve: 'tea' };
@@ -89,6 +90,9 @@ const PROPS = (() => {
   function html(id, s) {
     if (HOLDS[id] || typeof LIFE === 'undefined') return '';
     const a = LIFE.act(id, s); if (!a) return '';
+    /* a drawn pose already holds the thing (img/chars/<id>-<activity>.webp): only the steam, at the cup */
+    const pz = LIFE.pose && LIFE.pose(id, s);
+    if (pz) { const at = STEAM[id + '-' + pz]; return at ? `<div class="prop prop-steam" style="left:${at[0]}%;top:${at[1]}%" aria-hidden="true"><svg viewBox="0 0 60 60">${steam(30, 56)}</svg></div>` : ''; }
     const k = ART[a.key] ? a.key : ALIAS[a.key]; if (!k || !ART[k]) return '';
     const [place, svg] = ART[k];
     return `<div class="prop prop-${place} prop-${k}" aria-hidden="true">${svg}</div>`;
