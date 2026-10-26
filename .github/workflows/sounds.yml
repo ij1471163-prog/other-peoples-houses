@@ -21,8 +21,8 @@ jobs:
           mkdir -p raw && cd raw
           get() { echo "== $1"; curl -fsSL --retry 3 -o "$1" "$2" || echo "FAILED $1 $2" >> ../failed.txt; }
           # Kenney (CC0)
-          get kenney_impact.zip https://github.com/Loppansson/kenney-impact-sounds-for-godot/archive/999dd1684873f8b020a3aa5b26e713da21688924.zip
-          get kenney_rpg.zip    https://github.com/Loppansson/kenney-rpg-audio-for-godot/archive/214a7dabca3594f933e96133b6cf66dddc5771ef.zip
+          get kenney_impact.zip https://github.com/Loppansson/kenney-impact-sounds-for-godot/archive/refs/heads/main.zip
+          get kenney_rpg.zip    https://github.com/Loppansson/kenney-rpg-audio-for-godot/archive/refs/heads/main.zip
           # OpenGameArt (each page says CC0)
           get steps_kdd.zip       "https://opengameart.org/sites/default/files/%5Bkdd%5DDifferentSteps_0.zip"
           get horror_hits.zip      https://opengameart.org/sites/default/files/horror_hit_soundpack_1.zip
