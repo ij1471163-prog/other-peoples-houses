@@ -43,12 +43,18 @@
   }
   /* footsteps that aren't yours: gravel, or boards upstairs */
   function steps(k, t, gravel) {
-    const n = 3 + (Math.random() * 4 | 0), gap = rnd(0.48, 0.7);
-    for (let i = 0; i < n; i++) gravel ? noise(k, t + i * gap, 0.16, k.white, 'bandpass', rnd(1800, 2600), 1.2, 0.06, 0.01)
-                                       : noise(k, t + i * gap, 0.2, k.brown, 'lowpass', 140, 1, 0.075, 0.008);
+    const n = 3 + (Math.random() * 4 | 0), gap = rnd(0.5, 0.72);
+    for (let i = 0; i < n; i++) {
+      const at = t + i * gap;
+      if (!gravel) { noise(k, at, 0.22, k.brown, 'lowpass', 140, 1, 0.075, 0.012); continue; }
+      /* a foot on gravel: a soft weight, then many tiny stones crunching, not one sharp hit */
+      noise(k, at, 0.2, k.brown, 'lowpass', 160, 0.8, 0.03, 0.03);
+      const grains = 14 + (Math.random() * 10 | 0);
+      for (let g = 0; g < grains; g++) noise(k, at + 0.02 + Math.random() * 0.2, rnd(0.008, 0.02), k.white, 'bandpass', rnd(700, 1500), 2, rnd(0.004, 0.012), 0.002);
+    }
   }
   /* three knocks on a door */
-  function knocks(k, t) { for (let i = 0; i < 3; i++) noise(k, t + i * 0.38, 0.14, k.brown, 'lowpass', 260, 1.5, 0.11, 0.004); }
+  function knocks(k, t) { for (let i = 0; i < 3; i++) noise(k, t + i * 0.42, 0.2, k.brown, 'lowpass', 180, 1.2, 0.065, 0.01); }
   /* a far scream on the wind: a voice that rises, wavers and breaks off */
   function scream(k, t) {
     const c = k.ctx, o = c.createOscillator(), o2 = c.createOscillator(); o.type = 'sawtooth'; o2.type = 'sawtooth';
@@ -65,7 +71,17 @@
   /* the buoy bell out in the dark */
   function bell(k, t) { const n = 1 + (Math.random() * 2 | 0); for (let i = 0; i < n; i++) { const s = t + i * rnd(1.4, 2.2); k.tone(312, s, 3.2, 0.008, 'sine', 0.004); k.tone(745, s, 2.2, 0.0032, 'sine', 0.004); k.tone(1187, s, 1.2, 0.0016, 'sine', 0.004); } }
   /* water slapping under the boards */
-  function slap(k, t) { for (let i = 0; i < 2 + (Math.random() * 3 | 0); i++) noise(k, t + i * rnd(0.3, 0.6), 0.22, k.brown, 'lowpass', 420, 1, 0.045, 0.01); }
+  function slap(k, t) {
+    /* slow water under the boards: a soft swell and a hollow gulp, never a sharp hit */
+    for (let i = 0; i < 2 + (Math.random() * 2 | 0); i++) {
+      const at = t + i * rnd(0.6, 1.1);
+      noise(k, at, 0.7, k.brown, 'lowpass', 240, 0.7, 0.03, 0.18);
+      const c = k.ctx, o = c.createOscillator(), g = c.createGain(); const f = rnd(160, 230);
+      o.frequency.setValueAtTime(f, at + 0.12); o.frequency.exponentialRampToValueAtTime(f * 0.45, at + 0.32);
+      g.gain.setValueAtTime(0.0001, at + 0.12); g.gain.exponentialRampToValueAtTime(0.012, at + 0.16); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.36);
+      o.connect(g).connect(k.out); o.start(at + 0.12); o.stop(at + 0.4);
+    }
+  }
   /* a rope pulling tight */
   function rope(k, t) {
     const c = k.ctx, o = c.createOscillator(); o.type = 'sawtooth'; const f = rnd(55, 80); o.frequency.setValueAtTime(f, t); o.frequency.linearRampToValueAtTime(f * 2.4, t + 1.2);
