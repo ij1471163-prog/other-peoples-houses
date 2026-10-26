@@ -106,10 +106,12 @@ const AUDIO = (() => {
   /* small sounds that happen now and then in a place */
   const HOUSE = {};   // house or place id -> (kit, place, time) => plays one small sound; filled by js/house-sounds.js
   const KIT = { tone: (f, t, d, p, ty, a) => tone(f, t, d, p, ty, bus.amb, a), burst: (t, d, p, ty, f, soft) => burst(t, d, p, ty, f, bus.amb, soft ? brown : white),
-    gull: t => gull(t), creak: t => creak(t), get now() { return ctx.currentTime; } };
+    gull: t => gull(t), creak: t => creak(t), get now() { return ctx.currentTime; }, get ctx() { return ctx; }, get out() { return bus.amb; }, get white() { return white; }, get brown() { return brown; } };
   function ambEvent() {
     evTimer = 0; if (!live() || !amb) return;
     const pr = amb.pr, t = ctx.currentTime + 0.05, r = Math.random();
+    /* frightening places after dark play their own sounds first: js/dread-sounds.js */
+    if (HOUSE._dread) { let played = false; try { played = HOUSE._dread(KIT, pr, t); } catch (e) {} if (played) { evTimer = setTimeout(ambEvent, 4000 + Math.random() * 7000); return; } }
     const outdoors = ['sea', 'street', 'wind'].includes(pr.p);
     if (outdoors && !pr.night && r < 0.55) gull(t);
     else if (outdoors && pr.night && pr.p !== 'sea' && r < 0.7) crickets(t);

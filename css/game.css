@@ -736,3 +736,9 @@ html[lang=ar] .hud .chips .chip.goal{font-size:12px}
 .char .prop-front{width:34%;bottom:8%}
 .char .prop-steam{position:absolute;width:17%;transform:translateX(-50%);pointer-events:none;z-index:1}
 .char .prop-steam svg{width:100%;height:auto;display:block}
+/* ---------- snoop.js ---------- */
+.chip.snoop{border-color:var(--warn);color:#ffd2c4;cursor:pointer}
+.chip.snoop.hot{background:rgba(224,122,95,.35);animation:snoopPulse 1.6s ease-in-out infinite}
+@keyframes snoopPulse{50%{background:rgba(224,122,95,.12)}}
+.spot.armed span{background:rgba(120,30,20,.85)!important;border-color:var(--warn)!important;color:#fff}
+.toast.wrap{white-space:normal;max-width:min(78%,420px);text-align:center;line-height:1.35;animation-duration:3.4s}
