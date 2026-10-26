@@ -131,12 +131,13 @@ const lifeProp = id => (typeof PROPS !== 'undefined' ? PROPS.html(id) : '');
 let RUN = null;           // {stack:[{steps,i}], done}
 let VIEW = { sheet: null, tab: 'quests', speaker: null, expr: null, stageChars: null };
 /* display preferences, kept on this device: text size and whether object names are always shown */
-const PREFS = (() => { let p = { text: 'm', labels: 'always' };
+const PREFS = (() => { let p = { text: 'm', labels: 'auto' };
   try { Object.assign(p, JSON.parse(localStorage.getItem('oph.prefs') || '{}')); } catch (e) {}
   return { get: k => p[k], set(k, v) { p[k] = v; try { localStorage.setItem('oph.prefs', JSON.stringify(p)); } catch (e) {} applyPrefs(); } }; })();
 function applyPrefs() {
   const h = document.documentElement; h.classList.remove('ts-s', 'ts-l'); if (PREFS.get('text') !== 'm') h.classList.add('ts-' + PREFS.get('text'));
   document.body.classList.toggle('lbl-tap', PREFS.get('labels') === 'tap');
+  document.body.classList.toggle('lbl-auto', PREFS.get('labels') === 'auto');
 }
 
 function play(steps, done) {
@@ -540,7 +541,7 @@ function renderSheet() {
       sec('secDisplay');
       seg(UI('language'), [['ar', 'العربية'], ['en', 'English']], GAME.lang, v => { GAME.lang = v; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} applyLang(); renderStage(); if (!RUN) renderLocation(); else { const top = RUN.stack[RUN.stack.length - 1]; if (top) { top.i--; next(); } } });
       seg(UI('textSize'), [['s', UI('small')], ['m', UI('normal')], ['l', UI('large')]], PREFS.get('text'), v => PREFS.set('text', v));
-      seg(UI('names'), [['always', UI('always')], ['tap', UI('onTap')]], PREFS.get('labels'), v => PREFS.set('labels', v));
+      seg(UI('names'), [['auto', tx(T('Show, then hide', 'تطلع وتختفي'))], ['always', UI('always')], ['tap', UI('onTap')]], PREFS.get('labels'), v => PREFS.set('labels', v));
       sec('secPlay');
       seg(UI('scares'), [[true, UI('on')], [false, UI('off')]], SCARES.on, v => { SCARES.on = v; });
       seg(UI('hints'), [[true, UI('on')], [false, UI('off')]], PREFS.get('hints') !== false, v => PREFS.set('hints', v));   /* js/hints.js */

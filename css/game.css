@@ -778,3 +778,9 @@ html[lang=ar] .hud .chips .chip.goal{font-size:12px}
 @keyframes ghDirt{0%{opacity:1;transform:translate(0,0) rotate(0)}40%{opacity:1;transform:translate(calc(var(--dx)*.6),var(--dy)) rotate(90deg)}100%{opacity:0;transform:translate(var(--dx),var(--fall)) rotate(220deg)}}
 .stage[data-time=evening] .grave-hand .gh-dirt i{filter:brightness(.9)}
 .stage[data-time=night] .grave-hand .gh-dirt i{filter:brightness(.6)}
+.tap-row{align-self:flex-end;display:flex;gap:8px;align-items:center}.tap-row .tap{align-self:auto}.tap.skipread{opacity:.8;border-style:dashed}
+/* ---------- nav-quiet.js ---------- */
+body.lbl-auto .spot:not(.exit):not(.risk):not(.armed):not(.show) span{opacity:0;transform:translateX(-4px);transition:opacity .6s ease,transform .6s ease;pointer-events:none}
+body.lbl-auto .stage.peek .spot span{opacity:.92!important;transform:none!important;transition:opacity .25s ease,transform .25s ease}
+body.lbl-auto .spot:not(.exit) i{width:14px;height:14px;border-width:2px;background:rgba(240,178,90,.45);box-shadow:0 0 10px 3px rgba(240,178,90,.35)}
+body.lbl-auto .spot.risk i{box-shadow:0 0 10px 3px rgba(224,122,95,.35)}
