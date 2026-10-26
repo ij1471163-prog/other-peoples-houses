@@ -743,3 +743,28 @@ html[lang=ar] .hud .chips .chip.goal{font-size:12px}
 .spot.armed span{background:rgba(120,30,20,.85)!important;border-color:var(--warn)!important;color:#fff}
 .toast.wrap{white-space:normal;max-width:min(78%,420px);text-align:center;line-height:1.35;animation-duration:3.4s}
 .stage[data-own-night="1"] .bg,.stage[data-own-night="1"] .bg-old{filter:none!important}.stage[data-own-night="1"] .tint{opacity:0!important}
+/* ===== v15: shakes and the hand at the cemetery (js/cemetery-dread.js) ===== */
+.stage.quake-tremor{animation:qTremor 1.4s linear}
+@keyframes qTremor{0%,100%{translate:0 0}10%{translate:1px 0}20%{translate:-1px 1px}30%{translate:1px -1px}40%{translate:-1px 0}50%{translate:1px 1px}60%{translate:0 -1px}70%{translate:-1px 1px}80%{translate:1px 0}90%{translate:-1px 0}}
+.stage.quake-thud{animation:qThud .5s cubic-bezier(.2,.8,.3,1)}
+@keyframes qThud{0%{translate:0 0}15%{translate:0 6px}40%{translate:0 -2px}70%{translate:0 1px}100%{translate:0 0}}
+.stage.quake-rumble{animation:qRumble 2.2s ease-in-out}
+@keyframes qRumble{0%,100%{translate:0 0}8%{translate:-3px 1px}16%{translate:3px -2px}24%{translate:-2px 2px}32%{translate:3px 0}40%{translate:-3px -1px}48%{translate:2px 2px}56%{translate:-2px -1px}64%{translate:2px 1px}72%{translate:-1px 0}80%{translate:1px 1px}90%{translate:-1px 0}}
+.grave-hand{position:absolute;left:22%;bottom:21%;height:56%;aspect-ratio:473/720;transform:translateX(-50%);pointer-events:none;z-index:6}
+.grave-hand .gh-pit{position:absolute;left:-45%;right:-45%;top:-8%;bottom:0;overflow:hidden}
+.grave-hand img{position:absolute;bottom:0;left:50%;display:block;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))}
+.grave-hand .gh-up{height:92.6%;transform-origin:50% 92%;transform:translateX(-50%) translateY(14%);clip-path:inset(100% 0 0 0);animation:ghRise 1.7s cubic-bezier(.25,.6,.3,1) .45s forwards,ghTwitch 2.4s ease-in-out 2.2s infinite}
+@keyframes ghRise{0%{clip-path:inset(100% 0 0 0);transform:translateX(-50%) translateY(14%)}35%{clip-path:inset(62% 0 0 0);transform:translateX(-50%) translateY(9%) rotate(-3deg)}50%{clip-path:inset(58% 0 0 0);transform:translateX(-50%) translateY(9%) rotate(2deg)}100%{clip-path:inset(0 0 0 0);transform:translateX(-50%) translateY(0) rotate(0)}}
+@keyframes ghTwitch{0%,100%{transform:translateX(-50%) rotate(0)}22%{transform:translateX(-50%) rotate(-2.5deg) scaleY(1.02)}30%{transform:translateX(-50%) rotate(1deg)}60%{transform:translateX(-50%) rotate(2deg) scaleY(.99)}68%{transform:translateX(-50%) rotate(-.5deg)}}
+.grave-hand .gh-grip{width:118%;transform:translateX(-50%);opacity:0;transition:opacity .3s ease}
+.grave-hand.grip .gh-up{animation:none;clip-path:none;transform:translateX(-50%);opacity:0;transition:opacity .25s ease}
+.grave-hand.grip .gh-grip{opacity:1}
+.grave-hand.down .gh-grip{transition:transform 1.4s cubic-bezier(.55,0,.85,.5),opacity 1.1s ease .2s;transform:translateX(-50%) translateY(45%);opacity:0}
+.grave-hand .gh-crumbs{position:absolute;inset:0}
+.grave-hand .gh-crumbs i{position:absolute;bottom:12%;width:8px;height:7px;border-radius:2px;background:#3d2b1e;opacity:0;animation:ghCrumb 1.2s ease-out forwards}
+.grave-hand .gh-crumbs i:nth-child(1){left:6%;--dx:-30px;animation-delay:.5s}.grave-hand .gh-crumbs i:nth-child(2){left:22%;--dx:-16px;animation-delay:.7s}.grave-hand .gh-crumbs i:nth-child(3){left:40%;--dx:-5px;animation-delay:.9s}.grave-hand .gh-crumbs i:nth-child(4){left:56%;--dx:7px;animation-delay:.6s}.grave-hand .gh-crumbs i:nth-child(5){left:72%;--dx:18px;animation-delay:.8s}.grave-hand .gh-crumbs i:nth-child(6){left:86%;--dx:30px;animation-delay:1s}.grave-hand .gh-crumbs i:nth-child(7){left:48%;--dx:0px;animation-delay:1.6s}
+@keyframes ghCrumb{0%{opacity:1;transform:translate(0,0)}55%{opacity:1;transform:translate(var(--dx),-38px)}100%{opacity:0;transform:translate(calc(var(--dx)*1.5),6px)}}
+.grave-hand.soft .gh-up{animation-duration:2.6s,2.4s}
+.stage[data-time=evening] .grave-hand img{filter:brightness(.92) sepia(.1) drop-shadow(0 6px 8px rgba(0,0,0,.5))}
+.stage[data-time=night] .grave-hand img{filter:brightness(.62) saturate(.6) drop-shadow(0 6px 8px rgba(0,0,0,.6))}
+@media (prefers-reduced-motion:reduce){.grave-hand .gh-up{animation:none;clip-path:none;transform:translateX(-50%)}.grave-hand .gh-crumbs{display:none}}
