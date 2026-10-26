@@ -21,8 +21,7 @@ jobs:
           mkdir -p raw && cd raw
           get() { echo "== $1"; curl -fsSL --retry 3 -o "$1" "$2" || echo "FAILED $1 $2" >> ../failed.txt; }
           # Kenney (CC0)
-          get kenney_impact.zip https://github.com/Loppansson/kenney-impact-sounds-for-godot/archive/refs/heads/main.zip
-          get kenney_rpg.zip    https://github.com/Loppansson/kenney-rpg-audio-for-godot/archive/refs/heads/main.zip
+          get kenney_rpg.zip     https://opengameart.org/sites/default/files/RPGsounds_Kenney.zip
           # OpenGameArt (each page says CC0)
           get steps_kdd.zip       "https://opengameart.org/sites/default/files/%5Bkdd%5DDifferentSteps_0.zip"
           get horror_hits.zip      https://opengameart.org/sites/default/files/horror_hit_soundpack_1.zip
@@ -30,6 +29,8 @@ jobs:
           get ghost_voices.zip     https://opengameart.org/sites/default/files/ghost_and_lich_voice_pack.zip
           get ghost_squeal.ogg     https://opengameart.org/sites/default/files/scaryhighpitchedghost_0.ogg
           get chanting.wav         https://opengameart.org/sites/default/files/wierdcreepyeffect.wav
+          get madness_whispers.zip https://opengameart.org/sites/default/files/sounds-of-madness-ogg.zip
+          get ghost_moans.zip      https://opengameart.org/sites/default/files/qubodup-GhostMoans.zip
           get wave_01.flac         https://opengameart.org/sites/default/files/wave_01_cc0-18363__jasinski__alkaibeach.flac
           get wave_03.flac         https://opengameart.org/sites/default/files/wave_03_cc0-18363__jasinski__alkaibeach.flac
           for z in *.zip; do d="${z%.zip}"; mkdir -p "$d"; unzip -q -o "$z" -d "$d" || echo "BADZIP $z" >> ../failed.txt; rm -f "$z"; done
@@ -43,6 +44,6 @@ jobs:
           git config user.name "sounds-bot"; git config user.email "sounds-bot@users.noreply.github.com"
           git checkout -q -b sounds-raw
           mv ../raw ../list.txt . ; [ -f ../failed.txt ] && mv ../failed.txt . || true
-          printf 'All files here are CC0 (public domain) per their source pages: Kenney.nl packs, and OpenGameArt pages for DifferentSteps (kdd), horror hit soundpack 1, horror sfx, ghost and lich voice pack, scary high-pitched ghost, weird chanting sound, Beach Ocean Waves (jasinski via qubodup).\n' > SOURCES.txt
+          printf 'All files here are CC0 (public domain) per their source pages: Kenney.nl packs, and OpenGameArt pages for DifferentSteps (kdd), horror hit soundpack 1, horror sfx, ghost and lich voice pack, scary high-pitched ghost, weird chanting sound, Beach Ocean Waves (jasinski via qubodup), Voices of Madness, Ghost Moans (qubodup), 50 RPG sound effects (Kenney).\n' > SOURCES.txt
           git add -A && git commit -q -m "CC0 sounds to listen to"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" sounds-raw
