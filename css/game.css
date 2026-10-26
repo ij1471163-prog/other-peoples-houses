@@ -721,3 +721,16 @@ html[lang=ar] .hud .chips .chip.goal{font-size:12px}
 .tasks2 .q-done summary{cursor:pointer;font-size:13px;padding:4px 0}
 .sheet.mapsheet .pin em.when,.sheet.mapsheet .pin em.nyet{font-style:normal;font-weight:400;opacity:.85;color:#ffd9a0}
 .sheet.mapsheet .pin.locked{opacity:.72}
+/* ---------- feel.js: time of day you can see, places dissolve ---------- */
+.stage .bg{transition:filter .9s ease}
+.stage[data-time=night][data-out="1"] .bg,.stage[data-time=night][data-out="1"] .bg-old{filter:brightness(.62) saturate(.55) contrast(1.06)}
+.stage[data-time=night][data-out="1"] .tint{background:rgb(52,78,138)!important;mix-blend-mode:multiply;opacity:.78}
+.stage[data-time=night][data-out="0"] .bg,.stage[data-time=night][data-out="0"] .bg-old{filter:brightness(.68) saturate(.75)}
+.stage[data-time=night][data-out="0"] .tint{background:rgb(255,190,120)!important;mix-blend-mode:multiply;opacity:.32}
+.stage[data-time=evening][data-out="1"] .bg,.stage[data-time=evening][data-out="1"] .bg-old{filter:brightness(.88) saturate(1.05)}
+.stage[data-time=evening][data-out="1"] .tint{background:rgb(255,160,110)!important;mix-blend-mode:multiply;opacity:.5}
+.stage[data-time=evening][data-out="0"] .tint{background:rgb(255,190,140)!important;mix-blend-mode:multiply;opacity:.3}
+.stage .bg-old{position:absolute;inset:0;pointer-events:none;opacity:1;transition:opacity .55s ease}
+.stage .bg-old > *{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage .bg-old.go{opacity:0}
+.char .prop-front{width:34%;bottom:8%}
