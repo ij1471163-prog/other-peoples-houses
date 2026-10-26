@@ -10,7 +10,7 @@
         evening    first a cat you can't find; after that, sometimes a hand
                    claws its way up out of the earth in front of a grave, the
                    ground shakes, it grips the soil and drags itself back down.
-      The hand is two drawn pictures (img/fx/hand_up, hand_grip); the sounds
+      The hand is drawn in layers (img/fx: the arm, each finger, the grip); the sounds
       are the real recordings in img/snd. Gregor has one line about it.
       Nothing here touches fear, trust, quests or endings.
    ===================================================================== */
@@ -61,27 +61,49 @@
   function dig() { [0, 380, 700, 960, 1180].forEach((ms, i) => setTimeout(() => rec('gravel', 0.55 + i * 0.08, 0.7 + Math.random() * 0.15), ms)); }
 
   /* ---------- the hand ---------- */
-  let handTimer = 0;
+  /* drawn in layers: the arm and palm (hand_base) and each finger on its own (f_*), turning
+     around its knuckle, so the fingers claw one by one */
+  const FINGERS = { pinky: [33.6, 27.1, 9], ring: [39.6, 18.1, -7], middle: [46.7, 16.9, 6], index: [55.9, 17.5, -9], thumb: [61.4, 30.3, 11] };
+  const TIPS = [[24, 20], [33, 8], [45, 4], [66, 14], [73, 30]];   /* where earth drips from (% of the picture) */
+  let handTimer = 0, dirtTimer = 0;
+  function dirt(box, n, from, spread, up) {
+    const layer = box.querySelector('.gh-dirt'); if (!layer || REDUCED()) return;
+    for (let i = 0; i < n; i++) {
+      const d = el('i'); const big = Math.random() < 0.3;
+      d.style.cssText = `left:${from[0] + (Math.random() - 0.5) * spread}%;top:${from[1] + (Math.random() - 0.5) * 4}%;` +
+        `--dx:${((Math.random() - 0.5) * (up ? 70 : 14)).toFixed(0)}px;--dy:${up ? -(20 + Math.random() * 60).toFixed(0) : 0}px;--fall:${(60 + Math.random() * 90).toFixed(0)}px;` +
+        `width:${big ? 8 : 4 + Math.random() * 3}px;height:${big ? 7 : 3 + Math.random() * 3}px;animation-delay:${(Math.random() * (up ? 0.5 : 1.2)).toFixed(2)}s;animation-duration:${(0.9 + Math.random() * 0.7).toFixed(2)}s`;
+      layer.appendChild(d); setTimeout(() => d.remove(), 3000);
+    }
+  }
   function handScene() {
     const st = $('stage'); if (!st) return;
     const old = st.querySelector('.grave-hand'); if (old) old.remove();
     const box = el('div', 'grave-hand' + (SCARES.on ? '' : ' soft'));
-    box.innerHTML = '<div class="gh-pit"><img class="gh-up" src="img/fx/hand_up.webp" alt=""><img class="gh-grip" src="img/fx/hand_grip.webp" alt=""></div>'
-      + '<div class="gh-crumbs"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>';
+    const fingers = Object.entries(FINGERS).map(([n, [x, y, a]], i) =>
+      `<img class="gh-f" src="img/fx/f_${n}.webp" alt="" style="transform-origin:${x}% ${y}%;--a:${a}deg;animation-delay:${(2.1 + i * 0.17).toFixed(2)}s;animation-duration:${(1.1 + (i % 3) * 0.35).toFixed(2)}s">`).join('');
+    box.innerHTML = '<div class="gh-pit"><div class="gh-up"><img src="img/fx/hand_base.webp" alt="">' + fingers + '</div><img class="gh-grip" src="img/fx/hand_grip.webp" alt=""></div><div class="gh-dirt"></div>';
     st.appendChild(box);
     QUAKE('tremor'); dig();
+    /* the earth breaks: clods thrown up, then earth keeps dropping off the fingers */
+    setTimeout(() => dirt(box, 22, [50, 88], 60, true), 300);
+    setTimeout(() => dirt(box, 14, [50, 70], 40, true), 1100);
+    let k = 0; dirtTimer = setInterval(() => { const t = TIPS[k++ % TIPS.length]; dirt(box, 2, t, 4, false); }, 260);
     setTimeout(() => rec(pickOf('whisper', 5), 0.5), 600);
     setTimeout(() => { if (SCARES.on) { QUAKE('rumble'); rec(pickOf('hit', 2), 0.75); } else rec(pickOf('moan', 3), 0.35, 0.85); }, 1000);
     /* it stays up until you look away (the next line), and never longer than 9 seconds */
     handTimer = setTimeout(sinkHand, 9000);
   }
   function sinkHand() {
-    clearTimeout(handTimer);
+    clearTimeout(handTimer); clearInterval(dirtTimer);
     const box = document.querySelector('#stage .grave-hand'); if (!box || box.classList.contains('grip')) return;
-    /* it stops reaching, grabs the earth, and pulls itself back under */
+    /* it grabs the earth... and is yanked under, all at once */
     box.classList.add('grip'); rec('gravel', 0.6, 0.6);
-    setTimeout(() => { box.classList.add('down'); dig(); QUAKE('tremor'); }, 900);
-    setTimeout(() => box.remove(), 2700);
+    setTimeout(() => {
+      box.classList.add('down'); QUAKE('thud'); dirt(box, 26, [50, 86], 70, true);
+      if (SCARES.on) rec(pickOf('hit', 2), 0.6); else rec('gravel', 0.7, 0.5);
+    }, 650);
+    setTimeout(() => box.remove(), 1900);
   }
 
   /* ---------- 2. the cemetery ---------- */
