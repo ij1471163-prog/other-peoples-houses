@@ -44,10 +44,13 @@
     bottle: { name: T('A bottle with a note', 'قارورة فيها ورقة'), desc: T('Corked, green glass. Someone threw this into the sea on purpose.', 'مسدودة، زجاج أخضر. أحد رماها في البحر عن قصد.') }
   });
   const PRICE = { fish: 4, cod: 6, bass: 12 };
+  let tripBottle = false;
   function species(baited) {
     const lv = skill(), r = Math.random() - (baited ? 0.12 : 0);
     const s = S();
-    if (!s.f.gotBottle && s.day >= 2 && r < 0.05 + lv * 0.01) return 'bottle';
+    /* bottles with notes: js/threads.js decides when the next one is due (they belong to Nell's story) */
+    const due = GAME.bottleDue ? GAME.bottleDue(s, lv) : (!s.f.gotBottle && s.day >= 2 ? 0.05 + lv * 0.01 : 0);
+    if (!tripBottle && due && r < due) { tripBottle = true; return 'bottle'; }
     if (r < 0.06 + lv * 0.03) return 'bass';
     if (r < 0.3 + lv * 0.04) return 'cod';
     return 'fish';
@@ -86,7 +89,7 @@
   const wait = ms => new Promise(r => setTimeout(r, ms));
 
   function playFishing(done, casts) {
-    casts = casts || 3;
+    casts = casts || 3; tripBottle = false;
     const f = card(), q = f.q, area = f.area;
     const alt = el('button', 'opt main cp-alt', tx(W.skip)); alt.type = 'button'; const panel = $('panel'); if (panel) panel.appendChild(alt);
     let over = false, caught = 0, raf = 0, phase = 'idle', onTap = null;
@@ -96,7 +99,7 @@
       f.box.classList.add('out'); f.box.style.pointerEvents = 'none'; setTimeout(() => f.box.remove(), 260);
       /* the common fish are the result (the scene that called gives them); the others go in your bag here */
       got.filter(k => k !== 'fish').forEach(k => give(k));
-      if (got.includes('bottle')) S().f.gotBottle = true;
+      if (got.includes('bottle')) { if (GAME.onBottle) GAME.onBottle(S()); S().f.gotBottle = true; }
       done(caught);
     };
     q('.cp-skip').onclick = ev => { ev.stopPropagation(); finish(); };
@@ -227,12 +230,8 @@
     return n === 1 ? [E('shock', 'Where did you... Sami. Sami told you.', 'من وين... سامي. سامي قال لك.'), E('smile', 'Ada used to keep these in her coat pocket. For the boat. For the seasickness. They never worked.', 'آدا كانت تحطها في جيب كوتها. للقارب. للدوار. وعمرها ما نفعت.'), N_('He takes one, and puts the bag in his own coat pocket, and pats it.', 'ياخذ وحدة، ويحط الكيس في جيب كوته، ويطبطب عليه.')]
       : [pickOne([E('smile', 'You\'ll rot my last three teeth. Thank you.', '{بتخرّب|بتخرّبين} آخر ثلاث أسنان عندي. مشكور.'), E('neutral', 'Mm. Ada\'s brand.', 'ممم. نوع آدا.'), N_('He pretends to be annoyed for nearly four seconds.', 'يسوي نفسه منزعج تقريباً أربع ثواني.')])]; } });
 
-  /* the bottle: read what's inside (one small mystery for later) */
+  /* the bottles: reading them is in js/threads.js */
   GAME.TOPICS.elias = GAME.TOPICS.elias || [];
-  if (GAME.LOC.your_room) GAME.LOC.your_room.spots.push({ x: 50, y: 78, label: T('Open the bottle from the sea', '{افتح|افتحي} القارورة اللي من البحر'), if: s => has('bottle') && !s.f.bottleRead, run: s => { s.f.bottleRead = true; return [
-    N_('The cork comes out with a sigh. Inside, rolled tight, a page from a child\'s exercise book.', 'الفلّينة تطلع مع تنهيدة. داخلها، ملفوفة بقوة، ورقة من دفتر مدرسة.'),
-    N_('In pencil, very neat: "To whoever finds this. My name is Nell. I am 9. When I grow up I will row all the way to the lighthouse by myself. Write back."', 'بالرصاص، بخط مرتب مرة: «للي يلقى هذي. اسمي نيل. عمري ٩. لما أكبر بجدّف لين المنارة لحالي. {رد|ردّي} علي.»'),
-    N_('The paper is very old. The ink of the date has run: 197-.', 'الورقة قديمة مرة. حبر التاريخ ساح: ١٩٧-.')]; } });
 
   /* ---------- your skills, in the phone's Tasks tab ---------- */
   const rsh0 = renderSheet;

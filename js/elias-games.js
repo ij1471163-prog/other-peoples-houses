@@ -67,20 +67,22 @@
     nodes.forEach(n => { if (n.r >= 8) return; const o = n.r % 2; [o ? n.c : n.c - 1, o ? n.c + 1 : n.c].forEach(c => { const m = at[id(n.r + 1, c)]; if (m) segs.push({ a: n.id, b: m.id }); }); });
     return { nodes, segs, at };
   }
-  GAME.MINI.knot = function (panel, done) {
+  GAME.MINI.knot = function (panel, done, stp) {
     panel.innerHTML = '';
-    const lv = skillOf('skHands');
-    const f = card('cp-knot', T('Mending the net', 'تصليح الشبكة'), T('Drag the twine from a glowing knot across the hole.', '{اسحب|اسحبي} الخيط من عقدة تلمع لعقدة ثانية عبر الفتحة.'));
+    const lv = skillOf('skHands'), storm = !!(stp && stp.storm);
+    const f = storm ? card('cp-knot storm', T('The Ada\'s net, in the storm', 'شبكة «آدا»، في العاصفة'), T('Close the tear before the sea takes the net. It won\'t keep still.', '{سكّر|سكّري} الشق قبل لا ياخذ البحر الشبكة. وهي ما توقف.'))
+      : card('cp-knot', T('Mending the net', 'تصليح الشبكة'), T('Drag the twine from a glowing knot across the hole.', '{اسحب|اسحبي} الخيط من عقدة تلمع لعقدة ثانية عبر الفتحة.'));
     const sh = shell(f, done, 3);
     f.q('.g-skill').textContent = '🛠 ' + lv;
-    f.area.innerHTML = '<div class="kn-race"><img src="img/chars/elias-smile.webp" alt=""><div class="kn-bar el"><i></i></div><div class="kn-bar me"><i></i></div><span class="kn-you"></span></div>';
+    f.area.innerHTML = '<div class="kn-race">' + (storm ? '<b class="kn-sea">🌊</b>' : '<img src="img/chars/elias-smile.webp" alt="">') + '<div class="kn-bar el"><i></i></div><div class="kn-bar me"><i></i></div><span class="kn-you"></span></div>';
     f.q('.kn-you').textContent = tx(T('you', '{أنت|أنتِ}'));
     const svg = sv('svg', { viewBox: `0 0 ${VW} ${VH}`, class: 'kn-svg', preserveAspectRatio: 'xMidYMid meet' }, f.area);
     const defs = sv('defs', {}, svg);
     defs.innerHTML = '<linearGradient id="knWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3d24"/><stop offset="1" stop-color="#3b2716"/></linearGradient>' +
+      '<linearGradient id="knSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d2a33"/><stop offset="1" stop-color="#0b1217"/></linearGradient>' +
       '<radialGradient id="knGlow"><stop offset="0" stop-color="#ffd27a" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>';
-    sv('rect', { x: 0, y: 0, width: VW, height: VH, fill: 'url(#knWood)' }, svg);
-    const grain = sv('g', { stroke: '#2c1d10', 'stroke-width': 1, opacity: .45, fill: 'none' }, svg);
+    sv('rect', { x: 0, y: 0, width: VW, height: VH, fill: storm ? 'url(#knSea)' : 'url(#knWood)' }, svg);
+    const grain = sv('g', { stroke: storm ? '#05090c' : '#2c1d10', 'stroke-width': 1, opacity: .45, fill: 'none' }, svg);
     for (let y = 18; y < VH; y += 36) sv('path', { d: `M0 ${y} C 120 ${y - 6}, 260 ${y + 7}, ${VW} ${y - 2}` }, grain);
     for (let y = 0; y < VH; y += 72) sv('line', { x1: 0, y1: y, x2: VW, y2: y, stroke: '#1f140a', 'stroke-width': 2.5, opacity: .8 }, svg);
     const L = lattice();
@@ -91,10 +93,15 @@
     L.segs.forEach(g => { g.j = 0.7 + Math.random() * 0.6; });
     const tilt = Math.random() * 0.8 - 0.4, ct = Math.cos(tilt), st2 = Math.sin(tilt);
     const pick = () => L.segs.filter(g => { const [x0, y0] = mid(g), x = (x0 - cx) * ct + (y0 - cy) * st2, y = -(x0 - cx) * st2 + (y0 - cy) * ct; return (x / rx) ** 2 + (y / (rx * 0.62)) ** 2 < g.j; });
-    for (; rx < 90; rx += 3) { miss = pick(); if (miss.length >= (lv >= 4 ? 7 : 8)) break; }
+    const want = storm ? 5 : (lv >= 4 ? 7 : 8);
+    for (; rx < 90; rx += 3) { miss = pick(); if (miss.length >= want) break; }
     miss.forEach(g => { g.missing = true; });
     /* Elias's own hole, far side: decorative, closes with his bar */
-    const ropeG = sv('g', {}, svg), ghostG = sv('g', {}, svg), knotG = sv('g', {}, svg), fxG = sv('g', {}, svg);
+    /* in the storm the whole net heaves with the boat, so the knots keep moving under your finger */
+    const netG = sv('g', {}, svg);
+    const ropeG = sv('g', {}, netG), ghostG = sv('g', {}, netG), knotG = sv('g', {}, netG), fxG = sv('g', {}, netG);
+    let OX = 0, OY = 0;
+    if (storm) { const rain = sv('g', { class: 'kn-rain' }, svg); for (let i = 0; i < 46; i++) { const x = Math.random() * (VW + 80), y = Math.random() * VH; sv('line', { x1: x, y1: y, x2: x - 14, y2: y + 26, style: `animation-delay:${(-Math.random()).toFixed(2)}s` }, rain); } }
     const segEl = new Map();
     const drawRope = (g, fresh) => {
       const a = L.at[g.a], b = L.at[g.b], grp = sv('g', { class: 'kn-rope' + (fresh ? ' fresh' : '') }, ropeG);
@@ -127,16 +134,19 @@
     const ring = sv('circle', { class: 'kn-ring', r: 20, cx: -99, cy: -99 }, fxG);
     const ringP = sv('circle', { class: 'kn-ringp', r: 20, cx: -99, cy: -99, 'stroke-dasharray': '0 999' }, fxG);
     const arrow = sv('path', { class: 'kn-arrow', d: '' }, fxG);
-    const wrapsNeed = lv >= 3 ? 1 : 2, pullWin = 380 + lv * 70, tol = 9 + lv * 1.6;
+    const wrapsNeed = lv >= 3 ? 1 : 2, pullWin = 380 + lv * 70, tol = 9 + lv * 1.6 - (storm ? 1.5 : 0);
     const total = miss.length;
     let doneN = 0, snags = 0, state = 'drag', from = null, at = null, wrapA = 0, lastA = null, pull0 = null, cand = [];
     const count = () => { f.q('.g-count').textContent = tx(T(`Strands ${doneN} / ${total}`, `الخيوط ${doneN} / ${total}`)); f.q('.kn-bar.me i').style.width = (doneN / total * 100) + '%'; f.box.dataset.state = state; f.box.dataset.done = doneN; };
     count();
     /* Elias races you, pretending not to */
-    const elT = total * (5600 - lv * 150), t0 = performance.now(); let elDone = false;
-    const tick = () => { if (sh.isOver()) return; const k = Math.min(1, (performance.now() - t0) / elT); f.q('.kn-bar.el i').style.width = (k * 100) + '%'; if (k >= 1 && !elDone) { elDone = true; f.q('.kn-race').classList.add('elias-won'); } requestAnimationFrame(tick); };
+    /* in the storm the top bar is the sea: when it is full, the net is gone */
+    const elT = storm ? total * (6400 + lv * 350) : total * (5600 - lv * 150), t0 = performance.now(); let elDone = false;
+    const tick = () => { if (sh.isOver()) return; const now = performance.now(), k = Math.min(1, (now - t0) / elT); f.q('.kn-bar.el i').style.width = (k * 100) + '%';
+      if (storm && state !== 'done') { OX = Math.sin(now / 640) * 7 + Math.sin(now / 230) * 1.6; OY = Math.cos(now / 860) * 4; netG.setAttribute('transform', `translate(${OX.toFixed(2)} ${OY.toFixed(2)})`); }
+      if (k >= 1 && !elDone) { elDone = true; f.q('.kn-race').classList.add('elias-won'); if (storm && state !== 'done') { lost(); return; } } requestAnimationFrame(tick); };
     requestAnimationFrame(tick);
-    const pt = ev => { const m = svg.getScreenCTM(); if (!m) return { x: 0, y: 0 }; const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY; const q2 = p.matrixTransform(m.inverse()); return { x: q2.x, y: q2.y }; };
+    const pt = ev => { const m = svg.getScreenCTM(); if (!m) return { x: 0, y: 0 }; const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY; const q2 = p.matrixTransform(m.inverse()); return { x: q2.x - OX, y: q2.y - OY }; };
     const distSeg = (p, a, b) => { const vx = b.x - a.x, vy = b.y - a.y, l2 = vx * vx + vy * vy; let t = ((p.x - a.x) * vx + (p.y - a.y) * vy) / l2; t = Math.max(0, Math.min(1, t)); return Math.hypot(p.x - a.x - t * vx, p.y - a.y - t * vy); };
     const nearLive = p => { let best = null, bd = 22; L.nodes.forEach(n => { if (!attached(n) || !openFrom(n).length) return; const d = Math.hypot(p.x - n.x, p.y - n.y); if (d < bd) { bd = d; best = n; } }); return best; };
     const showRing = n => { ring.setAttribute('cx', n.x); ring.setAttribute('cy', n.y); ringP.setAttribute('cx', n.x); ringP.setAttribute('cy', n.y); ringP.setAttribute('stroke-dasharray', '0 999'); };
@@ -192,8 +202,14 @@
     });
     const up = () => { down = false; if (state === 'drag' && from) { from = null; cord.setAttribute('d', ''); } if (state === 'pull') pull0 = null; };
     svg.addEventListener('pointerup', up); svg.addEventListener('pointercancel', up);
+    function lost() {
+      state = 'done'; count(); cord.setAttribute('d', ''); hideRing(); rec('wave1', 0.6); f.box.classList.add('lost');
+      f.hint(T('A wave lifts the rail and the net slides away into the dark.', 'موجة ترفع الحافة والشبكة تنزلق للظلام.'));
+      setTimeout(() => sh.finish({ storm: true, ok: false, n: doneN, total }), 1600);
+    }
     function finishAll() {
       state = 'done'; count(); const won = !elDone;
+      if (storm) { f.hint(T('The tear is closed. The net holds.', 'الشق انسكر. الشبكة ماسكة.')); ghostG.innerHTML = ''; setTimeout(() => sh.finish({ storm: true, ok: true, snags }), 1300); return; }
       f.hint(won ? T('Closed, before Elias. He pretends not to notice.', 'انسكرت قبل إلياس. يسوي نفسه ما انتبه.') : T('Closed. Elias finished first, but he waited.', 'انسكرت. إلياس خلص قبلك، بس انتظرك.'));
       ghostG.innerHTML = ''; setTimeout(() => sh.finish(won && snags <= 2 ? 2 : 1), 1300);
     }
@@ -217,14 +233,15 @@
       say: T('Same trick as the first night. You\'d be amazed how often it works.', 'نفس حيلة أول ليلة. {بتنصدم|بتنصدمين} كم مرة تنفع.') }
   ];
   const GLYPH = { K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘', P: '♙', k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' };
-  GAME.MINI.chessPuzzle = function (panel, done) {
+  GAME.MINI.chessPuzzle = function (panel, done, stp) {
     panel.innerHTML = '';
-    const s = S(), idx = (s.f.chessPuz || 0) % PUZ.length, P = PUZ[idx];
-    const f = card('cp-chess', T('Chess with Elias', 'شطرنج مع إلياس'), T('"Your move. One move wins it."', '«دورك. نقلة وحدة وتفوز.»'));
+    const s = S(), idx = (s.f.chessPuz || 0) % PUZ.length, P = PUZ[idx], help = !!(stp && stp.help);
+    /* once his memory starts to go, the positions are his and he can no longer see them: you find the move for him */
+    const f = card('cp-chess' + (help ? ' help' : ''), T('Chess with Elias', 'شطرنج مع إلياس'), help ? T('He stares at the board. He knows there is a move. He can\'t find it.', 'يطالع اللوحة. يدري إن فيه نقلة. وما يلقاها.') : T('"Your move. One move wins it."', '«دورك. نقلة وحدة وتفوز.»'));
     const sh = shell(f, done, 1);
     f.q('.g-skill').textContent = '♟ ' + skillOf('skMind');
     const board = el('div', 'ch-board'); f.area.appendChild(board);
-    const side = el('div', 'ch-side'); side.innerHTML = '<img src="img/chars/elias-smile.webp" alt="">'; f.area.appendChild(side);
+    const side = el('div', 'ch-side'); side.innerHTML = '<img src="img/chars/elias-' + (help ? 'sad' : 'smile') + '.webp" alt="">'; f.area.appendChild(side);
     const grid = P.b.map(r => r.split(''));
     const files = 'abcdefgh';
     const sq = {};
@@ -252,16 +269,18 @@
         sq[name].classList.add('mate'); blip(523, 0.2, 0.2, 'triangle'); setTimeout(() => blip(784, 0.3, 0.2, 'triangle'), 150);
         f.hint(T('Checkmate.', 'كش مات.'));
         s.f.chessPuz = idx + 1; gain('skMind', 3, GAME.SKILLS.mind);
-        setTimeout(() => sh.finish({ win: true, say: P.say }), 1300);
+        setTimeout(() => sh.finish({ win: true, say: P.say, help }), 1300);
       } else {
         tries++; sel = null; draw(); sq[name].classList.add('no'); blip(180, 0.2, 0.2, 'sawtooth');
         if (tries >= 3) {
-          f.hint(T('Elias shows you. "There. See it now?"', 'إلياس يوريك. «هنا. {شفتها|شفتيها} الحين؟»'));
+          if (help) f.hint(T('Neither of you can find it. He starts putting the pieces away, very carefully.', 'ولا واحد فيكم لقاها. يبدأ يرجع القطع لعلبتها، بعناية مرة.'));
+          else f.hint(T('Elias shows you. "There. See it now?"', 'إلياس يوريك. «هنا. {شفتها|شفتيها} الحين؟»'));
           const [fr, to] = [P.ans[0].slice(0, 2), P.ans[0].slice(2)];
-          setTimeout(() => { sq[fr] && sq[fr].classList.add('sel'); sq[to] && sq[to].classList.add('mate'); }, 200);
+          if (!help) setTimeout(() => { sq[fr] && sq[fr].classList.add('sel'); sq[to] && sq[to].classList.add('mate'); }, 200);
           s.f.chessPuz = idx + 1; gain('skMind', 1, GAME.SKILLS.mind);
-          setTimeout(() => sh.finish({ win: false, say: P.say }), 2200);
-        } else f.hint(tries === 1 ? T('Elias raises an eyebrow. "Look again."', 'إلياس يرفع حاجبه. «{طالع|طالعي} زين.»') : T('"Last try. Where is his king weak?"', '«آخر محاولة. وين ملكه ضعيف؟»'));
+          setTimeout(() => sh.finish({ win: false, say: P.say, help }), 2200);
+        } else f.hint(help ? (tries === 1 ? T('"No... no, that\'s not it." His hand hovers over the board.', '«لا... لا، مو هذي.» يده معلقة فوق اللوحة.') : T('"It\'s right there. I know it\'s right there."', '«هي هنا. أدري إنها هنا.»'))
+          : tries === 1 ? T('Elias raises an eyebrow. "Look again."', 'إلياس يرفع حاجبه. «{طالع|طالعي} زين.»') : T('"Last try. Where is his king weak?"', '«آخر محاولة. وين ملكه ضعيف؟»'));
       }
     }
     draw();
@@ -279,10 +298,21 @@
   };
   const chess0 = GAME.SCRIPTS.chess;
   GAME.SCRIPTS.chess = s => {
-    const steps = chess0(s), last = steps.length && steps[steps.length - 1] && steps[steps.length - 1].time ? steps.length - 1 : steps.length;
+    const steps = chess0(s), help = (s.f.chessCount || 0) >= 2, last = steps.length && steps[steps.length - 1] && steps[steps.length - 1].time ? steps.length - 1 : steps.length;
     steps.splice(last, 0,
-      E('neutral', 'One more. Not a game, a position. One of my old ones. One move wins it.', 'وحدة بعد. مو لعبة، وضعية. من لعباتي القديمة. نقلة وحدة وتفوز.'),
-      { mini: 'chessPuzzle', then: r => r && r.say ? [r.win ? E('smile', 'Ha! Good. Good.', 'ها! زين. زين.') : E('neutral', 'Next time.', 'المرة الجاية.'), { c: 'elias', e: 'neutral', t: r.say }] : null });
+      ...(help ? [
+        N_('Later, when Marco has gone, Elias sets up a position from one of his old games. He has done this a hundred times. He looks at it for a long while.', 'بعدين، لما يروح ماركو، إلياس يرتب وضعية من لعباته القديمة. سواها مية مرة. ويطالعها وقت طويل.'),
+        E('sad', 'One move wins it. I know this one. I know it.', 'نقلة وحدة وتفوز. أعرف هذي. أعرفها.')
+      ] : [E('neutral', 'One more. Not a game, a position. One of my old ones. One move wins it.', 'وحدة بعد. مو لعبة، وضعية. من لعباتي القديمة. نقلة وحدة وتفوز.')]),
+      { mini: 'chessPuzzle', help, then: r => {
+        if (!r || !r.say) return null;
+        s.f.chessHelped = (s.f.chessHelped || 0) + (r.help && r.win ? 1 : 0);
+        if (r.help) return r.win ? [N_('You move the piece. He looks at it, and then all at once his face clears, like a window someone has wiped.', '{تحرك|تحركين} القطعة. يطالعها، وفجأة وجهه يصفى، مثل شباك أحد مسحه.'),
+          E('shock', 'That\'s it. That\'s it!', 'هذي هي. هذي هي!'), { c: 'elias', e: 'sad', t: r.say },
+          E('sad', 'Keep hold of that one for me. In case.', '{خلها عندك|خليها عندك} لي. احتياط.')]
+          : [E('neutral', 'Another night. My head\'s full of tea.', 'ليلة ثانية. راسي مليان شاهي.'), N_('He closes the box and keeps his hand flat on the lid for a moment, as if something might get out.', 'يسكر العلبة ويخلي يده على الغطا لحظة، كأن شي ممكن يطلع.')];
+        return [r.win ? E('smile', 'Ha! Good. Good.', 'ها! زين. زين.') : E('neutral', 'Next time.', 'المرة الجاية.'), { c: 'elias', e: 'neutral', t: r.say }];
+      } });
     return steps;
   };
 })();

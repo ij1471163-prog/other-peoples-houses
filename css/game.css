@@ -890,3 +890,18 @@ html[lang=ar] .kn-you{font-family:var(--f-ar-ui)}
 html[lang=ar] .g-count,html[lang=ar] .g-skill{font-family:var(--f-ar-ui)}
 
 .cp-knot,.cp-chess{container-type:size}
+.kn-sea{grid-row:1;font-size:16px;line-height:22px;text-align:center}
+.cp-knot.storm .cp-area{background:#0b1217}
+.kn-rain line{stroke:#9fb6c8;stroke-width:1.1;opacity:.45;animation:knRain .55s linear infinite;pointer-events:none}
+.kn-rain{pointer-events:none}
+@keyframes knRain{from{transform:translate(0,-40px)}to{transform:translate(-22px,40px)}}
+.cp-knot.storm .kn-bar.el i{background:#5b8fb3}
+.cp-knot.lost .kn-svg{animation:knLost 1.4s ease-in forwards}
+@keyframes knLost{to{opacity:.25;filter:blur(2px)}}
+/* threads: the squall over the whole scene */
+#stage.storming .scene::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,14,22,.62),rgba(4,9,15,.4)),repeating-linear-gradient(105deg,transparent 0 7px,rgba(200,218,232,.28) 7px 8.5px,transparent 8.5px 19px);background-size:100% 100%,200px 200px;animation:stRain .38s linear infinite}
+@keyframes stFlash{0%,100%{filter:saturate(.55) brightness(.6) contrast(1.1)}1%{filter:saturate(.3) brightness(1.7) contrast(1.2)}2%{filter:saturate(.55) brightness(.7) contrast(1.1)}3.2%{filter:saturate(.3) brightness(1.4) contrast(1.2)}5%{filter:saturate(.55) brightness(.6) contrast(1.1)}}
+@keyframes stRain{from{background-position:0 0,0 0}to{background-position:0 0,-50px 200px}}
+#stage.storming .bg{filter:saturate(.55) brightness(.6) contrast(1.1);animation:stSway 2.6s ease-in-out infinite alternate,stFlash 7.3s linear 1.2s infinite}
+@keyframes stSway{from{transform:translateX(-3px) rotate(-.25deg)}to{transform:translateX(3px) rotate(.25deg)}}
+@media (prefers-reduced-motion:reduce){#stage.storming .scene::after,#stage.storming .bg{animation:none}}
