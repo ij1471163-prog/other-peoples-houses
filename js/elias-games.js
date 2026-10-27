@@ -1,11 +1,9 @@
 /* =====================================================================
    Two things to do with Elias, with your own hands (the stories after
    them stay exactly as they were; no trust or ending changes):
-     · Mending the nets (the shed, afternoons): Elias shows a knot once,
-       "over, under, through, pull", and you tie it from memory. Three
-       knots close the hole; each knot is a little longer than the last.
-       A mistake and the rope slips: start that knot again.
-       Skill: 🛠 Hands.
+     · Mending the nets (the shed, afternoons): a real torn hole. Drag the
+       twine across, wrap it round the knot, flick it tight; strand by
+       strand, while Elias mends his own side. Skill: 🛠 Hands.
      · Chess (the café, evenings): Elias sets up a position from one of
        his old games. "One move wins it." Tap a piece, tap where it goes.
        Three tries. A different position every evening.
@@ -49,68 +47,156 @@
     return { finish, isOver: () => over };
   }
 
-  /* ================= the knot ================= */
-  const MOVES = [
-    { id: 'over', t: T('Over', 'فوق'), icon: '⤴' },
-    { id: 'under', t: T('Under', 'تحت'), icon: '⤵' },
-    { id: 'through', t: T('Through', 'من خلال'), icon: '⟳' },
-    { id: 'pull', t: T('Pull', 'اسحب'), icon: '⇥' }
-  ];
-  const NET_SVG = () => {
-    let p = '';
-    for (let i = 0; i <= 12; i++) { p += `<path d="M${i * 30} 0 L${i * 30} 180" /><path d="M0 ${i * 15} L360 ${i * 15}" />`; }
-    return `<svg class="kn-net" viewBox="0 0 360 180" preserveAspectRatio="xMidYMid slice"><g stroke="#c9b48a" stroke-width="2.4" fill="none" opacity=".85">${p}</g>
-      <ellipse class="kn-hole" cx="180" cy="90" rx="62" ry="40" fill="#1a2128"/>
-      <g class="kn-ties"></g></svg>`;
-  };
+  /* ================= the net =================
+     A real torn hole in a hanging net. Every broken strand has to be
+     re-made by hand, the way it is really done:
+       1. drag the twine from a knot on the edge of the hole to the next
+          knot (stay on the line or it snags on the old mesh),
+       2. wrap it around the knot (draw circles on it),
+       3. pull it tight (one quick flick away from the knot).
+     The hole closes from the edge inwards. Elias mends his own hole on
+     the other side of the net at the same time; beat him and he notices.
+     Hands skill: wider line, fewer wraps, longer time to pull. */
+  const NS = 'http://www.w3.org/2000/svg';
+  const sv = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (parent) parent.appendChild(e); return e; };
+  const DX = 48, DY = 30, VW = 400, VH = 220;
+  function lattice() {
+    const nodes = [], segs = [], id = (r, c) => r + ':' + c;
+    for (let r = 0; r <= 8; r++) for (let c = -1; c <= 9; c++) nodes.push({ id: id(r, c), r, c, x: c * DX + (r % 2 ? DX / 2 : 0) - 4, y: r * DY - 8 });
+    const at = {}; nodes.forEach(n => { at[n.id] = n; });
+    nodes.forEach(n => { if (n.r >= 8) return; const o = n.r % 2; [o ? n.c : n.c - 1, o ? n.c + 1 : n.c].forEach(c => { const m = at[id(n.r + 1, c)]; if (m) segs.push({ a: n.id, b: m.id }); }); });
+    return { nodes, segs, at };
+  }
   GAME.MINI.knot = function (panel, done) {
     panel.innerHTML = '';
     const lv = skillOf('skHands');
-    const f = card('cp-knot', T('Mending the net', 'تصليح الشبكة'), T('Watch Elias\'s hands...', '{طالع|طالعي} يدين إلياس...'));
+    const f = card('cp-knot', T('Mending the net', 'تصليح الشبكة'), T('Drag the twine from a glowing knot across the hole.', '{اسحب|اسحبي} الخيط من عقدة تلمع لعقدة ثانية عبر الفتحة.'));
     const sh = shell(f, done, 3);
-    f.area.innerHTML = '<div class="kn-top">' + NET_SVG() + '<div class="kn-show"></div></div><div class="kn-pad"></div>';
     f.q('.g-skill').textContent = '🛠 ' + lv;
-    const pad = f.q('.kn-pad'), show = f.q('.kn-show');
-    const btns = {};
-    MOVES.forEach(m => { const b = el('button', 'kn-b'); b.type = 'button'; b.innerHTML = `<i>${m.icon}</i><span>${tx(m.t)}</span>`; b.dataset.id = m.id; pad.appendChild(b); btns[m.id] = b; });
-    const tone = { over: 523, under: 392, through: 659, pull: 784 };
-    const flash = (id, ok = true) => { const b = btns[id]; b.classList.add(ok ? 'lit' : 'bad'); blip(tone[id], 0.22, 0.2, 'triangle'); setTimeout(() => b.classList.remove('lit', 'bad'), 260); };
-    let tied = 0;
-    const tie = () => {
-      const g = f.q('.kn-ties'), pos = [[150, 80], [180, 100], [210, 80]][tied - 1];
-      g.insertAdjacentHTML('beforeend', `<g transform="translate(${pos[0]} ${pos[1]})"><circle r="9" fill="#e8d3a2" stroke="#3a2a18" stroke-width="2"/><path d="M-6 -3 Q0 6 6 -3 M-5 4 Q0 -4 5 4" stroke="#3a2a18" stroke-width="2" fill="none"/></g>`);
-      const hole = f.q('.kn-hole'); hole.setAttribute('rx', Math.max(0, 62 - tied * 20)); hole.setAttribute('ry', Math.max(0, 40 - tied * 13));
+    f.area.innerHTML = '<div class="kn-race"><img src="img/chars/elias-smile.webp" alt=""><div class="kn-bar el"><i></i></div><div class="kn-bar me"><i></i></div><span class="kn-you"></span></div>';
+    f.q('.kn-you').textContent = tx(T('you', '{أنت|أنتِ}'));
+    const svg = sv('svg', { viewBox: `0 0 ${VW} ${VH}`, class: 'kn-svg', preserveAspectRatio: 'xMidYMid meet' }, f.area);
+    const defs = sv('defs', {}, svg);
+    defs.innerHTML = '<linearGradient id="knWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3d24"/><stop offset="1" stop-color="#3b2716"/></linearGradient>' +
+      '<radialGradient id="knGlow"><stop offset="0" stop-color="#ffd27a" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>';
+    sv('rect', { x: 0, y: 0, width: VW, height: VH, fill: 'url(#knWood)' }, svg);
+    const grain = sv('g', { stroke: '#2c1d10', 'stroke-width': 1, opacity: .45, fill: 'none' }, svg);
+    for (let y = 18; y < VH; y += 36) sv('path', { d: `M0 ${y} C 120 ${y - 6}, 260 ${y + 7}, ${VW} ${y - 2}` }, grain);
+    for (let y = 0; y < VH; y += 72) sv('line', { x1: 0, y1: y, x2: VW, y2: y, stroke: '#1f140a', 'stroke-width': 2.5, opacity: .8 }, svg);
+    const L = lattice();
+    /* the hole: strands whose middle falls inside an ellipse near the centre, about 7 of them */
+    const cx = 200 + (Math.random() * 40 - 20), cy = 112 + (Math.random() * 16 - 8);
+    let rx = 40, miss = [];
+    const mid = g => { const a = L.at[g.a], b = L.at[g.b]; return [(a.x + b.x) / 2, (a.y + b.y) / 2]; };
+    L.segs.forEach(g => { g.j = 0.7 + Math.random() * 0.6; });
+    const tilt = Math.random() * 0.8 - 0.4, ct = Math.cos(tilt), st2 = Math.sin(tilt);
+    const pick = () => L.segs.filter(g => { const [x0, y0] = mid(g), x = (x0 - cx) * ct + (y0 - cy) * st2, y = -(x0 - cx) * st2 + (y0 - cy) * ct; return (x / rx) ** 2 + (y / (rx * 0.62)) ** 2 < g.j; });
+    for (; rx < 90; rx += 3) { miss = pick(); if (miss.length >= (lv >= 4 ? 7 : 8)) break; }
+    miss.forEach(g => { g.missing = true; });
+    /* Elias's own hole, far side: decorative, closes with his bar */
+    const ropeG = sv('g', {}, svg), ghostG = sv('g', {}, svg), knotG = sv('g', {}, svg), fxG = sv('g', {}, svg);
+    const segEl = new Map();
+    const drawRope = (g, fresh) => {
+      const a = L.at[g.a], b = L.at[g.b], grp = sv('g', { class: 'kn-rope' + (fresh ? ' fresh' : '') }, ropeG);
+      sv('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: '#2a1c0e', 'stroke-width': 6, 'stroke-linecap': 'round' }, grp);
+      sv('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: fresh ? '#f1e6c8' : '#c69f62', 'stroke-width': 3.6, 'stroke-linecap': 'round' }, grp);
+      sv('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: fresh ? '#fffaf0' : '#e2c48c', 'stroke-width': 1.3, 'stroke-dasharray': '2.5 3', opacity: .9 }, grp);
+      segEl.set(g, grp);
     };
-    (async () => {
-      await wait(REDUCED() ? 0 : 350);
-      let mistakes = 0;
-      for (let k = 0; k < 3 && !sh.isOver(); k++) {
-        const len = 3 + k;
-        const seq = Array.from({ length: len }, (_, i) => i === len - 1 ? 'pull' : MOVES[Math.floor(Math.random() * 3)].id);
-        f.q('.g-count').textContent = tx(T(`Knot ${k + 1} of 3`, `العقدة ${k + 1} من ٣`));
-        f.box.dataset.k = k; f.box.dataset.seq = seq.join(',');
-        let ok = false;
-        while (!ok && !sh.isOver()) {
-          /* Elias shows it: slower when you are new, quicker once your hands know it */
-          f.hint(T('Watch Elias\'s hands...', '{طالع|طالعي} يدين إلياس...')); pad.classList.add('locked');
-          const gap = 620 - lv * 60;
-          for (const id of seq) { if (sh.isOver()) return; show.textContent = MOVES.find(m => m.id === id).icon; show.classList.add('on'); flash(id); await wait(gap); show.classList.remove('on'); await wait(120); }
-          show.textContent = '';
-          f.hint(T('Your turn: tie it the same way.', 'دورك: {اربطها|اربطيها} بنفس الطريقة.')); pad.classList.remove('locked');
-          ok = await new Promise(res => {
-            let i = 0;
-            Object.values(btns).forEach(b => { b.onclick = ev => { ev.stopPropagation(); if (pad.classList.contains('locked')) return; const id = b.dataset.id;
-              if (id === seq[i]) { flash(id); i++; if (i >= seq.length) { pad.classList.add('locked'); res(true); } }
-              else { flash(id, false); pad.classList.add('locked'); rec('creak3', 0.4, 1.3); res(false); } }; });
-          });
-          if (!ok) { mistakes++; f.hint(T('The rope slips. Again.', 'الحبل فلت. مرة ثانية.')); await wait(900); }
+    L.segs.forEach(g => { if (!g.missing) drawRope(g); });
+    /* faint guide of what is gone */
+    miss.forEach(g => { const a = L.at[g.a], b = L.at[g.b]; g.ghost = sv('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, class: 'kn-ghost' }, ghostG); });
+    const attached = n => L.segs.some(g => !g.missing && (g.a === n.id || g.b === n.id));
+    const openFrom = n => miss.filter(g => g.missing && (g.a === n.id || g.b === n.id));
+    const other = (g, n) => L.at[g.a === n.id ? g.b : g.a];
+    const knotEl = new Map();
+    const drawKnots = () => {
+      knotG.innerHTML = ''; fxG.querySelectorAll('.kn-fray').forEach(e => e.remove());
+      L.nodes.forEach(n => {
+        if (n.x < -10 || n.x > VW + 10 || n.y < -10 || n.y > VH + 10 || !attached(n)) return;
+        const live = openFrom(n).length > 0;
+        if (live) { sv('circle', { cx: n.x, cy: n.y, r: 15, fill: 'url(#knGlow)', class: 'kn-live' }, knotG);
+          openFrom(n).forEach(g => { const o = other(g, n), dx = o.x - n.x, dy = o.y - n.y, l = Math.hypot(dx, dy), ux = dx / l, uy = dy / l;
+            sv('path', { d: `M${n.x} ${n.y} l${ux * 7 - uy * 2} ${uy * 7 + ux * 2} M${n.x} ${n.y} l${ux * 6 + uy * 3} ${uy * 6 - ux * 3}`, class: 'kn-fray' }, fxG); }); }
+        const k = sv('circle', { cx: n.x, cy: n.y, r: n.fresh ? 4.4 : 3.6, fill: n.fresh ? '#f6ecd2' : '#7a5530', stroke: '#24170b', 'stroke-width': 1.4, 'data-n': n.id, class: live ? 'kn-k live' : 'kn-k' }, knotG);
+        knotEl.set(n.id, k);
+      });
+    };
+    drawKnots();
+    const cord = sv('path', { class: 'kn-cord', d: '' }, fxG);
+    const ring = sv('circle', { class: 'kn-ring', r: 20, cx: -99, cy: -99 }, fxG);
+    const ringP = sv('circle', { class: 'kn-ringp', r: 20, cx: -99, cy: -99, 'stroke-dasharray': '0 999' }, fxG);
+    const arrow = sv('path', { class: 'kn-arrow', d: '' }, fxG);
+    const wrapsNeed = lv >= 3 ? 1 : 2, pullWin = 380 + lv * 70, tol = 9 + lv * 1.6;
+    const total = miss.length;
+    let doneN = 0, snags = 0, state = 'drag', from = null, at = null, wrapA = 0, lastA = null, pull0 = null, cand = [];
+    const count = () => { f.q('.g-count').textContent = tx(T(`Strands ${doneN} / ${total}`, `الخيوط ${doneN} / ${total}`)); f.q('.kn-bar.me i').style.width = (doneN / total * 100) + '%'; f.box.dataset.state = state; f.box.dataset.done = doneN; };
+    count();
+    /* Elias races you, pretending not to */
+    const elT = total * (5600 - lv * 150), t0 = performance.now(); let elDone = false;
+    const tick = () => { if (sh.isOver()) return; const k = Math.min(1, (performance.now() - t0) / elT); f.q('.kn-bar.el i').style.width = (k * 100) + '%'; if (k >= 1 && !elDone) { elDone = true; f.q('.kn-race').classList.add('elias-won'); } requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+    const pt = ev => { const m = svg.getScreenCTM(); if (!m) return { x: 0, y: 0 }; const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY; const q2 = p.matrixTransform(m.inverse()); return { x: q2.x, y: q2.y }; };
+    const distSeg = (p, a, b) => { const vx = b.x - a.x, vy = b.y - a.y, l2 = vx * vx + vy * vy; let t = ((p.x - a.x) * vx + (p.y - a.y) * vy) / l2; t = Math.max(0, Math.min(1, t)); return Math.hypot(p.x - a.x - t * vx, p.y - a.y - t * vy); };
+    const nearLive = p => { let best = null, bd = 22; L.nodes.forEach(n => { if (!attached(n) || !openFrom(n).length) return; const d = Math.hypot(p.x - n.x, p.y - n.y); if (d < bd) { bd = d; best = n; } }); return best; };
+    const showRing = n => { ring.setAttribute('cx', n.x); ring.setAttribute('cy', n.y); ringP.setAttribute('cx', n.x); ringP.setAttribute('cy', n.y); ringP.setAttribute('stroke-dasharray', '0 999'); };
+    const hideRing = () => { [ring, ringP].forEach(e => { e.setAttribute('cx', -99); e.setAttribute('cy', -99); }); arrow.setAttribute('d', ''); };
+    const snag = p => {
+      snags++; state = 'drag'; from = null; cord.classList.add('snag'); blip(150, 0.18, 0.22, 'sawtooth'); rec('creak3', 0.35, 1.4);
+      const b = sv('circle', { cx: p.x, cy: p.y, r: 6, class: 'kn-snag' }, fxG); setTimeout(() => b.remove(), 600);
+      f.hint(T('Snagged on the old mesh. Keep to the line.', 'الخيط علق بالشبك القديم. {خلك|خليك} على الخط.'));
+      setTimeout(() => { cord.classList.remove('snag'); cord.setAttribute('d', ''); }, 260); count();
+    };
+    const sag = (a, p) => { const mx = (a.x + p.x) / 2, my = (a.y + p.y) / 2 + Math.min(10, Math.hypot(p.x - a.x, p.y - a.y) * 0.18); return `M${a.x} ${a.y} Q${mx} ${my} ${p.x} ${p.y}`; };
+    let down = false;
+    svg.addEventListener('pointerdown', ev => {
+      if (sh.isOver()) return; ev.preventDefault(); const p = pt(ev); down = true; try { svg.setPointerCapture(ev.pointerId); } catch (e) { /* none */ }
+      if (state === 'drag') { const n = nearLive(p); if (n) { from = n; cand = openFrom(n); blip(660, 0.05, 0.08); } }
+      else if (state === 'wrap') { lastA = Math.atan2(p.y - at.y, p.x - at.x); }
+      else if (state === 'pull') { pull0 = { p, t: performance.now() }; }
+    });
+    svg.addEventListener('pointermove', ev => {
+      if (!down || sh.isOver()) return; const p = pt(ev);
+      if (state === 'drag' && from) {
+        cord.setAttribute('d', sag(from, p));
+        const off = Math.min(...cand.map(g => distSeg(p, from, other(g, from))));
+        if (off > tol && Math.hypot(p.x - from.x, p.y - from.y) > 8) { snag(p); return; }
+        for (const g of cand) { const o = other(g, from); if (Math.hypot(p.x - o.x, p.y - o.y) < 9) {
+          /* reached: the strand lies across, now it has to be knotted */
+          g.missing = false; g.ghost.remove(); drawRope(g, true); segEl.get(g).classList.add('loose');
+          cord.setAttribute('d', ''); at = o; at.fresh = true; from = null; state = 'wrap'; wrapA = 0; lastA = Math.atan2(p.y - at.y, p.x - at.x); at.seg = g;
+          showRing(at); drawKnots(); blip(520, 0.08, 0.12, 'triangle');
+          f.hint(T('Wrap it: draw circles around the knot.', '{لف|لفي} الخيط: {ارسم|ارسمي} دواير حول العقدة.')); count(); return; } }
+      } else if (state === 'wrap' && at) {
+        const d = Math.hypot(p.x - at.x, p.y - at.y); if (d < 5 || d > 60) return;
+        const a = Math.atan2(p.y - at.y, p.x - at.x); if (lastA !== null) { let da = a - lastA; if (da > Math.PI) da -= 2 * Math.PI; if (da < -Math.PI) da += 2 * Math.PI; wrapA += Math.abs(da);
+          const before = Math.floor((wrapA - Math.abs(da)) / (Math.PI / 2)), after = Math.floor(wrapA / (Math.PI / 2)); if (after > before) blip(300 + after * 40, 0.04, 0.07); }
+        lastA = a; const need = wrapsNeed * 2 * Math.PI, k = Math.min(1, wrapA / need), C = 2 * Math.PI * 20;
+        ringP.setAttribute('stroke-dasharray', `${k * C} ${C}`);
+        if (k >= 1) { state = 'pull'; pull0 = null; const pv = at.seg ? other(at.seg, at) : at, dx = at.x - pv.x, dy = at.y - pv.y, l = Math.hypot(dx, dy) || 1, ux = dx / l, uy = dy / l;
+          at.pullDir = { x: ux, y: uy }; arrow.setAttribute('d', `M${at.x + ux * 12} ${at.y + uy * 12} l${ux * 26} ${uy * 26} m${-ux * 8 - uy * 6} ${-uy * 8 + ux * 6} l${ux * 8 + uy * 6} ${uy * 8 - ux * 6} l${-ux * 8 + uy * 6} ${-uy * 8 - ux * 6}`);
+          f.hint(T('Now pull it tight: one quick flick along the arrow.', 'الحين {شدها|شديها}: سحبة سريعة مع السهم.')); count(); pull0 = { p, t: performance.now() }; }
+      } else if (state === 'pull' && at && pull0) {
+        const dx = p.x - pull0.p.x, dy = p.y - pull0.p.y, along = dx * at.pullDir.x + dy * at.pullDir.y, dt = performance.now() - pull0.t;
+        if (along > 30) {
+          if (dt <= pullWin) {
+            /* tight */
+            segEl.get(at.seg).classList.remove('loose'); doneN++; hideRing(); rec('creak1', 0.4, 1.6); blip(784, 0.12, 0.14, 'triangle');
+            const pop = sv('circle', { cx: at.x, cy: at.y, r: 5, class: 'kn-pop' }, fxG); setTimeout(() => pop.remove(), 500);
+            state = 'drag'; at = null; drawKnots(); gain('skHands', 1, GAME.SKILLS.hands); count();
+            if (doneN >= total) { finishAll(); return; }
+            f.hint(pickOne([T('Tight. Next strand.', 'مشدودة. الخيط الجاي.'), T('Good knot. Keep going.', 'عقدة زينة. {كمّل|كمّلي}.'), T('That one will hold a cod.', 'هذي تشيل سمكة كبيرة.')]));
+          } else { pull0 = { p, t: performance.now() }; blip(220, 0.1, 0.12); f.hint(T('Too slow, it stays loose. Flick it!', 'بطيء، ظلت رخوة. {اسحبها|اسحبيها} بسرعة!')); }
         }
-        if (sh.isOver()) return;
-        tied++; tie(); rec('creak1', 0.35, 1.5); gain('skHands', 2, GAME.SKILLS.hands); await wait(500);
       }
-      f.hint(T('The hole is closed.', 'الفتحة انسكرت.')); await wait(800);
-      sh.finish(mistakes === 0 ? 2 : 1);
-    })();
+    });
+    const up = () => { down = false; if (state === 'drag' && from) { from = null; cord.setAttribute('d', ''); } if (state === 'pull') pull0 = null; };
+    svg.addEventListener('pointerup', up); svg.addEventListener('pointercancel', up);
+    function finishAll() {
+      state = 'done'; count(); const won = !elDone;
+      f.hint(won ? T('Closed, before Elias. He pretends not to notice.', 'انسكرت قبل إلياس. يسوي نفسه ما انتبه.') : T('Closed. Elias finished first, but he waited.', 'انسكرت. إلياس خلص قبلك، بس انتظرك.'));
+      ghostG.innerHTML = ''; setTimeout(() => sh.finish(won && snags <= 2 ? 2 : 1), 1300);
+    }
   };
 
   /* ================= chess ================= */
