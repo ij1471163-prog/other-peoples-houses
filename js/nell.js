@@ -76,7 +76,7 @@
     const st = $('stage'); if (!st) return;
     const L = el('div', 'nell-lunge'); L.innerHTML = '<img src="img/fx/nell.webp" alt="">'; st.appendChild(L);
     setTimeout(() => {
-      L.classList.add('on'); document.body.classList.add('nell-lunging'); rec(pickOf('hit', 2), 1); rec('scream', 0.75);
+      L.classList.add('on'); document.body.classList.add('nell-lunging'); rec(pickOf('hit', 2), 1.6); rec('scream', 1.8); setTimeout(() => rec('scream', 1.3, 1.15), 40);   /* her scream, doubled a little higher so it cuts */
       try { if (navigator.vibrate) navigator.vibrate([90, 30, 220]); } catch (e) { /* no buzz */ }
       if (window.QUAKE) QUAKE('thud');
     }, 650);
