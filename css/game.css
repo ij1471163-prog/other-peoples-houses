@@ -923,3 +923,14 @@ html[lang=ar] .g-count,html[lang=ar] .g-skill{font-family:var(--f-ar-ui)}
 #stage.storming .bg{filter:saturate(.55) brightness(.6) contrast(1.1);animation:stSway 2.6s ease-in-out infinite alternate,stFlash 7.3s linear 1.2s infinite}
 @keyframes stSway{from{transform:translateX(-3px) rotate(-.25deg)}to{transform:translateX(3px) rotate(.25deg)}}
 @media (prefers-reduced-motion:reduce){#stage.storming .scene::after,#stage.storming .bg{animation:none}}
+.nell-lunge{position:absolute;inset:0;z-index:30;pointer-events:none;background:#000;animation:nlDark .65s steps(1) forwards}
+@keyframes nlDark{0%{background:rgba(0,0,0,.0)}15%{background:rgba(0,0,0,.95)}30%{background:rgba(0,0,0,.4)}45%{background:#000}100%{background:#000}}
+.nell-lunge img{position:absolute;left:50%;top:16%;height:270%;transform-origin:50% 12%;transform:translateX(-50%) scale(.9);opacity:0;filter:brightness(1.25) contrast(1.35) saturate(.3) drop-shadow(0 0 40px rgba(170,205,255,.6))}
+.nell-lunge.on img{opacity:1;animation:nlHit .85s cubic-bezier(.1,.9,.2,1) forwards,nlShake .09s linear infinite}
+@keyframes nlHit{0%{transform:translateX(-50%) scale(1.45)}100%{transform:translateX(-50%) scale(1.05)}}
+@keyframes nlShake{0%{margin-left:-6px;margin-top:3px}50%{margin-left:6px;margin-top:-3px}100%{margin-left:-3px;margin-top:2px}}
+.nell-lunge.on{animation:nlFlash .85s ease-out forwards}
+@keyframes nlFlash{0%{background:#cfe0f0}8%{background:#000}100%{background:#05080b}}
+.nell-lunge.off{opacity:0;transition:opacity .45s ease}
+@media (prefers-reduced-motion:reduce){.nell-lunge.on img{animation:none;transform:translateX(-50%) scale(1.05)}}
+body.nell-lunging #panel,body.nell-lunging .hud{visibility:hidden}

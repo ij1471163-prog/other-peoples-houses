@@ -70,6 +70,20 @@
     setTimeout(() => f.remove(), 900);
   }
 
+  /* at the pier: the lights die, and when they come back she is right in front of you (jump scares on; otherwise a whisper at your ear) */
+  function lunge() {
+    if (!SCARES.on) { rec(pickOf('whisper', 5), 0.75); try { if (navigator.vibrate) navigator.vibrate(40); } catch (e) { /* no buzz */ } return; }
+    const st = $('stage'); if (!st) return;
+    const L = el('div', 'nell-lunge'); L.innerHTML = '<img src="img/fx/nell.webp" alt="">'; st.appendChild(L);
+    setTimeout(() => {
+      L.classList.add('on'); document.body.classList.add('nell-lunging'); rec(pickOf('hit', 2), 1); rec('scream', 0.75);
+      try { if (navigator.vibrate) navigator.vibrate([90, 30, 220]); } catch (e) { /* no buzz */ }
+      if (window.QUAKE) QUAKE('thud');
+    }, 650);
+    setTimeout(() => { L.classList.add('off'); document.body.classList.remove('nell-lunging'); }, 1500);
+    setTimeout(() => L.remove(), 2000);
+  }
+
   /* ---------- the radio (a mini-game: turn the dial yourself) ---------- */
   GAME.MINI.radio = function (panel, done) {
     panel.innerHTML = '';
@@ -122,6 +136,10 @@
       st => replay() ? [N1('For a second you could swear she knows you. As if she has watched you walk down this pier before.', 'لثانية {تحلف|تحلفين} إنها تعرفك. كأنها شافتك تمشي على هالرصيف قبل.')] : null,
       st => { gone(); rec('wave1', 0.5); return null; },
       N1('The lamp flickers, and she goes back down into the sea, without a ripple. On the last boards of the pier there are wet footprints, leading to the edge. None come back.', 'اللمبة ترمش، وهي ترجع تنزل في البحر، بدون ولا موجة. وعلى آخر خشب الرصيف فيه آثار رجول مبلولة، رايحة للحافة. وولا وحدة راجعة.'),
+      N1('You let out a breath you didn\'t know you were holding. You turn back towards the town.', '{تطلّع|تطلّعين} نفس ما {كنت|كنتي} {تدري|تدرين} إنك {حابسه|حابسته}. {وتلف|وتلفين} راجع للبلد.'),
+      st => { lunge(); return null; },
+      N1('She is right there. Close enough to feel the cold coming off her.', 'هي هناك. قدام وجهك. قريبة لدرجة {تحس|تحسين} البرد اللي طالع منها.'),
+      N1('Then the lamp flickers again, and there is nobody. Only the water slapping at the pilings, and your heart, which doesn\'t believe it.', 'وبعدين اللمبة ترمش مرة ثانية، وما فيه أحد. بس الموية تضرب في أعمدة الرصيف، وقلبك، اللي مو مصدق.'),
       st => { st.f.nellSeen = true; quest('q_nell', 'active'); return null; }
     ],
     /* 2. the shed at night */
@@ -243,5 +261,5 @@
     return [N1('Room 6. You have the strangest feeling you have stood here before, holding this same postcard, deciding something.', 'غرفة ٦. عندك إحساس غريب إنك وقفت هنا قبل، {ماسك|ماسكة} نفس الكرت، {تقرر|تقررين} شي.')];
   });
 
-  window.__nell = { SC, ghost, gone, face };   /* for tests */
+  window.__nell = { SC, ghost, gone, face, lunge };   /* for tests */
 })();
