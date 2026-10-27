@@ -787,12 +787,30 @@ body.lbl-auto .spot.risk i{box-shadow:0 0 10px 3px rgba(224,122,95,.35)}
 /* ---------- nell.js: the girl on the pier ---------- */
 .nell-ghost{position:absolute;pointer-events:none;z-index:5;transform:translateX(-50%);opacity:0;animation:nellIn 2.2s ease forwards,nellFlick 3.7s steps(1) 2.2s infinite}
 .nell-ghost img{height:100%;display:block;filter:brightness(.78) saturate(.55) drop-shadow(0 0 16px rgba(150,190,255,.35))}
-.nell-ghost.far{left:60%;bottom:33%;height:34%}
-.nell-ghost.far img{filter:brightness(1.05) saturate(.5) drop-shadow(0 0 22px rgba(170,205,255,.6))}
-.nell-ghost.near{left:70%;bottom:-2%;height:92%}
+/* she comes up out of the water: the body is cut at the waterline and rises through it, with her reflection and rings on the surface */
+.nell-ghost .ng-body{position:relative;height:100%;clip-path:inset(-60% -120% 0 -120%)}
+.nell-ghost .ng-body img{animation:ngRise 3.4s cubic-bezier(.3,.05,.25,1) forwards}
+@keyframes ngRise{0%{transform:translateY(100%)}100%{transform:translateY(0)}}
+.nell-ghost .ng-refl{position:absolute;left:0;right:0;top:100%;height:42%;overflow:hidden;opacity:.28;filter:blur(1.5px);-webkit-mask-image:linear-gradient(180deg,#000,transparent);mask-image:linear-gradient(180deg,#000,transparent)}
+.nell-ghost .ng-refl img{height:238%;transform:scaleY(-1) translateY(100%);animation:ngRefl 3.4s cubic-bezier(.3,.05,.25,1) forwards}
+@keyframes ngRefl{0%{transform:scaleY(-1) translateY(100%)}100%{transform:scaleY(-1) translateY(0)}}
+.nell-ghost .ng-ring{position:absolute;left:50%;bottom:0;width:150%;aspect-ratio:5/1;border:2px solid rgba(200,225,255,.55);border-radius:50%;transform:translate(-50%,50%) scale(.2);opacity:0;animation:ngRing 2.8s ease-out infinite}
+.nell-ghost .ng-ring.r2{animation-delay:.9s}.nell-ghost .ng-ring.r3{animation-delay:1.8s}
+@keyframes ngRing{0%{transform:translate(-50%,50%) scale(.2);opacity:.9}100%{transform:translate(-50%,50%) scale(1.25);opacity:0}}
+.nell-ghost.sink .ng-body img{animation:ngSink 1.5s ease-in forwards}
+.nell-ghost.sink .ng-refl img{animation:ngReflOut 1.5s ease-in forwards}
+@keyframes ngSink{from{transform:translateY(0)}to{transform:translateY(100%)}}
+@keyframes ngReflOut{from{transform:scaleY(-1) translateY(0)}to{transform:scaleY(-1) translateY(100%)}}
+.nell-ghost.far{left:90%;bottom:34%;height:44%}
+.nell-ghost.far img{filter:brightness(1.35) saturate(.45) contrast(1.05) drop-shadow(0 0 14px rgba(185,215,255,.85)) drop-shadow(0 0 34px rgba(150,190,255,.45))}
+.nell-ghost .ng-glow{position:absolute;left:50%;bottom:0;width:260%;aspect-ratio:4/1;transform:translate(-50%,50%);border-radius:50%;background:radial-gradient(closest-side,rgba(180,210,255,.42),rgba(180,210,255,0));animation:ngGlow 3.2s ease-in-out infinite alternate}
+@keyframes ngGlow{from{opacity:.55}to{opacity:1}}
+.nell-ghost.near .ng-glow{display:none}
+.nell-ghost.near{left:72%;bottom:-2%;height:92%}
+.nell-ghost.near .ng-refl,.nell-ghost.near .ng-ring{display:none}
 @keyframes nellIn{0%{opacity:0;filter:blur(4px)}100%{opacity:.84;filter:blur(0)}}
 @keyframes nellFlick{0%,100%{opacity:.84}47%{opacity:.84}48%{opacity:.35}50%{opacity:.84}83%{opacity:.6}84%{opacity:.84}}
-.nell-ghost.out{animation:none;opacity:0;transition:opacity 1.4s ease}
+.nell-ghost.out{animation:none;opacity:0;transition:opacity 1.4s ease 0.3s}
 .nell-ghost.away{animation:nellAway 4s ease-in forwards}
 @keyframes nellAway{0%{opacity:.84;transform:translateX(-50%) scale(1)}100%{opacity:0;transform:translateX(-10%) translateY(-6%) scale(.62);filter:blur(3px)}}
 .nell-face{position:absolute;inset:0;z-index:30;background:#000;overflow:hidden;pointer-events:none;animation:nellFace .9s ease-out forwards}
@@ -805,7 +823,7 @@ body.lbl-auto .spot.risk i{box-shadow:0 0 10px 3px rgba(224,122,95,.35)}
 .radio-meter{height:8px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;direction:ltr}
 .radio-meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#5fb3a8,#e7b65a);transition:width .12s linear}
 .radio-card.near .radio-meter i{box-shadow:0 0 10px #e7b65a}
-@media (prefers-reduced-motion:reduce){.nell-ghost,.nell-ghost.away{animation:none;opacity:.8}.nell-face img{animation:none}}
+@media (prefers-reduced-motion:reduce){.nell-ghost,.nell-ghost.away{animation:none;opacity:.8}.nell-face img,.nell-ghost .ng-body img,.nell-ghost .ng-refl img{animation:none;transform:none}.nell-ghost .ng-refl img{transform:scaleY(-1)}.nell-ghost .ng-ring{display:none}}
 /* ---------- fishing.js ---------- */
 .cp-fishing .cp-area.fs-sea{cursor:pointer;background:linear-gradient(180deg,#9cc6d8 0%,#cfe3e6 26%,#2f6f86 30%,#1d4d63 62%,#12344a 100%)}
 .fs-sky{position:absolute;left:0;right:0;top:0;height:30%;background:radial-gradient(circle at 78% 60%,rgba(255,236,190,.9) 0,rgba(255,236,190,0) 22%)}

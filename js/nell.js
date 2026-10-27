@@ -1,6 +1,6 @@
 /* =====================================================================
    Chapter 1 mystery: "The light on the water" (q_nell)
-   A drowned girl stands at the end of the pier at night. In 1981, on the
+   A drowned girl rises out of the water by the pier at night. In 1981, on the
    night of a storm, nineteen-year-old Nell Farrow rowed out with a storm
    lantern to look for her father. Young Elias was on watch on the pier.
    He saw her light, and when the harbour asked, he said he saw nothing.
@@ -48,13 +48,15 @@
   function ghost(kind) {   /* 'far': small at the end of the pier; 'near': close, at the edge of the light */
     const st = $('stage'); if (!st) return;
     gone(true);
-    const g = el('div', 'nell-ghost ' + kind); g.innerHTML = '<img src="img/fx/nell.webp" alt="">';
+    const g = el('div', 'nell-ghost ' + kind);
+    g.innerHTML = '<div class="ng-body"><img src="img/fx/nell.webp" alt=""></div><div class="ng-refl"><img src="img/fx/nell.webp" alt=""></div><i class="ng-glow"></i><i class="ng-ring"></i><i class="ng-ring r2"></i><i class="ng-ring r3"></i>';
+    rec('wave2', 0.35, 0.7);
     st.appendChild(g);
   }
   function gone(now) {
     const g = document.querySelector('#stage .nell-ghost'); if (!g) return;
     if (now) { g.remove(); return; }
-    g.classList.add('out'); setTimeout(() => g.remove(), 1600);
+    g.classList.add('sink', 'out'); setTimeout(() => g.remove(), 1800);   /* she goes back down into the water */
   }
   function walkAway() { const g = document.querySelector('#stage .nell-ghost'); if (g) { g.classList.add('away'); setTimeout(() => g.remove(), 4200); } }
   /* her face, all at once (only with jump scares on; otherwise a cold whisper) */
@@ -115,11 +117,11 @@
     /* 1. the harbour at night */
     pier: s => [
       st => { ghost('far'); rec(pickOf('whisper', 5), 0.35); return null; },
-      N1('At the far end of the pier, under the only lamp, someone is standing. A girl. Barefoot. Soaked through, as if she has just walked up out of the sea.', 'في آخر الرصيف، تحت اللمبة الوحيدة، فيه أحد واقف. بنت. حافية. مبلولة كلها، كأنها توها طالعة من البحر.'),
-      N1('She isn\'t looking at the water. She is looking at you.', 'ما تطالع البحر. تطالعك أنت.'),
+      N1('Past the end of the pier, out on the black water, the surface breaks. Something is coming up. A girl. Rising out of the sea slowly, as if she were climbing stairs.', 'ورا آخر الرصيف، على الموية السودا، السطح ينشق. فيه شي طالع. بنت. تطلع من البحر شوي شوي، كأنها تطلع درج.'),
+      N1('Barefoot, soaked through, standing on the water as if it were a floor. She isn\'t looking at the town. She is looking at you.', 'حافية، مبلولة كلها، واقفة على الموية كأنها أرض. ما تطالع البلد. تطالعك أنت.'),
       st => replay() ? [N1('For a second you could swear she knows you. As if she has watched you walk down this pier before.', 'لثانية {تحلف|تحلفين} إنها تعرفك. كأنها شافتك تمشي على هالرصيف قبل.')] : null,
       st => { gone(); rec('wave1', 0.5); return null; },
-      N1('The lamp flickers. The end of the pier is empty. There are wet footprints, leading to the edge. None come back.', 'اللمبة ترمش. آخر الرصيف فاضي. فيه آثار رجول مبلولة، رايحة للحافة. وولا وحدة راجعة.'),
+      N1('The lamp flickers, and she goes back down into the sea, without a ripple. On the last boards of the pier there are wet footprints, leading to the edge. None come back.', 'اللمبة ترمش، وهي ترجع تنزل في البحر، بدون ولا موجة. وعلى آخر خشب الرصيف فيه آثار رجول مبلولة، رايحة للحافة. وولا وحدة راجعة.'),
       st => { st.f.nellSeen = true; quest('q_nell', 'active'); return null; }
     ],
     /* 2. the shed at night */
