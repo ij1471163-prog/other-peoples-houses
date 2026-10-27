@@ -173,7 +173,7 @@
     stormFx.bind(null, false),
     { show: null }
   ];
-  GAME.EVENTS.push({ id: 'squall', once: true, when: s => ch1(s) && !s.f.fallDone && s.day >= 2 && s.slot === 3 && ['living', 'kitchen', 'your_room', 'shed', 'elias_ext', 'bath'].includes(s.loc) && s.f.nellNight !== s.day && (s.day >= 3 || roll(0.5)),
+  GAME.EVENTS.push({ id: 'squall', once: true, when: s => ch1(s) && !s.f.fallDone && s.day >= 2 && s.slot === 3 && ['living', 'kitchen', 'your_room', 'shed', 'yard', 'elias_ext', 'bath'].includes(s.loc) && s.f.nellNight !== s.day && (s.day >= 3 || roll(0.5)),
     run: s => GAME.SCRIPTS.squall(s) });
 
   /* the harbour remembers the storm */

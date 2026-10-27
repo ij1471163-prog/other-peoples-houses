@@ -88,7 +88,7 @@ GAME.LOC = {
     ]
   },
   elias_ext: {
-    name: T('Elias\'s cottage', 'بيت إلياس'), mapName: T('Elias\'s cottage', 'بيت إلياس'), bg: 'elias_ext', rooms: ['living', 'kitchen', 'elias_bed', 'your_room', 'shed', 'bath'],
+    name: T('Elias\'s cottage', 'بيت إلياس'), mapName: T('Elias\'s cottage', 'بيت إلياس'), bg: 'elias_ext', rooms: ['living', 'kitchen', 'elias_bed', 'your_room', 'yard', 'shed', 'bath'],
     exits: [{ to: 'living', x: 50, y: 58, label: T('Front door', 'الباب'), lock: s => (s.f.ended ? T('The cottage is shut. That part of your life has its own ending now.', 'البيت مسكّر. هذاك الجزء من حياتك صار له نهايته.') : null) }, back('street')],
     spots: [{ x: 80, y: 50, label: T('Nets on the wall', 'شباك على الجدار'), run: s => [{ n: T('Nets hung to dry, patched so many times they\'re more patch than net.', 'شباك معلقة تنشف، مرقّعة لدرجة إن الرقع صارت أكثر من الشبكة.') }] }]
   },
@@ -100,7 +100,7 @@ GAME.LOC = {
       { to: 'your_room', x: 26, y: 22, label: T('Your room', 'غرفتك') },
       { to: 'elias_bed', x: 52, y: 22, label: T('Elias\'s room', 'غرفة إلياس'), risk: s => eliasHome(s) },
       { to: 'bath', x: 76, y: 22, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.bathLock(s) },
-      { to: 'shed', x: 96, y: 42, label: T('The shed', 'المخزن') }
+      { to: 'yard', x: 96, y: 42, label: T('Back yard', 'الحوش') }
     ],
     spots: [
       { x: 18, y: 30, label: T('Photographs', 'صور'), run: s => { s.f.sawPhotos = true; return [{ n: T('A woman laughing on the deck of a boat: Ada. And a boy of nine on Elias\'s shoulders, holding a fish bigger than his arm.', 'امرأة تضحك على سطح قارب: آدا. وولد عمره تسع سنين على كتف إلياس، ماسك سمكة أكبر من ذراعه.') }]; } },
@@ -109,7 +109,7 @@ GAME.LOC = {
     ]
   },
   kitchen: {
-    name: T('Kitchen', 'المطبخ'), bg: 'kitchen', house: 'elias', exits: [back('living')],
+    name: T('Kitchen', 'المطبخ'), bg: 'kitchen', house: 'elias', exits: [back('living'), { to: 'yard', x: 95, y: 52, label: T('Back door', 'الباب الخلفي') }],
     onEnter: s => { if (!s.quests.q_bread && s.f.metElias) { quest('q_bread', 'active'); return [{ n: T('The bread bin is empty. So is the fruit bowl. A man who lives alone, and has stopped noticing.', 'صندوق الخبز فاضي. وصحن الفواكه بعد. رجل عايش لحاله، ووقف ينتبه.') }]; } return null; },
     spots: [
       { x: 19, y: 25, label: T('Cupboard', 'الدولاب'), risk: s => eliasHome(s), run: s => GAME.SCRIPTS.cupboard(s) },
@@ -141,8 +141,16 @@ GAME.LOC = {
     ]
   },
   shed: {
-    name: T('The shed', 'المخزن'), bg: 'shed', house: 'elias', charX: 40, exits: [back('living')],
+    name: T('The shed', 'المخزن'), bg: 'shed', house: 'elias', charX: 40, exits: [back('yard')],
     spots: [{ x: 76, y: 40, label: T('Nets', 'الشباك'), run: s => GAME.CHAR.elias.where(s) === 'shed' ? [{ n: T('Elias is working on them. Talk to him if you want to help.', 'إلياس شغال عليها. {كلّمه|كلّميه} إذا {تبي تساعد|تبين تساعدين}.') }] : (s.f.netsLearned && onceToday('netsAlone')) ? (addMood(1), (s.f.netsAlone = (s.f.netsAlone || 0) + 1), [{ n: T('You mend a section on your own. Over, under, through, pull. He\'ll notice tomorrow and say nothing, which is how he says thank you.', '{تصلّح|تصلّحين} جزء لحالك. فوق، تحت، من خلال، اسحب. بكرة بينتبه وما راح يقول شي، وهذي طريقته يقول شكراً.') }]) : [{ n: T('A tangle of rope and knots you don\'t understand yet.', 'حبال وعُقد {ما تفهمها|ما تفهمينها} للحين.') }] }]
+  },
+  yard: {
+    name: T('The back yard', 'الحوش'), bg: 'yard', house: 'elias', charX: 52,
+    exits: [{ to: 'kitchen', x: 9, y: 50, label: T('Kitchen', 'المطبخ') }, { to: 'shed', x: 90, y: 52, label: T('The shed', 'المخزن') }, { to: 'living', x: 30, y: 86, label: T('Living room', 'الصالة') }],
+    spots: [
+      { x: 52, y: 30, label: T('The washing line', 'حبل الغسيل'), run: s => [{ n: T('Elias\'s shirts, two pairs of trousers, and a tea towel that says GREETINGS FROM SALTMERE. He has never been anywhere else.', 'قمصان إلياس، وبنطلونين، وفوطة مكتوب عليها «تحيات من سولتمير». وهو عمره ما راح مكان ثاني.') }] },
+      { x: 66, y: 46, label: T('Look at the sea', '{طالع|طالعي} البحر'), run: s => onceToday('yardSea') ? (addMood(1), [{ n: T('Over the low wall, the whole bay. The Ada sits on the water like she\'s waiting for someone. You stay longer than you meant to.', 'ورا الجدار الواطي، الخليج كله. «آدا» على الموية كأنها تنتظر أحد. {وتقعد|وتقعدين} أطول من اللي {كنت ناوي|كنتي ناوية}.') }]) : [{ n: T('The sea, still there.', 'البحر، لسا مكانه.') }] }
+    ]
   },
   clinic: { name: T('Saltmere Clinic', 'عيادة سولتمير'), bg: 'clinic', charX: 70, exits: [back('street')] }
 };

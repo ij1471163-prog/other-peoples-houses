@@ -19,6 +19,7 @@ window.IMG_MANIFEST = {
   "garage": "img/bg/garage.jpg",
   "grocery": "img/bg/grocery.jpg",
   "harbor": "img/bg/harbor.jpg",
+  "harbor_night": "img/bg/harbor_night.jpg",
   "hotel_lobby": "img/bg/hotel_lobby.jpg",
   "hotel_office": "img/bg/hotel_office.jpg",
   "hotel_staff": "img/bg/hotel_staff.jpg",
@@ -33,6 +34,7 @@ window.IMG_MANIFEST = {
   "lh_tower": "img/bg/lh_tower.jpg",
   "living": "img/bg/living.jpg",
   "loft": "img/bg/loft.jpg",
+  "map": "img/bg/map.jpg",
   "marg_bath": "img/bg/marg_bath.jpg",
   "marg_bed": "img/bg/marg_bed.jpg",
   "marg_guest": "img/bg/marg_guest.jpg",
@@ -45,6 +47,8 @@ window.IMG_MANIFEST = {
   "shed_night": "img/bg/shed_night.jpg",
   "station": "img/bg/station.jpg",
   "street": "img/bg/street.jpg",
+  "street_night": "img/bg/street_night.jpg",
+  "yard": "img/bg/yard.jpg",
   "your_room": "img/bg/your_room.jpg"
  },
  "chars": {
