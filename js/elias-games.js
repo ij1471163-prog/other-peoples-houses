@@ -315,4 +315,5 @@
       } });
     return steps;
   };
+  window.MINIKIT = { card, shell, skillOf, gain, LV, blip, rec, wait };   /* shared with other little games (js/clinic.js) */
 })();
