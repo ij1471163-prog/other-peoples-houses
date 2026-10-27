@@ -850,3 +850,30 @@ html[lang=ar] .fs-catch b{font-family:var(--f-ar-ui)}
 .sk-row span{min-width:110px}
 .sk-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden}
 .sk-bar i{display:block;height:100%;background:linear-gradient(90deg,#5fb3a8,#f0b25a)}
+/* elias-games: the knot and the chess board */
+.cp-knot .cp-area,.cp-chess .cp-area{aspect-ratio:auto;cursor:default;padding:8px;max-height:none;display:flex;gap:10px;align-items:center;justify-content:center}
+.kn-top{position:relative;width:100%;max-width:440px;height:clamp(80px,26vh,130px);height:clamp(30px,calc(100cqh - 210px),130px);border-radius:10px;overflow:hidden;background:#0f161c}
+.kn-net{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.kn-hole{transition:rx .4s,ry .4s}
+.cp-knot .cp-area{flex-direction:column;gap:8px}
+.kn-show{position:absolute;left:0;right:0;top:50%;margin-top:-24px;text-align:center;text-shadow:0 0 12px #000;font-size:40px;height:48px;color:var(--lamp);opacity:0;transform:scale(.7);transition:all .18s}
+.kn-show.on{opacity:1;transform:scale(1)}
+.kn-pad{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;max-width:440px}
+.kn-b{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;background:rgba(232,211,162,.12);border:1px solid rgba(232,211,162,.4);color:#f1e4c4;font-family:var(--f-ui);font-size:13px;cursor:pointer;transition:transform .1s,background .15s}
+html[lang=ar] .kn-b{font-family:var(--f-ar-ui)}
+.kn-b i{font-style:normal;font-size:22px}
+.kn-b.lit{background:rgba(240,178,90,.55);transform:scale(1.06)}
+.kn-b.bad{background:rgba(200,60,50,.6)}
+.kn-pad.locked .kn-b{opacity:.55;pointer-events:none}
+.ch-board{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);flex:none;width:min(56vh,300px,44vw);height:min(56vh,300px,44vw);width:min(300px,calc(100cqh - 100px),46cqw);height:min(300px,calc(100cqh - 100px),46cqw);aspect-ratio:1;border:3px solid #4a3220;border-radius:4px;direction:ltr}
+.ch-sq{border:0;padding:0;min-width:0;min-height:0;overflow:hidden;font-size:min(5vh,26px,3.9vw);font-size:min(26px,calc((100cqh - 100px)/10),5cqw);line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:"DejaVu Sans","Segoe UI Symbol",serif;font-variant-emoji:text}
+.ch-sq.lt{background:#e9d6b0}.ch-sq.dk{background:#a57c52}
+.ch-sq.w{color:#fff;text-shadow:0 0 2px #000,0 0 2px #000}.ch-sq.b{color:#151515}
+.ch-sq.sel{box-shadow:inset 0 0 0 3px #f0b25a}
+.ch-sq.mate{box-shadow:inset 0 0 0 3px #5fd38a;background:#9fd4a8}
+.ch-sq.no{background:#c75a4c}
+.ch-side img{height:min(46vh,220px,40vw);height:min(220px,calc(100cqh - 110px),40cqw);filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.g-count,.g-skill{font-family:var(--f-ui);font-size:12px;color:#cfd6da}
+html[lang=ar] .g-count,html[lang=ar] .g-skill{font-family:var(--f-ar-ui)}
+
+.cp-knot,.cp-chess{container-type:size}
