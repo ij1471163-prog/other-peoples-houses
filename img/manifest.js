@@ -55,6 +55,7 @@ window.IMG_MANIFEST = {
   "station": "img/bg/station.jpg",
   "street": "img/bg/street.jpg",
   "street_night": "img/bg/street_night.jpg",
+  "underbed": "img/bg/underbed.jpg",
   "yard": "img/bg/yard.jpg",
   "your_room": "img/bg/your_room.jpg",
   "your_room_night": "img/bg/your_room_night.jpg"
