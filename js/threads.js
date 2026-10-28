@@ -118,6 +118,7 @@
   let wind = null;
   function stormFx(onOff) {
     const st = $('stage'); if (st) st.classList.toggle('storming', !!onOff);
+    VIEW.bgOver = onOff ? { harbor: 'harbor_storm' } : null; if (st) st.classList.toggle('own-storm', !!onOff);
     if (onOff) {
       rec('wave1', 0.55); setTimeout(() => rec('wave2', 0.5), 1800);
       clearInterval(stormFx.th); setTimeout(() => { rec('hit2', 0.3, 0.45); }, 1500);

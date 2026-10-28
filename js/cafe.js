@@ -123,6 +123,7 @@
         { t: T('"Your real name. Marcello."', '«اسمك الحقيقي. مارتشيلو.»'), then: [st => { st.f.mcOpen = 'name'; return null; }] },
         { t: T('"Your nonna. Tell them about her."', '«جدتك. قل لهم عنها.»'), then: [st => { st.f.mcOpen = 'nonna'; return null; }] }
       ] },
+      st => { VIEW.bgOver = { cafe: 'cafe_stage' }; return null; }, { show: [] },
       N1('He walks out. The microphone squeals. Eleven seconds of silence, which is longer than it sounds.', 'يطلع. الميكروفون يصفّر. إحدى عشر ثانية سكوت، وهذا أطول مما يبان.'),
       st => st.f.mcOpen === 'fish' ? [N1('"Why don\'t fish play basketball?" A groan rolls round the room like weather. Then Gregor laughs, a huge laugh, and it catches.', '«ليش السمك ما يلعب كرة سلة؟» تأوه يمشي في الغرفة مثل الطقس. وبعدين غريغور يضحك، ضحكة كبيرة، وتنتقل للكل.')]
         : st.f.mcOpen === 'name' ? [N1('"My name is Marcello. My nonna named me after a film star. I am five foot six and I own a café that smells of soup." The laugh is instant and warm.', '«اسمي مارتشيلو. جدتي سمتني على اسم نجم أفلام. وطولي متر وسبعين إلا شوي وعندي مقهى ريحته شوربة.» الضحكة تجي على طول، ودافية.')]
@@ -133,7 +134,8 @@
         { t: T('Start the fish joke for him, loudly', '{تبدأ|تبدئين} له نكتة السمك، بصوت عالي'), then: [N1('"WHY DON\'T FISH PLAY BASKETBALL?" you shout. Thirty people shout "THE NET!" back. It turns out the whole town knows it. Marco is laughing so hard he has to hold the mic stand.', '«ليش السمك ما يلعب كرة سلة؟» {تصارخ|تصارخين}. ثلاثين واحد يصارخون «الشبكة!». طلع البلد كله يعرفها. وماركو يضحك لين يمسك حامل الميكروفون.'), st => { st.f.mcSave = 'shout'; return null; }] },
         { t: T('Do nothing. Wait with him.', '{لا تسوي|لا تسوين} شي. {انتظر|انتظري} معه.'), then: [N1('Nobody moves. Nobody heckles. The whole room waits for him, the way you\'d wait for a friend tying a shoe. After a while he says, "Sorry. I forgot. I always forget." And somehow that is the biggest laugh of the night.', 'محد يتحرك. محد يعلّق. الغرفة كلها تنتظره، مثل ما تنتظر صديق يربط جزمته. بعد شوي يقول: «آسف. نسيت. دايم أنسى.» وبطريقة ما، هذي أكبر ضحكة الليلة.'), st => { st.f.mcSave = 'wait'; return null; }] }
       ] },
-      ...(ingrid ? [{ show: [{ id: 'marco', e: 'smile' }, { id: 'ingrid', e: 'smile' }] }, N1('When he finishes, Ingrid stands up without being asked and sings the last song, the sailor one, and Marco sits on the edge of the little stage and listens with his eyes shut.', 'لما يخلص، إنغريد تقوم بدون ما أحد يطلب وتغني آخر أغنية، حقت البحّار، وماركو يجلس على طرف المسرح الصغير ويسمع وعيونه مسكرة.')] : []),
+      ...(ingrid ? [{ show: [{ id: 'ingrid', e: 'smile' }] }, N1('When he finishes, Ingrid stands up without being asked and sings the last song, the sailor one, and Marco sits on the edge of the little stage and listens with his eyes shut.', 'لما يخلص، إنغريد تقوم بدون ما أحد يطلب وتغني آخر أغنية، حقت البحّار، وماركو يجلس على طرف المسرح الصغير ويسمع وعيونه مسكرة.')] : []),
+      st => { VIEW.bgOver = null; return null; },
       { show: [{ id: 'marco', e: 'smile' }] },
       M('smile', 'Twelve years. Twelve! And it was a pie. It was always going to be a pie, wasn\'t it.', 'اثنعش سنة. اثنعش! وطلعت فطيرة. كان مكتوب إنها فطيرة، صح؟'),
       M('neutral', 'Same time next Thursday. Don\'t tell anyone I said that. Tell everyone.', 'نفس الوقت الخميس الجاي. لا {تقول|تقولين} لأحد إني قلتها. {قل|قولي} للكل.'),

@@ -6,6 +6,7 @@ window.IMG_MANIFEST = {
   "bh_bath": "img/bg/bh_bath.jpg",
   "boathouse": "img/bg/boathouse.jpg",
   "cafe": "img/bg/cafe.jpg",
+  "cafe_stage": "img/bg/cafe_stage.jpg",
   "cemetery": "img/bg/cemetery.jpg",
   "cemetery_night": "img/bg/cemetery_night.jpg",
   "cliff_road": "img/bg/cliff_road.jpg",
@@ -20,6 +21,7 @@ window.IMG_MANIFEST = {
   "grocery": "img/bg/grocery.jpg",
   "harbor": "img/bg/harbor.jpg",
   "harbor_night": "img/bg/harbor_night.jpg",
+  "harbor_storm": "img/bg/harbor_storm.jpg",
   "hotel_lobby": "img/bg/hotel_lobby.jpg",
   "hotel_office": "img/bg/hotel_office.jpg",
   "hotel_staff": "img/bg/hotel_staff.jpg",
@@ -33,6 +35,7 @@ window.IMG_MANIFEST = {
   "lh_room": "img/bg/lh_room.jpg",
   "lh_tower": "img/bg/lh_tower.jpg",
   "living": "img/bg/living.jpg",
+  "living_night": "img/bg/living_night.jpg",
   "loft": "img/bg/loft.jpg",
   "map": "img/bg/map.jpg",
   "marg_bath": "img/bg/marg_bath.jpg",
@@ -49,7 +52,8 @@ window.IMG_MANIFEST = {
   "street": "img/bg/street.jpg",
   "street_night": "img/bg/street_night.jpg",
   "yard": "img/bg/yard.jpg",
-  "your_room": "img/bg/your_room.jpg"
+  "your_room": "img/bg/your_room.jpg",
+  "your_room_night": "img/bg/your_room_night.jpg"
  },
  "chars": {
   "ana": {
