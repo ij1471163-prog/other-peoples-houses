@@ -1106,3 +1106,23 @@ html[lang=ar] .sd-paper p{font-family:var(--f-ar);font-size:16px}
 .char:has(img[src*="elias-mend"]){height:74%}
 .char:has(img[src*="elias-chess"]){height:60%}
 .char:has(img[src*="irene-eat"]){height:42%;left:47%!important;bottom:1%}
+/* cine.js: a moving picture for the big moments */
+.cine{position:absolute;inset:0;z-index:45;overflow:hidden;background:#000}
+.cn-cam{position:absolute;inset:0;transform-origin:50% 60%}
+.cn-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cn-man{position:absolute;left:50%;bottom:0;height:92%;aspect-ratio:811/1200;transform:translateX(-50%);transform-origin:40% 95%;filter:drop-shadow(0 8px 16px rgba(0,0,0,.5))}
+.cn-man img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom}
+.cn-ghost{opacity:0;mix-blend-mode:multiply}
+.cn-mug{position:absolute;z-index:2}
+.cn-mug canvas{width:100%;height:100%;display:block}
+.cine>.cn-mug{position:absolute}
+.cn-tint{position:absolute;inset:0;opacity:0;background:rgba(40,20,20,.25);backdrop-filter:saturate(.35) contrast(1.1);-webkit-backdrop-filter:saturate(.35) contrast(1.1);pointer-events:none}
+.cn-vig{position:absolute;inset:0;opacity:0;background:radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(60,0,0,.85) 100%);pointer-events:none}
+.cn-bars i{position:absolute;left:0;right:0;height:9%;background:#000}
+.cn-bars i:first-child{top:0}.cn-bars i:last-child{bottom:0}
+.cn-bars{position:absolute;inset:0;opacity:0;pointer-events:none}
+.cn-black{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+.cn-drop{position:absolute;width:7px;height:7px;margin:-3px;border-radius:50%;background:#8a5a2a;box-shadow:0 0 0 1px rgba(0,0,0,.3)}
+.cn-shard{position:absolute;width:12px;height:8px;margin:-4px;background:#f2ead8;border:1px solid #3a2a1a;clip-path:polygon(0 30%,60% 0,100% 70%,30% 100%)}
+body.cine-on #panel{visibility:hidden}
+body.cine-on #panel .cp-alt{visibility:visible;position:fixed;right:12px;bottom:12px;z-index:60;width:auto;padding:6px 14px;opacity:.75}
