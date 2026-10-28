@@ -39,6 +39,17 @@
     { show: null }, outside
   ] });
 
+  /* Thursday: when she sings, the room is full, and she is alone in the light */
+  const sing0 = GAME.SCRIPTS.ingridSings;
+  if (sing0) GAME.SCRIPTS.ingridSings = s => {
+    const steps = sing0(s), i = steps.findIndex(st => st && st.n && /Then she sings/.test(st.n.en));
+    if (i < 0) return steps;
+    const L = GAME.LOC.cafe, x0 = L.charX;
+    steps.splice(i, 0, () => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { cafe: 'cafe_stage_ing' }); L.charX = 36; return null; }, { show: [{ id: 'ingrid', e: 'sing' }] });
+    steps.splice(i + 3, 0, () => { if (VIEW.bgOver) delete VIEW.bgOver.cafe; L.charX = x0; return null; }, { show: [{ id: 'ingrid', e: 'neutral' }, { id: 'marco', e: 'smile' }] });
+    return steps;
+  };
+
   const chat = (who, line) => { const c = GAME.CHAR[who]; if (c) { c.chat = c.chat || []; c.chat.unshift(line); } };
   chat('ingrid', { if: s => s.f.ingRehearse === 'heard' && !s.f.ingridSang, e: 'smile', t: T('Front row, Thursday. You promised. Well, I promised for you.', 'الصف الأول، الخميس. {وعدت|وعدتي}. يعني، أنا وعدت عنك.') });
 })();

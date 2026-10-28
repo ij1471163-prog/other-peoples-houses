@@ -8,6 +8,7 @@ window.IMG_MANIFEST = {
   "cafe": "img/bg/cafe.jpg",
   "cafe_closed": "img/bg/cafe_closed.jpg",
   "cafe_stage": "img/bg/cafe_stage.jpg",
+  "cafe_stage_ing": "img/bg/cafe_stage_ing.jpg",
   "cemetery": "img/bg/cemetery.jpg",
   "cemetery_night": "img/bg/cemetery_night.jpg",
   "cliff_road": "img/bg/cliff_road.jpg",
