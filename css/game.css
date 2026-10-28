@@ -1038,3 +1038,37 @@ html[lang=ar] .cf-st{font-family:var(--f-ar-ui)}
 .cf-st.busy{background:#e8d2ac}.cf-st.busy em{animation:cfBrew var(--brew) linear forwards}.cf-st.busy i{animation:cfSteam .5s ease-in-out infinite alternate}
 @keyframes cfBrew{to{width:100%}}
 @keyframes cfSteam{to{transform:translateY(-2px) rotate(-4deg)}}
+/* florist.js: the shop */
+.cp-flor{container-type:size}
+.cp-flor .cp-area{aspect-ratio:auto;cursor:default;max-height:none;padding:8px;display:grid;grid-template-columns:1fr 1.3fr;grid-template-rows:1fr auto;gap:8px;height:calc(100cqh - 88px);background:linear-gradient(180deg,rgba(250,244,236,.82),rgba(240,230,214,.9)),url(../img/bg/florist.jpg) center/cover}
+.fl-cust{grid-row:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:0}
+.fl-cust.in{animation:cfIn .4s ease-out}
+.fl-face{width:min(84px,24cqh);height:min(84px,24cqh);border-radius:50%;overflow:hidden;border:3px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.25);background:#e9dcc6;flex:none}
+.fl-face img{width:100%;transform:scale(2.1);transform-origin:50% 8%}
+.fl-cust.glad .fl-face{box-shadow:0 0 0 4px #7fd09a}
+.fl-say{position:relative;background:#fff;border-radius:12px;padding:6px 10px;box-shadow:0 2px 6px rgba(0,0,0,.15);color:#3a2a22;max-width:100%}
+.fl-say b{font:600 12px var(--f-ui);color:#b0507a}
+.fl-say p{margin:2px 0 0;font:14px/1.35 var(--f-text,serif)}
+html[lang=ar] .fl-say b,html[lang=ar] .fl-say p{font-family:var(--f-ar-ui)}
+.fl-mid{grid-row:1;display:grid;grid-template-columns:auto 1fr;grid-template-rows:1fr auto;gap:6px;min-height:0}
+.fl-board{grid-row:1/3;background:#2f3a33;border:4px solid #7a5a3a;border-radius:6px;padding:6px 8px;color:#f3efe2;font:12px/1.6 var(--f-ui);overflow:auto;direction:inherit}
+html[lang=ar] .fl-board{font-family:var(--f-ar-ui)}
+.fl-board div{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.fl-board .fl-ic{width:20px;height:20px}
+.fl-bq{position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:0}
+.fl-stems{position:relative;width:100%;height:100%}
+.fl-stem{position:absolute;left:50%;bottom:22%;width:52px;height:120px;margin-left:-26px;transform-origin:50% 100%;transform:rotate(var(--r));animation:flIn .3s ease-out}
+.fl-stem:after{content:"";position:absolute;left:50%;top:44px;bottom:0;width:3px;margin-left:-1.5px;background:#4f7a3a;border-radius:2px}
+.fl-stem .fl-ic{position:absolute;top:0;left:3px;width:46px;height:46px;z-index:1}
+@keyframes flIn{from{transform:rotate(var(--r)) translateY(30px);opacity:0}}
+.fl-wrap{position:absolute;left:50%;bottom:0;width:90px;height:44%;margin-left:-45px;background:linear-gradient(90deg,#f6e7c8,#fff6e0,#f0dcb6);clip-path:polygon(0 0,100% 0,62% 100%,38% 100%);z-index:2}
+.fl-bq.tied .fl-wrap:after{content:"🎀";position:absolute;left:50%;top:6%;transform:translateX(-50%);font-size:26px}
+.fl-act{display:flex;gap:6px;justify-content:center}
+.fl-tie,.fl-undo{padding:7px 12px;border-radius:10px;border:0;font:600 13px var(--f-ui);cursor:pointer}
+html[lang=ar] .fl-tie,html[lang=ar] .fl-undo{font-family:var(--f-ar-ui)}
+.fl-tie{background:#b0507a;color:#fff;box-shadow:0 3px 0 #7a2f52}.fl-tie:disabled{opacity:.4}
+.fl-undo{background:#fff;color:#3a2a22;box-shadow:0 3px 0 #c9b9a2}
+.fl-buckets{grid-column:1/3;display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.fl-bk{display:flex;flex-direction:column;align-items:center;padding:4px 2px;border-radius:10px;border:0;background:#fff;color:#3a2a22;font:600 11px var(--f-ui);box-shadow:0 3px 0 #c9b9a2;cursor:pointer}
+html[lang=ar] .fl-bk{font-family:var(--f-ar-ui)}
+.fl-bk .fl-ic{width:30px;height:30px}
