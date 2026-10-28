@@ -39,14 +39,13 @@
     { show: null }, outside
   ] });
 
-  /* Thursday: when she sings, the room is full, and she is alone in the light */
+  /* Thursday: when she sings, she is on the little stage in the light, the room full in front of her */
   const sing0 = GAME.SCRIPTS.ingridSings;
   if (sing0) GAME.SCRIPTS.ingridSings = s => {
     const steps = sing0(s), i = steps.findIndex(st => st && st.n && /Then she sings/.test(st.n.en));
     if (i < 0) return steps;
-    const L = GAME.LOC.cafe, x0 = L.charX;
-    steps.splice(i, 0, () => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { cafe: 'cafe_stage_ing' }); L.charX = 36; return null; }, { show: [{ id: 'ingrid', e: 'sing' }] });
-    steps.splice(i + 3, 0, () => { if (VIEW.bgOver) delete VIEW.bgOver.cafe; L.charX = x0; return null; }, { show: [{ id: 'ingrid', e: 'neutral' }, { id: 'marco', e: 'smile' }] });
+    steps.splice(i, 0, () => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { cafe: 'cafe_sing' }); return null; }, { show: [] });
+    steps.splice(i + 3, 0, () => { if (VIEW.bgOver) delete VIEW.bgOver.cafe; return null; }, { show: [{ id: 'ingrid', e: 'neutral' }, { id: 'marco', e: 'smile' }] });
     return steps;
   };
 
