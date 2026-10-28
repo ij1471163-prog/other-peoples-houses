@@ -6,6 +6,7 @@ window.IMG_MANIFEST = {
   "bh_bath": "img/bg/bh_bath.jpg",
   "boathouse": "img/bg/boathouse.jpg",
   "cafe": "img/bg/cafe.jpg",
+  "cafe_closed": "img/bg/cafe_closed.jpg",
   "cafe_stage": "img/bg/cafe_stage.jpg",
   "cemetery": "img/bg/cemetery.jpg",
   "cemetery_night": "img/bg/cemetery_night.jpg",
@@ -108,6 +109,7 @@ window.IMG_MANIFEST = {
    "neutral": "img/chars/ingrid-neutral.webp",
    "sad": "img/chars/ingrid-sad.webp",
    "shock": "img/chars/ingrid-shock.webp",
+   "sing": "img/chars/ingrid-sing.webp",
    "smile": "img/chars/ingrid-smile.webp"
   },
   "irene": {
