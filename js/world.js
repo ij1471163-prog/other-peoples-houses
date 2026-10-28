@@ -88,19 +88,31 @@ GAME.LOC = {
     ]
   },
   elias_ext: {
-    name: T('Elias\'s cottage', 'بيت إلياس'), mapName: T('Elias\'s cottage', 'بيت إلياس'), bg: 'elias_ext', rooms: ['living', 'kitchen', 'elias_bed', 'your_room', 'yard', 'shed', 'bath'],
-    exits: [{ to: 'living', x: 50, y: 58, label: T('Front door', 'الباب'), lock: s => (s.f.ended ? T('The cottage is shut. That part of your life has its own ending now.', 'البيت مسكّر. هذاك الجزء من حياتك صار له نهايته.') : null) }, back('street')],
+    name: T('Elias\'s cottage', 'بيت إلياس'), mapName: T('Elias\'s cottage', 'بيت إلياس'), bg: 'elias_ext', rooms: ['hall', 'living', 'kitchen', 'elias_bed', 'your_room', 'yard', 'shed', 'bath'],
+    exits: [{ to: 'hall', x: 50, y: 58, label: T('Front door', 'الباب'), lock: s => (s.f.ended ? T('The cottage is shut. That part of your life has its own ending now.', 'البيت مسكّر. هذاك الجزء من حياتك صار له نهايته.') : null) }, back('street')],
     spots: [{ x: 80, y: 50, label: T('Nets on the wall', 'شباك على الجدار'), run: s => [{ n: T('Nets hung to dry, patched so many times they\'re more patch than net.', 'شباك معلقة تنشف، مرقّعة لدرجة إن الرقع صارت أكثر من الشبكة.') }] }]
+  },
+  hall: {
+    name: T('The hallway', 'الممر'), bg: 'hall', house: 'elias', charX: 52, canWait: false,
+    exits: [
+      { to: 'elias_ext', x: 4, y: 84, label: T('Front door', 'باب البيت') },
+      { to: 'living', x: 12, y: 48, label: T('Living room', 'الصالة') },
+      { to: 'elias_bed', x: 34, y: 50, label: T('Elias\'s room', 'غرفة إلياس'), risk: s => eliasHome(s) },
+      { to: 'your_room', x: 50, y: 28, label: T('Your room', 'غرفتك') },
+      { to: 'yard', x: 64, y: 54, label: T('Back door', 'الباب الخلفي') },
+      { to: 'kitchen', x: 74, y: 46, label: T('Kitchen', 'المطبخ') },
+      { to: 'bath', x: 93, y: 50, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.bathLock(s) }
+    ],
+    spots: [
+      { x: 30, y: 30, label: T('A yellow oilskin on the hook', 'معطف مطر أصفر على المعلاق'), run: s => [{ n: T('An old yellow oilskin, cracked at the elbows, and a boy\'s fishing cap on the same hook. Thirty years and nobody has moved the cap.', 'معطف مطر أصفر قديم، مشقق عند الكوع، وكاب صيد ولد صغير على نفس المعلاق. ثلاثين سنة ومحد شال الكاب.') }] },
+      { x: 30, y: 56, label: T('A bowl of keys', 'صحن مفاتيح'), run: s => [{ n: T('Keys to a boat, a shed, a car he sold in 1998, and one small key with a label in a child\'s writing: "THE TREASURE (DO NOT LOOK)".', 'مفاتيح قارب، ومخزن، وسيارة باعها سنة ٩٨، ومفتاح صغير عليه ورقة بخط طفل: «الكنز (لا تطالع)».') }] }
+    ]
   },
   living: {
     name: T('Elias\'s living room', 'صالة إلياس'), bg: 'living', house: 'elias', charX: 48,
     exits: [
-      { to: 'elias_ext', x: 93, y: 74, label: T('Front door', 'باب البيت') },
-      { to: 'kitchen', x: 6, y: 40, label: T('Kitchen', 'المطبخ') },
-      { to: 'your_room', x: 26, y: 22, label: T('Your room', 'غرفتك') },
-      { to: 'elias_bed', x: 52, y: 22, label: T('Elias\'s room', 'غرفة إلياس'), risk: s => eliasHome(s) },
-      { to: 'bath', x: 76, y: 22, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.bathLock(s) },
-      { to: 'yard', x: 96, y: 42, label: T('Back yard', 'الحوش') }
+      { to: 'hall', x: 93, y: 74, label: T('Hallway', 'الممر') },
+      { to: 'kitchen', x: 6, y: 40, label: T('Kitchen', 'المطبخ') }
     ],
     spots: [
       { x: 18, y: 30, label: T('Photographs', 'صور'), run: s => { s.f.sawPhotos = true; return [{ n: T('A woman laughing on the deck of a boat: Ada. And a boy of nine on Elias\'s shoulders, holding a fish bigger than his arm.', 'امرأة تضحك على سطح قارب: آدا. وولد عمره تسع سنين على كتف إلياس، ماسك سمكة أكبر من ذراعه.') }]; } },
@@ -109,7 +121,7 @@ GAME.LOC = {
     ]
   },
   kitchen: {
-    name: T('Kitchen', 'المطبخ'), bg: 'kitchen', house: 'elias', exits: [back('living'), { to: 'yard', x: 95, y: 52, label: T('Back door', 'الباب الخلفي') }],
+    name: T('Kitchen', 'المطبخ'), bg: 'kitchen', house: 'elias', exits: [back('hall'), { to: 'living', x: 6, y: 50, label: T('Living room', 'الصالة') }, { to: 'yard', x: 95, y: 52, label: T('Back door', 'الباب الخلفي') }],
     onEnter: s => { if (!s.quests.q_bread && s.f.metElias) { quest('q_bread', 'active'); return [{ n: T('The bread bin is empty. So is the fruit bowl. A man who lives alone, and has stopped noticing.', 'صندوق الخبز فاضي. وصحن الفواكه بعد. رجل عايش لحاله، ووقف ينتبه.') }]; } return null; },
     spots: [
       { x: 19, y: 25, label: T('Cupboard', 'الدولاب'), risk: s => eliasHome(s), run: s => GAME.SCRIPTS.cupboard(s) },
@@ -118,14 +130,14 @@ GAME.LOC = {
     ]
   },
   bath: {
-    name: T('Bathroom', 'الحمام'), bg: 'bath', house: 'elias', canWait: false, exits: [back('living')],
+    name: T('Bathroom', 'الحمام'), bg: 'bath', house: 'elias', canWait: false, exits: [back('hall')],
     spots: [
       { x: 25, y: 46, label: T('Take a shower', '{تروّش|تروّشي}'), run: s => GAME.SCRIPTS.shower(s) },
       { x: 10, y: 26, label: T('Mirror', 'المراية'), run: s => [{ n: s.mood <= 3 ? T('Someone tired looks back at you. You don\'t hold eye contact.', '{واحد تعبان يطالعك|وحدة تعبانة تطالعك}. ما {تطول|تطولين} النظرة.') : T('Someone looks back at you. They look a bit less tired than last week.', '{واحد يطالعك. شكله|وحدة تطالعك. شكلها} أقل تعب من الأسبوع اللي فات.') }] }
     ]
   },
   elias_bed: {
-    name: T('Elias\'s bedroom', 'غرفة إلياس'), bg: 'elias_bed', house: 'elias', private: true, exits: [back('living')],
+    name: T('Elias\'s bedroom', 'غرفة إلياس'), bg: 'elias_bed', house: 'elias', private: true, exits: [back('hall')],
     onEnter: s => GAME.SCRIPTS.enterPrivate(s),
     spots: [
       { x: 30, y: 52, label: T('Dresser drawer', 'درج التسريحة'), risk: s => eliasHome(s), run: s => GAME.SCRIPTS.drawer(s) },
@@ -133,7 +145,7 @@ GAME.LOC = {
     ]
   },
   your_room: {
-    name: T('Your room (Thomas\'s room)', 'غرفتك (غرفة توماس)'), bg: 'your_room', house: 'elias', canWait: false, exits: [back('living')],
+    name: T('Your room (Thomas\'s room)', 'غرفتك (غرفة توماس)'), bg: 'your_room', house: 'elias', canWait: false, exits: [back('hall')],
     spots: [
       { x: 80, y: 60, label: s => (s.slot === NIGHT ? T('Sleep', '{نام|نامي}') : T('Lie down', '{تمدد|تمددي}')), run: s => GAME.SCRIPTS.bed(s) },
       { x: 76, y: 80, label: T('Box under the bed', 'صندوق تحت السرير'), if: s => s.day >= 2, run: s => { s.f.sawBox = true; return [{ n: T('A shoebox of photographs. Thomas at every age, until about eighteen. Then nothing.', 'علبة جزمة مليانة صور. توماس بكل الأعمار، لين تقريباً ثمنطعش. وبعدها ولا شي.') }, { n: T('The last one: Thomas and Elias on the pier, not looking at each other.', 'آخر صورة: توماس وإلياس على الرصيف، كل واحد يطالع جهة.') }]; } },
@@ -146,7 +158,7 @@ GAME.LOC = {
   },
   yard: {
     name: T('The back yard', 'الحوش'), bg: 'yard', house: 'elias', charX: 52,
-    exits: [{ to: 'kitchen', x: 9, y: 50, label: T('Kitchen', 'المطبخ') }, { to: 'shed', x: 90, y: 52, label: T('The shed', 'المخزن') }, { to: 'living', x: 30, y: 86, label: T('Living room', 'الصالة') }],
+    exits: [{ to: 'kitchen', x: 9, y: 50, label: T('Kitchen', 'المطبخ') }, { to: 'shed', x: 90, y: 52, label: T('The shed', 'المخزن') }, { to: 'hall', x: 30, y: 86, label: T('Hallway', 'الممر') }],
     spots: [
       { x: 52, y: 30, label: T('The washing line', 'حبل الغسيل'), run: s => [{ n: T('Elias\'s shirts, two pairs of trousers, and a tea towel that says GREETINGS FROM SALTMERE. He has never been anywhere else.', 'قمصان إلياس، وبنطلونين، وفوطة مكتوب عليها «تحيات من سولتمير». وهو عمره ما راح مكان ثاني.') }] },
       { x: 66, y: 46, label: T('Look at the sea', '{طالع|طالعي} البحر'), run: s => onceToday('yardSea') ? (addMood(1), [{ n: T('Over the low wall, the whole bay. The Ada sits on the water like she\'s waiting for someone. You stay longer than you meant to.', 'ورا الجدار الواطي، الخليج كله. «آدا» على الموية كأنها تنتظر أحد. {وتقعد|وتقعدين} أطول من اللي {كنت ناوي|كنتي ناوية}.') }]) : [{ n: T('The sea, still there.', 'البحر، لسا مكانه.') }] }

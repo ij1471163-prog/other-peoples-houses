@@ -19,6 +19,7 @@ window.IMG_MANIFEST = {
   "florist": "img/bg/florist.jpg",
   "garage": "img/bg/garage.jpg",
   "grocery": "img/bg/grocery.jpg",
+  "hall": "img/bg/hall.jpg",
   "harbor": "img/bg/harbor.jpg",
   "harbor_night": "img/bg/harbor_night.jpg",
   "harbor_storm": "img/bg/harbor_storm.jpg",
@@ -72,6 +73,8 @@ window.IMG_MANIFEST = {
   },
   "elias": {
    "angry": "img/chars/elias-angry.webp",
+   "chess": "img/chars/elias-chess.webp",
+   "mend": "img/chars/elias-mend.webp",
    "neutral": "img/chars/elias-neutral.webp",
    "rest": "img/chars/elias-rest.webp",
    "sad": "img/chars/elias-sad.webp",
@@ -108,6 +111,7 @@ window.IMG_MANIFEST = {
   },
   "irene": {
    "angry": "img/chars/irene-angry.webp",
+   "eat": "img/chars/irene-eat.webp",
    "neutral": "img/chars/irene-neutral.webp",
    "sad": "img/chars/irene-sad.webp",
    "shock": "img/chars/irene-shock.webp",

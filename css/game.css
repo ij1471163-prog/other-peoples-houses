@@ -1102,3 +1102,7 @@ html[lang=ar] .sd-paper p{font-family:var(--f-ar);font-size:16px}
 /* a real storm picture: no extra darkening, lighter rain on top */
 #stage.storming.own-storm .bg{filter:none;animation:stSway 2.6s ease-in-out infinite alternate}
 #stage.storming.own-storm .scene::after{background:repeating-linear-gradient(105deg,transparent 0 9px,rgba(200,218,232,.16) 9px 10px,transparent 10px 23px);background-size:200px 200px}
+/* drawn activity poses that sit down: smaller than a standing person, and in a place they could really sit */
+.char:has(img[src*="elias-mend"]){height:74%}
+.char:has(img[src*="elias-chess"]){height:60%}
+.char:has(img[src*="irene-eat"]){height:46%;left:20%!important;bottom:15%}
