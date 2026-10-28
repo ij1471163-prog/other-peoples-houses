@@ -1133,13 +1133,7 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 .tl-bub.l::after{left:-12px;border-right-color:#fffdf6}
 .tl-bub.r::after{right:-12px;border-left-color:#fffdf6}
 .tl-bub.on{opacity:1;transform:scale(1)}
-.tl-walk{position:absolute;z-index:1;pointer-events:none;filter:brightness(.82) saturate(.8) blur(.4px);opacity:.92}
-.tl-walk img{height:100%;width:auto;display:block}
-.tl-walk.ltr{left:-12%;animation:tlL 16s linear forwards}
-.tl-walk.rtl{right:-12%;animation:tlR 16s linear forwards}
-.tl-walk.rtl img{transform:scaleX(-1)}
-.tl-walk img{animation:tlBob .55s ease-in-out infinite alternate}
-@keyframes tlL{to{left:108%}}
-@keyframes tlR{to{right:108%}}
-@keyframes tlBob{to{translate:0 -2%}}
+.tl-walk{position:absolute;z-index:1;pointer-events:none;filter:brightness(.9) saturate(.9)}
+.tl-frames{width:100%;height:100%;background-repeat:no-repeat;background-position:0 0}
+@keyframes tlStep{to{background-position:var(--end) 0}}
 @media (prefers-reduced-motion:reduce){.tl-bub{transition:none}}

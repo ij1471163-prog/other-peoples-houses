@@ -92,23 +92,32 @@
   }
 
   /* ---------- people passing by ---------- */
-  const WALK = { street: [0.14, 0.42], harbor: [0.585, 0.12], beach: [0.3, 0.2] };   /* where the path is (bottom of figure, % of stage height) and how tall */
+  const WALK = { street: [0.14, 0.42] };   /* where the path is (bottom of figure, % of stage height) and how tall */
   const NOWALK = ['keeper', 'nell', 'thomas', 'ada', 'henrik', 'victor'];
+  /* walk cycles: a strip of frames, drawn facing right, made from a short video of the character walking in place */
+  const SPRITE = { olivia: { n: 18, ar: 263 / 600, cyc: 1.5 } };
   let wTimer = 0;
-  function walker() {
+  function walker(first) {
     clearTimeout(wTimer);
     const s = S(); if (!s || RUN || REDUCED() || s.slot >= NIGHT || s.f.prologue || !WALK[s.loc]) return;
     wTimer = setTimeout(() => {
       const s2 = S(); if (RUN || s2.loc !== s.loc || document.querySelector('#stage .tl-walk') || document.querySelector('.sheet')) { walker(); return; }
-      const ids = Object.keys(GAME.CHAR).filter(id => { const c = GAME.CHAR[id]; if (!c.art || c.ghost || NOWALK.includes(id) || id === s2.host || here(s2, id)) return false; try { return PEOPLE.IMG.chars[id] && (c.where ? c.where(s2) : null) !== s2.loc; } catch (e) { return false; } });
+      const ids = Object.keys(SPRITE).filter(id => { const c = GAME.CHAR[id]; if (!c || id === s2.host || here(s2, id)) return false; try { return (c.where ? c.where(s2) : null) !== s2.loc; } catch (e) { return false; } });
       if (!ids.length) { walker(); return; }
-      const id = ids[Math.floor(Math.random() * ids.length)], [b, h] = WALK[s2.loc], ltr = Math.random() < 0.5;
-      const w = el('div', 'tl-walk ' + (ltr ? 'ltr' : 'rtl')); w.style.bottom = (b * 100) + '%'; w.style.height = (h * 100) + '%';
-      const im = PEOPLE.IMG.chars[id]; w.innerHTML = `<img src="${im.neutral || im.smile}" alt="">`;
-      const lay = $('stage').querySelector('.chars'); lay.parentNode.insertBefore(w, lay);
-      setTimeout(() => w.remove(), 16500); walker();
-    }, 9000 + Math.random() * 16000);
+      const id = ids[Math.floor(Math.random() * ids.length)], sp = SPRITE[id], [b, h] = WALK[s2.loc], ltr = Math.random() < 0.5;
+      const stage = $('stage'), H = stage.clientHeight * h, W = H * sp.ar, SW = stage.clientWidth;
+      const w = el('div', 'tl-walk'); w.style.cssText = `bottom:${b * 100}%;height:${H}px;width:${W}px;left:0`;
+      const f = el('div', 'tl-frames'); f.style.backgroundImage = `url(img/chars/${id}-walk.webp)`; f.style.backgroundSize = `${sp.n * 100}% 100%`;
+      f.style.setProperty('--end', (sp.n / (sp.n - 1) * 100) + '%'); f.style.animation = `tlStep ${sp.cyc}s steps(${sp.n}) infinite`; if (!ltr) f.style.transform = 'scaleX(-1)';
+      w.appendChild(f);
+      /* two steps per cycle, each about 0.42 of the body's height: the feet stay put on the ground */
+      const speed = (H * 0.84) / sp.cyc, from = ltr ? -W : SW, to = ltr ? SW : -W, dur = Math.abs(to - from) / speed;
+      const lay = stage.querySelector('.chars'); lay.parentNode.insertBefore(w, lay);
+      w.animate([{ transform: `translateX(${from}px)` }, { transform: `translateX(${to}px)` }], { duration: dur * 1000, easing: 'linear', fill: 'forwards' }).onfinish = () => w.remove();
+      walker();
+    }, first ? 2500 : 9000 + Math.random() * 16000);
   }
+  window.__walk = () => { clearTimeout(wTimer); wTimer = 0; walker(true); };
 
   const rs0 = renderStage;
   renderStage = function () {
