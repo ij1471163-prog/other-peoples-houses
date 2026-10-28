@@ -17,7 +17,7 @@
   };
   /* things to talk about (Chapter 1, Elias) */
   GAME.TOPICS.marco = [
-    { id: 'coffee', label: T('Order a coffee ($2)', '{تطلب|تطلبين} قهوة (٢$)'), if: s => !doneToday('coffee'), need: s => s.money >= 2, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { onceToday('coffee'); pay(2); addMood(1); return [{ c: 'marco', e: 'smile', t: pickOne([T('Espresso. Like my jokes: short, bitter, and nobody asked for it.', 'إسبريسو. مثل نكتي: قصير، مر، ومحد طلبه.'), T('On the house. No. Two dollars. I have a business to run into the ground.', 'على حسابي. لا. دولارين. عندي مشروع لازم أفلّسه.')]) }]; } },
+    { id: 'coffee', label: T('Order a coffee ($2)', '{تطلب|تطلبين} قهوة (٢$)'), if: s => !doneToday('coffee'), need: s => s.money >= 2, why: T('Not enough money.', 'ما معك فلوس كفاية.'), run: s => { onceToday('coffee'); pay(2); addMood(1); return [{ c: 'marco', e: 'coffee', t: pickOne([T('Espresso. Like my jokes: short, bitter, and nobody asked for it.', 'إسبريسو. مثل نكتي: قصير، مر، ومحد طلبه.'), T('On the house. No. Two dollars. I have a business to run into the ground.', 'على حسابي. لا. دولارين. عندي مشروع لازم أفلّسه.')]) }]; } },
     { id: 'joke', once: true, label: T('Ask how the comedy is going', '{تسأله|تسألينه} عن الكوميديا'), run: s => { addMood(1); return [
       { c: 'marco', e: 'smile', t: T('Perfect timing. New material. Why don\'t fish play basketball?', 'توقيت مثالي. عندي جديد. ليش السمك ما يلعب كرة سلة؟') },
       N_('You wait.', '{تنتظر|تنتظرين}.'),
