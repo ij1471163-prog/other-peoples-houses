@@ -14,17 +14,32 @@
     const n = st.frames, up = (st.drag || 'up') === 'up';
     const box = el('div', 'cp sc-wrap'), cv = el('canvas', 'sc-cv'), hint = el('div', 'sc-hint', tx(st.hint || T('Drag', '{اسحب|اسحبي}')));
     hint.insertAdjacentHTML('afterbegin', `<i class="sc-arrow ${up ? 'up' : 'right'}"></i>`);
-    box.append(cv, hint); $('stage').appendChild(box);
+    box.append(cv, el('i', 'sc-vig'), hint); $('stage').appendChild(box);
+    /* the camera leans in to the spot in the scene, then the moment takes over */
+    const scene = document.querySelector('#stage .scene');
+    if (st.zoom && scene && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      scene.style.transformOrigin = st.zoom.x + '% ' + st.zoom.y + '%'; scene.style.transition = 'transform .85s cubic-bezier(.5,0,.7,1), filter .85s';
+      requestAnimationFrame(() => { scene.style.transform = 'scale(2.6)'; scene.style.filter = 'blur(2px)'; });
+      setTimeout(() => box.classList.add('in'), 700);
+    } else box.classList.add('in');
+    const unzoom = () => { if (!scene || !st.zoom) return; scene.style.transition = 'transform .6s ease-out, filter .6s'; scene.style.transform = ''; scene.style.filter = ''; setTimeout(() => { scene.style.transition = ''; scene.style.transformOrigin = ''; }, 700); };
     const alt = el('button', 'opt main cp-alt', tx(T('Do it', '{سوها|سويها}'))); alt.type = 'button'; panel.appendChild(alt);
     const imgs = []; for (let i = 0; i < n; i++) { const im = new Image(); im.src = st.dir + String(i).padStart(2, '0') + '.' + (st.ext || 'jpg'); imgs.push(im); }
     const ctx = cv.getContext('2d');
-    const size = () => { const r = box.getBoundingClientRect(), k = Math.min(r.width / st.ratio, r.height * 0.86); cv.width = Math.round(k * st.ratio * devicePixelRatio); cv.height = Math.round(k * devicePixelRatio); cv.style.width = k * st.ratio + 'px'; cv.style.height = k + 'px'; draw(true); };
+    /* it fills the whole stage, like the scene itself (cover) */
+    const size = () => { const r = box.getBoundingClientRect(); cv.width = Math.round(r.width * devicePixelRatio); cv.height = Math.round(r.height * devicePixelRatio); draw(true); };
     let p = 0, last = -1, over = false;
     function draw(force) {
       const i = Math.max(0, Math.min(n - 1, Math.round(p * (n - 1))));
       if (i === last && !force) return; const im = imgs[i];
       if (!im.complete) { im.onload = () => draw(true); return; }
-      last = i; ctx.drawImage(im, 0, 0, cv.width, cv.height);
+      last = i; const W = cv.width, H = cv.height, iw = im.naturalWidth, ih = im.naturalHeight;
+      /* behind: the same frame, enlarged, blurred and dark, filling the screen */
+      const kc = Math.max(W / iw, H / ih), sw = W / kc, sh = H / kc;
+      ctx.filter = 'blur(' + Math.round(14 * devicePixelRatio) + 'px) brightness(.45)'; ctx.drawImage(im, (iw - sw) / 2, (ih - sh) / 2, sw, sh, 0, 0, W, H); ctx.filter = 'none';
+      /* in front: the whole frame, edge to edge, so nothing in it is cut */
+      const kf = Math.min(W / iw, H / ih), dw = iw * kf, dh = ih * kf, dy = (H - dh) * (st.anchorY == null ? 0.5 : st.anchorY);
+      ctx.drawImage(im, (W - dw) / 2, dy, dw, dh);
     }
     /* the clip's own sound, a little at a time, as you move */
     const snd = st.snd && on() ? new Audio('img/snd/' + st.snd + '.mp3') : null; let sT = 0, sAt = 0;
@@ -41,7 +56,7 @@
     function finish(skip) {
       if (over) return; over = true; drag = false; p = 1; draw(true);
       if (snd && !skip) { try { snd.currentTime = Math.max(0, snd.duration - 1.2); snd.play().catch(() => {}); } catch (e) { /* none */ } }
-      setTimeout(() => { alt.remove(); box.classList.add('out'); setTimeout(() => { box.remove(); if (snd) snd.pause(); }, 400); done(1); }, skip ? 50 : 1100);
+      setTimeout(() => { alt.remove(); box.classList.add('out'); unzoom(); setTimeout(() => { box.remove(); if (snd) snd.pause(); }, 400); done(1); }, skip ? 50 : 1100);
     }
     box.addEventListener('pointerdown', down); box.addEventListener('pointermove', move);
     box.addEventListener('pointerup', upEv); box.addEventListener('pointercancel', upEv);

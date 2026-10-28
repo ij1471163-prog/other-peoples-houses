@@ -1168,9 +1168,11 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 @media (prefers-reduced-motion:reduce){.ub-water,.ub-face,.ub-book{transition:none}.ub-cine.stare .ub-stare{animation:none}}
 
 /* scrub.js: moments you move with your finger */
-.sc-wrap{position:absolute;inset:0;z-index:30;background:rgba(4,6,9,.9);display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab;animation:scIn .4s ease}
+.sc-wrap{position:absolute;inset:0;z-index:30;background:#000;touch-action:none;cursor:grab;opacity:0;transition:opacity .35s}
+.sc-wrap.in{opacity:1}
 .sc-wrap.out{opacity:0;transition:opacity .4s}
-.sc-cv{display:block;border-radius:6px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+.sc-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sc-vig{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.5),transparent 18%,transparent 80%,rgba(0,0,0,.55)),radial-gradient(ellipse at 50% 55%,transparent 60%,rgba(0,0,0,.45))}
 .sc-hint{position:absolute;bottom:4%;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(0,0,0,.55);color:#f3e6c8;font-size:14px;transition:opacity .3s;pointer-events:none}
 .sc-hint.gone{opacity:0}
 .sc-arrow{width:12px;height:12px;border:solid #f3e6c8;border-width:2px 2px 0 0;animation:scNudge 1s ease-in-out infinite}

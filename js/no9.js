@@ -37,7 +37,7 @@
         N1('The bottom step rocks under your foot. It has been rocking for a long time; the moss around it is broken in a neat line, like a lid.', 'العتبة اللي تحت تتحرك تحت رجلك. صار لها زمان تتحرك. والطحلب حواليها مقطوع بخط مرتب، كأنه غطا.'),
         { menu: [
           { t: T('Lift it', '{ارفعها|ارفعيها}'), cls: 'main', then: [
-            { mini: 'scrub', dir: 'img/fx/step/', frames: 44, ext: 'jpg', drag: 'up', ratio: 900 / 290, snd: 'step-lift', hint: T('Drag up to lift the stone', '{اسحب|اسحبي} لفوق عشان {ترفع|ترفعين} الحجر') },
+            { mini: 'scrub', dir: 'img/fx/step/', frames: 44, ext: 'jpg', drag: 'up', zoom: { x: 30, y: 82 }, anchorY: 0.5, snd: 'step-lift', hint: T('Drag up to lift the stone', '{اسحب|اسحبي} لفوق عشان {ترفع|ترفعين} الحجر') },
             N1('Underneath, in a hollow somebody dug on purpose: a biscuit tin, rusted shut at one corner. It takes both thumbs.', 'تحتها، في حفرة أحد حفرها بقصد: علبة بسكوت، صدية ومقفلة من زاوية. تحتاج الإبهامين.'),
             N1('A glass marble. A bus ticket, Saltmere to the junction, 1991. A photo-booth strip: two boys, maybe seventeen, pulling faces, then laughing, then, in the last square, not laughing.', 'بلية زجاج. تذكرة باص، من سولتمير للمحطة، ١٩٩١. شريط صور من الكشك: ولدين، يمكن عمرهم سبعطعش، يسوون وجيه، وبعدين يضحكون، وبعدين، في آخر مربع، ما يضحكون.'),
             N1('And a note, on paper torn from a school book.', 'وورقة، مقطوعة من دفتر مدرسة.'),
