@@ -21,6 +21,7 @@
   /* on her afternoon off she sits on the harbor bench instead of the clinic */
   { const w = GAME.CHAR.irene.where; GAME.CHAR.irene.where = s => (offNow(s) && !s.f.prologue ? 'harbor' : w(s)); }
   if (GAME.CHAR.irene.life) GAME.CHAR.irene.life.harbor = 'eat';
+  { const d0 = GAME.CHAR.irene.doing; GAME.CHAR.irene.doing = s => (s.loc === 'harbor' ? T('Dr. Irene is sitting on the pier with a sandwich. Actually sitting.', 'الدكتورة إيرين جالسة على الرصيف ومعها سندويشة. جالسة فعلاً.') : d0(s)); }
 
   /* 1. asleep at the desk */
   GAME.EVENTS.push({ id: 'ireneAsleep', once: true,

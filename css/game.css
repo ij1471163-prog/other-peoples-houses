@@ -1105,4 +1105,4 @@ html[lang=ar] .sd-paper p{font-family:var(--f-ar);font-size:16px}
 /* drawn activity poses that sit down: smaller than a standing person, and in a place they could really sit */
 .char:has(img[src*="elias-mend"]){height:74%}
 .char:has(img[src*="elias-chess"]){height:60%}
-.char:has(img[src*="irene-eat"]){height:46%;left:20%!important;bottom:15%}
+.char:has(img[src*="irene-eat"]){height:42%;left:47%!important;bottom:1%}
