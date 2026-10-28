@@ -1138,3 +1138,8 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 .tl-frames{width:100%;height:100%;background-repeat:no-repeat;background-position:0 0}
 @keyframes tlStep{to{background-position:var(--end) 0}}
 @media (prefers-reduced-motion:reduce){.tl-bub{transition:none}}
+
+/* moments.js: Ingrid singing on the café stage */
+.sing-cine{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0}
+.sing-frames{position:absolute;background:url(../img/fx/ingrid-sing.webp) no-repeat 0 0}
+.sing-heads{position:absolute;display:block}
