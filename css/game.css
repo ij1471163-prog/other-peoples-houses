@@ -1166,3 +1166,15 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 @keyframes ubShim{to{opacity:.4;transform:translateX(6%)}}
 @keyframes ubJolt{50%{transform:translate(2%,-3%) scale(1.08)}}
 @media (prefers-reduced-motion:reduce){.ub-water,.ub-face,.ub-book{transition:none}.ub-cine.stare .ub-stare{animation:none}}
+
+/* scrub.js: moments you move with your finger */
+.sc-wrap{position:absolute;inset:0;z-index:30;background:rgba(4,6,9,.9);display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab;animation:scIn .4s ease}
+.sc-wrap.out{opacity:0;transition:opacity .4s}
+.sc-cv{display:block;border-radius:6px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+.sc-hint{position:absolute;bottom:4%;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(0,0,0,.55);color:#f3e6c8;font-size:14px;transition:opacity .3s;pointer-events:none}
+.sc-hint.gone{opacity:0}
+.sc-arrow{width:12px;height:12px;border:solid #f3e6c8;border-width:2px 2px 0 0;animation:scNudge 1s ease-in-out infinite}
+.sc-arrow.up{transform:rotate(-45deg)}.sc-arrow.right{transform:rotate(45deg)}
+@keyframes scNudge{50%{translate:0 -4px}}
+@keyframes scIn{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.sc-arrow{animation:none}}
