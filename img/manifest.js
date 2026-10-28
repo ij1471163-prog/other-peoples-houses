@@ -45,6 +45,7 @@ window.IMG_MANIFEST = {
   "marg_kitchen": "img/bg/marg_kitchen.jpg",
   "marg_living": "img/bg/marg_living.jpg",
   "motel": "img/bg/motel.jpg",
+  "no9": "img/bg/no9.jpg",
   "police": "img/bg/police.jpg",
   "sami_attic": "img/bg/sami_attic.jpg",
   "shed": "img/bg/shed.jpg",

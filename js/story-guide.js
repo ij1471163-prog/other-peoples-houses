@@ -67,6 +67,7 @@
   function soFar(s) {
     const out = [];
     out.push(T('Your father, Jonah, died last year. You came to Saltmere with a postcard he never posted: "V. — I\'m sorry. — J."', 'أبوك جونا مات السنة اللي فاتت. {وجيت|وجيتي} سولتمير ومعك كرت ما أرسله: «ف. — آسف. — ج.»'));
+    if (s.f.heardName && !s.f.knowJonah) out.push(T('The first night, Elias said your father\'s name in the dark. He hasn\'t mentioned it since.', 'أول ليلة، إلياس قال اسم أبوك في الظلام. وما جاب طاريه من بعدها.'));
     if (s.f.knowJonah) out.push(T('Elias knew him. Jonah grew up at No. 9, Fishermen\'s Row, and learned the nets from Elias.', 'إلياس يعرفه. جونا تربّى في رقم ٩ بشارع الصيادين، وتعلّم الشباك عند إلياس.'));
     if (s.f.knowV) out.push(T('Gregor says "V." was Victor, from No. 3, before he became Mr Grand.', 'غريغور يقول إن «ف.» هو فيكتور، من رقم ٣، قبل لا يصير «مستر غراند».'));
     if ((s.f.jm || 0) >= 1) out.push(T('Mum found a photo in Dad\'s things: two boys on Gregor\'s wall, "J. + V., 1989".', 'أمي لقت صورة في أغراض أبوي: ولدين على سور غريغور، «ج. + ف.، ١٩٨٩».'));

@@ -50,7 +50,7 @@
   GAME.MINI.paper = function (panel, done, st) {
     panel.innerHTML = '';
     const box = el('div', 'cp sd-paper-wrap'); box.innerHTML = `<div class="sd-paper ${st.kind || 'letter'}"><p></p><em></em></div>`;
-    box.querySelector('p').textContent = tx(st.body); if (st.sign) box.querySelector('em').textContent = tx(st.sign);
+    box.querySelector('p').textContent = tx(st.body); if (st.sign) box.querySelector('em').textContent = tx(st.sign); if (st.stamp) box.querySelector('.sd-paper').dataset.stamp = st.stamp;
     $('stage').appendChild(box);
     const alt = el('button', 'opt main cp-alt', tx(T('Fold it', '{اطوها|اطويها}'))); alt.type = 'button'; panel.appendChild(alt);
     let over = false; const fin = ev => { if (ev) ev.stopPropagation(); if (over) return; over = true; alt.remove(); box.classList.add('out'); setTimeout(() => box.remove(), 300); done(1); };
