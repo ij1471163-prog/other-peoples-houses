@@ -58,11 +58,11 @@
     /* Stella's chalkboard: what each flower means */
     q('.fl-board').innerHTML = KEYS.map(k => `<div><i>${FL[k].i}</i> ${tx(FL[k].m)}</div>`).join('');
     KEYS.forEach(k => { const b = el('button', 'fl-bk'); b.type = 'button'; b.dataset.k = k; b.innerHTML = `<i>${FL[k].i}</i><span>${tx(FL[k].t)}</span>`; q('.fl-buckets').appendChild(b); });
-    const line = ASK.filter(a => IMG(a.id)).sort(() => Math.random() - 0.5).slice(0, 3);
+    let line = ASK.filter(a => IMG(a.id)).sort(() => Math.random() - 0.5).slice(0, 3); if (line.length < 3) line = ASK.slice().sort(() => Math.random() - 0.5).slice(0, 3);
     let n = 0, stems = [], good = 0, busy = false;
     const show = () => {
       const a = line[n]; stems = []; draw(); busy = false;
-      q('.fl-face').innerHTML = `<img src="${IMG(a.id)}" alt="">`; q('.fl-say b').textContent = tx(GAME.CHAR[a.id].short || GAME.CHAR[a.id].name); q('.fl-say p').textContent = '“' + tx(a.say) + '”';
+      q('.fl-face').innerHTML = IMG(a.id) ? `<img src="${IMG(a.id)}" alt="">` : '<b class="fl-noface">🙂</b>'; q('.fl-say b').textContent = tx(GAME.CHAR[a.id].short || GAME.CHAR[a.id].name); q('.fl-say p').textContent = '“' + tx(a.say) + '”';
       q('.fl-cust').classList.remove('in'); void q('.fl-cust').offsetWidth; q('.fl-cust').classList.add('in');
       f.q('.g-count').textContent = tx(T(`Customer ${n + 1} / ${line.length}`, `الزبون ${n + 1} / ${line.length}`)); f.box.dataset.need = a.need.join(','); f.box.dataset.bad = a.bad.join(',');
     };
