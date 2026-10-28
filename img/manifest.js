@@ -149,6 +149,7 @@ window.IMG_MANIFEST = {
    "angry": "img/chars/marco-angry.webp",
    "neutral": "img/chars/marco-neutral.webp",
    "sad": "img/chars/marco-sad.webp",
+   "serve": "img/chars/marco-serve.webp",
    "shock": "img/chars/marco-shock.webp",
    "smile": "img/chars/marco-smile.webp"
   },
@@ -185,7 +186,8 @@ window.IMG_MANIFEST = {
    "neutral": "img/chars/olivia-neutral.webp",
    "sad": "img/chars/olivia-sad.webp",
    "shock": "img/chars/olivia-shock.webp",
-   "smile": "img/chars/olivia-smile.webp"
+   "smile": "img/chars/olivia-smile.webp",
+   "walk": "img/chars/olivia-walk.webp"
   },
   "rex": {
    "angry": "img/chars/rex-angry.webp",
