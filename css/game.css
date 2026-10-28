@@ -1112,3 +1112,16 @@ html[lang=ar] .sd-paper p{font-family:var(--f-ar);font-size:16px}
 .cp-fishing .cp-area.fs-sea.has3d{background:#cfe3e6}
 .fs-sea.has3d .fs-sky,.fs-sea.has3d .fs-waves{display:none}
 .fs-sea.has3d .fs-float{opacity:0}
+/* jonah.js: the photo from Dad's box */
+.jn-photo-wrap{display:flex;align-items:center;justify-content:center;background:rgba(6,10,14,.6);cursor:pointer}
+.jn-photo{width:min(360px,62%);padding:12px 12px 8px;background:#f6f1e4;box-shadow:0 14px 34px rgba(0,0,0,.6);transform:rotate(-3deg);animation:thIn .5s cubic-bezier(.2,1.2,.4,1)}
+.jn-pic{position:relative;aspect-ratio:4/3;background-size:cover;background-position:35% 60%;filter:sepia(.85) contrast(1.1) brightness(.95) blur(.4px)}
+.jn-pic:before{content:"";position:absolute;left:0;right:0;bottom:0;height:24%;z-index:1;background:repeating-linear-gradient(90deg,#8a7a62 0 26px,#6e604c 26px 28px),#8a7a62;background-size:auto;box-shadow:inset 0 3px 0 #a99a80,inset 0 -2px 0 #4a4034;-webkit-mask-image:linear-gradient(180deg,#000,#000);}
+.jn-pic:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 45%,rgba(60,40,20,.55))}
+.jn-boy{position:absolute;z-index:2;bottom:22%;width:4.5%;height:13%;background:#2a2018;border-radius:45% 45% 20% 20%}
+.jn-boy:before{content:"";position:absolute;left:10%;top:-38%;width:80%;aspect-ratio:1;border-radius:50%;background:#2a2018}
+.jn-boy.a{left:40%}.jn-boy.b{left:47%;height:14.5%}
+.jn-boy:after{content:"";position:absolute;left:20%;bottom:-55%;width:22%;height:60%;background:#2a2018;border-radius:3px;box-shadow:12px 0 0 #2a2018}
+.jn-photo p{margin:8px 2px 0;font:15px/1.3 "Comic Sans MS","Segoe Print",cursive;color:#3a3226;text-align:center}
+html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
+.jn-photo-wrap.out .jn-photo{transform:scale(.5);opacity:0;transition:all .3s ease-in}

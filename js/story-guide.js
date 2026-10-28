@@ -69,6 +69,11 @@
     out.push(T('Your father, Jonah, died last year. You came to Saltmere with a postcard he never posted: "V. — I\'m sorry. — J."', 'أبوك جونا مات السنة اللي فاتت. {وجيت|وجيتي} سولتمير ومعك كرت ما أرسله: «ف. — آسف. — ج.»'));
     if (s.f.knowJonah) out.push(T('Elias knew him. Jonah grew up at No. 9, Fishermen\'s Row, and learned the nets from Elias.', 'إلياس يعرفه. جونا تربّى في رقم ٩ بشارع الصيادين، وتعلّم الشباك عند إلياس.'));
     if (s.f.knowV) out.push(T('Gregor says "V." was Victor, from No. 3, before he became Mr Grand.', 'غريغور يقول إن «ف.» هو فيكتور، من رقم ٣، قبل لا يصير «مستر غراند».'));
+    if ((s.f.jm || 0) >= 1) out.push(T('Mum found a photo in Dad\'s things: two boys on Gregor\'s wall, "J. + V., 1989".', 'أمي لقت صورة في أغراض أبوي: ولدين على سور غريغور، «ج. + ف.، ١٩٨٩».'));
+    if (s.f.jTicket) out.push(T('Elias told you: Victor sold his father\'s engine and took the beating so Dad could catch the train.', 'إلياس قال لك: فيكتور باع مكينة أبوه وأكل الضرب عشان أبوي يلحق القطار.'));
+    if ((s.f.jm || 0) >= 2) out.push(T('The money never went out to "V.". For 25 years it came in, from Saltmere Grand Holdings.', 'الفلوس عمرها ما طلعت لـ«ف.». خمسة وعشرين سنة كانت تدخل، من سولتمير غراند القابضة.'));
+    if ((s.f.jm || 0) >= 3) out.push(T('Dad\'s unsent letter: he never went in because he was ashamed he never said thank you.', 'رسالة أبوي اللي ما انرسلت: ما دخل أبد لأنه مستحي إنه ما قال شكراً.'));
+    if (s.f.jCall) out.push(T('You called Mum and told her about Saltmere.', '{اتصلت|اتصلتي} على أمي {وقلت|وقلتي} لها عن سولتمير.'));
     if (s.f.vJonah) out.push(T('Victor told you the rest: the friendship, the money, and the claim he signed.', 'فيكتور قال لك الباقي: الصداقة، والفلوس، والمطالبة اللي وقّعها.'));
     else if (!s.f.knowV) out.push(T('Still unknown: who "V." is.', 'لسا ما تعرف: مين «ف.».'));
     if (s.f.calledMother) out.push(T('You called your mother.', '{اتصلت|اتصلتي} بأمك.'));
