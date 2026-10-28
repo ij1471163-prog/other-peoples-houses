@@ -92,6 +92,8 @@
     return out;
   }
 
+  /* Elias's chapter over before the hunt was: the task and the notes leave quietly (his house is closed) */
+  GAME.EVENTS.unshift({ id: 'huntTidy', when: s => { if (s && s.done && s.done.elias && s.quests && s.quests.q_hunt === 'active') { delete s.quests.q_hunt; if (has('thnote')) take('thnote', 99); } return false; } });
   const push = (loc, spot) => { if (GAME.LOC[loc]) GAME.LOC[loc].spots.push(spot); };
   /* the first note: in the desk drawer of the room you sleep in */
   push('your_room', { x: 40, y: 62, label: T('The desk drawer sticks', 'درج المكتب يعلق'), if: s => ch1(s) && s.day >= 2 && !step(s), run: s => {

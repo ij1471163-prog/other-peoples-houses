@@ -29,7 +29,7 @@
   const got = s => s.f.bottlesGot || (s.f.gotBottle ? 1 : 0);
   const read = s => s.f.notesRead || (s.f.bottleRead ? 1 : 0);
   /* is the next bottle ready to be found? */
-  const ready = s => { const g = got(s); if (g === 0) return s.day >= 2; if (!ch1(s)) return false;
+  const ready = s => { const g = got(s); if (!ch1(s)) return false; if (g === 0) return s.day >= 2;
     return g === 1 ? !!s.f.nellSeen : g === 2 ? !!s.f.nellPage : false; };
   GAME.bottleDue = (s, lv) => {
     const g = got(s);
@@ -39,7 +39,9 @@
   GAME.onBottle = s => { s.f.bottlesGot = got(s) + 1; s.f.gotBottle = true; s.f.bottleDueDay = null; };
   /* note when the next one became due, so the sea can bring it in if you never fish */
   const clock = s => { if (s && ch1(s) && got(s) >= 1 && s.f.bottleDueDay == null && GAME.bottleDue(s, 1) > 0) s.f.bottleDueDay = s.day; return false; };
-  GAME.EVENTS.unshift({ id: 'bottleClock', when: clock });   /* never fires; it only notes the day */
+  GAME.EVENTS.unshift({ id: 'bottleClock', when: clock });
+  /* Elias's chapter over: a bottle you never opened can't be read in his house any more, so it goes */
+  GAME.EVENTS.unshift({ id: 'bottleTidy', when: s => { if (s && s.done && s.done.elias && has('bottle')) take('bottle', 99); return false; } });   /* never fires; it only notes the day */
 
   const NOTES = [
     [N1('The cork comes out with a sigh. Inside, rolled tight, a page from a child\'s exercise book.', 'الفلّينة تطلع مع تنهيدة. داخلها، ملفوفة بقوة، ورقة من دفتر مدرسة.'),
