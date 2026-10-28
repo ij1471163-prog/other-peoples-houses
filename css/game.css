@@ -1125,3 +1125,21 @@ html[lang=ar] .sd-paper p{font-family:var(--f-ar);font-size:16px}
 .jn-photo p{margin:8px 2px 0;font:15px/1.3 "Comic Sans MS","Segoe Print",cursive;color:#3a3226;text-align:center}
 html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 .jn-photo-wrap.out .jn-photo{transform:scale(.5);opacity:0;transition:all .3s ease-in}
+
+/* the living town: people talking to each other, people passing by */
+.tl-bub{position:absolute;z-index:6;opacity:0;transform:scale(.85);max-width:min(36%,250px);padding:7px 11px;border-radius:14px;background:#fffdf6;color:#2a2622;font-size:clamp(12px,1.9vw,15px);line-height:1.35;box-shadow:0 3px 10px rgba(0,0,0,.35);pointer-events:none;transition:opacity .35s,transform .35s;text-align:start}
+.tl-bub.l{transform-origin:0 50%}.tl-bub.r{transform-origin:100% 50%}
+.tl-bub::after{content:"";position:absolute;top:16px;border:7px solid transparent}
+.tl-bub.l::after{left:-12px;border-right-color:#fffdf6}
+.tl-bub.r::after{right:-12px;border-left-color:#fffdf6}
+.tl-bub.on{opacity:1;transform:scale(1)}
+.tl-walk{position:absolute;z-index:1;pointer-events:none;filter:brightness(.82) saturate(.8) blur(.4px);opacity:.92}
+.tl-walk img{height:100%;width:auto;display:block}
+.tl-walk.ltr{left:-12%;animation:tlL 16s linear forwards}
+.tl-walk.rtl{right:-12%;animation:tlR 16s linear forwards}
+.tl-walk.rtl img{transform:scaleX(-1)}
+.tl-walk img{animation:tlBob .55s ease-in-out infinite alternate}
+@keyframes tlL{to{left:108%}}
+@keyframes tlR{to{right:108%}}
+@keyframes tlBob{to{translate:0 -2%}}
+@media (prefers-reduced-motion:reduce){.tl-bub{transition:none}}
