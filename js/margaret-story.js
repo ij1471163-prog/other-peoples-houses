@@ -116,8 +116,9 @@
       const big = (s.f.mcLeft || 0) > 0;
       return [{ show: [{ id: 'margaret', e: 'angry' }] },
         N1(big ? 'You hear it from the stairs: a plate, then another. When you reach the kitchen she has her back to the wall and her hands over her ears.' : 'You laugh at something on your phone, at dinner. Just a laugh. Margaret puts her fork down.', big ? '{تسمعها|تسمعينها} من الدرج: صحن، وبعدين صحن ثاني. ولما توصل المطبخ تلقاها ظهرها على الجدار ويدينها على أذونها.' : '{تضحك|تضحكين} على شي في جوالك، على العشا. بس ضحكة. مارغريت تحط الشوكة.'),
-        M('shock', big ? 'Don\'t. Don\'t come near me. You don\'t get to walk out and walk back in. HE didn\'t get to!' : 'Don\'t laugh like that. Don\'t you DARE laugh like that. That\'s HIS laugh.', big ? 'لا. لا {تقرب|تقربين} مني. ما يحق لك {تطلع|تطلعين} {وترجع|وترجعين}. هو ما رجع!' : 'لا {تضحك|تضحكين} كذا. إياك {تضحك|تضحكين} كذا. هذي ضحكته هو.'),
-        M('angry', 'You\'re not him. You\'re in his house and his chair and you\'re NOT him!', '{أنت مو هو|أنتِ مو هو}. {أنت|أنتِ} في بيته وعلى كرسيه {وأنت|وأنتِ} مو هو!'),
+        M('scream', big ? 'Don\'t. Don\'t come near me. You don\'t get to walk out and walk back in. HE didn\'t get to!' : 'Don\'t laugh like that. Don\'t you DARE laugh like that. That\'s HIS laugh.', big ? 'لا. لا {تقرب|تقربين} مني. ما يحق لك {تطلع|تطلعين} {وترجع|وترجعين}. هو ما رجع!' : 'لا {تضحك|تضحكين} كذا. إياك {تضحك|تضحكين} كذا. هذي ضحكته هو.'),
+        M('cry', 'You\'re not him. You\'re in his house and his chair and you\'re NOT him!', '{أنت مو هو|أنتِ مو هو}. {أنت|أنتِ} في بيته وعلى كرسيه {وأنت|وأنتِ} مو هو!'),
+        { show: [{ id: 'margaret', e: 'hide' }] },
         N1('She runs upstairs. A door slams. A key turns. Then, through the floor, the sound of someone trying very hard not to make a sound.', 'تركض فوق. باب يتصفق. مفتاح يلف. وبعدين، من الأرض، صوت أحد يحاول بكل قوته ما يطلع صوت.'),
         { show: [] },
         { menu: [
