@@ -56,7 +56,8 @@
     function finish(skip) {
       if (over) return; over = true; drag = false; p = 1; draw(true);
       if (snd && !skip) { try { snd.currentTime = Math.max(0, snd.duration - 1.2); snd.play().catch(() => {}); } catch (e) { /* none */ } }
-      setTimeout(() => { alt.remove(); box.classList.add('out'); unzoom(); setTimeout(() => { box.remove(); if (snd) snd.pause(); }, 400); done(1); }, skip ? 50 : 1100);
+      const close = () => { alt.remove(); box.classList.add('out'); unzoom(); setTimeout(() => { box.remove(); if (snd) snd.pause(); }, 400); done(1); };
+      if (skip) close(); else setTimeout(close, 1100);   /* the skip button finishes at once (nothing waits on a timer) */
     }
     box.addEventListener('pointerdown', down); box.addEventListener('pointermove', move);
     box.addEventListener('pointerup', upEv); box.addEventListener('pointercancel', upEv);
