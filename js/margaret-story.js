@@ -23,6 +23,9 @@
   const M = (e, en, ar) => ({ c: 'margaret', e, t: T(en, ar) });
   const N1 = (en, ar) => ({ n: T(en, ar) });
   const inM = s => s.host === 'margaret';
+  const on = () => typeof AUDIO !== 'undefined' && AUDIO.on;
+  const vol = k => { const s = (typeof AUDIO !== 'undefined' && AUDIO.settings) || {}; return Math.max(0, Math.min(1, (s.master || 0.8) * (s.sfx || 0.7) * k)); };
+  const snd = (name, k = 1) => st => { if (on()) { try { const a = new Audio('img/snd/' + name + '.mp3'); a.volume = vol(k); a.play().catch(() => {}); } catch (e) { /* none */ } } return null; };
   const dM = s => s.day - (s.f.margDay || 0);
   const home = s => inM(s) && houseOf(s.loc) === 'margaret';
   const tense = s => s.f.mt || 0;                   /* 0 calm … 4 at breaking point */
@@ -116,10 +119,12 @@
       const big = (s.f.mcLeft || 0) > 0;
       return [{ show: [{ id: 'margaret', e: 'angry' }] },
         N1(big ? 'You hear it from the stairs: a plate, then another. When you reach the kitchen she has her back to the wall and her hands over her ears.' : 'You laugh at something on your phone, at dinner. Just a laugh. Margaret puts her fork down.', big ? '{تسمعها|تسمعينها} من الدرج: صحن، وبعدين صحن ثاني. ولما توصل المطبخ تلقاها ظهرها على الجدار ويدينها على أذونها.' : '{تضحك|تضحكين} على شي في جوالك، على العشا. بس ضحكة. مارغريت تحط الشوكة.'),
+        snd('marg-scream', 0.9),
         M('scream', big ? 'Don\'t. Don\'t come near me. You don\'t get to walk out and walk back in. HE didn\'t get to!' : 'Don\'t laugh like that. Don\'t you DARE laugh like that. That\'s HIS laugh.', big ? 'لا. لا {تقرب|تقربين} مني. ما يحق لك {تطلع|تطلعين} {وترجع|وترجعين}. هو ما رجع!' : 'لا {تضحك|تضحكين} كذا. إياك {تضحك|تضحكين} كذا. هذي ضحكته هو.'),
         M('cry', 'You\'re not him. You\'re in his house and his chair and you\'re NOT him!', '{أنت مو هو|أنتِ مو هو}. {أنت|أنتِ} في بيته وعلى كرسيه {وأنت|وأنتِ} مو هو!'),
         { show: [{ id: 'margaret', e: 'hide' }] },
         N1('She runs upstairs. A door slams. A key turns. Then, through the floor, the sound of someone trying very hard not to make a sound.', 'تركض فوق. باب يتصفق. مفتاح يلف. وبعدين، من الأرض، صوت أحد يحاول بكل قوته ما يطلع صوت.'),
+        snd('marg-sob', 0.6),
         { show: [] },
         { menu: [
           { t: T('Sit on the floor outside her door, and stay', '{اجلس|اجلسي} على الأرض قدام بابها، {واقعد|واقعدي}'), cls: 'main', then: [
@@ -131,7 +136,7 @@
             st => { st.f.mcLeft = (st.f.mcLeft || 0) + 1; tenseUp(st, 2); addMood(-1); return null; }] }
         ] }];
     },
-    sorry: s => [{ show: [{ id: 'margaret', e: 'sad' }] },
+    sorry: s => [{ show: [{ id: 'margaret', e: 'sad' }] }, snd('marg-sob', 0.35),
       N1('A knock. Margaret, at your door, eyes red, holding a tray: tea, toast, a boiled egg in a cup with a knitted hat on it.', 'طق. مارغريت، عند بابك، عيونها حمرا، ماسكة صينية: شاي، وتوست، وبيضة مسلوقة في كوب عليها طاقية صوف.'),
       M('cry', 'I\'m sorry. I\'m so sorry. That wasn\'t you. None of that was you.', 'آسفة. آسفة مرة. ما كان أنت. ولا شي منه كان أنت.'),
       M('worry', 'If you want to go, I\'ll understand. I\'ll help you carry your things. I just didn\'t want you to go hungry.', 'إذا {تبي تروح|تبين تروحين}، بفهم. بساعدك {تشيل|تشيلين} أغراضك. بس ما بغيتك {تروح جوعان|تروحين جوعانة}.'),
