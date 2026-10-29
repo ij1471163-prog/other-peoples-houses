@@ -24,6 +24,11 @@
   const C = (c, e, en, ar) => ({ c, e, t: T(en, ar) });
   const N1 = (en, ar) => ({ n: T(en, ar) });
   const inM = s => s.host === 'margaret';
+  const on = () => typeof AUDIO !== 'undefined' && AUDIO.on;
+  const vol = k => { const s = (typeof AUDIO !== 'undefined' && AUDIO.settings) || {}; return Math.max(0, Math.min(1, (s.master || 0.8) * (s.sfx || 0.7) * k)); };
+  const snd = (name, k = 1) => st => { if (on()) { try { const a = new Audio('img/snd/' + name + '.mp3'); a.volume = vol(k); a.play().catch(() => {}); } catch (e) { /* none */ } } return null; };
+  let ac = null;
+  const beep = st => { if (!on()) return null; try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = 1000; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12 * vol(1), t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35); o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 0.4); } catch (e) { /* none */ } return null; };
   const dM = s => s.day - (s.f.margDay || 0);
   const home = s => inM(s) && houseOf(s.loc) === 'margaret';
   const kind = (s, k) => { if (!s.f['mdK_' + k]) { s.f['mdK_' + k] = true; addTrust('margaret', 1); } };
@@ -46,7 +51,7 @@
 
   /* ---------- 1. the quiet horror, one a day at most ---------- */
   const H = [
-    { id: 'mirror', when: s => dM(s) >= 1 && s.slot === 0 && (s.loc === 'marg_guest' || s.loc === 'marg_bath'), run: s => [
+    { id: 'mirror', when: s => dM(s) >= 1 && s.slot === 0 && (s.loc === 'marg_guest' || s.loc === 'marg_bath'), run: s => [snd('creak3', 0.4),
       N1('You wash your face and look up. In the mirror your hair is parted on the left, combed flat, neat as a school photo.', '{تغسل|تغسلين} وجهك {وترفع|وترفعين} راسك. في المراية شعرك مفروق على اليسار، ممشط ومرتب، مثل صورة مدرسة.'),
       N1('You have never parted your hair on the left in your life. The boy over the fireplace does.', 'عمرك ما فرقت شعرك على اليسار. الولد اللي فوق المدفأة يفرقه كذا.'),
       N1('On the edge of the sink: a comb you have never seen, with one grey hair in it, and one of yours.', 'على طرف المغسلة: مشط عمرك ما {شفته|شفتيه}، فيه شعرة رمادية وحدة، وشعرة منك.'),
@@ -65,12 +70,12 @@
           st => { st.f.mdAlbum = true; return null; }] },
         { t: T('Close it', '{سكّره|سكّريه}'), then: [N1('You close it. Later the album is gone, and the sofa cushion has been plumped as if no one ever sat there.', '{تسكّره|تسكّرينه}. وبعدين الألبوم يختفي، ومخدة الكنبة متعدلة كأن محد جلس عليها.')] }
       ] }] },
-    { id: 'voice1', when: s => dM(s) >= 1 && s.slot === NIGHT && home(s), run: s => [
+    { id: 'voice1', when: s => dM(s) >= 1 && s.slot === NIGHT && home(s), run: s => [beep,
       N1('Late. Through the wall: the beep of a phone, and then a boy\'s voice, tinny, cheerful. "Hiya, it\'s Dan, I can\'t get to the phone, leave a message, or don\'t, I\'m not your boss."', 'متأخر. من ورا الجدار: صوت تيت جوال، وبعدين صوت ولد، رفيع ومبسوط. «هلا، هذا دان، ما أقدر أرد، اترك رسالة، أو لا، مو أنا مديرك.»'),
       N1('Beep. A pause. Then again from the start. Then again. You count eleven times before you fall asleep.', 'تيت. سكتة. وبعدين مرة ثانية من البداية. ومرة ثانية. {تعد|تعدين} إحدعش مرة قبل لا {تنام|تنامين}.'),
       st => { st.f.mdVoice = st.day; return null; }] },
     { id: 'voice2', when: s => !!s.f.mdVoice && s.day - s.f.mdVoice >= 2 && s.slot === NIGHT && home(s), run: s => [
-      N1('The beep again, through the wall. You wait for the boy\'s voice.', 'التيت مرة ثانية، من ورا الجدار. {تنتظر|تنتظرين} صوت الولد.'),
+      beep, N1('The beep again, through the wall. You wait for the boy\'s voice.', 'التيت مرة ثانية، من ورا الجدار. {تنتظر|تنتظرين} صوت الولد.'),
       N1('"...yeah, I\'m fine, I\'m home, don\'t worry."', '«...إيه، أنا بخير، أنا في البيت، لا {تشيل|تشيلين} هم.»'),
       N1('It\'s your voice. Something you said on the phone in the kitchen, days ago. Recorded. Cut so it starts in the middle. Beep. Again. "...I\'m fine, I\'m home."', 'هذا صوتك. شي {قلته|قلتيه} في التلفون في المطبخ، قبل أيام. متسجل. ومقصوص عشان يبدأ من النص. تيت. مرة ثانية. «...أنا بخير، أنا في البيت.»'),
       { menu: [
@@ -110,7 +115,7 @@
   push('marg_living', { x: 46, y: 52, label: T('A gap in the curtain', 'فتحة في الستارة'), if: s => inM(s) && s.slot >= 3 && !s.f.mdLights, run: s => [
     N1('Through the gap: the dark, and the long curve of Cliff Road coming up from town. A car turns onto it. Its headlights sweep up the hill towards the house.', 'من الفتحة: الظلام، ومنحنى شارع الجرف الطويل طالع من البلدة. سيارة تلف عليه. وأنوارها تطلع التلة جاية للبيت.'),
     { show: [{ id: 'margaret', e: 'worry' }] },
-    M('worry', 'Don\'t. Please. Close it.', 'لا. {تكفى|تكفين}. {سكّرها|سكّريها}.'),
+    snd('gravel', 0.4), M('worry', 'Don\'t. Please. Close it.', 'لا. {تكفى|تكفين}. {سكّرها|سكّريها}.'),
     N1('She is behind you. She isn\'t looking at the window. She is looking at the floor.', 'هي وراك. ما تطالع الشباك. تطالع الأرض.'),
     M('sad', 'That night I watched headlights come up that road for four hours. Every one of them was him. Then at eleven one of them was the police.', 'هذيك الليلة طالعت أنوار السيارات وهي تطلع هالطريق أربع ساعات. وكل وحدة فيها كانت هو. وبعدين الساعة إحدعش وحدة منها كانت الشرطة.'),
     M('sad', 'I can\'t look at headlights coming up the hill. That\'s all the curtains are. It\'s not mad. It\'s just that.', 'ما أقدر أطالع أنوار طالعة التلة. هذا كل سالفة الستاير. مو جنون. بس كذا.'),

@@ -100,6 +100,7 @@
     worry: s => [{ show: [{ id: 'margaret', e: 'worry' }] },
       N1('You come back in and Margaret is standing in the hall, still in her coat, as if she has been about to go out for a long time.', '{ترجع|ترجعين} للبيت ومارغريت واقفة في الممر، لابسة كوتها، كأنها من زمان على وشك تطلع.'),
       M('worry', 'Where were you? No. Sorry. You don\'t have to tell me. It\'s only the cliff road, at night, the cars come round that bend so fast.', 'وين {كنت|كنتي}؟ لا. آسفة. مو لازم {تقول|تقولين} لي. بس شارع الجرف، بالليل، السيارات تلف ذاك المنعطف بسرعة.'),
+      st => { [0, 450, 900].forEach(t => setTimeout(() => snd('wood1', 0.5)(st), t)); return null; },
       N1('Behind you she locks the door. Unlocks it. Locks it again. Checks it. Three times.', 'وراك تقفل الباب. تفتحه. تقفله مرة ثانية. تتأكد منه. ثلاث مرات.'),
       { menu: [
         { t: T('"I\'m sorry. I\'ll tell you next time."', '«{آسف|آسفة}. المرة الجاية بقول لك.»'), then: [M('smile', 'Would you? Just a text. "Back at six." That\'s all. I know it\'s silly.', 'صدق؟ بس رسالة. «راجع الساعة ست.» بس كذا. أدري إنه سخيف.'), st => { kind(st, 'worry'); return null; }] },
@@ -123,6 +124,7 @@
         M('scream', big ? 'Don\'t. Don\'t come near me. You don\'t get to walk out and walk back in. HE didn\'t get to!' : 'Don\'t laugh like that. Don\'t you DARE laugh like that. That\'s HIS laugh.', big ? 'لا. لا {تقرب|تقربين} مني. ما يحق لك {تطلع|تطلعين} {وترجع|وترجعين}. هو ما رجع!' : 'لا {تضحك|تضحكين} كذا. إياك {تضحك|تضحكين} كذا. هذي ضحكته هو.'),
         M('cry', 'You\'re not him. You\'re in his house and his chair and you\'re NOT him!', '{أنت مو هو|أنتِ مو هو}. {أنت|أنتِ} في بيته وعلى كرسيه {وأنت|وأنتِ} مو هو!'),
         { show: [{ id: 'margaret', e: 'hide' }] },
+        st => { snd('hit2', 0.8)(st); setTimeout(() => snd('wood2', 0.5)(st), 600); return null; },
         N1('She runs upstairs. A door slams. A key turns. Then, through the floor, the sound of someone trying very hard not to make a sound.', 'تركض فوق. باب يتصفق. مفتاح يلف. وبعدين، من الأرض، صوت أحد يحاول بكل قوته ما يطلع صوت.'),
         snd('marg-sob', 0.6),
         { show: [] },
@@ -163,7 +165,7 @@
   const EV = [
     /* calm */
     { id: 'thud', mood: [0, 1], slot: [0, 1, 2], run: s => [
-      st => { try { if (typeof AUDIO !== 'undefined') AUDIO.sfx('door'); } catch (e) { /* none */ } return null; },
+      snd('hit1', 0.9),
       N1('BANG. Something heavy, upstairs, against the wall. Then nothing.', 'طق! شي ثقيل، فوق، على الجدار. وبعدين ولا شي.'),
       { menu: [
         { t: T('Run up the stairs', '{اركض|اركضي} فوق'), cls: 'main', then: [{ show: [{ id: 'margaret', e: 'smile' }] },
@@ -188,7 +190,7 @@
       N1('A note stuck to your door in careful handwriting: "Made a cake. Don\'t eat all of it. (You can eat all of it.) M."', 'ورقة لاصقة على بابك بخط مرتب: «سويت كيكة. لا {تاكلها|تاكلينها} كلها. (عادي {تاكلها|تاكلينها} كلها.) م.»'),
       st => { feed(15); addMood(1); return null; }] },
     /* strange */
-    { id: 'bedside', mood: [1, 2, 3], slot: [4], run: s => [{ show: [{ id: 'margaret', e: 'blank' }] },
+    { id: 'bedside', mood: [1, 2, 3], slot: [4], run: s => [snd('creak1', 0.6), { show: [{ id: 'margaret', e: 'blank' }] },
       N1('You wake up and don\'t know why. Then you see her: Margaret, sitting very still on the end of your bed in the dark, watching you.', '{تصحى|تصحين} وما {تدري|تدرين} ليش. وبعدين {تشوفها|تشوفينها}: مارغريت، جالسة ثابتة مرة على طرف سريرك في الظلام، تطالعك.'),
       M('blank', 'I was just making sure you were breathing. Go back to sleep, Danny.', 'كنت بس أتأكد إنك تتنفس. {ارجع|ارجعي} {نام|نامي}، يا داني.'),
       { menu: [
@@ -207,7 +209,7 @@
         { t: T('Back away quietly', '{ارجع|ارجعي} بهدوء'), then: [N1('You back away. Behind you, she carries on the conversation. She sounds happy.', '{ترجع|ترجعين}. ووراك، تكمل السالفة. صوتها مبسوط.')] }
       ] }, { show: null }] },
     /* frightening */
-    { id: 'wardrobe', mood: [2, 3, 4], slot: [1, 2, 3], run: s => [
+    { id: 'wardrobe', mood: [2, 3, 4], slot: [1, 2, 3], run: s => [snd('wood3', 0.6),
       N1('Your room. Your bag is gone. Your clothes are gone. The drawers are empty.', 'غرفتك. شنطتك مو موجودة. ملابسك مو موجودة. الأدراج فاضية.'),
       N1('You find them across the landing, in Daniel\'s wardrobe, folded and hung between his shirts, as if they had always been there.', '{تلقاها|تلقينها} في الجهة الثانية من الدرج، في دولاب دانيال، مطوية ومعلقة بين قمصانه، كأنها من زمان هناك.'),
       { show: [{ id: 'margaret', e: 'blank' }] },
@@ -223,13 +225,13 @@
         { t: T('"Yes. And I worry about you."', '«إيه. وأنا {قلقان|قلقانة} عليك.»'), then: [{ show: [{ id: 'margaret', e: 'sad' }] }, M('sad', 'Nobody\'s worried about me in two years. They worry about the house.', 'محد قلق علي من سنتين. يقلقون على البيت.'), st => { kind(st, 'notebook'); return null; }] },
         { t: T('Take it out of her hands', '{خذه|خذيه} من يدها'), then: [{ show: [{ id: 'margaret', e: 'hide' }] }, N1('She lets go of it at once, as if it burned her, and leaves without a word.', 'تفلته على طول، كأنه حرقها، وتطلع بدون ولا كلمة.'), st => { tenseUp(st); return null; }] }
       ] }, { show: null }] },
-    { id: 'bathroom', mood: [2, 3, 4], slot: [0, 3, 4], run: s => [
+    { id: 'bathroom', mood: [2, 3, 4], slot: [0, 3, 4], run: s => [snd('creak2', 0.7),
       N1('You open the bathroom door and Margaret is right there, on the other side of it, standing very close, as if she has been there the whole time.', '{تفتح|تفتحين} باب الحمام ومارغريت قدامك بالضبط، من الجهة الثانية، واقفة قريب مرة، كأنها كانت هناك طول الوقت.'),
       { show: [{ id: 'margaret', e: 'worry' }] },
       M('worry', 'You were a long time. He was a long time, too. The last morning.', '{طولت|طولتي}. هو بعد طوّل. آخر صبح.'),
       st => { tenseUp(st); return null; }, { show: null }] },
     { id: 'thud2', mood: [3, 4], slot: [3, 4], run: s => [
-      st => { try { if (typeof AUDIO !== 'undefined') AUDIO.sfx('door'); } catch (e) { /* none */ } return null; },
+      snd('hit2', 1),
       N1('BANG. Upstairs. Against the wall. The same sound as the hammer, that first week.', 'طق! فوق. على الجدار. نفس صوت المطرقة، ذاك الأسبوع الأول.'),
       N1('You run up the stairs two at a time. Margaret is on the landing. There is no hammer. Her forehead is against the wall, and she is very still.', '{تطلع|تطلعين} الدرج درجتين درجتين. مارغريت على الدرج. ما فيه مطرقة. جبهتها على الجدار، وهي ثابتة مرة.'),
       { show: [{ id: 'margaret', e: 'blank' }] },
