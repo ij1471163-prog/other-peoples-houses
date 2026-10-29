@@ -135,7 +135,7 @@
       M('sad', 'I\'m sorry. I\'m so sorry. That wasn\'t you. None of that was you.', 'آسفة. آسفة مرة. ما كان أنت. ولا شي منه كان أنت.'),
       M('worry', 'If you want to go, I\'ll understand. I\'ll help you carry your things. I just didn\'t want you to go hungry.', 'إذا {تبي تروح|تبين تروحين}، بفهم. بساعدك {تشيل|تشيلين} أغراضك. بس ما بغيتك {تروح جوعان|تروحين جوعانة}.'),
       { menu: [
-        { t: T('Take the tray. "I\'m not going anywhere."', '{خذ|خذي} الصينية. «ما راح أروح مكان.»'), cls: 'main', then: [N1('She sits on the end of the bed while you eat. She doesn\'t talk. For the first time since you came, she looks like she is breathing all the way in.', 'تجلس على طرف السرير وأنت {تاكل|تاكلين}. ما تتكلم. ولأول مرة من جيت، تبان كأنها تتنفس للآخر.'), st => { kind(st, 'sorry'); tenseUp(st, -1); return null; }] },
+        { t: T('Take the tray. "I\'m not going anywhere."', '{خذ|خذي} الصينية. «ما راح أروح مكان.»'), cls: 'main', then: [{ mini: 'cg', src: 'img/fx/marg_hug2.webp', cap: T('"Thank you," she says, into your shoulder. "Thank you for staying."', '«شكراً،» تقولها على كتفك. «شكراً إنك {بقيت|بقيتي}.»') }, N1('She sits on the end of the bed while you eat. She doesn\'t talk. For the first time since you came, she looks like she is breathing all the way in.', 'تجلس على طرف السرير وأنت {تاكل|تاكلين}. ما تتكلم. ولأول مرة من جيت، تبان كأنها تتنفس للآخر.'), st => { kind(st, 'sorry'); tenseUp(st, -1); return null; }] },
         { t: T('Take the tray, and say nothing', '{خذ|خذي} الصينية، ولا {تقول|تقولين} شي'), then: [N1('She waits. You eat. She goes. The door stays a little open behind her, the way you\'d leave it for a child.', 'تنتظر. {تاكل|تاكلين}. تروح. والباب يبقى مفتوح شوي وراها، مثل ما تخليه لطفل.')] }
       ] }]
   };
