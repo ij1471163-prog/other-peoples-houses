@@ -35,6 +35,7 @@
   GAME.MINI.cg = function (panel, done, st) {
     panel.innerHTML = '';
     const box = el('div', 'cp md-cg'); box.innerHTML = `<i style="background-image:url(${st.src})"></i><img src="${st.src}" alt="">`;
+    if (st.h) { const im = box.querySelector('img'); im.style.height = st.h + '%'; im.style.marginBottom = '0'; }
     if (st.cap) box.appendChild(el('p', '', tx(st.cap)));
     $('stage').appendChild(box); $('stage').classList.add('cg-on'); requestAnimationFrame(() => box.classList.add('on'));
     const alt = el('button', 'opt main cp-alt', tx(T('Go on', '{كمل|كملي}'))); alt.type = 'button'; panel.appendChild(alt);
