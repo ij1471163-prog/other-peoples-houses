@@ -419,6 +419,7 @@ function showEnding(id) {
   if (e.who) { s.done = s.done || {}; s.done[e.who] = id; if (s.host === e.who) s.host = null; }
   if (e.who === 'leo') s.f.leoEnded = true;
   if (e.final) {
+    panel.appendChild(supportLink('end-support'));
     s.f.pendingFinal = true; save(); const k = el('button', 'opt main', UI('keepLiving')); k.type = 'button'; k.onclick = () => { S().f.pendingFinal = false; play(GAME.SCRIPTS.sandboxStart(S())); }; box.appendChild(k);
     const b2 = el('button', 'opt', UI('again')); b2.type = 'button'; b2.onclick = () => titleScreen(true); box.appendChild(b2);
     panel.appendChild(box); save(); return;
@@ -575,6 +576,15 @@ function appRepo() {
   } catch (e) {}
   return GAME.REPO || '';
 }
+/* support the developer (Patreon). In the app, a normal link: Capacitor opens other sites in the phone's browser */
+const SUPPORT_URL = 'https://www.patreon.com/Xort9';
+function supportLink(cls = 'ts-support') {
+  const a = el('a', cls, tx(T('♥ Support the developer on Patreon', '♥ {ادعم|ادعمي} المطوّر على Patreon')));
+  a.href = SUPPORT_URL; a.rel = 'noopener';
+  if (!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) a.target = '_blank';
+  return a;
+}
+
 function appLink() {
   if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) return null;
   const repo = appRepo(); if (!repo) return null;
@@ -660,6 +670,7 @@ function titleScreen(fresh) {
   const snd = el('button', 'ts-pill', AUDIO.on ? UI('soundOff') : UI('soundOn')); snd.type = 'button'; snd.onclick = () => { AUDIO.setOn(!AUDIO.on); snd.textContent = AUDIO.on ? UI('soundOff') : UI('soundOn'); }; corner.appendChild(snd);
   const lg = el('button', 'ts-pill', '🌐 ' + (GAME.lang === 'ar' ? 'English' : 'العربية')); lg.type = 'button'; lg.onclick = () => { GAME.lang = GAME.lang === 'ar' ? 'en' : 'ar'; try { localStorage.setItem('oph.lang', GAME.lang); } catch (e) {} titleScreen(fresh); }; corner.appendChild(lg);
   const dl = appLink(); if (dl) foot.appendChild(dl);
+  foot.appendChild(supportLink());
   wrap.appendChild(corner); wrap.appendChild(head); wrap.appendChild(box); wrap.appendChild(foot);
   const se = seenEnds().length, tot = Object.keys(GAME.END).length;
   box.appendChild(el('p', 'sec', tx(T('Endings found: ', 'النهايات اللي اكتشفتها: ')) + se + ' / ' + tot));

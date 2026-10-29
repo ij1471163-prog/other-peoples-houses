@@ -1190,3 +1190,9 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 .md-cg.full{background:#000}.md-cg.full img{height:100%;width:100%;max-width:none;object-fit:cover;margin:0;filter:none}
 @keyframes mdIn{from{transform:scale(1.06)}to{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.md-cg img{animation:none}}
+
+/* support link (title screen, final endings) */
+.ts-support,.end-support{display:inline-block;margin:6px auto 0;padding:7px 16px;border-radius:999px;background:#f96854;border:0;color:#fff!important;font-size:14px!important;font-weight:700;line-height:1.3;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+.ts-foot .ts-support *{font-size:inherit}
+.ts-support:active,.end-support:active{transform:scale(.97)}
+.end-support{display:block;width:max-content;margin:8px auto}
