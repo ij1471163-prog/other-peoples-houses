@@ -35,6 +35,7 @@
   GAME.MINI.cg = function (panel, done, st) {
     panel.innerHTML = '';
     const box = el('div', 'cp md-cg'); box.innerHTML = `<i style="background-image:url(${st.src})"></i><img src="${st.src}" alt="">`;
+    if (st.full) box.classList.add('full');
     if (st.h) { const im = box.querySelector('img'); im.style.height = st.h + '%'; im.style.marginBottom = '0'; }
     if (st.cap) box.appendChild(el('p', '', tx(st.cap)));
     $('stage').appendChild(box); $('stage').classList.add('cg-on'); requestAnimationFrame(() => box.classList.add('on'));
@@ -163,7 +164,7 @@
     M('neutral', 'You know, don\'t you. Nora. Martha. The note. You know why I\'m like this.', '{تدري|تدرين}، صح. نورا. مارثا. الورقة. {تدري|تدرين} ليش أنا كذا.'),
     M('sad', 'And you\'re still here.', '{وأنت|وأنتِ} لسا هنا.'),
     N1('She stands, and comes round the table, and opens her arms.', 'توقف، وتلف حول الطاولة، وتفتح يدينها.'),
-    { mini: 'cg', src: 'img/fx/marg_hug1.webp' },
+    { mini: 'cg', src: 'img/fx/marg_hug1.jpg', full: true },
     N1('She doesn\'t say anything else. She serves you first, which she has never done. Then she sits, and for the first time, she eats.', 'ما تقول شي ثاني. تغرف لك أول، وعمرها ما سوتها. وبعدين تجلس، ولأول مرة، تاكل.'),
     st => { kind(st, 'understand'); addMood(1); return null; }] });
 
