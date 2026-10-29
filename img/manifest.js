@@ -161,9 +161,11 @@ window.IMG_MANIFEST = {
   "margaret": {
    "angry": "img/chars/margaret-angry.webp",
    "blank": "img/chars/margaret-blank.webp",
+   "grave": "img/chars/margaret-grave.webp",
    "neutral": "img/chars/margaret-neutral.webp",
    "sad": "img/chars/margaret-sad.webp",
    "shock": "img/chars/margaret-shock.webp",
+   "sit": "img/chars/margaret-sit.webp",
    "smile": "img/chars/margaret-smile.webp",
    "worry": "img/chars/margaret-worry.webp"
   },
