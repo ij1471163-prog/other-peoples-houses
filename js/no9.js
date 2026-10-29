@@ -24,20 +24,20 @@
     name: T('No. 9, Fisher\'s Row', 'رقم ٩، شارع الصيادين'), mapName: T('No. 9', 'رقم ٩'), bg: 'no9', canWait: true,
     exits: [back('elias_ext')],
     spots: [
-      { x: 37, y: 50, label: T('The sign', 'اللوحة'), run: s => [
+      { x: 64, y: 70, label: T('The sign', 'اللوحة'), run: s => [
         N1('SOLD. Saltmere Grand Holdings. Underneath, a smaller notice in a plastic sleeve: numbers 3 to 11, Fisher\'s Row, scheduled for demolition.', 'مباع. شركة سولتمير غراند القابضة. وتحتها، إعلان أصغر في كيس بلاستيك: البيوت من ٣ لين ١١، شارع الصيادين، مقرر هدمها.'),
         st => (st.quests.q_petition === 'done' || st.f.tp_olivia_petition ? [N1('Someone has stuck one of Olivia\'s leaflets over the word DEMOLITION. It has been there long enough to go soft in the rain.', 'أحد لصق واحد من منشورات أوليفيا فوق كلمة «هدم». صار له فترة لين لان من المطر.')] : null)
       ] },
-      { x: 12, y: 32, label: T('The boarded window', 'الشباك المسكّر بالخشب'), run: s => [
+      { x: 73, y: 46, label: T('The boarded window', 'الشباك المسكّر بالخشب'), run: s => [
         N1('Through a gap between the boards: an empty room. Wallpaper with little blue boats on it, faded everywhere except a pale square where a picture used to hang.', 'من فتحة بين الألواح: غرفة فاضية. ورق جدران عليه قوارب زرقا صغيرة، باهت في كل مكان إلا مربع فاتح كان معلق فيه صورة.'),
         N1('On the sill inside, a small wooden boat with a J cut into the bottom, the kind a boy carves with a knife he isn\'t supposed to have.', 'على حافة الشباك من جوا، قارب خشب صغير محفور تحته حرف ج، من النوع اللي يحفره ولد بسكين المفروض ما تكون معه.'),
         st => { st.f.n9Window = true; return null; }
       ] },
-      { x: 30, y: 82, label: T('The front step', 'عتبة الباب'), if: s => !s.f.n9Tin, run: s => [
+      { x: 52, y: 80, label: T('The front step', 'عتبة الباب'), if: s => !s.f.n9Tin, run: s => [
         N1('The bottom step rocks under your foot. It has been rocking for a long time; the moss around it is broken in a neat line, like a lid.', 'العتبة اللي تحت تتحرك تحت رجلك. صار لها زمان تتحرك. والطحلب حواليها مقطوع بخط مرتب، كأنه غطا.'),
         { menu: [
           { t: T('Lift it', '{ارفعها|ارفعيها}'), cls: 'main', then: [
-            { mini: 'scrub', dir: 'img/fx/step/', frames: 44, ext: 'jpg', drag: 'up', zoom: { x: 30, y: 82 }, anchorY: 0.5, snd: 'step-lift', hint: T('Drag up to lift the stone', '{اسحب|اسحبي} لفوق عشان {ترفع|ترفعين} الحجر') },
+            { mini: 'scrub', dir: 'img/fx/step/', frames: 44, ext: 'jpg', drag: 'up', zoom: { x: 52, y: 80 }, anchorY: 0.5, snd: 'step-lift', hint: T('Drag up to lift the stone', '{اسحب|اسحبي} لفوق عشان {ترفع|ترفعين} الحجر') },
             N1('Underneath, in a hollow somebody dug on purpose: a biscuit tin, rusted shut at one corner. It takes both thumbs.', 'تحتها، في حفرة أحد حفرها بقصد: علبة بسكوت، صدية ومقفلة من زاوية. تحتاج الإبهامين.'),
             N1('A glass marble. A bus ticket, Saltmere to the junction, 1991. A photo-booth strip: two boys, maybe seventeen, pulling faces, then laughing, then, in the last square, not laughing.', 'بلية زجاج. تذكرة باص، من سولتمير للمحطة، ١٩٩١. شريط صور من الكشك: ولدين، يمكن عمرهم سبعطعش، يسوون وجيه، وبعدين يضحكون، وبعدين، في آخر مربع، ما يضحكون.'),
             N1('And a note, on paper torn from a school book.', 'وورقة، مقطوعة من دفتر مدرسة.'),
@@ -48,7 +48,7 @@
           { t: T('Leave it', '{خلها|خليها}'), then: [N1('Not yet. You press it back down with your heel. It rocks, waiting.', 'مو الحين. {ترجعها|ترجعينها} بكعبك. تتحرك، تنتظر.')] }
         ] }
       ] },
-      { x: 88, y: 46, label: T('Down the row', 'آخر الشارع'), run: s => [
+      { x: 20, y: 62, label: T('Down the row', 'آخر الشارع'), run: s => [
         N1('Down the row, past numbers 7 and 5, number 3: the same stone, the same boarded windows, the same SOLD sign.', 'آخر الشارع، بعد رقم ٧ ورقم ٥، رقم ٣: نفس الحجر، ونفس الشبابيك المسكّرة، ونفس لوحة «مباع».'),
         st => (st.f.knowV ? [N1('Victor\'s house. The Grand is going to knock down the house its owner grew up in. You wonder if anyone has told him, or if he signed it without reading the numbers.', 'بيت فيكتور. الغراند بيهدم البيت اللي تربى فيه صاحبه. {وتتساءل|وتتساءلين} إذا أحد قال له، ولا وقّع بدون ما يقرا الأرقام.')] : [N1('Number 3. Somebody grew up in that one too.', 'رقم ٣. أحد تربّى فيه بعد.')])
       ] }
