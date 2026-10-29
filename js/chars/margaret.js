@@ -59,7 +59,7 @@
   /* how Margaret looks when drawn in code (used when there is no AI picture in img/chars) */
   PEOPLE.SPEC.margaret = { sex: 'f', skin: '#f0c8a8', hair: '#8a7a6e', eye: '#5a6a7a', brow: '#6a5a50', hairStyle: 'bob', age: 40, sw: 90, ww: 74, hw: 90, pose: ['clasp', 'clasp'], fit: { top: 'cardigan', c1: '#9a7ab8', c2: '#f2ece0', bottom: 'skirt', b: '#5a5468', brooch: '#e2c07a' } };
   /* body height for the AI pictures (1 = average) */
-  GAME.CHAR.margaret.height = 0.9;
+  GAME.CHAR.margaret.height = 0.82;
 })();
 
 /* Margaret's day: what Margaret is doing in each place (shown by js/life.js) */
