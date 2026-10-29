@@ -576,10 +576,10 @@ function appRepo() {
   } catch (e) {}
   return GAME.REPO || '';
 }
-/* support the developer (Patreon). In the app, a normal link: Capacitor opens other sites in the phone's browser */
+/* follow the developer (Patreon, as a page to follow, not a payment). In the app, a normal link: Capacitor opens other sites in the phone's browser */
 const SUPPORT_URL = 'https://www.patreon.com/Xort9';
 function supportLink(cls = 'ts-support') {
-  const a = el('a', cls, tx(T('♥ Support the developer on Patreon', '♥ {ادعم|ادعمي} المطوّر على Patreon')));
+  const a = el('a', cls, tx(T('Follow the developer on Patreon', '{تابع|تابعي} المطوّر على Patreon')));
   a.href = SUPPORT_URL; a.rel = 'noopener';
   if (!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) a.target = '_blank';
   return a;
