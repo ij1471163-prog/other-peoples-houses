@@ -1,5 +1,5 @@
 /* =====================================================================
-   Chapter — Margaret (52), the white house on Cliff Road.
+   Chapter — Margaret (40), the white house on Cliff Road.
    Her son Daniel died two years ago. Every curtain is closed, his room
    is kept exactly as it was, and dinner is laid for three. Tragic,
    with a slow psychological chill. Nora (her sister) visits.

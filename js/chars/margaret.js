@@ -11,7 +11,7 @@
   { const { byDay, inM } = GAME.H.margaret;
     /* who Margaret is and Margaret's daily routine (Margaret's chapter) */
     GAME.CHAR.margaret = {
-      name: T('Margaret', 'مارغريت'), role: T('52. Lives in the white house on Cliff Road. Lays the table for three.', '٥٢ سنة. ساكنة في البيت الأبيض بشارع الجرف. تحط السفرة لثلاثة.'), host: true, art: true,
+      name: T('Margaret', 'مارغريت'), role: T('40. Lives in the white house on Cliff Road. Lays the table for three.', '٤٠ سنة. ساكنة في البيت الأبيض بشارع الجرف. تحط السفرة لثلاثة.'), host: true, art: true,
       lesson: T('Margaret: grief isn\'t a room you lock. It\'s a window you open a little at a time.', 'مارغريت: الحزن مو غرفة تقفلها. هو شباك تفتحه شوي شوي.'),
       where: s => {
         if (!inM(s)) return (['MARG_OPEN', 'MARG_LEO'].includes(s.done.margaret) && weekday(s.day) === 0 && s.slot === 1) ? 'cafe' : null;
@@ -57,7 +57,7 @@
     ];
   }
   /* how Margaret looks when drawn in code (used when there is no AI picture in img/chars) */
-  PEOPLE.SPEC.margaret = { sex: 'f', skin: '#f0c8a8', hair: '#8a7a6e', eye: '#5a6a7a', brow: '#6a5a50', hairStyle: 'bob', age: 52, sw: 90, ww: 74, hw: 90, pose: ['clasp', 'clasp'], fit: { top: 'cardigan', c1: '#9a7ab8', c2: '#f2ece0', bottom: 'skirt', b: '#5a5468', brooch: '#e2c07a' } };
+  PEOPLE.SPEC.margaret = { sex: 'f', skin: '#f0c8a8', hair: '#8a7a6e', eye: '#5a6a7a', brow: '#6a5a50', hairStyle: 'bob', age: 40, sw: 90, ww: 74, hw: 90, pose: ['clasp', 'clasp'], fit: { top: 'cardigan', c1: '#9a7ab8', c2: '#f2ece0', bottom: 'skirt', b: '#5a5468', brooch: '#e2c07a' } };
   /* body height for the AI pictures (1 = average) */
   GAME.CHAR.margaret.height = 0.9;
 })();
