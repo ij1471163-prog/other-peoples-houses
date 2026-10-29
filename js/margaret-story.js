@@ -193,11 +193,11 @@
       N1('Your phone isn\'t where you left it. You find it in the kitchen drawer, under the tea towels, switched off.', 'جوالك مو مكان ما {خليته|خليتيه}. {تلقاه|تلقينه} في درج المطبخ، تحت الفوط، مطفي.'),
       N1('When you turn it on there\'s a message, unsent, in the box: "Mum I\'m fine I\'m at home". You didn\'t write it.', 'ولما {تشغله|تشغلينه} فيه رسالة، ما انرسلت، في الخانة: «يمه أنا بخير أنا في البيت». ما {كتبتها|كتبتيها} {أنت|أنتِ}.'),
       st => { tenseUp(st); return null; }] },
-    { id: 'talking', mood: [1, 2, 3], slot: [2, 3, 4], run: s => [
+    { id: 'talking', mood: [1, 2, 3], slot: [2, 3, 4], run: s => [{ show: [{ id: 'margaret', e: 'sit' }] },
       N1('Margaret\'s voice, from the sitting room: low, warm, the voice you use with someone you love. "...and then Leo said, and you said..." A pause, as if for an answer. A laugh.', 'صوت مارغريت، من الصالة: واطي، ودافي، الصوت اللي تتكلم فيه مع أحد تحبه. «...وبعدين ليو قال، {وأنت|وأنت} قلت...» وسكتة، كأنها تنتظر رد. وضحكة.'),
-      N1('You look round the door. She\'s alone. She is looking at the empty armchair.', '{تطل|تطلين} من الباب. هي لحالها. تطالع الكرسي الفاضي.'),
+      N1('You look round the door. She\'s alone, holding his photo to her chest, looking at the empty armchair.', '{تطل|تطلين} من الباب. هي لحالها، ضامّة صورته على صدرها، وتطالع الكرسي الفاضي.'),
       { menu: [
-        { t: T('Go in and sit in the other chair', '{ادخل|ادخلي} {واجلس|واجلسي} على الكرسي الثاني'), then: [{ show: [{ id: 'margaret', e: 'sad' }] }, M('sad', 'Oh. Sorry. I talk to him. I know he isn\'t there. It\'s just, if I stop, it\'s so quiet.', 'أوه. آسفة. أكلمه. أدري إنه مو هنا. بس، إذا وقفت، يصير هادي مرة.'), st => { kind(st, 'talking'); return null; }] },
+        { t: T('Go in and sit in the other chair', '{ادخل|ادخلي} {واجلس|واجلسي} على الكرسي الثاني'), then: [M('sit', 'Oh. Sorry. I talk to him. I know he isn\'t there. It\'s just, if I stop, it\'s so quiet.', 'أوه. آسفة. أكلمه. أدري إنه مو هنا. بس، إذا وقفت، يصير هادي مرة.'), st => { kind(st, 'talking'); return null; }] },
         { t: T('Back away quietly', '{ارجع|ارجعي} بهدوء'), then: [N1('You back away. Behind you, she carries on the conversation. She sounds happy.', '{ترجع|ترجعين}. ووراك، تكمل السالفة. صوتها مبسوط.')] }
       ] }, { show: null }] },
     /* frightening */
@@ -242,6 +242,14 @@
     const r = ((s.day * 31 + s.slot * 7) % 10) / 10; if (r < 0.45) return false;
     s.f.mhPick = pool[(s.day + s.slot) % pool.length].id; return true;
   }, run: s => { const e = EV.find(x => x.id === s.f.mhPick); s.f['mh_' + e.id] = true; s.f.mhDay = s.day; return e.run(s); } });
+
+  /* at night in Daniel's room she holds his photo (picture: margaret-sit) */
+  const night0 = GAME.SCRIPTS.margNightRoom;
+  if (night0) GAME.SCRIPTS.margNightRoom = s => night0(s).map(st => {
+    if (st && st.show && st.show[0] && st.show[0].id === 'margaret' && st.show[0].e === 'sad') return { show: [{ id: 'margaret', e: 'sit' }] };
+    if (st && st.c === 'margaret' && st.e === 'sad') return Object.assign({}, st, { e: 'sit' });
+    return st;
+  });
 
   window.__margStory = { SC, EV, STEP };
 })();
