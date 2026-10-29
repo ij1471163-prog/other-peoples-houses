@@ -1182,10 +1182,10 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 @media (prefers-reduced-motion:reduce){.sc-arrow{animation:none}}
 
 /* margaret-deep.js: a full-screen picture */
-.md-cg{position:absolute;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 30%,rgba(8,6,10,.55));opacity:0;transition:opacity .6s;cursor:pointer}
+.md-cg{position:absolute;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.18);backdrop-filter:none;-webkit-backdrop-filter:none;opacity:0;transition:opacity .6s;cursor:pointer}
 .md-cg.on{opacity:1}#stage.cg-on .chars,#stage.cg-on .spots{opacity:0;transition:opacity .4s}.md-cg.out{opacity:0;transition:opacity .4s}
 .md-cg i{display:none}
-.md-cg img{position:relative;height:112%;max-width:100%;object-fit:contain;object-position:bottom;margin-bottom:-12%;animation:mdIn 6s ease-out both}
+.md-cg img{position:relative;height:112%;max-width:100%;object-fit:contain;object-position:bottom;margin-bottom:-12%;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35));animation:mdIn 6s ease-out both}
 .md-cg p{position:absolute;z-index:1;bottom:6%;left:50%;transform:translateX(-50%);width:min(80%,560px);margin:0;padding:10px 16px;border-radius:12px;background:rgba(0,0,0,.6);color:#f6ecd8;text-align:center;font-size:clamp(14px,2.2vw,18px)}
 @keyframes mdIn{from{transform:scale(1.06)}to{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.md-cg img{animation:none}}
