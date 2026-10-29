@@ -271,7 +271,7 @@ Object.assign(GAME.SCRIPTS, {
   endLeoTruth: [L_('sad', 'If I tell her, she\'ll hate me.', 'لو قلت لها، بتكرهني.'),
     N_('"Maybe," you say. "And maybe she\'s been waiting two years for someone to tell her what his last night was like."', '«يمكن،» {تقول|تقولين}. «ويمكن هي تنتظر من سنتين أحد يقول لها كيف كانت آخر ليلة له.»'),
     N_('In the morning you walk with him up Cliff Road. He has never taken this road. At the white house with every curtain closed, he stops.', 'الصبح {تمشي|تمشين} معه في شارع الجرف. عمره ما مشى هالطريق. وعند البيت الأبيض اللي كل ستايره مسكّرة، يوقف.'),
-    N_('He knocks. The door opens. A woman in her fifties looks at Leo, and then at you, as if she has seen a ghost.', 'يطق. الباب ينفتح. امرأة في الخمسين تطالع ليو، وبعدين تطالعك، كأنها شافت شبح.'),
+    N_('He knocks. The door opens. A woman of about forty looks at Leo, and then at you, as if she has seen a ghost.', 'يطق. الباب ينفتح. امرأة في الأربعين تطالع ليو، وبعدين تطالعك، كأنها شافت شبح.'),
     { end: 'LEO_TRUTH' }]
 });
 

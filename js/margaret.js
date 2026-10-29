@@ -212,9 +212,9 @@
       if (roll(GAME.SCRIPTS.margRisk(s, 0.05))) return [N_('Downstairs, the front door opens.', 'تحت، الباب الأمامي ينفتح.'), { jump: 'margCaught' }];
       if (s.f.danLetter) return [N_('Revision notes, a guitar tab for a song you half know, a sticker sheet of dinosaurs.', 'ملخصات مذاكرة، ونوتة قيتار لأغنية {تعرفها|تعرفينها} نص معرفة، وورقة ستيكرات ديناصورات.')];
       s.f.danLetter = true; give('danLetter'); s.f.knowsDaniel = true;
-      return [N_('In the drawer, under revision notes: a birthday card, never posted. "MUM, 50!"', 'في الدرج، تحت ملخصات المذاكرة: بطاقة عيد ميلاد، ما انرسلت أبداً. «ماما، ٥٠!»'),
+      return [N_('In the drawer, under revision notes: a birthday card, never posted. "HAPPY BIRTHDAY MUM!"', 'في الدرج، تحت ملخصات المذاكرة: بطاقة عيد ميلاد، ما انرسلت أبداً. «كل عام وأنتِ بخير يا ماما!»'),
         N_('Inside, in a teenager\'s scrawl: "Sorry I\'m rubbish at saying stuff. You\'re the best person I know. Please open the curtains sometimes, it\'s like living in a cave. Love you. D. (Leo says hi.)"', 'داخلها، بخط مراهق: «آسف إني ما أعرف أقول أشياء. أنتِ أحسن شخص أعرفه. تكفين افتحي الستاير أحياناً، كأننا ساكنين في كهف. أحبك. د. (ليو يسلّم.)»'),
-        N_('Her fiftieth birthday was three weeks after the accident.', 'عيد ميلادها الخمسين كان بعد الحادث بثلاث أسابيع.')];
+        N_('Her birthday was three weeks after the accident.', 'عيد ميلادها كان بعد الحادث بثلاث أسابيع.')];
     },
 
     /* ----- dinner: the rent ----- */
