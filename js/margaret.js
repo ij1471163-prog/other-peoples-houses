@@ -288,7 +288,7 @@
       const head = [{ go: 'marg_kitchen' }, { show: [{ id: 'margaret', e: 'sad' }] },
         N_('Seven o\'clock. Three plates. Margaret doesn\'t sit down. She stands with her hands on the back of the third chair.', 'الساعة سبعة. ثلاث صحون. مارغريت ما تجلس. واقفة ويدينها على ظهر الكرسي الثالث.'),
         M('sad', 'Victor\'s people have made an offer for the house. Nora wants me to take it. Dr. Irene wants me to "talk to someone". And you\'re here. And I don\'t know which of you is real some nights.', 'ناس فيكتور قدموا عرض على البيت. نورا تبيني أوافق. الدكتورة إيرين تبيني «أكلم أحد». {وأنت|وأنتِ} هنا. وبعض الليالي ما أعرف مين فيكم حقيقي.'),
-        M('sad', 'Tell me what to do. Please. I\'ve been deciding everything alone for two years and I\'m so tired.', '{قل|قولي} لي وش أسوي. {تكفى|تكفين}. لي سنتين أقرر كل شي لحالي وأنا تعبانة مرة.')];
+        M('cry', 'Tell me what to do. Please. I\'ve been deciding everything alone for two years and I\'m so tired.', '{قل|قولي} لي وش أسوي. {تكفى|تكفين}. لي سنتين أقرر كل شي لحالي وأنا تعبانة مرة.')];
       if (danPath(s) >= 3) return head.concat([N_('Before you can answer, she reaches out and straightens your collar. Daniel\'s collar.', 'قبل لا {ترد|تردين}، تمد يدها وتعدل ياقتك. ياقة دانيال.'), { jump: 'endMargDaniel' }]);
       const leoOk = ['LEO_HOME', 'LEO_STAY', 'LEO_TRUTH'].includes(s.done.leo);
       return head.concat([{ c: 'margaret', e: 'sad', menu: [
@@ -301,7 +301,7 @@
 
     /* ----- endings ----- */
     endMargOpen: [N_('You give her the card. She reads it standing up. Then sitting down. Then on the floor of the kitchen, with her back against the oven, three times more.', '{تعطيها|تعطينها} البطاقة. تقراها وهي واقفة. وبعدين جالسة. وبعدين على أرض المطبخ، وظهرها على الفرن، ثلاث مرات زيادة.'),
-      M('sad', '"It\'s like living in a cave." The cheek of him.', '«كأننا ساكنين في كهف.» شوف الوقاحة.'),
+      M('cry', '"It\'s like living in a cave." The cheek of him.', '«كأننا ساكنين في كهف.» شوف الوقاحة.'),
       N_('Then she gets up, goes into the sitting room, and pulls the first curtain back herself. You do the rest. Every window. The house fills with a light it hasn\'t seen in two years, and you can see how much dust was hiding in the dark, and she laughs at that too.', 'وبعدين تقوم، تروح الصالة، وتسحب أول ستارة بنفسها. {وأنت تسوي|وأنتِ تسوين} الباقي. كل شباك. البيت يمتلي بضو ما شافه من سنتين، وتشوفون كم غبار كان مختبي بالظلام، وتضحك على هذا بعد.'),
       N_('That week you box his room together. She keeps the guitar, one shirt, and the dinosaur. At seven o\'clock there are two plates. Then, on Sundays, three again: you, her, and Nora, arguing about salt.', 'هالأسبوع تفرّغون غرفته مع بعض. تخلي القيتار، وقميص واحد، والديناصور. والساعة سبعة صار فيه صحنين. وبعدين، أيام الأحد، ثلاثة مرة ثانية: {أنت|أنتِ}، وهي، ونورا، تتهاوشون على الملح.'),
       { end: 'MARG_OPEN' }],
@@ -321,7 +321,7 @@
       N_('Weeks later Sami passes you on Cliff Road and says "{name}?" and for a full second you don\'t know who he means.', 'بعد أسابيع سامي يمر جنبك في شارع الجرف ويقول «{name}؟» ولثانية كاملة ما {تعرف|تعرفين} مين يقصد.'),
       N_('That night you lie in Daniel\'s bed, under Daniel\'s posters, and somewhere in the house a song starts, stops, rewinds, and starts again. You find you know all the words.', 'هذيك الليلة {تتمدد|تتمددين} في سرير دانيال، تحت بوسترات دانيال، وفي مكان في البيت أغنية تبدأ، وتوقف، وترجع، وتبدأ. {وتكتشف إنك تعرف|وتكتشفين إنك تعرفين} كل كلماتها.'),
       st => { addMood(-3); st.conscience = (st.conscience || 0) - 1; return null; }, { end: 'MARG_DANIEL' }],
-    endMargKick: [M('angry', 'Out. Get out of my house. Get out of HIS house.', '{اطلع|اطلعي}. {اطلع|اطلعي} من بيتي. {اطلع|اطلعي} من بيته هو.'),
+    endMargKick: [M('scream', 'Out. Get out of my house. Get out of HIS house.', '{اطلع|اطلعي}. {اطلع|اطلعي} من بيتي. {اطلع|اطلعي} من بيته هو.'),
       N_('She stands at the door while you pack, holding the brass key so tight it marks her palm. The three locks go behind you, one after another.', 'توقف عند الباب {وأنت تجمع|وأنتِ تجمعين} أغراضك، ماسكة المفتاح النحاس بقوة لدرجة إنه يعلّم كفها. والأقفال الثلاثة تتسكّر وراك، واحد ورا الثاني.'),
       { end: 'MARG_KICK' }]
   });

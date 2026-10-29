@@ -133,7 +133,7 @@
     },
     sorry: s => [{ show: [{ id: 'margaret', e: 'sad' }] },
       N1('A knock. Margaret, at your door, eyes red, holding a tray: tea, toast, a boiled egg in a cup with a knitted hat on it.', 'طق. مارغريت، عند بابك، عيونها حمرا، ماسكة صينية: شاي، وتوست، وبيضة مسلوقة في كوب عليها طاقية صوف.'),
-      M('sad', 'I\'m sorry. I\'m so sorry. That wasn\'t you. None of that was you.', 'آسفة. آسفة مرة. ما كان أنت. ولا شي منه كان أنت.'),
+      M('cry', 'I\'m sorry. I\'m so sorry. That wasn\'t you. None of that was you.', 'آسفة. آسفة مرة. ما كان أنت. ولا شي منه كان أنت.'),
       M('worry', 'If you want to go, I\'ll understand. I\'ll help you carry your things. I just didn\'t want you to go hungry.', 'إذا {تبي تروح|تبين تروحين}، بفهم. بساعدك {تشيل|تشيلين} أغراضك. بس ما بغيتك {تروح جوعان|تروحين جوعانة}.'),
       { menu: [
         { t: T('Take the tray. "I\'m not going anywhere."', '{خذ|خذي} الصينية. «ما راح أروح مكان.»'), cls: 'main', then: [{ mini: 'cg', src: 'img/fx/marg_hug2.jpg', full: true, cap: T('"Thank you," she says, into your shoulder. "Thank you for staying."', '«شكراً،» تقولها على كتفك. «شكراً إنك {بقيت|بقيتي}.»') }, N1('She sits on the end of the bed while you eat. She doesn\'t talk. For the first time since you came, she looks like she is breathing all the way in.', 'تجلس على طرف السرير وأنت {تاكل|تاكلين}. ما تتكلم. ولأول مرة من جيت، تبان كأنها تتنفس للآخر.'), st => { kind(st, 'sorry'); tenseUp(st, -1); return null; }] },
@@ -216,7 +216,7 @@
       M('blank', 'You write about me. "She checks the door three times." Is that what I do?', '{تكتب|تكتبين} عني. «تتأكد من الباب ثلاث مرات.» هذا اللي أسويه؟'),
       { menu: [
         { t: T('"Yes. And I worry about you."', '«إيه. وأنا {قلقان|قلقانة} عليك.»'), then: [{ show: [{ id: 'margaret', e: 'sad' }] }, M('sad', 'Nobody\'s worried about me in two years. They worry about the house.', 'محد قلق علي من سنتين. يقلقون على البيت.'), st => { kind(st, 'notebook'); return null; }] },
-        { t: T('Take it out of her hands', '{خذه|خذيه} من يدها'), then: [N1('She lets go of it at once, as if it burned her, and leaves without a word.', 'تفلته على طول، كأنه حرقها، وتطلع بدون ولا كلمة.'), st => { tenseUp(st); return null; }] }
+        { t: T('Take it out of her hands', '{خذه|خذيه} من يدها'), then: [{ show: [{ id: 'margaret', e: 'hide' }] }, N1('She lets go of it at once, as if it burned her, and leaves without a word.', 'تفلته على طول، كأنه حرقها، وتطلع بدون ولا كلمة.'), st => { tenseUp(st); return null; }] }
       ] }, { show: null }] },
     { id: 'bathroom', mood: [2, 3, 4], slot: [0, 3, 4], run: s => [
       N1('You open the bathroom door and Margaret is right there, on the other side of it, standing very close, as if she has been there the whole time.', '{تفتح|تفتحين} باب الحمام ومارغريت قدامك بالضبط، من الجهة الثانية، واقفة قريب مرة، كأنها كانت هناك طول الوقت.'),
