@@ -106,7 +106,7 @@
     const section = (title, keys, cls) => {
       if (!keys.length) return;
       body.appendChild(el('h4', 'q-sec ' + cls, title));
-      keys.forEach(k => { const q = el('div', 'q ' + cls); q.appendChild(el('strong', '', tx(GAME.QUESTS[k].title))); if (GAME.QUESTS[k].hint) q.appendChild(el('div', '', tx(GAME.QUESTS[k].hint))); body.appendChild(q); });
+      keys.forEach(k => { const q = el('div', 'q ' + cls); q.dataset.q = k; q.appendChild(el('strong', '', tx(GAME.QUESTS[k].title))); if (GAME.QUESTS[k].hint) q.appendChild(el('div', '', tx(GAME.QUESTS[k].hint))); body.appendChild(q); });
     };
     section('★ ' + tx(L.story), main, 'main');
     section(tx(L.side), side, 'side');
