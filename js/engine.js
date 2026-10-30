@@ -307,7 +307,7 @@ function renderLine(st) {
   if (st.c) {
     setSpeaker(st.c, st.e);
     const shown = VIEW.stageChars || present(S().loc).map(id => ({ id }));
-    const chars = shown.some(x => x.id === st.c) ? shown : shown.concat([{ id: st.c }]);
+    const chars = (st.off || shown.some(x => x.id === st.c)) ? shown : shown.concat([{ id: st.c }]);   /* off: the speaker is already in the picture */
     renderStage(chars);
     panel.appendChild(el('div', 'who', tx(GAME.CHAR[st.c].name)));
     panel.appendChild(el('p', 'line', tx(st.t)));

@@ -190,13 +190,14 @@
       N1('A note stuck to your door in careful handwriting: "Made a cake. Don\'t eat all of it. (You can eat all of it.) M."', 'ورقة لاصقة على بابك بخط مرتب: «سويت كيكة. لا {تاكلها|تاكلينها} كلها. (عادي {تاكلها|تاكلينها} كلها.) م.»'),
       st => { feed(15); addMood(1); return null; }] },
     /* strange */
-    { id: 'bedside', mood: [1, 2, 3], slot: [4], run: s => [snd('creak1', 0.6), { show: [{ id: 'margaret', e: 'blank' }] },
+    { id: 'bedside', mood: [1, 2, 3], slot: [4], run: s => [snd('creak1', 0.6), st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { marg_guest: 'marg_bedside' }); return null; }, { show: [] },
       N1('You wake up and don\'t know why. Then you see her: Margaret, sitting very still on the end of your bed in the dark, watching you.', '{تصحى|تصحين} وما {تدري|تدرين} ليش. وبعدين {تشوفها|تشوفينها}: مارغريت، جالسة ثابتة مرة على طرف سريرك في الظلام، تطالعك.'),
-      M('blank', 'I was just making sure you were breathing. Go back to sleep, Danny.', 'كنت بس أتأكد إنك تتنفس. {ارجع|ارجعي} {نام|نامي}، يا داني.'),
+      st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { marg_guest: 'marg_bedside2' }); return null; },
+      Object.assign(M('blank', 'I was just making sure you were breathing. Go back to sleep, Danny.', 'كنت بس أتأكد إنك تتنفس. {ارجع|ارجعي} {نام|نامي}، يا داني.'), { off: true }),
       { menu: [
-        { t: T('"It\'s me, Margaret. Not Danny."', '«هذا أنا يا مارغريت. مو داني.»'), then: [{ show: [{ id: 'margaret', e: 'worry' }] }, M('worry', 'I know. I know it is. I\'m sorry. I know.', 'أدري. أدري إنه أنت. آسفة. أدري.'), N1('She goes. She leaves the door open a crack. You don\'t sleep again.', 'تروح. وتخلي الباب مفتوح شوي. وما {تنام|تنامين} بعدها.'), st => { kind(st, 'bedside'); return null; }] },
+        { t: T('"It\'s me, Margaret. Not Danny."', '«هذا أنا يا مارغريت. مو داني.»'), then: [st => { if (VIEW.bgOver) delete VIEW.bgOver.marg_guest; return null; }, { show: [{ id: 'margaret', e: 'worry' }] }, M('worry', 'I know. I know it is. I\'m sorry. I know.', 'أدري. أدري إنه أنت. آسفة. أدري.'), N1('She goes. She leaves the door open a crack. You don\'t sleep again.', 'تروح. وتخلي الباب مفتوح شوي. وما {تنام|تنامين} بعدها.'), st => { kind(st, 'bedside'); return null; }] },
         { t: T('Pretend to be asleep', '{سوّ|سوّي} نفسك {نايم|نايمة}'), then: [N1('You lie still. After a long time she stands, tucks the blanket in around your feet, very tight, the way you do for a small child, and goes.', '{تتمدد|تتمددين} بدون حركة. بعد وقت طويل توقف، وتدخل البطانية حول رجولك، مشدودة مرة، مثل ما تسوي لطفل صغير، وتروح.'), st => { tenseUp(st); return null; }] }
-      ] }, { show: null }] },
+      ] }, st => { if (VIEW.bgOver) delete VIEW.bgOver.marg_guest; return null; }, { show: null }] },
     { id: 'phone', mood: [1, 2, 3], slot: [0, 1, 2, 3], run: s => [
       N1('Your phone isn\'t where you left it. You find it in the kitchen drawer, under the tea towels, switched off.', 'جوالك مو مكان ما {خليته|خليتيه}. {تلقاه|تلقينه} في درج المطبخ، تحت الفوط، مطفي.'),
       N1('When you turn it on there\'s a message, unsent, in the box: "Mum I\'m fine I\'m at home". You didn\'t write it.', 'ولما {تشغله|تشغلينه} فيه رسالة، ما انرسلت، في الخانة: «يمه أنا بخير أنا في البيت». ما {كتبتها|كتبتيها} {أنت|أنتِ}.'),

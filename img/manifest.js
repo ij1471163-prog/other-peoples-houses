@@ -43,6 +43,8 @@ window.IMG_MANIFEST = {
   "map": "img/bg/map.jpg",
   "marg_bath": "img/bg/marg_bath.jpg",
   "marg_bed": "img/bg/marg_bed.jpg",
+  "marg_bedside": "img/bg/marg_bedside.jpg",
+  "marg_bedside2": "img/bg/marg_bedside2.jpg",
   "marg_guest": "img/bg/marg_guest.jpg",
   "marg_kitchen": "img/bg/marg_kitchen.jpg",
   "marg_living": "img/bg/marg_living.jpg",
