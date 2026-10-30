@@ -9,7 +9,8 @@
    ===================================================================== */
 'use strict';
 (function () {
-  const WAIT = 5;   // times of day without progress before a hint (5 = one full day)
+  const WAIT = 3;   // times of day without progress before a hint
+  const MOVES = 8;  // or this many moves from place to place without progress
   /* errands around town: only hinted when no story task is open */
   const SIDE = ['q_cat', 'q_gift', 'q_voice', 'q_petition', 'q_boat', 'q_seagull', 'q_kai', 'q_sami', 'q_irene', 'q_pie', 'q_door'];
   /* always open, slow by nature: hinted after the story tasks */
@@ -37,10 +38,14 @@
   GAME.ENTER_HOOKS.push(s => {
     if (!s || s.f.prologue || !s.f.metElias || RUN || PREFS.get('hints') === false) return null;
     const g = sig(s);
-    if (s.f.hintSig !== g) { s.f.hintSig = g; s.f.hintAt = now(s); return null; }
-    if (now(s) - (s.f.hintAt || 0) < WAIT || s.f.hintDay === s.day) return null;
-    const k = pick(s); if (!k) return null;
-    s.f.hintDay = s.day; s.f.hintAt = now(s); s.f.hintLast = k;
+    if (s.f.hintSig !== g) { s.f.hintSig = g; s.f.hintAt = now(s); s.f.hintMoves = 0; return null; }
+    /* lost: walking from place to place without anything moving also counts, not only time passing */
+    s.f.hintMoves = (s.f.hintMoves || 0) + 1;
+    const lost = s.f.hintMoves >= MOVES;
+    if (!lost && (now(s) - (s.f.hintAt || 0) < WAIT || s.f.hintDay === s.day)) return null;
+    const k0 = GAME.NOW_TASK && GAME.NOW_TASK(s);
+    const k = (k0 && GAME.QUESTS[k0] && GAME.QUESTS[k0].hint && k0 !== s.f.hintLast) ? k0 : pick(s); if (!k) return null;
+    s.f.hintDay = s.day; s.f.hintAt = now(s); s.f.hintLast = k; s.f.hintMoves = 0;
     const Q = GAME.QUESTS[k];
     return [{ n: T('A thought keeps coming back. ' + Q.title.en + ': ' + Q.hint.en,
       'فيه فكرة ترجع لك كل شوي. ' + Q.title.ar + ': ' + Q.hint.ar) }];

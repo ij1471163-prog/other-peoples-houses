@@ -83,7 +83,7 @@ GAME.SCRIPTS = {
       N_('Grey water, cold hands. Elias barely talks. He shows you once how to coil the line, then lets you get it wrong.', 'موج رمادي، وأيدين باردة. إلياس بالكاد يتكلم. يوريك مرة وحدة كيف {تلف|تلفين} الخيط، وبعدين يخليك {تغلط|تغلطين}.'),
       N_('You catch nothing. He catches four. He gives you one anyway.', '{ما تصيد|ما تصيدين} شي. هو يصيد أربع. ويعطيك وحدة على كل حال.'),
       E('smile', 'Beginner\'s share.', 'نصيب المبتدئ.'),
-      E('neutral', 'Afternoons, I mend the nets out back. If you\'ve nothing better to do.', 'وقت الظهر أصلّح الشباك ورا البيت. إذا ما عندك شي أحسن.'),
+      E('neutral', 'Afternoons, I mend the nets out back. If you\'ve nothing better to do.', 'وقت العصر أصلّح الشباك ورا البيت. إذا ما عندك شي أحسن.'),
       E('neutral', 'And evenings, I lose at chess to Marco. Well. He loses to me.', 'والمغرب ألعب شطرنج مع ماركو. يعني، هو يخسر قدامي.'),
       st => { quest('q_nets', 'active'); quest('q_chess', 'active'); return null; }
     ] : [pickOne([
