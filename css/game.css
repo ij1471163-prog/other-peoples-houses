@@ -1198,4 +1198,4 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 .end-support{display:block;width:max-content;margin:8px auto}
 
 /* night: Margaret on the end of your bed (her face sits high in the picture) */
-#stage .bg img[src*="marg_bedside"]{object-position:center 18%}
+#stage .bg img[src*="marg_bedside"],#stage .bg img[src*="elias_tin"]{object-position:center 12%}

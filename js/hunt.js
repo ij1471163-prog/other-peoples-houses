@@ -108,15 +108,17 @@
   /* Elias, and the tin */
   GAME.TOPICS.elias = GAME.TOPICS.elias || [];
   GAME.TOPICS.elias.push({ id: 'thbox', once: true, cls: 'main', label: T('Give him Thomas\'s tin', '{أعطه|أعطيه} علبة توماس'), if: s => has('thbox'), run: s => [
-    { show: [{ id: 'elias', e: 'shock' }] },
+    st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { [st.loc]: 'elias_tin1' }); return null; }, { show: [] },
     N1('He knows the tin before he opens it. His hands know it.', 'يعرف العلبة قبل لا يفتحها. يدينه تعرفها.'),
-    E('shock', 'Where... the drawer? The drawer in his room?', 'من وين... الدرج؟ درج غرفته؟'),
+    Object.assign(E('shock', 'Where... the drawer? The drawer in his room?', 'من وين... الدرج؟ درج غرفته؟'), { off: true }),
+    st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { [st.loc]: 'elias_tin2' }); return null; },
     N1('He looks at the drawing for a long time. Then he reads the note, and his mouth moves on "You PROMISED".', 'يطالع الرسمة وقت طويل. وبعدين يقرا الورقة، وشفايفه تتحرك عند «أنت وعدت».'),
-    E('sad', 'Every Sunday I hid things for him, and he found them. That one summer he hid them for me. I was on the boat every day. I never found the first one.', 'كل أحد كنت أخبي له أشياء، ويلقاها. وذاك الصيف بس، هو اللي خبا لي. وأنا كنت بالقارب كل يوم. وما لقيت ولا أول وحدة.'),
-    E('sad', 'I never looked.', 'ما دوّرت أصلاً.'),
-    E('neutral', 'He was eight. He\'s forty-one now. That\'s a long time to wait for a day\'s fishing.', 'كان عمره ثمان. الحين واحد وأربعين. هذا وقت طويل ينتظر فيه يوم صيد.'),
+    Object.assign(E('sad', 'Every Sunday I hid things for him, and he found them. That one summer he hid them for me. I was on the boat every day. I never found the first one.', 'كل أحد كنت أخبي له أشياء، ويلقاها. وذاك الصيف بس، هو اللي خبا لي. وأنا كنت بالقارب كل يوم. وما لقيت ولا أول وحدة.'), { off: true }),
+    st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { [st.loc]: 'elias_tin3' }); return null; },
+    Object.assign(E('sad', 'I never looked.', 'ما دوّرت أصلاً.'), { off: true }),
+    Object.assign(E('neutral', 'He was eight. He\'s forty-one now. That\'s a long time to wait for a day\'s fishing.', 'كان عمره ثمان. الحين واحد وأربعين. هذا وقت طويل ينتظر فيه يوم صيد.'), { off: true }),
     N1('He puts the drawing on the mantelpiece, next to the clock, and straightens it twice.', 'يحط الرسمة على رف المدفأة، جنب الساعة، ويعدلها مرتين.'),
-    st => { addMood(1); st.f.thGiven = true; return null; },
+    st => { addMood(1); st.f.thGiven = true; if (VIEW.bgOver) delete VIEW.bgOver[st.loc]; return null; },
     { show: null }
   ] });
   /* the living room remembers */
