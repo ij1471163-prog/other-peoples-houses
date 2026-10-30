@@ -238,7 +238,7 @@
       { show: [{ id: 'margaret', e: 'blank' }] },
       M('blank', 'It\'s alright. I just wanted it to be quiet in here for a second.', 'عادي. بس كنت أبي يسكت اللي هنا ثانية.'),
       { menu: [
-        { t: T('Put your hand on her shoulder, and stay with her', '{حط|حطي} يدك على كتفها، {واقعد|واقعدي} معها'), cls: 'main', then: [N1('She leans into it. You stand on the landing together until the light in the window changes.', 'تميل عليها. {توقفون|توقفون} على الدرج مع بعض لين يتغير الضو في الشباك.'), st => { kind(st, 'thud2'); tenseUp(st, -2); return null; }] },
+        { t: T('Put your hand on her shoulder, and stay with her', '{حط|حطي} يدك على كتفها، {واقعد|واقعدي} معها'), cls: 'main', then: [{ mini: 'cg', src: 'img/fx/marg_hug2.jpg', full: true }, N1('She leans into it. You stand on the landing together until the light in the window changes.', 'تميل عليها. {توقفون|توقفون} على الدرج مع بعض لين يتغير الضو في الشباك.'), st => { kind(st, 'thud2'); tenseUp(st, -2); return null; }] },
         { t: T('Phone Dr. Irene', '{اتصل|اتصلي} بالدكتورة إيرين'), then: [N1('Irene comes within the hour, with her bag and without a fuss. She sits with Margaret in the kitchen for a long time. On her way out she squeezes your arm: "You did right."', 'إيرين تجي خلال ساعة، معها شنطتها وبدون شوشرة. تجلس مع مارغريت في المطبخ وقت طويل. وهي طالعة تضغط على ذراعك: «{سويت|سويتي} الصح.»'), st => { st.f.mcIrene = true; tenseUp(st, -1); return null; }] }
       ] }, { show: null }] }
   ];
