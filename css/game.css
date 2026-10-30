@@ -1226,3 +1226,30 @@ body.lbl-auto .spot.exit.nav-door.nav-locked i svg{opacity:.55}
 html[lang=ar] .ibadge{font-family:var(--f-ar-ui)}
 .sheet .q.fresh{border-inline-start:3px solid #e07a5f;padding-inline-start:8px}
 .sheet .q.fresh>strong::after{content:' •';color:#e07a5f}
+/* ---------- end-screen.js: an ending's own moment ---------- */
+.endcine{position:absolute;inset:0;z-index:60;background:#000;overflow:hidden;cursor:pointer;animation:ecIn 1.4s ease both}
+.endcine.out{animation:ecOut .9s ease forwards}
+@keyframes ecIn{from{opacity:0}to{opacity:1}}
+@keyframes ecOut{to{opacity:0}}
+.endcine .ec-media{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;animation:ecMedia 2.6s ease .6s forwards}
+.endcine .ec-media.still{animation:ecMedia 2.6s ease .6s forwards,ecDrift 26s ease-out .6s forwards}
+.endcine .ec-media video{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes ecMedia{to{opacity:1}}
+@keyframes ecDrift{from{transform:scale(1.02)}to{transform:scale(1.12)}}
+.endcine .ec-vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.65) 100%),linear-gradient(transparent 55%,rgba(0,0,0,.75));pointer-events:none}
+.endcine .ec-text{position:absolute;left:0;right:0;bottom:12%;text-align:center;padding:0 24px;opacity:0;animation:ecMedia 1.8s ease 2.2s forwards}
+.endcine .ec-text small{display:block;color:rgba(255,255,255,.7);font-family:var(--f-ui);letter-spacing:.22em;text-transform:uppercase;font-size:12px;margin-bottom:6px}
+html[lang=ar] .endcine .ec-text small{font-family:var(--f-ar-ui);letter-spacing:0;font-size:14px}
+.endcine .ec-text strong{display:block;color:#ffe2a8;font-size:clamp(26px,5vw,44px);font-weight:600;text-shadow:0 2px 18px rgba(0,0,0,.8)}
+.endcine .ec-tap{position:absolute;right:18px;bottom:16px;color:rgba(255,255,255,.55);font-size:28px;opacity:0;animation:ecMedia 1s ease 3s forwards,ecPulse 2s ease-in-out 4s infinite}
+@keyframes ecPulse{50%{opacity:.25}}
+.endcine.g-dawn .ec-media{filter:sepia(.25) saturate(1.1) brightness(1.05) hue-rotate(-8deg)}
+.endcine.g-warm .ec-media{filter:sepia(.2) saturate(1.15)}
+.endcine.g-grey .ec-media{filter:grayscale(.75) brightness(.8) contrast(.95)}
+.endcine.g-night .ec-media{filter:brightness(.55) saturate(.6) hue-rotate(10deg)}
+.endcine.g-rain .ec-media{filter:brightness(.55) saturate(.5) hue-rotate(15deg)}
+.endcine.g-dark .ec-media{filter:brightness(.45) contrast(1.15) saturate(.7)}
+.endcine.g-fire .ec-media{filter:brightness(.6) sepia(.6) saturate(2.4) hue-rotate(-25deg) contrast(1.2)}
+.endcine .ec-rain{position:absolute;inset:-20% 0 0 0;background:repeating-linear-gradient(105deg,transparent 0 14px,rgba(200,220,255,.16) 14px 15px);animation:ecRain .5s linear infinite;pointer-events:none}
+@keyframes ecRain{to{transform:translate(-12px,40px)}}
+@media (prefers-reduced-motion:reduce){.endcine .ec-media.still,.endcine .ec-rain,.endcine .ec-tap{animation:ecMedia 1s ease forwards}}
