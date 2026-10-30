@@ -108,7 +108,7 @@
   push('marg_kitchen', { x: 82, y: 32, label: T('Behind the fridge notes', 'ورا أوراق الثلاجة'), if: s => inM(s) && !s.f.mdNote, run: s => [
     N1('Under the shopping lists, held by a magnet shaped like a lighthouse, a note that has been folded and unfolded so many times it is soft as cloth.', 'تحت أوراق المقاضي، ماسكها مغناطيس على شكل منارة، ورقة انطوت وانفتحت مرات كثيرة لين صارت ناعمة مثل القماش.'),
     { mini: 'paper', kind: 'letter', body: T('Mum. Gone to the gig with Leo. I KNOW it\'s a school night. Back by ten. Don\'t be mad. Love you. D.', 'ماما. رحت الحفلة مع ليو. أدري إنه بكرة مدرسة. برجع الساعة عشر. لا تزعلين. أحبك. د.') },
-    N1('In the corner, in her handwriting, very small: "7.00. Found this when I called him down for dinner."', 'في الزاوية، بخطها، صغير مرة: «٧:٠٠. لقيتها لما ناديته ينزل للعشا.»'),
+    N1('In the corner, in her handwriting, very small: "7.00. Found this on the hall table when I came down to lay dinner."', 'في الزاوية، بخطها، صغير مرة: «٧:٠٠. لقيتها على طاولة الممر لما نزلت أحط العشا.»'),
     N1('Seven o\'clock. The clock in the sitting room. Dinner at seven, every night. "Where were you?" Back by ten.', 'الساعة سبعة. الساعة اللي في الصالة. العشا الساعة سبعة، كل ليلة. «وين كنت؟» برجع الساعة عشر.'),
     st => { st.f.mdNote = true; st.f.mdSeven = true; return null; }] });
   /* the headlights */
@@ -135,7 +135,7 @@
     { show: [{ id: 'martha', e: 'smile' }, { id: 'margaret', e: 'smile' }] },
     N1('Thursday. Martha and Margaret at the kitchen table with the newspaper folded to the crossword and a pot of tea between them, arguing.', 'الخميس. مارثا ومارغريت على طاولة المطبخ والجريدة مطوية على الكلمات المتقاطعة وإبريق شاي بينهم، ويتهاوشون.'),
     C('martha', 'smile', 'Seven letters, "a feeling of great happiness." It\'s ELATION.', 'سبع حروف، «شعور بفرح كبير.» بهجة.'),
-    M('smile', 'It\'s RAPTURE, Martha, it\'s always rapture, you say elation every week and it\'s never elation.', 'نشوة يا مارثا، دايم نشوة، كل أسبوع {تقولين|تقولين} بهجة وعمرها ما كانت بهجة.'),
+    M('smile', 'It\'s RAPTURE, Martha, it\'s always rapture, you say elation every week and it\'s never elation.', 'نشوة يا مارثا، دايم نشوة، كل أسبوع تقولين بهجة وعمرها ما كانت بهجة.'),
     N1('Margaret laughs. A real laugh, loud, a bit like a seal. You have never heard it before. Martha catches your eye over her glasses, and winks.', 'مارغريت تضحك. ضحكة حقيقية، عالية، شوي مثل الفقمة. عمرك ما {سمعتها|سمعتيها} قبل. ومارثا تطالعك من فوق نظارتها، وتغمز.'),
     C('martha', 'neutral', 'Twenty years we\'ve done this. She missed one Thursday. One. The week after. Then she turned up at my door with the paper and a pen and said "I need something with answers in it."', 'عشرين سنة نسويها. فوتت خميس واحد. واحد بس. الأسبوع اللي بعده. وبعدين جت عند بابي ومعها الجريدة والقلم وقالت «أحتاج شي له أجوبة.»'),
     { menu: [

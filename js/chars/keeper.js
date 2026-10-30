@@ -31,7 +31,7 @@
     art: true, ghost: true
     /* no `where`: he is never "present" on the map or in the people list — he only appears in his scenes */
   };
-  PEOPLE.SPEC.keeper = { sex: 'm', skin: '#d6dde2', hair: '#eef2f4', eye: '#a9c6d6', brow: '#e2e8ea', hairStyle: 'receding', beard: 'full', age: 80, sw: 98, ww: 80, hw: 80, pose: ['down', 'hold'], item: 'cup', fit: { top: 'coat', c1: '#22304a', c2: '#c9a54a', bottom: 'pants', b: '#1b2638' } };
+  PEOPLE.SPEC.keeper = { sex: 'm', skin: '#d6dde2', hair: '#eef2f4', eye: '#a9c6d6', brow: '#e2e8ea', hairStyle: 'receding', beard: 'full', age: 70, sw: 98, ww: 80, hw: 80, pose: ['down', 'hold'], item: 'cup', fit: { top: 'coat', c1: '#22304a', c2: '#c9a54a', bottom: 'pants', b: '#1b2638' } };
   GAME.CHAR.keeper.height = 1.07;
 
   /* ---------- the hauntings ---------- */

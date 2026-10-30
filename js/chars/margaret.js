@@ -1,5 +1,5 @@
 /* =====================================================================
-   Margaret — 54. Lives in the white house on Cliff Road. Lays the table for three.
+   Margaret — 40. Lives in the white house on Cliff Road. Lays the table for three.
    Everything that is Margaret's own: profile, where Margaret is at each
    time of day, the greeting, every conversation topic (from every
    chapter, in the order they were added), the drawn look and the

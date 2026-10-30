@@ -41,7 +41,7 @@
     { id: 'gregor', say: T('For a grave at the back that nobody visits. Something quiet.', 'لقبر في الخلف محد يزوره. شي هادي.'), need: ['lily', 'lav'], bad: ['sun'] },
     { id: 'ingrid', say: T('For Henrik. It would have been our anniversary today. Fifty-one years.', 'لهنريك. كان بيكون عيد زواجنا اليوم. واحد وخمسين سنة.'), need: ['rose', 'lily'], bad: ['tulip'] },
     { id: 'irene', say: T('For my waiting room. People come in frightened. Something that calms them down.', 'لغرفة الانتظار. الناس يدخلون خايفين. شي يهديهم.'), need: ['lav', 'daisy'], bad: ['lily'] },
-    { id: 'olivia', say: T('To say thank you to everyone who signed the petition. All forty-one of them.', 'عشان أقول شكراً لكل اللي وقعوا العريضة. الواحد والأربعين كلهم.'), need: ['sun', 'daisy'], bad: ['lily'] },
+    { id: 'olivia', say: T('To say thank you to everyone who signed the petition. All four hundred and one of them.', 'عشان أقول شكراً لكل اللي وقعوا العريضة. الأربع مية وواحد كلهم.'), need: ['sun', 'daisy'], bad: ['lily'] },
     { id: 'marco', say: T('For me. For my nerves. Thursday. Don\'t ask.', 'لي أنا. لأعصابي. الخميس. لا {تسأل|تسألين}.'), need: ['lav', 'sun'], bad: ['lily'] }
   ];
   const IMG = id => { try { const c = PEOPLE.IMG.chars[id]; return c && (c.neutral || c.smile); } catch (e) { return null; } };
@@ -109,7 +109,7 @@
     N1('Three o\'clock. Stella props her phone against the till. The screen fills with a small room, a window, and a woman with Stella\'s eyes, very old, very neat, looking at the camera as if it might bite.', 'الساعة ثلاث. ستيلا تسند جوالها على الكاشير. الشاشة تتعبى بغرفة صغيرة، وشباك، ومرة عيونها عيون ستيلا، كبيرة بالعمر مرة، ومرتبة مرة، تطالع الكاميرا كأنها بتعضها.'),
     SL('smile', 'Hello, Mum. Look what came today.', 'هلا يمه. شوفي وش وصل اليوم.'),
     N1('The nurse holds the bouquet up. The old woman\'s face changes completely. "Freesia," she says. "Sweet pea. Oh, and rosemary. Rosemary\'s for remembrance, you know."', 'الممرضة ترفع الباقة. ووجه العجوز يتغير كله. «فريزيا،» تقول. «بازلاء عطرية. وإكليل الجبل. إكليل الجبل للذكرى، تدرين.»'),
-    N1('Then she looks past Stella, at you, and frowns. "Who\'s that, at my till?"', 'وبعدين تطالع ورا ستيلا، تطالعك {أنت|أنتِ}، وتعبس. «مين هذا اللي عند كاشيري؟»'),
+    N1('Then she looks past Stella, at you, and frowns. "Who\'s that, at my till?"', 'وبعدين تطالع ورا ستيلا، تطالعك {أنت|أنتِ}، وتعبس. «مين {هذا اللي|هذي اللي} عند كاشيري؟»'),
     { menu: [
       { t: T('"I help in the shop. Stella taught me what every flower means."', '«أساعد في المحل. ستيلا علمتني معنى كل وردة.»'), then: [N1('"Stella," the old woman says slowly, and something moves behind her eyes, like a fish under ice. "Stella always put lavender in the wrong bucket."', '«ستيلا،» تقول العجوز ببطء، وشي يتحرك ورا عيونها، مثل سمكة تحت الثلج. «ستيلا دايم تحط اللافندر في السطل الغلط.»'),
         SL('shock', '...I did. I DID. Mum. That was me.', '...صح. صح! يمه. هذي أنا.'),

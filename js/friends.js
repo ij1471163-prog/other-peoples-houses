@@ -31,7 +31,7 @@
 
   /* ---------- telling them about yourself ---------- */
   const TELL = {
-    why: { t: T('Tell them why you really came', '{تحكي|تحكين} ليش جيت فعلاً'),
+    why: { t: T('Tell them why you really came', '{تحكي|تحكين} ليش {جيت|جيتي} فعلاً'),
       you: T('"My dad had a postcard of this harbour in a box. He never once said the name of this town. I wanted to know why."', '«أبوي كان عنده كرت بريدي لهالميناء في كرتون. وعمره ما قال اسم هالبلد. بغيت أعرف ليش.»') },
     house: { t: T('Tell them about the house', '{تحكي|تحكين} عن البيت'),
       you: T('"I came home from a trip and my key didn\'t fit. A family I\'d never met was eating dinner in my kitchen."', '«رجعت من سفرة والمفتاح ما ركب. عايلة عمري ما شفتها كانت تتعشى في مطبخي.»') },
@@ -127,7 +127,7 @@
       ], end: N1('You stay up there until the harbour lights come on, one by one, like someone counting.', 'تجلسون فوق لين أنوار الميناء تشتغل، وحدة وحدة، كأن أحد قاعد يعد.') },
       { label: T('Marco is cooking his nonna\'s sauce. For you.', 'ماركو يطبخ صلصة جدته. عشانك.'), steps: [
         N1('Marco shuts the café early, which he has never done, and cooks. The whole street smells of garlic. He sets two plates. Then, after a moment, a third, for nobody.', 'ماركو يسكّر المقهى بدري، وعمره ما سواها، ويطبخ. الشارع كله ريحته ثوم. يحط صحنين. وبعدين، بعد لحظة، صحن ثالث، لأحد مو موجود.'),
-        say('marco', 'smile', 'Nonna\'s sauce. Six hours. If you say it needs salt, you are banned for life.', 'صلصة جدتي. ست ساعات. إذا {قلت|قلتي} تبي ملح، {ممنوع|ممنوعة} مدى الحياة.'),
+        say('marco', 'smile', 'Nonna\'s sauce. Six hours. If you say it needs salt, you are banned for life.', 'صلصة جدتي. ست ساعات. إذا {قلت|قلتي} {تبي|تبين} ملح، {ممنوع|ممنوعة} مدى الحياة.'),
         say('marco', 'neutral', 'The third plate is for her. Don\'t make it weird. ...It\'s a bit weird.', 'الصحن الثالث لها. لا {تخليها|تخلينها} غريبة. ...هي غريبة شوي.'),
         N1('You eat until you can\'t. He watches you eat the way only people who cook watch.', '{تاكل|تاكلين} لين ما {تقدر|تقدرين}. ويطالعك وأنت {تاكل|تاكلين} مثل ما يطالع بس اللي يطبخون.'),
         say('marco', 'smile', 'Here. From the shelf. Now it has your name on it, so nobody else can use it. You\'re not a customer any more. Customers pay.', '{خذ|خذي}. من الرف. الحين عليه اسمك، فمحد غيرك يقدر يستخدمه. {أنت|أنتِ} مو زبون بعد الحين. الزبون يدفع.'),

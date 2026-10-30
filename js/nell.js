@@ -37,7 +37,7 @@
   GAME.CHAR[NELL] = { name: T('Nell', 'نيل'), role: T('?', '؟'), art: false, ghost: true, where: () => null };
   if (typeof PEOPLE !== 'undefined' && PEOPLE.SPEC) PEOPLE.SPEC[NELL] = PEOPLE.SPEC[NELL] || { sex: 'f' };
   Object.assign(GAME.ITEMS, {
-    nellpage: { name: T('A torn logbook page', 'ورقة ممزوعة من دفتر'), desc: T('Dry after forty-five years. Elias\'s handwriting.', 'ناشفة بعد خمسة وأربعين سنة. بخط إلياس.') },
+    nellpage: { name: T('A torn logbook page', 'ورقة ممزوعة من دفتر'), desc: T('Dry after forty-three years. Elias\'s handwriting.', 'ناشفة بعد ثلاثة وأربعين سنة. بخط إلياس.') },
     lantern: { name: T('Elias\'s storm lantern', 'فانوس إلياس'), desc: T('Brass, dented, full of oil.', 'نحاس، معفوس، ومليان زيت.') }
   });
   GAME.QUESTS.q_nell = { title: T('The light on the water', 'ضو على الموية'),
@@ -159,7 +159,7 @@
       { mini: 'radio', then: (r, st) => r === 'tuned' ? [
         N1('A voice comes up out of the hiss, thin and far away, like a call from the bottom of a well.', 'صوت يطلع من تحت التشويش، رفيع وبعيد، كأنه نداء من قاع بير.'),
         N1('"...Harbour to pier. Harbour to pier. Joe Farrow\'s girl has taken the dinghy out to look for him. She has a lantern. Do you see a light past the north rocks? Over."', '«...الميناء ينادي الرصيف. الميناء ينادي الرصيف. بنت جو فارو طلعت بالقارب الصغير تدور أبوها. معها فانوس. {تشوف|تشوفين} ضو ورا الصخور الشمالية؟ حوّل.»'),
-        N1('Static. Then a young man\'s voice. You know it. It is Elias\'s voice, forty-five years younger.', 'تشويش. وبعدين صوت شاب. {تعرفه|تعرفينه}. هذا صوت إلياس، أصغر بخمسة وأربعين سنة.'),
+        N1('Static. Then a young man\'s voice. You know it. It is Elias\'s voice, forty-three years younger.', 'تشويش. وبعدين صوت شاب. {تعرفه|تعرفينه}. هذا صوت إلياس، أصغر بثلاثة وأربعين سنة.'),
         N1('"...Pier to harbour. No. I see nothing. Over."', '«...الرصيف ينادي الميناء. لا. ما أشوف شي. حوّل.»'),
         st2 => { face(); return null; },
         N1('The radio goes dead. In the armchair, Elias murmurs in his sleep: "I see nothing. I see nothing."', 'الراديو ينطفي. وإلياس يتمتم وهو نايم: «ما أشوف شي. ما أشوف شي.»'),
@@ -180,7 +180,7 @@
       st => { if (window.__cdSink) window.__cdSink(); return null; },
       N1('Then it is dragged down, all at once. Where it was, something lies on the soil: a scrap of oilcloth, folded tight.', 'وبعدين تنسحب تحت، مرة وحدة. ومكانها، فيه شي على التراب: قطعة قماش مشمّع، مطوية بقوة.'),
       st => { give('nellpage'); st.f.nellPage = true; return null; },
-      N1('Inside, dry after forty-five years, the missing page. "2 March. 02:10. A small light going out past the north rocks. Harbour asked if I saw it. I said no. The sea was too big. I was afraid. God forgive me. E."', 'داخلها، ناشفة بعد خمسة وأربعين سنة، الصفحة الناقصة. «٢ مارس. ٠٢:١٠. ضو صغير يبعد ورا الصخور الشمالية. الميناء سألني إذا شفته. قلت لا. البحر كان كبير. كنت خايف. الله يسامحني. إ.»')
+      N1('Inside, dry after forty-three years, the missing page. "2 March. 02:10. A small light going out past the north rocks. Harbour asked if I saw it. I said no. The sea was too big. I was afraid. God forgive me. E."', 'داخلها، ناشفة بعد ثلاثة وأربعين سنة، الصفحة الناقصة. «٢ مارس. ٠٢:١٠. ضو صغير يبعد ورا الصخور الشمالية. الميناء سألني إذا شفته. قلت لا. البحر كان كبير. كنت خايف. الله يسامحني. إ.»')
     ],
     /* 6. the lantern, at the end of the pier */
     lantern: s => {
@@ -210,7 +210,7 @@
     N1('You tell him. The pier. The logbook. The radio. The grave. He doesn\'t call you a liar. For a long time, he doesn\'t say anything at all.', '{تقول له|تقولين له}. الرصيف. والدفتر. والراديو. والقبر. ما يقول عنك {كذاب|كذابة}. ووقت طويل، ما يقول ولا شي.'),
     E('sad', 'Nell Farrow. Joe\'s girl. Nineteen. She rowed out to find her father with a storm lantern, in a dinghy you wouldn\'t take across a bath.', 'نيل فارو. بنت جو. عمرها تسعطعش. طلعت تدور أبوها بفانوس عاصفة، في قارب صغير ما {تقطع|تقطعين} فيه بانيو.'),
     E('sad', 'I was on the pier. I saw her light. The harbour asked me, and I said no. If I\'d said yes, they\'d have sent me out. In that sea.', 'كنت على الرصيف. شفت ضوها. والميناء سألني، وقلت لا. لو قلت إيه، كانوا بيرسلوني أنا. في ذاك البحر.'),
-    E('neutral', 'Joe came home at dawn. She didn\'t. Forty-five years I\'ve told myself nobody could have reached her. Some nights I even believe it.', 'جو رجع مع الفجر. وهي ما رجعت. خمسة وأربعين سنة وأنا أقول لنفسي محد كان بيوصلها. وبعض الليالي حتى أصدق.'),
+    E('neutral', 'Joe came home at dawn. She didn\'t. Forty-three years I\'ve told myself nobody could have reached her. Some nights I even believe it.', 'جو رجع مع الفجر. وهي ما رجعت. ثلاثة وأربعين سنة وأنا أقول لنفسي محد كان بيوصلها. وبعض الليالي حتى أصدق.'),
     E('sad', 'She comes in the cold months. End of the pier. I stopped walking down there at night.', 'تجي في الشهور الباردة. آخر الرصيف. وأنا وقفت أنزل هناك بالليل.'),
     E('neutral', 'There\'s a storm lantern in the shed. Would you take it to the end of the pier tonight and light it? So she has one light that answers.', 'فيه فانوس عاصفة في المخزن. {تقدر تاخذه|تقدرين تاخذينه} لآخر الرصيف الليلة {وتولعه|وتولعينه}؟ عشان يكون لها ضو واحد يرد عليها.'),
     { menu: [
@@ -245,7 +245,7 @@
 
   /* ---------- people who notice ---------- */
   if (GAME.CHAR.gregor && Array.isArray(GAME.CHAR.gregor.chat)) {
-    GAME.CHAR.gregor.chat.unshift({ if: s => !!s.f.nellRest, e: 'neutral', t: T('Somebody left flowers on the Farrow stone. And a lantern. First flowers on it in forty-five years. I\'ll not ask who.', 'أحد حط ورد على حجر فارو. وفانوس. أول ورد ينحط عليه من خمسة وأربعين سنة. وما راح أسأل مين.') });
+    GAME.CHAR.gregor.chat.unshift({ if: s => !!s.f.nellRest, e: 'neutral', t: T('Somebody left flowers on the Farrow stone. And a lantern. First flowers on it in forty-three years. I\'ll not ask who.', 'أحد حط ورد على حجر فارو. وفانوس. أول ورد ينحط عليه من ثلاثة وأربعين سنة. وما راح أسأل مين.') });
     GAME.CHAR.gregor.chat.unshift({ if: s => !!s.f.nellPage && !s.f.nellRest, e: 'sad', t: T('The Farrow girl\'s stone. My father dug that grave, and put nothing in it. He said it was the hardest one he ever dug.', 'حجر بنت فارو. أبوي حفر ذاك القبر، وما حط فيه شي. قال إنه أصعب قبر حفره بحياته.') });
   }
 

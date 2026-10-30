@@ -222,7 +222,7 @@
     { b: ['......k.', '.....ppp', '........', '........', '........', '........', '.....PPP', 'R.....K.'], ans: ['a1a8'],
       say: T('My father showed me this one. The back rank. Everybody forgets the back rank.', 'أبوي وراني هذي. الصف الأخير. الكل ينسى الصف الأخير.') },
     { b: ['rnbqkb.r', 'pppp.ppp', '.....n..', '....p..Q', '..B.P...', '........', 'PPPP.PPP', 'RNB.K.NR'], ans: ['h5f7'],
-      say: T('The oldest trick there is. Marco fell for it in 1989. And 1990.', 'أقدم حيلة بالدنيا. ماركو طاح فيها سنة ٨٩. و٩٠.') },
+      say: T('The oldest trick there is. Marco fell for it last spring. And the spring before.', 'أقدم حيلة بالدنيا. ماركو طاح فيها الربيع اللي فات. واللي قبله.') },
     { b: ['......rk', '......pp', '........', '......N.', '........', '........', '........', '....K...'], ans: ['g5f7'],
       say: T('His own men around him like a wall. And the wall is what kills him.', 'رجاله حوله مثل الجدار. والجدار نفسه هو اللي يقتله.') },
     { b: ['k.......', '........', '.K......', '........', '........', '........', '........', '.......R'], ans: ['h1h8'],

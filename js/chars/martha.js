@@ -21,7 +21,7 @@
         onceToday('clean'); addMood(1); s.money += 5; s.f.marthaHelp = (s.f.marthaHelp || 0) + 1; advance(1);
         const n = s.f.marthaHelp;
         const gossip = [
-          [{ c: 'martha', e: 'smile', t: T('Ada was my best friend, you know. Forty years. She\'d have liked you. She liked strays.', 'آدا كانت أعز صديقاتي، تدري. أربعين سنة. كانت بتحبك. كانت تحب المتشردين.') }],
+          [{ c: 'martha', e: 'smile', t: T('Ada was my best friend, you know. Forty years. She\'d have liked you. She liked strays.', 'آدا كانت أعز صديقاتي، {تدري|تدرين}. أربعين سنة. كانت بتحبك. كانت تحب المتشردين.') }],
           [{ c: 'martha', e: 'sad', t: T('He stopped eating properly in the spring. And there\'s a letter from a city hospital in his dresser. I dust. I don\'t read. Mostly.', 'وقف ياكل زين من الربيع. وفيه خطاب من مستشفى بالمدينة في تسريحته. أنا أنفض الغبار. ما أقرا. يعني، غالباً.') }, s2 => { s2.f.marthaHint = true; quest('q_secret', 'active'); return null; }],
           [{ c: 'martha', e: 'sad', t: T('Thomas used to climb out of that window to go to parties. Elias always knew. Always left the window unlocked.', 'توماس كان يطلع من هالشباك عشان الحفلات. وإلياس دايم يدري. ودايم يخلي الشباك مفتوح.') }, { c: 'martha', e: 'neutral', t: T('Stubborn, the pair of them. Somebody has to go first. It\'s never the stubborn one.', 'عنيدين الاثنين. لازم واحد يبدأ. وعمره ما يكون العنيد.') }]
         ];

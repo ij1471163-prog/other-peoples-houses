@@ -293,7 +293,7 @@ GAME.EVENTS = [
       const lines = [N_('You hear the front door close before dawn. Elias is already out.', '{تسمع|تسمعين} باب البيت يتسكر قبل الفجر. إلياس طلع من بدري.'), N_('Gulls. Wind. The house is quiet.', 'نوارس. هوا. البيت هادي.')];
       if ((s.trust.elias || 0) >= 3) lines.push(N_('The kettle is still warm. A cup has been left out for you.', 'الغلاية لسا دافية. وفيه كوب متروك لك.'));
       const out = [pickOne(lines)];
-      if (s.mood <= 3) out.push(N_('Getting up feels like lifting the whole house. You do it anyway.', 'القومة تحس كأنك {تشيل|تشيلين} البيت كله. {وتقوم|وتقومين} على كل حال.'));
+      if (s.mood <= 3) out.push(N_('Getting up feels like lifting the whole house. You do it anyway.', 'القومة {تحس|تحسين} كأنك {تشيل|تشيلين} البيت كله. {وتقوم|وتقومين} على كل حال.'));
       return out;
     } },
   { id: 'fallHarbor', once: true, when: s => s.f.metElias && !s.f.ended && !s.f.fallDone && s.day >= 4 && s.slot === 0 && s.loc === 'harbor', run: s => GAME.SCRIPTS.fall('harbor') },
@@ -312,7 +312,7 @@ GAME.EVENTS = [
         { t: T('"Answer it."', '«رد عليه.»'), fx: s => addTrust('elias', -1), then: [E('angry', 'Don\'t.', 'لا.'), N_('He goes to his room and shuts the door.', 'يدخل غرفته ويسكّر الباب.')] },
         { t: T('Turn your own phone face down too', '{تقلب|تقلبين} جوالك {أنت بعد|أنتِ بعد} على وجهه'), fx: s => addTrust('elias', 1), then: [E('smile', 'The pair of us. Look at that.', 'إحنا الاثنين. {شف|شوفي}.')] }
       ] }] },
-  { id: 'finale', when: s => !s.f.ended && s.f.fallDone && !s.f.finaleDone && s.day > s.f.fallDay && s.slot === NIGHT, run: s => (houseOf(s.loc) === 'elias' || s.loc === 'elias_ext') ? GAME.SCRIPTS.finale(s) : [N_('Your phone buzzes. A landline number. Elias\'s voice, tired: "Come home, {lad|lass}. I want to talk."', 'جوالك يهتز. رقم هاتف أرضي. صوت إلياس، تعبان: «تعال البيت يا {ولدي|بنتي}. أبي أتكلم معك.»'), { go: 'living' }].concat(GAME.SCRIPTS.finale(s)) }
+  { id: 'finale', when: s => !s.f.ended && s.f.fallDone && !s.f.finaleDone && s.day > s.f.fallDay && s.slot === NIGHT, run: s => (houseOf(s.loc) === 'elias' || s.loc === 'elias_ext') ? GAME.SCRIPTS.finale(s) : [N_('Your phone buzzes. A landline number. Elias\'s voice, tired: "Come home, {lad|lass}. I want to talk."', 'جوالك يهتز. رقم هاتف أرضي. صوت إلياس، تعبان: «{تعال|تعالي} البيت يا {ولدي|بنتي}. أبي أتكلم معك.»'), { go: 'living' }].concat(GAME.SCRIPTS.finale(s)) }
 ];
 
 /* ---------------- v2: living house, risk, self-care, Martha ---------------- */

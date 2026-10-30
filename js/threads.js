@@ -84,7 +84,7 @@
       N1('He reads it standing up. Then he sits down, without looking for the chair, and reads it again.', 'يقراها وهو واقف. وبعدين يجلس، بدون ما يدور الكرسي، ويقراها مرة ثانية.'),
       E('sad', '"Not whoever is on the pier tonight."', '«ولا اللي على الرصيف الليلة.»'),
       E('sad', 'She knew somebody was there. And she let him off. That same night. Before it even happened.', 'كانت تدري إن فيه أحد هناك. وسامحته. نفس الليلة. قبل لا يصير شي حتى.'),
-      E('neutral', 'Forty-five years I\'ve been waiting for somebody to say that. It never crossed my mind it would be her.', 'خمسة وأربعين سنة وأنا أنتظر أحد يقولها. وعمرها ما جت في بالي إنها بتكون هي.'),
+      E('neutral', 'Forty-three years I\'ve been waiting for somebody to say that. It never crossed my mind it would be her.', 'ثلاثة وأربعين سنة وأنا أنتظر أحد يقولها. وعمرها ما جت في بالي إنها بتكون هي.'),
       s.f.nellRest ? E('neutral', 'I\'ll keep this. If you don\'t mind.', 'بخليها عندي. إذا ما عندك مانع.')
         : E('neutral', 'Take it with you, with the lantern. She should know it arrived.', '{خذها|خذيها} معك، مع الفانوس. لازم تدري إنها وصلت.')]; } }
   );
@@ -107,7 +107,7 @@
           { c: 'elias', e: 'sad', t: T('"...Not whoever is on the pier tonight. I chose it. I am not afraid."', '«...ولا اللي على الرصيف الليلة. أنا اخترت. وأنا مو خايفة.»') },
           E('sad', 'You weren\'t. I was. I\'m not any more.', 'أنتِ ما كنتِ خايفة. أنا اللي كنت. وما عدت.')
         ] : [
-          N1('You unfold her last note and read it to her. Her own words, back to her, across forty-five years.', '{تفتح|تفتحين} آخر ورقة منها {وتقراها|وتقرينها} لها. كلامها هي، يرجع لها، بعد خمسة وأربعين سنة.')
+          N1('You unfold her last note and read it to her. Her own words, back to her, across forty-three years.', '{تفتح|تفتحين} آخر ورقة منها {وتقراها|وتقرينها} لها. كلامها هي، يرجع لها، بعد ثلاثة وأربعين سنة.')
         ]), N1('Something in her face changes. She was never waiting for him to be sorry. She was waiting to know her bottle arrived.', 'شي في وجهها يتغير. ما كانت تنتظره يتأسف. كانت تنتظر تدري إن قارورتها وصلت.'));
       }
       return steps;

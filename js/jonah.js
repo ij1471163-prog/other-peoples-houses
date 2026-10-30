@@ -31,7 +31,7 @@
     jletter: { name: T('Dad\'s unsent letter', 'رسالة أبوك اللي ما انرسلت'), desc: T('Folded small enough to live in a wallet for years.', 'مطوية صغيرة لدرجة إنها عاشت في محفظة سنين.') }
   });
   GAME.QUESTS.q_jonah = { title: T('What Dad never said', 'اللي ما قاله أبوي'),
-    hint: T('Mum keeps finding things in Dad\'s boxes. Show them to people who knew Saltmere in 1989.', 'أمي كل شوي تلقى شي في كراتين أبوي. {وريها|وريها} للي كانوا يعرفون سولتمير سنة ١٩٨٩.') };
+    hint: T('Mum keeps finding things in Dad\'s boxes. Show them to people who knew Saltmere in 1989.', 'أمي كل شوي تلقى شي في كراتين أبوي. {ورها|وريها} للي كانوا يعرفون سولتمير سنة ١٩٨٩.') };
 
   /* the photo, on screen: the cemetery wall in sepia, two tiny boys on it */
   GAME.MINI.photo = function (panel, done, st) {
@@ -55,20 +55,20 @@
   GAME.SCRIPTS.jonah1 = s => [
     N1('Your phone buzzes against your leg. Then again. You know who it is without looking. You look anyway.', 'جوالك يهتز على رجلك. ومرة ثانية. {تعرف|تعرفين} مين بدون ما {تطالع|تطالعين}. {وتطالع|وتطالعين} على كل حال.'),
     texts([
-      { t: T('Are you eating?', 'تاكل؟'), time: T('3 weeks ago', 'قبل ٣ أسابيع') },
+      { t: T('Are you eating?', '{تاكل|تاكلين}؟'), time: T('3 weeks ago', 'قبل ٣ أسابيع') },
       { t: T('I\'m not angry. I promise I\'m not angry.', 'أنا مو زعلانة. والله مو زعلانة.'), time: T('2 weeks ago', 'قبل أسبوعين') },
       { t: T('I should have told you about the house. I didn\'t know how. I still don\'t.', 'كان لازم أقول لك عن البيت. ما عرفت كيف. وللحين ما أعرف.'), time: T('last week', 'الأسبوع اللي فات') },
-      { t: T('Just one word so I know you\'re alive.', 'بس كلمة وحدة عشان أعرف إنك حي.'), time: T('today', 'اليوم') }
+      { t: T('Just one word so I know you\'re alive.', 'بس كلمة وحدة عشان أعرف إنك {حي|حية}.'), time: T('today', 'اليوم') }
     ], T('47 unread', '٤٧ رسالة ما انقرت')),
     { menu: [
       { t: T('Answer her', '{رد|ردي} عليها'), cls: 'main', then: [
         st => { st.f.jm = 1; st.f.jmDay = st.day; quest('q_jonah', 'active'); give('jphoto'); return null; },
         texts([
-          { t: T('Just one word so I know you\'re alive.', 'بس كلمة وحدة عشان أعرف إنك حي.'), time: T('today', 'اليوم') },
-          { me: true, type: true, drafts: [T('I\'m fine', 'أنا بخير'), T('Why didn\'t you tell me', 'ليش ما قلتي لي')], t: T('Alive. In Saltmere. Dad grew up here. Did you know?', 'حي. في سولتمير. أبوي تربى هنا. كنتي تدرين؟') },
+          { t: T('Just one word so I know you\'re alive.', 'بس كلمة وحدة عشان أعرف إنك {حي|حية}.'), time: T('today', 'اليوم') },
+          { me: true, type: true, drafts: [T('I\'m fine', 'أنا بخير'), T('Why didn\'t you tell me', 'ليش ما قلتي لي')], t: T('Alive. In Saltmere. Dad grew up here. Did you know?', '{حي|حية}. في سولتمير. أبوي تربى هنا. كنتي تدرين؟') },
           { t: T('...', '...'), wait: 2400 },
           { t: T('No. He never said that name. Not once in 26 years.', 'لا. عمره ما قال هالاسم. ولا مرة في ٢٦ سنة.') },
-          { t: T('Wait. There\'s a box of his I never opened. Hold on.', 'لحظة. فيه كرتون حقه عمري ما فتحته. انتظر.'), wait: 2600 },
+          { t: T('Wait. There\'s a box of his I never opened. Hold on.', 'لحظة. فيه كرتون حقه عمري ما فتحته. {انتظر|انتظري}.'), wait: 2600 },
           { t: T('[photo]', '[صورة]') },
           { t: T('Is this him? Who is the other boy?', 'هذا هو؟ ومين الولد الثاني؟') }
         ]),
@@ -127,7 +127,7 @@
   /* ---------- 3. the letter in the wallet ---------- */
   GAME.SCRIPTS.jonah3 = s => [
     N1('A parcel is waiting for you, sent care of Sami\'s shop. Your mother\'s handwriting on the label, very careful. Inside: your father\'s old wallet, and a note.', 'فيه طرد ينتظرك، مرسول على عنوان بقالة سامي. خط أمك على الورقة، مرتب مرة. داخله: محفظة أبوك القديمة، وورقة.'),
-    N1('"This was in his wallet behind his driving licence. It\'s not to me. I think it\'s to the man who owns that hotel. I think you should read it first. — Mum"', '«هذي كانت في محفظته ورا الرخصة. مو لي. أحسها للرجال اللي يملك ذاك الفندق. أحس لازم تقراها أنت أول. — أمك»'),
+    N1('"This was in his wallet behind his driving licence. It\'s not to me. I think it\'s to the man who owns that hotel. I think you should read it first. — Mum"', '«هذي كانت في محفظته ورا الرخصة. مو لي. أحسها للرجال اللي يملك ذاك الفندق. أحس لازم {تقراها أنت|تقرينها أنتِ} أول. — أمك»'),
     st => { give('jletter'); st.f.jm = 3; st.f.jmDay = st.day; return null; },
     { mini: 'paper', kind: 'letter', body: T('V.,\nI stood across from your hotel today for an hour. You did it. You actually did it. I wanted to come in and say so, and I couldn\'t.\nBecause if I walk into that lobby I have to say it out loud: that the boy who was going to get out was you. That you sold your dad\'s engine and took the beating and put me on the train, and I let you. And then I wrote to you for money every time I failed, for twenty-five years, and you never once said no, and I never once said thank you.\nI\'m going to pay you back. Every cent. Then I\'ll come in.\nJ.', 'ف.،\nوقفت قدام فندقك اليوم ساعة. سويتها. سويتها صدق. كنت أبي أدخل وأقولها لك، وما قدرت.\nلأني لو دخلت ذاك اللوبي لازم أقولها بصوت عالي: إن الولد اللي كان بيطلع هو أنت. إنك بعت مكينة أبوك وأكلت الضرب وركبتني القطار، وأنا خليتك. وبعدين كتبت لك أطلب فلوس كل ما فشلت، خمسة وعشرين سنة، وأنت ولا مرة قلت لا، وأنا ولا مرة قلت شكراً.\nبرجّع لك. كل سنت. وبعدين بدخل.\nج.') },
     N1('He never came in. He never paid it back. And the man upstairs read his name on a file and signed anyway.', 'ما دخل أبد. وما رجّع شي. والرجال اللي فوق قرا اسمه على ملف ووقّع على كل حال.'),
@@ -172,6 +172,6 @@
   /* people notice */
   const chat = (who, line) => { const c = GAME.CHAR[who]; if (c) { c.chat = c.chat || []; c.chat.unshift(line); } };
   chat('elias', { if: s => !!s.f.jTicket, e: 'neutral', t: T('Victor came past on the harbour this morning. Looked at the Ada for a long time. First time in thirty years he\'s looked at anything down here that wasn\'t for sale.', 'فيكتور مر من الميناء الصبح. طالع «آدا» وقت طويل. أول مرة من ثلاثين سنة يطالع شي هنا مو للبيع.') });
-  chat('gregor', { if: s => !!s.f.jGregor, e: 'smile', t: T('I scrubbed their initials off that wall in 1992. Somebody painted them back in 1993. Never found out which one.', 'مسحت حروفهم من السور سنة ٩٢. وأحد رجع رسمها سنة ٩٣. وعمري ما عرفت مين فيهم.') });
+  chat('gregor', { if: s => !!s.f.jGregor, e: 'smile', t: T('I scrubbed their initials off that wall in 1992. Somebody painted them back in 1993. Never found out who. I\'ve a good guess.', 'مسحت حروفهم من السور سنة ٩٢. وأحد رجع رسمها سنة ٩٣. وعمري ما عرفت مين. بس عندي فكرة.') });
   chat('marco', { if: s => !!s.f.jCall, e: 'smile', t: T('You look lighter. Like someone took a rock out of your coat. Coffee\'s on me.', 'شكلك أخف. كأن أحد طلّع حجر من كوتك. القهوة علي.') });
 })();

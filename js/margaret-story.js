@@ -41,13 +41,13 @@
     st => { st.f.ended = true; st.f.margFirst = true; st.slot = NIGHT; return null; },
     { go: 'street' }, { show: [] },
     N1('The bench outside Sami\'s. The shop is dark. It has started to rain, the thin, sideways kind that gets in everywhere.', 'الكرسي اللي قدام بقالة سامي. المحل مطفي. وبدأ المطر، المطر الرفيع المايل اللي يدخل في كل مكان.'),
-    N1('You have been sitting here long enough that you have stopped noticing you are wet.', 'صار لك جالس هنا وقت طويل لدرجة إنك بطّلت تنتبه إنك مبلول.'),
+    N1('You have been sitting here long enough that you have stopped noticing you are wet.', 'صار لك {جالس|جالسة} هنا وقت طويل لدرجة إنك {بطّلت تنتبه إنك مبلول|بطّلتي تنتبهين إنك مبلولة}.'),
     N1('Footsteps. A woman with an umbrella and a bag of shopping walks past. Slows down. Walks on. Stops. Comes back halfway, and stands there, as if she has forgotten why.', 'خطوات. امرأة معها شمسية وكيس مقاضي تمر. تبطّي. تكمل. توقف. وترجع نص الطريق، وتوقف هناك، كأنها نست ليش رجعت.'),
     { show: [{ id: 'margaret', e: 'worry' }] },
     M('worry', 'I\'m sorry. It isn\'t my business. I know it isn\'t.', 'آسفة. مو شغلي. أدري إنه مو شغلي.'),
     M('neutral', 'I\'m Margaret. Hart. The white house, up on Cliff Road. I\'ve seen you around. With Elias.', 'أنا مارغريت. هارت. البيت الأبيض، فوق في شارع الجرف. شفتك قبل. مع إلياس.'),
     N1('She looks at you a moment too long. Her hand tightens on the umbrella.', 'تطالعك لحظة أطول من اللازم. يدها تشتد على الشمسية.'),
-    M('worry', 'I have a room. It\'s empty. It\'s... it\'s been empty a while. Just until you find somewhere. You can\'t sit out here all night, love.', 'عندي غرفة. فاضية. هي... صار لها فترة فاضية. بس لين تلقى مكان. ما {تقدر|تقدرين} {تجلس|تجلسين} هنا الليل كله، يا عمري.'),
+    M('worry', 'I have a room. It\'s empty. It\'s... it\'s been empty a while. Just until you find somewhere. You can\'t sit out here all night, love.', 'عندي غرفة. فاضية. هي... صار لها فترة فاضية. بس لين {تلقى|تلقين} مكان. ما {تقدر|تقدرين} {تجلس|تجلسين} هنا الليل كله، يا عمري.'),
     { c: 'margaret', e: 'worry', menu: [
       { t: T('"Thank you. I\'d like that."', '«شكراً. ودي.»'), cls: 'main', then: [M('smile', 'Good. Good. Come on, then. I\'ll put the kettle on. I always put the kettle on.', 'زين. زين. {تعال|تعالي} أجل. بحط الإبريق. أنا دايم أحط الإبريق.')] },
       { t: T('"Why would you do that for a stranger?"', '«ليش تسوين كذا لواحد ما تعرفينه؟»'), then: [M('sad', 'Because somebody should have done it for my son. And nobody did.', 'لأن كان لازم أحد يسويها لولدي. ومحد سواها.'), N1('She says it very quietly. Then she holds the umbrella over you, and doesn\'t say anything else.', 'تقولها بهدوء مرة. وبعدين تحط الشمسية فوقك، وما تقول شي ثاني.')] }
@@ -92,14 +92,14 @@
   const SC = {
     warm: s => [{ show: [{ id: 'margaret', e: 'smile' }] },
       N1('Margaret has made breakfast. Too much breakfast. Eggs, toast, beans, a pot of tea, a jar of marmalade she apologises for.', 'مارغريت سوت فطور. فطور كثير. بيض، وتوست، وفاصوليا، وإبريق شاي، ومربى برتقال تعتذر عنه.'),
-      M('smile', 'I didn\'t know what you liked. So I made all of it. That\'s silly. Sorry.', 'ما كنت أدري وش تحب. فسويت كل شي. سخيف. آسفة.'),
+      M('smile', 'I didn\'t know what you liked. So I made all of it. That\'s silly. Sorry.', 'ما كنت أدري وش {تحب|تحبين}. فسويت كل شي. سخيف. آسفة.'),
       { menu: [
         { t: T('"It\'s perfect."', '«ممتاز.»'), then: [N1('She goes pink and busies herself with the teapot. When she thinks you aren\'t looking, she smiles at the table.', 'وجهها يحمر وتنشغل بالإبريق. ولما تحسب إنك ما {تطالع|تطالعين}، تبتسم للطاولة.'), st => { kind(st, 'warm'); addMood(1); return null; }] },
         { t: T('Eat, and ask about her', '{كُل|كلي}، {واسألها|واسأليها} عنها'), then: [M('neutral', 'Me? Oh, there isn\'t much. I used to teach. Piano. I don\'t, now. The piano\'s still there. I dust it.', 'أنا؟ ما فيه شي. كنت أدرّس. بيانو. الحين لا. البيانو لسا موجود. أنفضه.'), st => { kind(st, 'warm'); return null; }] }
       ] }],
     worry: s => [{ show: [{ id: 'margaret', e: 'worry' }] },
       N1('You come back in and Margaret is standing in the hall, still in her coat, as if she has been about to go out for a long time.', '{ترجع|ترجعين} للبيت ومارغريت واقفة في الممر، لابسة كوتها، كأنها من زمان على وشك تطلع.'),
-      M('worry', 'Where were you? No. Sorry. You don\'t have to tell me. It\'s only the cliff road, at night, the cars come round that bend so fast.', 'وين {كنت|كنتي}؟ لا. آسفة. مو لازم {تقول|تقولين} لي. بس شارع الجرف، بالليل، السيارات تلف ذاك المنعطف بسرعة.'),
+      M('worry', 'Where were you? No. Sorry. You don\'t have to tell me. It\'s only the city road, at night, the cars come round that bend so fast.', 'وين {كنت|كنتي}؟ لا. آسفة. مو لازم {تقول|تقولين} لي. بس طريق المدينة، بالليل، السيارات تلف ذاك المنعطف بسرعة.'),
       st => { [0, 450, 900].forEach(t => setTimeout(() => snd('wood1', 0.5)(st), t)); return null; },
       N1('Behind you she locks the door. Unlocks it. Locks it again. Checks it. Three times.', 'وراك تقفل الباب. تفتحه. تقفله مرة ثانية. تتأكد منه. ثلاث مرات.'),
       { menu: [
@@ -109,7 +109,7 @@
     seeing: s => [{ show: [{ id: 'margaret', e: 'blank' }] },
       N1('Margaret puts a mug of tea in front of you. A blue mug with a chipped handle and a football club badge. Everybody else\'s mugs in this house are white.', 'مارغريت تحط قدامك كوب شاي. كوب أزرق يده مكسورة شوي وعليه شعار نادي كورة. كل الأكواب الثانية في البيت بيضا.'),
       M('blank', 'Two sugars. You always...', 'ملعقتين سكر. {أنت دايم|أنتِ دايم}...'),
-      N1('She stops. You don\'t take sugar. You have never told her you don\'t take sugar.', 'توقف. {أنت ما تاخذ|أنتِ ما تاخذين} سكر. وعمرك ما قلت لها إنك ما {تاخذ|تاخذين} سكر.'),
+      N1('She stops. You don\'t take sugar. You have never told her you don\'t take sugar.', 'توقف. {أنت ما تاخذ|أنتِ ما تاخذين} سكر. وعمرك ما {قلت|قلتي} لها إنك ما {تاخذ|تاخذين} سكر.'),
       { show: [{ id: 'margaret', e: 'worry' }] },
       M('worry', 'I\'ll get you another mug.', 'بجيب لك كوب ثاني.'),
       { menu: [
@@ -143,7 +143,7 @@
       M('cry', 'I\'m sorry. I\'m so sorry. That wasn\'t you. None of that was you.', 'آسفة. آسفة مرة. ما كان أنت. ولا شي منه كان أنت.'),
       M('worry', 'If you want to go, I\'ll understand. I\'ll help you carry your things. I just didn\'t want you to go hungry.', 'إذا {تبي تروح|تبين تروحين}، بفهم. بساعدك {تشيل|تشيلين} أغراضك. بس ما بغيتك {تروح جوعان|تروحين جوعانة}.'),
       { menu: [
-        { t: T('Take the tray. "I\'m not going anywhere."', '{خذ|خذي} الصينية. «ما راح أروح مكان.»'), cls: 'main', then: [{ mini: 'cg', src: 'img/fx/marg_hug2.jpg', full: true, cap: T('"Thank you," she says, into your shoulder. "Thank you for staying."', '«شكراً،» تقولها على كتفك. «شكراً إنك {بقيت|بقيتي}.»') }, N1('She sits on the end of the bed while you eat. She doesn\'t talk. For the first time since you came, she looks like she is breathing all the way in.', 'تجلس على طرف السرير وأنت {تاكل|تاكلين}. ما تتكلم. ولأول مرة من جيت، تبان كأنها تتنفس للآخر.'), st => { kind(st, 'sorry'); tenseUp(st, -1); return null; }] },
+        { t: T('Take the tray. "I\'m not going anywhere."', '{خذ|خذي} الصينية. «ما راح أروح مكان.»'), cls: 'main', then: [{ mini: 'cg', src: 'img/fx/marg_hug2.jpg', full: true, cap: T('"Thank you," she says, into your shoulder. "Thank you for staying."', '«شكراً،» تقولها على كتفك. «شكراً إنك {بقيت|بقيتي}.»') }, N1('She sits on the end of the bed while you eat. She doesn\'t talk. For the first time since you came, she looks like she is breathing all the way in.', 'تجلس على طرف السرير وأنت {تاكل|تاكلين}. ما تتكلم. ولأول مرة من {جيت|جيتي}، تبان كأنها تتنفس للآخر.'), st => { kind(st, 'sorry'); tenseUp(st, -1); return null; }] },
         { t: T('Take the tray, and say nothing', '{خذ|خذي} الصينية، ولا {تقول|تقولين} شي'), then: [N1('She waits. You eat. She goes. The door stays a little open behind her, the way you\'d leave it for a child.', 'تنتظر. {تاكل|تاكلين}. تروح. والباب يبقى مفتوح شوي وراها، مثل ما تخليه لطفل.')] }
       ] }]
   };
@@ -193,7 +193,7 @@
     { id: 'bedside', mood: [1, 2, 3], slot: [4], run: s => [snd('creak1', 0.6), st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { marg_guest: 'marg_bedside' }); return null; }, { show: [] },
       N1('You wake up and don\'t know why. Then you see her: Margaret, sitting very still on the end of your bed in the dark, watching you.', '{تصحى|تصحين} وما {تدري|تدرين} ليش. وبعدين {تشوفها|تشوفينها}: مارغريت، جالسة ثابتة مرة على طرف سريرك في الظلام، تطالعك.'),
       st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { marg_guest: 'marg_bedside2' }); return null; },
-      Object.assign(M('blank', 'I was just making sure you were breathing. Go back to sleep, Danny.', 'كنت بس أتأكد إنك تتنفس. {ارجع|ارجعي} {نام|نامي}، يا داني.'), { off: true }),
+      Object.assign(M('blank', 'I was just making sure you were breathing. Go back to sleep, Danny.', 'كنت بس أتأكد إنك تتنفس. ارجع نام، يا داني.'), { off: true }),
       { menu: [
         { t: T('"It\'s me, Margaret. Not Danny."', '«هذا أنا يا مارغريت. مو داني.»'), then: [st => { if (VIEW.bgOver) delete VIEW.bgOver.marg_guest; return null; }, { show: [{ id: 'margaret', e: 'worry' }] }, M('worry', 'I know. I know it is. I\'m sorry. I know.', 'أدري. أدري إنه أنت. آسفة. أدري.'), N1('She goes. She leaves the door open a crack. You don\'t sleep again.', 'تروح. وتخلي الباب مفتوح شوي. وما {تنام|تنامين} بعدها.'), st => { kind(st, 'bedside'); return null; }] },
         { t: T('Pretend to be asleep', '{سوّ|سوّي} نفسك {نايم|نايمة}'), then: [N1('You lie still. After a long time she stands, tucks the blanket in around your feet, very tight, the way you do for a small child, and goes.', '{تتمدد|تتمددين} بدون حركة. بعد وقت طويل توقف، وتدخل البطانية حول رجولك، مشدودة مرة، مثل ما تسوي لطفل صغير، وتروح.'), st => { tenseUp(st); return null; }] }

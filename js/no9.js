@@ -18,7 +18,7 @@
   const say = (c, e, en, ar) => ({ c, e, t: T(en, ar) });
   const open9 = s => !!(s.f.knowJonah || s.f.knowV || (s.f.jm || 0) >= 1);
 
-  GAME.ITEMS.n9tin = { name: T('A rusted tin from number 9', 'علبة صدية من رقم ٩'), desc: T('A marble, a bus ticket from 1991, a photo-booth strip of two boys pulling faces, and a note to "V.".', 'بلية، وتذكرة باص من ١٩٩١، وشريط صور لولدين يسوون وجيه، وورقة لـ«ف.».') };
+  GAME.ITEMS.n9tin = { name: T('A rusted tin from number 9', 'علبة صدية من رقم ٩'), desc: T('A marble, a ticket stub from the 1991 summer fair, a photo-booth strip of two boys pulling faces, and a note to "V.".', 'بلية، وتذكرة من مهرجان صيف ١٩٩١، وشريط صور لولدين يسوون وجيه، وورقة لـ«ف.».') };
 
   GAME.LOC.no9 = {
     name: T('No. 9, Fisher\'s Row', 'رقم ٩، شارع الصيادين'), mapName: T('No. 9', 'رقم ٩'), bg: 'no9', canWait: true,
@@ -39,9 +39,9 @@
           { t: T('Lift it', '{ارفعها|ارفعيها}'), cls: 'main', then: [
             { mini: 'scrub', dir: 'img/fx/step/', frames: 44, ext: 'jpg', drag: 'up', zoom: { x: 52, y: 80 }, anchorY: 0.5, snd: 'step-lift', hint: T('Drag up to lift the stone', '{اسحب|اسحبي} لفوق عشان {ترفع|ترفعين} الحجر') },
             N1('Underneath, in a hollow somebody dug on purpose: a biscuit tin, rusted shut at one corner. It takes both thumbs.', 'تحتها، في حفرة أحد حفرها بقصد: علبة بسكوت، صدية ومقفلة من زاوية. تحتاج الإبهامين.'),
-            N1('A glass marble. A bus ticket, Saltmere to the junction, 1991. A photo-booth strip: two boys, maybe seventeen, pulling faces, then laughing, then, in the last square, not laughing.', 'بلية زجاج. تذكرة باص، من سولتمير للمحطة، ١٩٩١. شريط صور من الكشك: ولدين، يمكن عمرهم سبعطعش، يسوون وجيه، وبعدين يضحكون، وبعدين، في آخر مربع، ما يضحكون.'),
+            N1('A glass marble. A ticket stub: Saltmere Summer Fair, 1991, admit two. A photo-booth strip: two boys, maybe seventeen, pulling faces, then laughing, then, in the last square, not laughing.', 'بلية زجاج. تذكرة: مهرجان صيف سولتمير، ١٩٩١، شخصين. شريط صور من الكشك: ولدين، يمكن عمرهم سبعطعش، يسوون وجيه، وبعدين يضحكون، وبعدين، في آخر مربع، ما يضحكون.'),
             N1('And a note, on paper torn from a school book.', 'وورقة، مقطوعة من دفتر مدرسة.'),
-            { mini: 'paper', kind: 'letter', body: T('V. — Don\'t be angry. I took the 6.40. I know what you did with the engine. I\'ll pay you back every penny, and then some. Same wall, when I come home. Keep my marble till then. — J.', 'ف. — لا تزعل. ركبت قطار ستة وأربعين. أدري وش سويت بالمكينة. برجّع لك كل قرش، وزيادة. نفس السور، لما أرجع. خل البلية عندك لين ذاك الوقت. — ج.') },
+            { mini: 'paper', kind: 'letter', body: T('V. — Writing this the night before, in case I can\'t say it at the station. I know what you did with the engine. I\'ll pay you back every cent, and then some. Same wall, when I come home. Keep my marble till then. — J.', 'ف. — أكتبها الليلة اللي قبل، احتياط لو ما قدرت أقولها في المحطة. أدري وش سويت بالمكينة. برجّع لك كل قرش، وزيادة. نفس السور، لما أرجع. خل البلية عندك لين ذاك الوقت. — ج.') },
             N1('He wrote "when I come home". He never did. The tin waited for a boy who never came to lift the step.', 'كتب «لما أرجع». وما رجع أبد. والعلبة انتظرت ولد ما جا يرفع العتبة.'),
             st => { st.f.n9Tin = true; give('n9tin'); addMood(1); return null; }
           ] },
@@ -74,14 +74,14 @@
 
   /* who can tell you more */
   const topic = (id, t) => { GAME.TOPICS[id] = GAME.TOPICS[id] || []; GAME.TOPICS[id].push(t); };
-  topic('elias', { id: 'n9tin', once: true, label: T('Show him the tin from number 9', '{وريه|وريه} العلبة من رقم ٩'), if: s => has('n9tin') && s.f.metElias && !s.f.ended, run: [
-    N1('Elias turns the bus ticket over in his fingers like it might still be warm.', 'إلياس يقلب تذكرة الباص بأصابعه كأنها لسا دافية.'),
+  topic('elias', { id: 'n9tin', once: true, label: T('Show him the tin from number 9', '{وره|وريه} العلبة من رقم ٩'), if: s => has('n9tin') && s.f.metElias && !s.f.ended, run: [
+    N1('Elias turns the fair ticket over in his fingers like it might still be warm.', 'إلياس يقلب تذكرة المهرجان بأصابعه كأنها لسا دافية.'),
     say('elias', 'sad', 'The step. Of course. That was their post office. Notes under the step, back and forth, every day for years. Their mothers never knew.', 'العتبة. أكيد. كانت بريدهم. أوراق تحت العتبة، رايحة جاية، كل يوم سنين. وأمهاتهم ما دروا.'),
     say('elias', 'neutral', 'Victor never went back to that step. After the train, after his father found out about the engine, he didn\'t walk down this row for a year.', 'فيكتور عمره ما رجع لهالعتبة. بعد القطار، وبعد ما أبوه درى عن المكينة، ما مشى في هالشارع سنة كاملة.'),
     say('elias', 'sad', 'So it waited for him. Thirty years. And it\'s you who lifted it. That\'s the sea for you. It brings things back to the wrong person at the right time.', 'فانتظرته. ثلاثين سنة. {وأنت|وأنتِ} اللي {رفعتها|رفعتيها}. هذا البحر. يرجّع الأشياء للشخص الغلط في الوقت الصح.')
   ] });
   topic('gregor', { id: 'n9wall', once: true, label: T('"Same wall, when I come home." Which wall?', '«نفس السور، لما أرجع.» أي سور؟'), if: s => has('n9tin'), run: [
-    say('gregor', 'smile', 'Mine. The cemetery wall. The low bit by the yew, where you can see the whole bay. They sat there every evening the year they were sixteen and made plans out loud. Loud plans.', 'سوري أنا. سور المقبرة. الجزء الواطي جنب شجرة الطقسوس، اللي تشوف منه الخليج كله. كانوا يجلسون هناك كل مساء السنة اللي كان عمرهم فيها ستطعش، ويخططون بصوت عالي. خطط عالية.'),
+    say('gregor', 'smile', 'Mine. The cemetery wall. The low bit by the yew, where you can see the whole bay. They sat there every evening, three summers running, and made plans out loud. Loud plans.', 'سوري أنا. سور المقبرة. الجزء الواطي جنب شجرة الطقسوس، اللي تشوف منه الخليج كله. كانوا يجلسون هناك كل مساء، ثلاث صيوف ورا بعض، ويخططون بصوت عالي. خطط عالية.'),
     say('gregor', 'neutral', 'Go and sit there. It\'s a good wall for it.', '{روح|روحي} {اجلس|اجلسي} هناك. سور زين لهالشي.'),
     st => { st.f.n9Wall = true; return null; }
   ] });
@@ -94,7 +94,7 @@
   const inV = s => (GAME.H && GAME.H.victor ? GAME.H.victor.inV(s) : s.host === 'victor');
   topic('victor', { id: 'n9tin', once: true, label: T('Give him the tin from under the step', '{عطه|عطيه} العلبة اللي تحت العتبة'), if: s => has('n9tin') && inV(s), run: [
     N1('Victor knows the tin before you open it. He sits down, which you have never seen him do in front of anyone.', 'فيكتور يعرف العلبة قبل لا {تفتحها|تفتحينها}. يجلس، وعمرك ما {شفته|شفتيه} يجلس قدام أحد.'),
-    say('victor', 'sad', 'I never lifted it. I walked past that step every day for a year and I never once lifted it. I was so angry he went. I thought if I didn\'t look, he hadn\'t left anything.', 'عمري ما رفعتها. مريت جنب هالعتبة كل يوم سنة كاملة وعمري ما رفعتها. كنت معصب مرة إنه راح. حسبت إذا ما طالعت، يعني ما خلّى شي.'),
+    say('victor', 'sad', 'I never lifted it. For a year I couldn\'t walk down this row. After that I walked past that step every day for thirty years, and I never once lifted it. I was so angry he went. I thought if I didn\'t look, he hadn\'t left anything.', 'عمري ما رفعتها. سنة كاملة ما قدرت أمشي في هالشارع. وبعدها مريت جنب هالعتبة كل يوم ثلاثين سنة، وعمري ما رفعتها. كنت معصب مرة إنه راح. حسبت إذا ما طالعت، يعني ما خلّى شي.'),
     N1('He holds the marble for a long time. "He was terrible at marbles," he says. "I let him win this one."', 'يمسك البلية وقت طويل. «كان سيئ مرة في البلي،» يقول. «خليته يفوز بهذي.»'),
     say('victor', 'neutral', 'Number 3 and number 9 are on my list. I signed it in a meeting. I didn\'t read the numbers. ...I will read them now.', 'رقم ٣ ورقم ٩ في قايمتي. وقعتها في اجتماع. ما قريت الأرقام. ...بقراها الحين.'),
     st => { take('n9tin'); st.f.n9V = true; return null; }

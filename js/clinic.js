@@ -278,7 +278,7 @@
     run: s => {
       onceToday('irShift'); s.f.irShifts = (s.f.irShifts || 0) + 1; const n = s.f.irShifts;
       const intro = n === 1 ? [say('neutral', 'You want to help? Can you read? Can you count? Can you not faint?', '{تبي|تبين} {تساعد|تساعدين}؟ {تعرف|تعرفين} تقرا؟ {تعرف|تعرفين} تحسب؟ {تقدر|تقدرين} ما {يغمى عليك|يغمى عليكِ}؟'), say('smile', 'Good enough. Coat\'s on the hook.', 'يكفي. البالطو على الشماعة.')]
-        : [{ c: 'irene', e: 'neutral', t: pickOne([T('Coat\'s on the hook. Waiting room\'s full.', 'البالطو على الشماعة. غرفة الانتظار مليانة.'), T('Ah, my unpaid... my underpaid assistant.', 'آه، {مساعدي|مساعدتي} اللي بدون راتب... بالراتب القليل.'), T('Good, you\'re here. Mrs Okafor is here too. Brace yourself.', 'زين إنك جيت. السيدة أوكافور جت بعد. {استعد|استعدي}.')]) }];
+        : [{ c: 'irene', e: 'neutral', t: pickOne([T('Coat\'s on the hook. Waiting room\'s full.', 'البالطو على الشماعة. غرفة الانتظار مليانة.'), T('Ah, my unpaid... my underpaid assistant.', 'آه، {مساعدي|مساعدتي} اللي بدون راتب... بالراتب القليل.'), T('Good, you\'re here. Mrs Okafor is here too. Brace yourself.', 'زين إنك {جيت|جيتي}. السيدة أوكافور جت بعد. {استعد|استعدي}.')]) }];
       const cid = pickCase(s), C = CASES[cid];
       return intro.concat([{ show: [{ id: C.who, e: C.e }, { id: 'irene', e: 'neutral' }] }], C.intro, [{ mini: 'exam', caseId: cid, then: (r, st) => {
         const ok = !!(r && r.ok), pay = r ? (ok ? 8 : 4) + Math.min(3, r.keys || 0) : 3;
@@ -333,6 +333,6 @@
 
   /* she talks about you */
   const c = GAME.CHAR.irene; c.chat = c.chat || [];
-  c.chat.unshift({ if: s => bond(s) >= 3, e: 'smile', t: T('Mrs Okafor asked if you were my new nurse. I said yes. You\'re not paid enough to be my nurse.', 'السيدة أوكافور سألت إذا {أنت ممرضي|أنتِ ممرضتي} الجديدة. قلت إيه. وما تنصرف لك فلوس كفاية عشان تصير كذا.') });
+  c.chat.unshift({ if: s => bond(s) >= 3, e: 'smile', t: T('Mrs Okafor asked if you were my new nurse. I said yes. You\'re not paid enough to be my nurse.', 'السيدة أوكافور سألت إذا {أنت ممرضي الجديد|أنتِ ممرضتي الجديدة}. قلت إيه. وما تنصرف لك فلوس كفاية عشان تصير كذا.') });
   if (GAME.CHAR.marco && Array.isArray(GAME.CHAR.marco.chat)) GAME.CHAR.marco.chat.unshift({ if: s => !!s.f.irNightDone, e: 'shock', t: T('You stitched up the Doyle boy? On the dock? At night? Irene let someone else hold a needle? The world is ending.', '{خيطت|خيطتي} جرح ولد دويل؟ على الرصيف؟ بالليل؟ إيرين خلت أحد غيرها يمسك إبرة؟ الدنيا بتخلص.') });
 })();

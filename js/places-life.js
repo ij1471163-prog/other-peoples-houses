@@ -35,7 +35,7 @@
   /* ---------- the back yard at night ---------- */
   push('yard', { x: 30, y: 40, label: T('Voices through the kitchen window', 'صوت من شباك المطبخ'), if: s => ch1(s) && s.slot === NIGHT && !s.f.plYard, run: s => { s.f.plYard = true; return [
     N1('The kitchen window is open a crack. Elias is at the table, alone, talking in the low voice people use on the telephone. There is no telephone.', 'شباك المطبخ مفتوح شوي. إلياس على الطاولة، لحاله، يتكلم بالصوت الواطي اللي الناس يتكلمون فيه بالتلفون. وما فيه تلفون.'),
-    { c: 'elias', e: 'sad', t: T('...the boy upstairs, Ada. Not the boy. The other one. The lodger. They fold the towels wrong. You\'d like them.', '...الولد اللي فوق يا آدا. مو الولد. الثاني. الساكن. يطوي الفوط غلط. كان بيعجبك.') },
+    { c: 'elias', e: 'sad', t: T('...the boy upstairs, Ada. Not the boy. The other one. The lodger. They fold the towels wrong. You\'d like them.', '...{الولد اللي فوق|البنت اللي فوق} يا آدا. مو الولد. {الثاني. الساكن. يطوي الفوط غلط. كان بيعجبك|الثانية. الساكنة. تطوي الفوط غلط. كانت بتعجبك}.') },
     { c: 'elias', e: 'sad', t: T('I haven\'t told him. Either of them. I know. I know what you\'d say.', 'ما قلت له. ولا لواحد منهم. أدري. أدري وش بتقولين.') },
     N1('A chair scrapes. You step back into the dark before the light can find you.', 'كرسي يتسحب. {ترجع|ترجعين} ورا في الظلام قبل لا يوصلك الضو.'),
     st => { st.f.noticed = true; return null; }

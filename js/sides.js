@@ -104,7 +104,7 @@
         N1('She hangs up. Then she sees you, half behind the menu board, holding a chalk duster you picked up to look busy.', 'تسكّر. وبعدين تشوفك، نصك ورا اللوحة، {ماسك|ماسكة} ممسحة طباشير {شلتها|شلتيها} عشان تبين مشغول.'),
         C('nora', 'neutral', 'How much did you hear. ...All of it. Good. Then you know. Come for soup on Sunday. She eats when there\'s three of us.', 'كم {سمعت|سمعتي}. ...كله. زين. أجل {تعرف|تعرفين}. {تعال|تعالي} للشوربة يوم الأحد. هي تاكل لما نكون ثلاثة.'),
         st => { st.f.sdNora = true; return null; }] },
-      { t: T('Turn round and say hello', '{التفت|التفتي} {وسلّم|وسلّمي}'), then: [C('nora', 'shock', 'Oh! You. Hello. I\'m... on the phone to the doctor. About a... knee.', 'آه! {أنت|أنتِ}. هلا. أنا... أكلم الدكتورة. عن... ركبة.'), N1('She leaves without ordering. You never find out what she was going to say.', 'تطلع بدون ما تطلب شي. وما تعرف أبد وش كانت بتقول.')] }
+      { t: T('Turn round and say hello', '{التفت|التفتي} {وسلّم|وسلّمي}'), then: [C('nora', 'shock', 'Oh! You. Hello. I\'m... on the phone to the doctor. About a... knee.', 'آه! {أنت|أنتِ}. هلا. أنا... أكلم الدكتورة. عن... ركبة.'), N1('She leaves without ordering. You never find out what she was going to say.', 'تطلع بدون ما تطلب شي. وما {تعرف|تعرفين} أبد وش كانت بتقول.')] }
     ] }
   ] });
   say('nora', { if: s => !!s.f.sdNora, e: 'neutral', t: T('I kept the list. Every date, every bottle. One day somebody will want it, and I\'ll have it.', 'خليت القائمة عندي. كل تاريخ، وكل علبة. يوم من الأيام أحد بيبيها، وبتكون عندي.') });

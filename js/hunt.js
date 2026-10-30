@@ -16,7 +16,7 @@
   const N1 = (en, ar) => ({ n: T(en, ar) });
   const ch1 = s => s && s.host === 'elias' && s.f.metElias && !s.f.ended && !(s.done && s.done.elias);
   Object.assign(GAME.ITEMS, {
-    thnote: { name: T('Thomas\'s notes', 'أوراق توماس'), desc: T('A child\'s treasure hunt, in pencil, from thirty-three years ago.', 'لعبة كنز طفل، بالرصاص، من ثلاث وثلاثين سنة.') },
+    thnote: { name: T('Thomas\'s notes', 'أوراق توماس'), desc: T('A child\'s treasure hunt, in pencil, from eighteen years ago.', 'لعبة كنز طفل، بالرصاص، من ثمنطعش سنة.') },
     thbox: { name: T('Thomas\'s tin', 'علبة توماس'), desc: T('A biscuit tin, rusty at the corners. Inside: a drawing and a promise.', 'علبة بسكويت، صدية من الزوايا. داخلها: رسمة ووعد.') }
   });
   GAME.QUESTS.q_hunt = { title: T('A treasure hunt for Dad', 'لعبة كنز لبابا'), hint: T('Thomas left his dad a trail of riddles. Read the last note again (in your room) and work out where the next one is.', 'توماس ترك لأبوه ألغاز. {اقرا|اقري} آخر ورقة مرة ثانية (في غرفتك) {وفكر|وفكري} وين الجاية.') };
@@ -68,7 +68,7 @@
     const r = R[i];
     return [{ mini: 'thnote', i },
       { menu: r.o.map(o => ({ t: T('Look: ' + o.t.en.charAt(0).toLowerCase() + o.t.en.slice(1), '{دوّر|دوّري}: ' + o.t.ar), then: [st => look(st, i, o)] }))
-        .concat([{ t: T('Not now', 'مو الحين'), then: [N1('You fold the note into your pocket. It will keep. It has kept for thirty-three years.', '{تطوي|تطوين} الورقة في جيبك. بتصبر. صبرت ثلاث وثلاثين سنة.')] }]) }];
+        .concat([{ t: T('Not now', 'مو الحين'), then: [N1('You fold the note into your pocket. It will keep. It has kept for eighteen years.', '{تطوي|تطوين} الورقة في جيبك. بتصبر. صبرت ثمنطعش سنة.')] }]) }];
   }
   function look(s, i, o) {
     const out = [];
@@ -116,7 +116,7 @@
     Object.assign(E('sad', 'Every Sunday I hid things for him, and he found them. That one summer he hid them for me. I was on the boat every day. I never found the first one.', 'كل أحد كنت أخبي له أشياء، ويلقاها. وذاك الصيف بس، هو اللي خبا لي. وأنا كنت بالقارب كل يوم. وما لقيت ولا أول وحدة.'), { off: true }),
     st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { [st.loc]: 'elias_tin3' }); return null; },
     Object.assign(E('sad', 'I never looked.', 'ما دوّرت أصلاً.'), { off: true }),
-    Object.assign(E('neutral', 'He was eight. He\'s forty-one now. That\'s a long time to wait for a day\'s fishing.', 'كان عمره ثمان. الحين واحد وأربعين. هذا وقت طويل ينتظر فيه يوم صيد.'), { off: true }),
+    Object.assign(E('neutral', 'He was eight. He\'s twenty-six now. That\'s a long time to wait for a day\'s fishing.', 'كان عمره ثمان. الحين ستة وعشرين. هذا وقت طويل ينتظر فيه يوم صيد.'), { off: true }),
     N1('He puts the drawing on the mantelpiece, next to the clock, and straightens it twice.', 'يحط الرسمة على رف المدفأة، جنب الساعة، ويعدلها مرتين.'),
     st => { addMood(1); st.f.thGiven = true; if (VIEW.bgOver) delete VIEW.bgOver[st.loc]; return null; },
     { show: null }
