@@ -89,7 +89,7 @@ GAME.LOC = {
   },
   elias_ext: {
     name: T('Elias\'s cottage', 'بيت إلياس'), mapName: T('Elias\'s cottage', 'بيت إلياس'), bg: 'elias_ext', rooms: ['hall', 'living', 'kitchen', 'elias_bed', 'your_room', 'yard', 'shed', 'bath'],
-    exits: [{ to: 'hall', x: 50, y: 58, label: T('Front door', 'الباب'), lock: s => (s.f.ended ? T('The cottage is shut. That part of your life has its own ending now.', 'البيت مسكّر. هذاك الجزء من حياتك صار له نهايته.') : null) }, back('street')],
+    exits: [{ to: 'hall', x: 66, y: 56, label: T('Front door', 'الباب'), lock: s => (s.f.ended ? T('The cottage is shut. That part of your life has its own ending now.', 'البيت مسكّر. هذاك الجزء من حياتك صار له نهايته.') : null) }, back('street')],
     spots: [{ x: 80, y: 50, label: T('Nets on the wall', 'شباك على الجدار'), run: s => [{ n: T('Nets hung to dry, patched so many times they\'re more patch than net.', 'شباك معلقة تنشف، مرقّعة لدرجة إن الرقع صارت أكثر من الشبكة.') }] }]
   },
   hall: {
@@ -97,10 +97,10 @@ GAME.LOC = {
     exits: [
       { to: 'elias_ext', x: 4, y: 84, label: T('Front door', 'باب البيت') },
       { to: 'living', x: 12, y: 48, label: T('Living room', 'الصالة') },
-      { to: 'elias_bed', x: 34, y: 50, label: T('Elias\'s room', 'غرفة إلياس'), risk: s => eliasHome(s) },
-      { to: 'your_room', x: 50, y: 28, label: T('Your room', 'غرفتك') },
-      { to: 'yard', x: 64, y: 54, label: T('Back door', 'الباب الخلفي') },
-      { to: 'kitchen', x: 74, y: 46, label: T('Kitchen', 'المطبخ') },
+      { to: 'elias_bed', x: 47, y: 50, label: T('Elias\'s room', 'غرفة إلياس'), risk: s => eliasHome(s) },
+      { to: 'your_room', x: 52, y: 15, label: T('Your room', 'غرفتك') },
+      { to: 'yard', x: 33, y: 54, label: T('Back door', 'الباب الخلفي') },
+      { to: 'kitchen', x: 62, y: 47, label: T('Kitchen', 'المطبخ') },
       { to: 'bath', x: 93, y: 50, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.bathLock(s) }
     ],
     spots: [

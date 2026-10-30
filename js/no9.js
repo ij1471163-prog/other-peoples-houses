@@ -55,7 +55,7 @@
     ]
   };
   /* the way in: from Fisher's Row, once you know */
-  if (GAME.LOC.elias_ext) GAME.LOC.elias_ext.exits.push({ to: 'no9', x: 72, y: 78, label: T('Number 9, further down the row', 'رقم ٩، آخر الشارع'), if: s => open9(s) });
+  if (GAME.LOC.elias_ext) GAME.LOC.elias_ext.exits.push({ to: 'no9', x: 39, y: 62, label: T('Number 9, further down the row', 'رقم ٩، آخر الشارع'), if: s => open9(s) });
 
   /* the first time you stand there */
   GAME.EVENTS.push({ id: 'n9first', once: true, when: s => s.loc === 'no9' && !RUN, run: [

@@ -56,7 +56,7 @@ Object.assign(GAME.LOC, {
     spots: [{ x: 54, y: 60, label: T('Take a shower', '{تروّش|تروّشي}'), run: s => GAME.SCRIPTS.shower(s) }, { x: 24, y: 38, label: T('Mirror', 'المراية'), run: s => [{ n: T('Stickers all round the mirror: gulls, a skull with a party hat, "YOU\'RE DOING FINE (probably)".', 'ستيكرات حول المراية: نوارس، جمجمة لابسة طاقية حفلة، و«أنت ماشي زين (غالباً)».') }] }]
   },
   dock: {
-    name: T('The dock', 'الرصيف'), bg: 'dock', house: 'leo', charX: 34, exits: [{ to: 'boathouse', x: 76, y: 66, label: T('Back inside', '{ارجع|ارجعي} داخل') }],
+    name: T('The dock', 'الرصيف'), bg: 'dock', house: 'leo', charX: 34, exits: [{ to: 'boathouse', x: 24, y: 54, label: T('Back inside', '{ارجع|ارجعي} داخل') }],
     spots: [{ x: 22, y: 50, label: T('Watch the sea', '{طالع|طالعي} البحر'), run: s => onceToday('sea2') ? (addMood(1), [{ n: T('The water slaps the posts underneath you. It sounds like someone patiently knocking.', 'الموج يضرب الأعمدة تحتك. صوته كأن أحد يطق بصبر.') }]) : [{ n: T('Still knocking.', 'لسا يطق.') }] }]
   },
   garage: { name: T('Frank\'s Motors', 'كراج فرانك'), bg: 'garage', charX: 30, exits: [{ to: 'street', x: 6, y: 86 }],

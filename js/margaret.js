@@ -43,7 +43,7 @@
   Object.assign(GAME.LOC, {
     cliff_road: {
       name: T('Cliff Road, number 7', 'شارع الجرف، رقم ٧'), mapName: T('Margaret\'s house', 'بيت مارغريت'), bg: 'cliff_road', charX: 70, rooms: HOUSE,
-      exits: [{ to: 'marg_living', x: 41, y: 52, label: T('Front door', 'الباب'), lock: doorLock }, { to: 'street', x: 6, y: 86, label: T('Back to town', '{ارجع|ارجعي} للبلدة') }],
+      exits: [{ to: 'marg_living', x: 46, y: 50, label: T('Front door', 'الباب'), lock: doorLock }, { to: 'street', x: 6, y: 86, label: T('Back to town', '{ارجع|ارجعي} للبلدة') }],
       spots: [
         { x: 18, y: 66, label: T('The garden', 'الحديقة'), run: s => GAME.SCRIPTS.margGarden(s) },
         { x: 67, y: 55, label: T('Postbox', 'صندوق البريد'), run: s => [N_('Two letters. One for Margaret Hart. One for Daniel Hart: a bank offering him a student card. Two years late.', 'رسالتين. وحدة لمارغريت هارت. ووحدة لدانيال هارت: بنك يعرض عليه بطاقة طالب. متأخرة سنتين.')] }

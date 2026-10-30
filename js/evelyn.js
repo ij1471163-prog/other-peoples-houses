@@ -36,7 +36,7 @@
   Object.assign(GAME.LOC, {
     lh_ext: {
       name: T('The lighthouse', 'المنارة'), mapName: T('The lighthouse', 'المنارة'), bg: 'lh_ext', charX: 38, rooms: HOUSE,
-      exits: [{ to: 'lh_living', x: 57, y: 56, label: T('Keeper\'s house door', 'باب بيت الحارس'), lock: doorLock }, { to: 'beach', x: 6, y: 86, label: T('Cliff path to the beach', 'طريق الجرف للشاطئ') }, { to: 'harbor', x: 30, y: 86, label: T('Back to the harbor', '{ارجع|ارجعي} للميناء') }],
+      exits: [{ to: 'lh_living', x: 55, y: 52, label: T('Keeper\'s house door', 'باب بيت الحارس'), lock: doorLock }, { to: 'beach', x: 6, y: 86, label: T('Cliff path to the beach', 'طريق الجرف للشاطئ') }, { to: 'harbor', x: 30, y: 86, label: T('Back to the harbor', '{ارجع|ارجعي} للميناء') }],
       spots: [
         { x: 40, y: 72, label: T('Feed the gulls', '{تأكّل|تأكّلين} النوارس'), if: s => inE(s) && s.slot === 2 && !doneToday('eGull'), cls: 'main', run: s => GAME.SCRIPTS.eveGulls(s) },
         { x: 75, y: 30, label: T('Look up at the tower', '{تطالع|تطالعين} البرج'), run: s => [{ n: s.slot === NIGHT ? T('The beam turns over the sea every ten seconds. Under it, in the dark attic window of the keeper\'s house, nothing. You keep looking anyway.', 'الشعاع يلف على البحر كل عشر ثواني. وتحته، في شباك العلية المظلم حق بيت الحارس، ولا شي. {وتظل تطالع|وتظلين تطالعين} على كل حال.') : T('Red and white bands, peeling. A brass plate: "SALTMERE LIGHT, 1872. KEPT BY THE WREN FAMILY, 1931–".  The end date has never been added.', 'أحزمة حمرا وبيضا، مقشّرة. لوحة نحاس: «منارة سولتمير، ١٨٧٢. حرستها عائلة رن، ١٩٣١–». وتاريخ النهاية ما انضاف أبداً.') }] }

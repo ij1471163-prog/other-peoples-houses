@@ -1199,3 +1199,24 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
 
 /* night: Margaret on the end of your bed (her face sits high in the picture) */
 #stage .bg img[src*="marg_bedside"],#stage .bg img[src*="elias_tin"]{object-position:center 12%}
+/* ---------- the door in the picture is the button (nav.js + nav-quiet.js) ----------
+   With "Names: Show, then hide": exits lose their boxes and names too. A door is
+   just a soft glow on the door itself, an edge is a faint chevron; tapping the
+   door / the edge of the picture goes there. Names come back on arrival and when
+   you tap an empty part of the picture, like everything else. */
+.spot.exit.nav::before{content:'';position:absolute;left:-21px;top:50%;width:84px;height:116px;transform:translateY(-50%)}
+.spot.exit.nav.flip::before{left:auto;right:-21px}
+.spot.exit.nav-left::before,.spot.exit.nav-right::before{width:66px;height:150px}
+.spot.exit.nav-up::before,.spot.exit.nav-down::before{width:130px;height:62px;left:-44px}
+.spot.exit.nav-up.flip::before,.spot.exit.nav-down.flip::before{right:-44px}
+body.lbl-auto .spot.exit.nav span{opacity:0;transform:translateX(-4px);transition:opacity .6s ease,transform .6s ease;pointer-events:none}
+body.lbl-auto .stage.peek .spot.exit.nav span{opacity:.95}
+body.lbl-auto .spot.exit.nav i{background:none;border-color:transparent;box-shadow:none;color:rgba(223,246,242,.85)}
+body.lbl-auto .spot.exit.nav i svg{filter:drop-shadow(0 0 2px rgba(0,0,0,.95)) drop-shadow(0 0 6px rgba(95,179,168,.7))}
+body.lbl-auto .spot.exit.nav-door i{background:radial-gradient(circle,rgba(191,240,232,.34) 0,rgba(191,240,232,.12) 45%,transparent 70%);transform:scale(1.9);animation:doorGlow 3.2s ease-in-out infinite}
+body.lbl-auto .spot.exit.nav-door i svg{opacity:0;transform:scale(.55);transition:opacity .35s ease}
+body.lbl-auto .stage.peek .spot.exit.nav-door i svg{opacity:.9}
+body.lbl-auto .spot.exit.nav-locked i{color:rgba(200,200,200,.6)}
+body.lbl-auto .spot.exit.nav-door.nav-locked i{background:none;animation:none}
+body.lbl-auto .spot.exit.nav-door.nav-locked i svg{opacity:.55}
+@keyframes doorGlow{0%,100%{opacity:.45}50%{opacity:1}}
