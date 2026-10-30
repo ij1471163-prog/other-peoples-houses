@@ -203,6 +203,8 @@
     }
   };
 
+  GAME.NELL_SC = SC;   /* other files can add to her scenes (js/nell-life.js) */
+
   /* ---------- 5. Elias, when you show him the page ---------- */
   GAME.TOPICS.elias = GAME.TOPICS.elias || [];
   GAME.TOPICS.elias.push({ id: 'nellpage', once: true, label: T('Show him the torn page', '{توريه|تورينه} الورقة الممزوعة'), if: s => has('nellpage') && !s.f.nellTold, cls: 'main', run: s => [
