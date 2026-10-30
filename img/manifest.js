@@ -157,9 +157,11 @@ window.IMG_MANIFEST = {
   },
   "marco": {
    "angry": "img/chars/marco-angry.webp",
+   "blow": "img/chars/marco-blow.webp",
    "coffee": "img/chars/marco-coffee.webp",
    "neutral": "img/chars/marco-neutral.webp",
    "sad": "img/chars/marco-sad.webp",
+   "serve": "img/chars/marco-serve.webp",
    "shock": "img/chars/marco-shock.webp",
    "smile": "img/chars/marco-smile.webp"
   },
@@ -214,6 +216,8 @@ window.IMG_MANIFEST = {
   },
   "sami": {
    "angry": "img/chars/sami-angry.webp",
+   "give": "img/chars/sami-give.webp",
+   "laugh": "img/chars/sami-laugh.webp",
    "neutral": "img/chars/sami-neutral.webp",
    "sad": "img/chars/sami-sad.webp",
    "shock": "img/chars/sami-shock.webp",

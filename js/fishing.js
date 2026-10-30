@@ -215,7 +215,7 @@
     let total = 0; const parts = [];
     for (const [k, p] of Object.entries(PRICE)) { const n = s.inv[k] || 0; if (n) { total += n * p; parts.push(n + '× ' + tx(GAME.ITEMS[k].name)); take(k, n); } }
     s.money += total;
-    return [{ c: 'sami', e: 'smile', t: T(`${parts.join(', ')}. That's $${total}. Pleasure doing business.`, `${parts.join('، ')}. يعني ${total}$. تعاملك يشرّف.`) },
+    return [{ c: 'sami', e: 'laugh', t: T(`${parts.join(', ')}. That's $${total}. Pleasure doing business.`, `${parts.join('، ')}. يعني ${total}$. تعاملك يشرّف.`) },
       ...(total >= 20 ? [{ c: 'sami', e: 'shock', t: T('You\'re going to put the fishmonger out of business. We don\'t have a fishmonger. You\'re going to become the fishmonger.', '{بتطلّع|بتطلّعين} بياع السمك من السوق. ما عندنا بياع سمك. {بتصير أنت|بتصيرين أنتِ} بياع السمك.') }] : [])];
   } });
 
