@@ -20,7 +20,7 @@
     END_HOST: ['bg/street', 'warm'], END_HOME: ['bg/station', 'dawn'], END_PASS: ['bg/harbor', 'grey'], END_LOST: ['bg/street_night', 'grey'], END_DARK: ['bg/hotel_office', 'dark']
   };
   /* ending -> video file in img/end/ (added as the videos come in) */
-  const VIDEO = { ELIAS_STAY: 'ELIAS_STAY.mp4' };
+  const VIDEO = { ELIAS_STAY: 'ELIAS_STAY.mp4', ELIAS_GO: 'ELIAS_GO.mp4', ELIAS_LETTER: 'ELIAS_LETTER.mp4' };
 
   let open = null;
   function close() {
@@ -36,12 +36,12 @@
     if (VIDEO[id]) {
       const v = document.createElement('video');
       const base = 'img/end/' + VIDEO[id].replace(/\.mp4$/, '');
-      const fb = () => { if (!v.isConnected) return; v.remove(); media.style.backgroundImage = 'url(img/' + p[0] + '.jpg)'; media.classList.add('still'); };
+      const fb = () => { if (!v.isConnected) return; v.remove(); media.classList.remove('vid'); media.style.backgroundImage = 'url(img/' + p[0] + '.jpg)'; media.classList.add('still'); };
       ['webm', 'mp4'].forEach((x, i, a) => { const so = document.createElement('source'); so.src = base + '.' + x; so.type = 'video/' + x; if (i === a.length - 1) so.onerror = fb; v.appendChild(so); });
       v.muted = true; v.playsInline = true; v.autoplay = true; v.setAttribute('playsinline', ''); v.addEventListener('loadedmetadata', () => { try { v.playbackRate = v.duration < 6 ? 0.8 : 1; } catch (e) {} });
       v.onerror = fb;
       v.onended = () => o.classList.add('done');
-      media.appendChild(v);
+      media.appendChild(v); media.classList.add('vid');
     } else { media.style.backgroundImage = 'url(img/' + p[0] + '.jpg)'; media.classList.add('still'); }
     o.appendChild(media);
     if (p[1] === 'rain') o.appendChild(el('div', 'ec-rain'));

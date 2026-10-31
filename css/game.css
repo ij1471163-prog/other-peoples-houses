@@ -1267,3 +1267,4 @@ html[lang=ar] .vcall small{font-family:var(--f-ar-ui);letter-spacing:0;font-size
 @keyframes vcOut{to{opacity:0;filter:blur(3px)}}
 .vcall.vc-mid{animation-name:vcInM}.vcall.vc-mid.out{animation-name:vcOut}
 @keyframes vcInM{from{opacity:0}to{opacity:1}}
+.endcine .ec-media.vid{filter:none!important}
