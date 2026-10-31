@@ -8,3 +8,7 @@ All sounds in this folder are public domain (CC0), cut and level-matched for the
   hit1-2       "Horror hit soundpack 1"        https://opengameart.org/content/horror-hit-soundpack-1
   dread1-2     "Horror sfx"                    https://opengameart.org/content/horror-sfx
   chant        "Weird chanting sound"          https://opengameart.org/node/147361
+  marg-dishes  "100 CC0 SFX" dishes 1-4 + "30 CC0 SFX loops" water-flowing (rubberduck)  https://opengameart.org/content/100-cc0-sfx  (via github.com/novincode/atomcut-library, CC0)
+  marg-door    "100 CC0 SFX" door-open, slowed (rubberduck)                               same as above
+  marg-plates  "Impact Sounds" impact-plate-light (Kenney)                                https://kenney.nl/assets/impact-sounds  (CC0)
+  marg-steps   "Impact Sounds" footstep-wood (Kenney)                                     same as above
