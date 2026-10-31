@@ -42,8 +42,8 @@
   /* when no big story task is open yet, the thing worth doing next:
      what fits this time of day first (nets in the afternoon, chess in the evening),
      then the rest of the house's open tasks, then the postcard. */
-  const NOW = { q_nets: 2, q_money: 2, q_chess: 3 };
-  const NEXT = { elias: ['q_nets', 'q_chess', 'q_postcard', 'q_money'] };
+  const NOW = { q_nets: 2, q_money: 2, q_chess: 3, q_dawn: 0 };
+  const NEXT = { elias: ['q_nets', 'q_chess', 'q_dawn', 'q_postcard', 'q_money'] };
   function nowTask(s) {
     const own = GAME.QUEST_OWNER || {};
     const ok = k => s.quests[k] === 'active' && GAME.QUESTS[k] && (!own[k] || own[k] === s.host);

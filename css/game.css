@@ -1253,3 +1253,17 @@ html[lang=ar] .endcine .ec-text small{font-family:var(--f-ar-ui);letter-spacing:
 .endcine .ec-rain{position:absolute;inset:-20% 0 0 0;background:repeating-linear-gradient(105deg,transparent 0 14px,rgba(200,220,255,.16) 14px 15px);animation:ecRain .5s linear infinite;pointer-events:none}
 @keyframes ecRain{to{transform:translate(-12px,40px)}}
 @media (prefers-reduced-motion:reduce){.endcine .ec-media.still,.endcine .ec-rain,.endcine .ec-tap{animation:ecMedia 1s ease forwards}}
+/* ---------- calls.js: a voice from another room ---------- */
+.vcall{position:absolute;top:70px;z-index:30;max-width:min(62%,460px);padding:7px 12px 8px;border-radius:10px;background:rgba(8,12,16,.72);border:1px solid rgba(255,226,168,.25);color:#f4ead6;pointer-events:none;animation:vcIn .6s ease both;backdrop-filter:blur(2px)}
+.vcall small{display:block;font-family:var(--f-ui);font-size:11px;letter-spacing:.06em;color:rgba(255,226,168,.75);margin-bottom:2px}
+html[lang=ar] .vcall small{font-family:var(--f-ar-ui);letter-spacing:0;font-size:12px}
+.vcall span{font-style:italic;font-size:15px;line-height:1.35}
+.vcall.vc-left{left:16px}.vcall.vc-right{right:16px}.vcall.vc-mid{left:50%;transform:translateX(-50%)}
+.vcall.vc-left::before,.vcall.vc-right::before{content:'';position:absolute;top:50%;width:0;height:0;border:6px solid transparent;transform:translateY(-50%)}
+.vcall.vc-left::before{left:-12px;border-right-color:rgba(255,226,168,.35)}
+.vcall.vc-right::before{right:-12px;border-left-color:rgba(255,226,168,.35)}
+.vcall.out{animation:vcOut 1s ease forwards}
+@keyframes vcIn{from{opacity:0;filter:blur(4px)}to{opacity:1;filter:none}}
+@keyframes vcOut{to{opacity:0;filter:blur(3px)}}
+.vcall.vc-mid{animation-name:vcInM}.vcall.vc-mid.out{animation-name:vcOut}
+@keyframes vcInM{from{opacity:0}to{opacity:1}}
