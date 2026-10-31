@@ -1227,7 +1227,7 @@ html[lang=ar] .ibadge{font-family:var(--f-ar-ui)}
 .sheet .q.fresh{border-inline-start:3px solid #e07a5f;padding-inline-start:8px}
 .sheet .q.fresh>strong::after{content:' •';color:#e07a5f}
 /* ---------- end-screen.js: an ending's own moment ---------- */
-.endcine{position:absolute;inset:0;z-index:60;background:#000;overflow:hidden;cursor:pointer;animation:ecIn 1.4s ease both}
+.endcine{position:absolute;inset:0;z-index:60;background:#000;overflow:hidden;cursor:pointer}
 .endcine.out{animation:ecOut .9s ease forwards}
 @keyframes ecIn{from{opacity:0}to{opacity:1}}
 @keyframes ecOut{to{opacity:0}}

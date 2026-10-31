@@ -25,6 +25,7 @@ window.IMG_MANIFEST = {
   "garage": "img/bg/garage.jpg",
   "grocery": "img/bg/grocery.jpg",
   "hall": "img/bg/hall.jpg",
+  "hall_night": "img/bg/hall_night.jpg",
   "harbor": "img/bg/harbor.jpg",
   "harbor_night": "img/bg/harbor_night.jpg",
   "harbor_storm": "img/bg/harbor_storm.jpg",
