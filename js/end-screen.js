@@ -20,7 +20,7 @@
     END_HOST: ['bg/street', 'warm'], END_HOME: ['bg/station', 'dawn'], END_PASS: ['bg/harbor', 'grey'], END_LOST: ['bg/street_night', 'grey'], END_DARK: ['bg/hotel_office', 'dark']
   };
   /* ending -> video file in img/end/ (added as the videos come in) */
-  const VIDEO = { ELIAS_STAY: 'ELIAS_STAY.mp4', ELIAS_GO: 'ELIAS_GO.mp4', ELIAS_LETTER: 'ELIAS_LETTER.mp4' };
+  const VIDEO = { ELIAS_STAY: 'ELIAS_STAY.mp4', ELIAS_GO: 'ELIAS_GO.mp4', ELIAS_LETTER: 'ELIAS_LETTER.mp4', ELIAS_KICK: 'ELIAS_KICK.mp4', ELIAS_PEACE: 'ELIAS_PEACE.mp4' };
 
   let open = null;
   function close() {
@@ -44,7 +44,7 @@
       media.appendChild(v); media.classList.add('vid');
     } else { media.style.backgroundImage = 'url(img/' + p[0] + '.jpg)'; media.classList.add('still'); }
     o.appendChild(media);
-    if (p[1] === 'rain') o.appendChild(el('div', 'ec-rain'));
+    if (p[1] === 'rain' && !VIDEO[id]) o.appendChild(el('div', 'ec-rain'));
     o.appendChild(el('div', 'ec-vig'));
     const txt = el('div', 'ec-text');
     txt.appendChild(el('small', '', UI('ending') + (e.who ? ' · ' + tx(GAME.CHAR[e.who].name) : '')));
