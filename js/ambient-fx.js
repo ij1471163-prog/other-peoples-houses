@@ -93,7 +93,7 @@
   function tick(now) {
     if (!cv || !cv.isConnected) { stop(); return; }
     raf = requestAnimationFrame(tick);
-    if (VIEW.sheet || root.classList.contains('asleep')) return;
+    if (VIEW.sheet || root.classList.contains('asleep') || root.classList.contains('deep')) return;
     /* smart power: 30 frames a second, 8 when nobody has touched the screen for a while */
     const gap = root.classList.contains('idle') ? 125 : 33;
     if (now - lastF < gap) return;

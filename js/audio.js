@@ -109,6 +109,7 @@ const AUDIO = (() => {
     gull: t => gull(t), creak: t => creak(t), get now() { return ctx.currentTime; }, get ctx() { return ctx; }, get out() { return bus.amb; }, get white() { return white; }, get brown() { return brown; } };
   function ambEvent() {
     evTimer = 0; if (!live() || !amb) return;
+    if (document.documentElement.classList.contains('deep')) { evTimer = setTimeout(ambEvent, 6000); return; }   /* deep sleep: js/power-smart.js */
     const pr = amb.pr, t = ctx.currentTime + 0.05, r = Math.random();
     /* frightening places after dark play their own sounds first: js/dread-sounds.js */
     if (HOUSE._dread) { let played = false; try { played = HOUSE._dread(KIT, pr, t); } catch (e) {} if (played) { evTimer = setTimeout(ambEvent, 4000 + Math.random() * 7000); return; } }

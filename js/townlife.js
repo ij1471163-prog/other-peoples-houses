@@ -101,7 +101,7 @@
     clearTimeout(wTimer);
     const s = S(); if (!s || RUN || REDUCED() || s.slot >= NIGHT || s.f.prologue || !WALK[s.loc]) return;
     wTimer = setTimeout(() => {
-      const s2 = S(); if (RUN || s2.loc !== s.loc || document.querySelector('#stage .tl-walk') || document.querySelector('.sheet')) { walker(); return; }
+      const s2 = S(); if (document.documentElement.classList.contains('deep') || RUN || s2.loc !== s.loc || document.querySelector('#stage .tl-walk') || document.querySelector('.sheet')) { walker(); return; }
       const ids = Object.keys(SPRITE).filter(id => { const c = GAME.CHAR[id]; if (!c || id === s2.host || here(s2, id)) return false; try { return (c.where ? c.where(s2) : null) !== s2.loc; } catch (e) { return false; } });
       if (!ids.length) { walker(); return; }
       const id = ids[Math.floor(Math.random() * ids.length)], sp = SPRITE[id], [b, h] = WALK[s2.loc], ltr = Math.random() < 0.5;

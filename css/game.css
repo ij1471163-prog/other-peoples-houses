@@ -1286,3 +1286,6 @@ html.saver .ambfx .afx-shim,html.saver .ambfx .afx-gull,html.saver .ambfx .afx-c
 html.saver .ambfx .afx-glow{animation:none;opacity:.8}
 html.saver .spot i,html.saver .spot i::after{animation:none!important}
 html.saver .char svg,html.saver .char img{animation:none!important}
+html.deep *,html.deep *::before,html.deep *::after{animation-play-state:paused!important}
+html.deep .ambfx .afx-cv{opacity:0;transition:opacity 1s}
+html.deep #stage .scene{filter:brightness(.82);transition:filter 1.5s ease}
