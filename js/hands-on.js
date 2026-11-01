@@ -101,7 +101,8 @@
   if (typeof fall0 === 'function') GAME.SCRIPTS.fall = where => {
     const steps = fall0(where);
     const i = steps.findIndex(st => st && st.c === 'elias' && st.t && /No hospital/.test(st.t.en));
-    if (i >= 0) steps.splice(i + 1, 0, { mini: 'lift', bg: where === 'harbor' ? 'harbor' : 'kitchen' });
+    /* the hold-his-arm game is off (it didn't feel right); a video of the fall goes here when there is one */
+    void i;
     return steps;
   };
   const L0 = GAME.SCRIPTS.endLetter;
