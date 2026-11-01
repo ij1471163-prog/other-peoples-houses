@@ -1323,3 +1323,7 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .doorhit:active{background:rgba(255,226,168,.14)}
 .spot.exit.nav-hid{opacity:0;pointer-events:none}
 .spot.exit.nav-hid.armed{opacity:1}
+/* the way out of the motel room, the first time you can move */
+.spot.exit.go-here i{animation:goHere 1.6s ease-in-out infinite}
+@keyframes goHere{0%,100%{box-shadow:0 0 0 0 rgba(255,210,122,0)}50%{box-shadow:0 0 18px 8px rgba(255,210,122,.65)}}
+.spot.exit.go-here span{opacity:1!important;transform:none!important}
