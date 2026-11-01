@@ -36,7 +36,8 @@
     if (!inM(s)) return null;
     const tense = (s.susp.margaret || 0) >= 1 || !!s.f.mAnswered;
     let e = 'neutral';
-    if (s.slot === NIGHT) e = im.blank ? 'blank' : 'sad';
+    if (s.slot === NIGHT) e = im.grief && roll(s, 8) < 0.5 ? 'grief' : im.blank ? 'blank' : 'sad';
+    else if (s.slot === 2 && s.loc === 'cemetery' && im.grief) e = 'grief';
     else if (tense) e = roll(s, 5) < 0.5 && im.worry ? 'worry' : 'neutral';
     else if ((s.trust.margaret || 0) >= 5) e = roll(s, 6) < 0.6 ? 'smile' : 'neutral';
     else e = roll(s, 7) < 0.3 && im.worry ? 'worry' : 'neutral';
