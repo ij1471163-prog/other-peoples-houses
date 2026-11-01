@@ -290,7 +290,7 @@ GAME.EVENTS = [
       s.f.newDay = false; s.loc = 'your_room';
       if (s.day >= 5 && !s.f.fallDone) return [{ go: 'kitchen' }].concat(GAME.SCRIPTS.fall('home'));
       if (s.day === 1) { quest('q_care', 'active'); return GAME.SCRIPTS.wake1; }
-      const lines = [N_('You hear the front door close before dawn. Elias is already out.', '{تسمع|تسمعين} باب البيت يتسكر قبل الفجر. إلياس طلع من بدري.'), N_('Gulls. Wind. The house is quiet.', 'نوارس. هوا. البيت هادي.')];
+      const lines = [N_('You hear the front door close before dawn. Elias is already out.', '{تسمع|تسمعين} باب البيت يتسكر قبل الفجر. إلياس طلع من بدري.'), N_('Gulls. Wind. The house is quiet.', 'نوارس. هوا. البيت هادي.'), N_('Rain on the window. Somewhere downstairs, the radio, very low.', 'مطر على الشباك. ومن تحت، الراديو، بصوت واطي مرة.'), N_('A gull is standing on your windowsill, staring at you like you owe it money.', 'نورس واقف على شباكك، يطالعك كأنك {مديون|مديونة} له.')];
       if ((s.trust.elias || 0) >= 3) lines.push(N_('The kettle is still warm. A cup has been left out for you.', 'الغلاية لسا دافية. وفيه كوب متروك لك.'));
       const out = [pickOne(lines)];
       if (s.mood <= 3) out.push(N_('Getting up feels like lifting the whole house. You do it anyway.', 'القومة {تحس|تحسين} كأنك {تشيل|تشيلين} البيت كله. {وتقوم|وتقومين} على كل حال.'));

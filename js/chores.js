@@ -374,36 +374,54 @@
     job('eCook', { x: 90, y: 62, anim: 'cook', host: 'elias', when: inElias, food: 45, label: T('Cook for Elias', '{تطبخ|تطبخين} لإلياس'),
       lines: [T('Fish, potatoes, a lot of butter. The kitchen smells like somebody lives here.', 'سمك وبطاطس وزبدة كثير. المطبخ صارت ريحته كأن أحد ساكن فيه.'),
         T('Porridge with honey. You find the honey behind three tins of the same beans.', 'شوفان بالعسل. {تلقى|تلقين} العسل ورا ثلاث علب فاصوليا نفس النوع.'),
-        T('Eggs and toast. You burn the first slice, then get it right. Practice.', 'بيض وتوست. {تحرق|تحرقين} أول شريحة، وبعدين {تضبطها|تضبطينها}. تمرين.')],
+        T('Eggs and toast. You burn the first slice, then get it right. Practice.', 'بيض وتوست. {تحرق|تحرقين} أول شريحة، وبعدين {تضبطها|تضبطينها}. تمرين.'),
+        T('Fish soup from the bones of yesterday\'s catch. Elias would call it a waste not to.', 'شوربة سمك من عظام صيد أمس. إلياس يسمي تركها إسراف.'),
+        T('Potatoes baked in their skins, the way the cookbook on the shelf says. The cookbook is older than both of you put together, nearly.', 'بطاطس مشوية بقشرها، مثل ما يقول كتاب الطبخ اللي على الرف. والكتاب أقدم منكم الاثنين تقريباً.'),
+        T('An omelette that turns into scrambled eggs halfway through. Nobody needs to know.', 'أومليت يتحول بيض مخفوق في النص. ومحد يحتاج يدري.')],
       react: [say('elias', 'smile', 'He eats a few bites and pushes the plate an inch away. "Lovely." It was more than yesterday.', 'ياكل كم لقمة ويبعّد الصحن شوي. «حلو.» بس أكثر من أمس.'),
         say('elias', 'neutral', '"You cook like a man who\'s been hungry," he says. It isn\'t a complaint.', '«{تطبخ|تطبخين} مثل واحد جاع قبل،» يقول. وما هي شكوى.')] }),
     job('eDish', { x: 62, y: 50, anim: 'dishes', host: 'elias', when: inElias, label: T('Wash the dishes', '{تغسل|تغسلين} الصحون'),
       lines: [T('Two cups, one plate, one spoon. A house for one, pretending to be a house for two.', 'كوبين، وصحن واحد، وملعقة. بيت لشخص واحد، يتظاهر إنه لشخصين.'),
-        T('You dry the cups and hang them on their hooks. One hook stays empty. Ada\'s, probably.', '{تنشف|تنشفين} الأكواب {وتعلقها|وتعلقينها} في مكانها. فيه مسمار يبقى فاضي. حق آدا، غالباً.')],
+        T('You dry the cups and hang them on their hooks. One hook stays empty. Ada\'s, probably.', '{تنشف|تنشفين} الأكواب {وتعلقها|وتعلقينها} في مكانها. فيه مسمار يبقى فاضي. حق آدا، غالباً.'),
+        T('The teapot has a chip on the spout, worn smooth. Someone has poured from that side for forty years.', 'إبريق الشاي فيه كسر صغير في البلبلة، صار ناعم. أحد يصب من هالجهة من أربعين سنة.'),
+        T('At the back of the shelf, a child\'s plastic cup with a boat on it. You wash it too, and put it back exactly where it was.', 'ورا الرف، كوب بلاستيك حق طفل عليه رسمة قارب. {تغسله|تغسلينه} بعد، {وترجعه|وترجعينه} مكانه بالضبط.'),
+        T('Hot water, a voice on the radio in the next room, a window full of grey sea. It is almost peaceful.', 'ماي حار، وصوت راديو من الغرفة اللي جنبك، وشباك مليان بحر رمادي. تقريباً هدوء.')],
       react: [say('elias', 'neutral', '"Leave them, {lad|lass}." You don\'t. He doesn\'t say it twice.', '«{خلها يا ولدي|خليها يا بنتي}.» ما {تخليها|تخلينها}. وما يقولها مرة ثانية.')] }));
   add('living',
     job('eSweep', { x: 40, y: 82, anim: 'clean', host: 'elias', when: inElias, label: T('Sweep the floor', '{تكنس|تكنسين} الأرض'),
       lines: [T('Sand everywhere. The sea gets into everything in this house, even the drawers.', 'رمل في كل مكان. البحر يدخل كل شي في هالبيت، حتى الأدراج.'),
-        T('Under the armchair: a pencil, a button and a shell. You put the shell on the windowsill.', 'تحت الكرسي: قلم، وزر، وصدفة. {تحط|تحطين} الصدفة على الشباك.')],
+        T('Under the armchair: a pencil, a button and a shell. You put the shell on the windowsill.', 'تحت الكرسي: قلم، وزر، وصدفة. {تحط|تحطين} الصدفة على الشباك.'),
+        T('A fishing hook in the rug. You find it the way everyone finds a hook: with your hand.', 'سنارة في الزولية. {تلقاها|تلقينها} مثل ما الكل يلقى السنارات: بيدك.'),
+        T('Behind the door, a drift of sand in the shape of the doorway. The wind brings the beach in every night.', 'ورا الباب، كومة رمل بشكل الباب. الهوا يدخل الشاطي كل ليلة.'),
+        T('You sweep around his armchair, not under it. Some places in a house you leave alone.', '{تكنس|تكنسين} حول كرسيه، مو تحته. فيه أماكن في البيت تتركها على حالها.')],
       react: [say('elias', 'smile', '"Ada used to sweep that way. Corners first." He looks away.', '«آدا كانت تكنس كذا. الزوايا أول.» ويلف وجهه.')] }));
   add('bath',
     job('eWash', { x: 74, y: 62, anim: 'laundry', host: 'elias', when: inElias, night: true, label: T('Wash your clothes', '{تغسل|تغسلين} ملابسك'),
-      lines: [T('You hang your shirts next to his. Everything here smells of salt, even after washing.', '{تعلق|تعلقين} قمصانك جنب قمصانه. كل شي هنا ريحته ملح، حتى بعد الغسيل.')] }));
+      lines: [T('You hang your shirts next to his. Everything here smells of salt, even after washing.', '{تعلق|تعلقين} قمصانك جنب قمصانه. كل شي هنا ريحته ملح، حتى بعد الغسيل.'),
+        T('The old machine thumps like a heart with a limp. You sit on the edge of the bath and wait it out.', 'الغسالة القديمة تدق مثل قلب أعرج. {تجلس|تجلسين} على طرف البانيو {وتنتظر|وتنتظرين} لين تخلص.'),
+        T('A receipt from the city in your pocket, months old. You wash it anyway. It comes out blank.', 'فاتورة من المدينة في جيبك، عمرها شهور. {تغسلها|تغسلينها} على كل حال. وتطلع فاضية.'),
+        T('Your clothes come out smelling of his soap. You find you don\'t mind.', 'ملابسك تطلع وريحتها صابونه. {وتلقى|وتلقين} إنك ما {تمانع|تمانعين}.')] }));
 
   /* Leo */
   add('boathouse',
     job('lCook', { x: 22, y: 50, anim: 'cook', host: 'leo', when: inLeo, food: 45, label: T('Make something that isn\'t cereal', '{سوّ|سوّي} أكل غير الكورن فليكس'),
       lines: [T('Pasta with whatever is in the fridge, which is ketchup. It works.', 'مكرونة بالموجود في الثلاجة، اللي هو كاتشب. ويمشي.'),
-        T('Pancakes. The first one is a disaster. The second one is art.', 'بان كيك. الأولى كارثة. الثانية فن.')],
+        T('Pancakes. The first one is a disaster. The second one is art.', 'بان كيك. الأولى كارثة. الثانية فن.'),
+        T('Toast, beans and an egg. In this kitchen it counts as a feast.', 'توست وفاصوليا وبيضة. في هالمطبخ، تنحسب وليمة.'),
+        T('Rice with everything in the cupboard. Leo calls it "boathouse surprise" and asks for it again.', 'رز بكل اللي في الدولاب. ليو يسميه «مفاجأة بيت القوارب» ويطلبه مرة ثانية.')],
       react: [say('leo', 'smile', 'Leo eats it out of the pan, standing up, like someone might take it away.', 'ليو ياكلها من المقلاة وهو واقف، كأن أحد بياخذها منه.'),
         say('leo', 'shock', '"You can COOK? Why didn\'t you say? I\'ve been eating cereal for a year."', '«{تعرف|تعرفين} {تطبخ|تطبخين}؟ ليش ما {قلت|قلتي}؟ صار لي سنة آكل كورن فليكس.»')] }),
     job('lClean', { x: 30, y: 72, anim: 'clean', host: 'leo', when: inLeo, label: T('Clear up the pizza boxes', '{تشيل|تشيلين} علب البيتزا'),
       lines: [T('Under the sofa: four pencils, one sock and a drawing of a seagull in a tie.', 'تحت الكنبة: أربع أقلام، وشراب واحد، ورسمة نورس لابس كرفتة.'),
-        T('Seven pizza boxes. You stack them like a monument and take a photo before throwing them out.', 'سبع علب بيتزا. {ترصها|ترصينها} مثل نصب تذكاري {وتصورها|وتصورينها} قبل ما {ترميها|ترمينها}.')],
+        T('Seven pizza boxes. You stack them like a monument and take a photo before throwing them out.', 'سبع علب بيتزا. {ترصها|ترصينها} مثل نصب تذكاري {وتصورها|وتصورينها} قبل ما {ترميها|ترمينها}.'),
+        T('Paint on the floor, paint on the table, paint on the kettle. You clean what you can and leave the rest as art.', 'صبغ على الأرض، وعلى الطاولة، وعلى الغلاية. {تنظف|تنظفين} اللي تقدر عليه {وتخلي|وتخلين} الباقي فن.'),
+        T('A sketchbook under a cushion. You don\'t open it. You put it on the shelf where he\'ll see it.', 'دفتر رسم تحت مخدة. ما {تفتحه|تفتحينه}. {تحطه|تحطينه} على الرف في مكان يشوفه.')],
       react: [say('leo', 'sad', '"Daniel used to do that. Tidy up and pretend he wasn\'t." He goes quiet.', '«دانيال كان يسوي كذا. يرتب ويسوي نفسه ما يرتب.» ويسكت.')] }));
   add('bh_bath',
     job('lWash', { x: 78, y: 62, anim: 'laundry', host: 'leo', when: inLeo, night: true, label: T('Wash your clothes', '{تغسل|تغسلين} ملابسك'),
-      lines: [T('Leo owns six of the same hoodie. You wash yours with them and now you can\'t tell which is which.', 'ليو عنده ست هوديات نفس الشي. {تغسل|تغسلين} حقك معها، والحين ما {تعرف|تعرفين} أيها حقك.')] }));
+      lines: [T('Leo owns six of the same hoodie. You wash yours with them and now you can\'t tell which is which.', 'ليو عنده ست هوديات نفس الشي. {تغسل|تغسلين} حقك معها، والحين ما {تعرف|تعرفين} أيها حقك.'),
+        T('Everything comes out with a little blue paint on it. You suspect it always will now.', 'كل شي يطلع وعليه شوية صبغ أزرق. {وتتوقع|وتتوقعين} إنه بيظل كذا للأبد.'),
+        T('The machine is louder than the sea. Leo shouts something from the other room. You both give up and laugh.', 'الغسالة صوتها أعلى من البحر. ليو يصارخ بشي من الغرفة الثانية. وتستسلمون الاثنين وتضحكون.')] }));
 
   tagAll();
 })();
