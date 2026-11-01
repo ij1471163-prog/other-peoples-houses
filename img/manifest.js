@@ -77,6 +77,8 @@ window.IMG_MANIFEST = {
   "marg_bed_night": "img/bg/marg_bed_night.jpg",
   "marg_bedside": "img/bg/marg_bedside.jpg",
   "marg_bedside2": "img/bg/marg_bedside2.jpg",
+  "marg_garden": "img/bg/marg_garden.jpg",
+  "marg_garden_night": "img/bg/marg_garden_night.jpg",
   "marg_guest": "img/bg/marg_guest.jpg",
   "marg_guest_night": "img/bg/marg_guest_night.jpg",
   "marg_hall": "img/bg/marg_hall.jpg",
