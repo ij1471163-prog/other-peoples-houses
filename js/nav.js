@@ -18,6 +18,16 @@
   };
   const dirOf = h => (h.x <= 12 ? 'left' : h.x >= 88 ? 'right' : h.y >= 80 ? 'down' : h.y <= 18 ? 'up' : 'door');
   const BACK = T('Back', 'رجوع');
+  /* where each door is in its picture, [left, top, right, bottom] in % (picture name -> exit -> box) */
+  const DOORS = {
+    hall: { elias_bed: [41, 17, 52, 60], yard: [34, 10, 39, 66], kitchen: [67, 8, 78, 72], living: [5, 10, 17, 75], bath: [87, 5, 97, 88] },
+    marg_hall: { marg_guest: [46, 8, 53, 83], dan_room: [62, 19, 74, 60], marg_bath: [78, 11, 84, 76], marg_bed: [91, 5, 100, 95] },
+    street: { grocery: [19, 52, 27, 72], cafe: [71, 58, 93, 84] },
+    elias_ext: { hall: [62, 29, 73, 78] },
+    cliff_road: { marg_living: [48, 38, 58, 56] },
+    dock: { boathouse: [30, 34, 37, 50] },
+    lh_ext: { lh_living: [51, 43, 59, 56] }
+  };
 
   /* remember where you came from */
   const go0 = goTo;
@@ -49,6 +59,17 @@
     /* a door's tap area is the size of a door in the picture, not a small button */
     const sc = st.querySelector('.scene'), R = sc && sc.getBoundingClientRect();
     if (R && R.width) btns.forEach(b => { if (b.classList.contains('nav-door')) { b.style.setProperty('--dw', Math.round(R.width * 0.10) + 'px'); b.style.setProperty('--dh', Math.round(R.height * 0.34) + 'px'); } });
+    /* doors drawn in the picture: no button at all, the door itself is what you tap */
+    sp.querySelectorAll('.doorhit').forEach(x => x.remove());
+    const rects = DOORS[GAME.LOC[s.loc] && GAME.LOC[s.loc].bg] || {};
+    btns.forEach((b, i) => {
+      const h = list[i], r = h && h.exit && rects[h.to]; if (!r) return;
+      b.classList.add('nav-hid');
+      const d = el('div', 'doorhit'); d.setAttribute('role', 'button'); d.setAttribute('aria-label', b.textContent.trim());
+      d.style.cssText = `left:${r[0]}%;top:${r[1]}%;width:${r[2] - r[0]}%;height:${r[3] - r[1]}%`;
+      d.onclick = ev => { ev.stopPropagation(); b.click(); };
+      sp.insertBefore(d, sp.firstChild);
+    });
     untangleSpots(sp);
     /* the back button, first in the top bar */
     const bar = st.querySelector('.hud .btns'); if (!bar || bar.querySelector('.ibtn.back')) return;

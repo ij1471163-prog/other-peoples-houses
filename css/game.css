@@ -1317,3 +1317,9 @@ html[lang=ar] .ho-letter .ho-paper{font-family:var(--f-ar-ui);font-size:clamp(14
 html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .ho-film.held .ho-hold{opacity:0;transition:opacity .3s}
 .ho-film.done .ho-hold{opacity:1}
+
+/* doors you tap in the picture itself: the button is hidden, the door is the button */
+.doorhit{position:absolute;cursor:pointer;border-radius:8px;-webkit-tap-highlight-color:transparent}
+.doorhit:active{background:rgba(255,226,168,.14)}
+.spot.exit.nav-hid{opacity:0;pointer-events:none}
+.spot.exit.nav-hid.armed{opacity:1}
