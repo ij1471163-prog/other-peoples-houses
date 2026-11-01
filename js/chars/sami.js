@@ -12,7 +12,7 @@
   GAME.CHAR.sami = {
     name: T('Sami', 'سامي'), role: T('Runs the grocery. Gives everyone credit.', 'صاحب البقالة. يدين الكل.'), art: true,
     where: s => (!s.f.prologue && s.slot < NIGHT ? 'grocery' : null),
-    doing: s => [T('Sami is unpacking the morning delivery.', 'سامي يفتح كراتين توصيلة الصبح.'), T('Sami is eating lunch behind the counter, standing up.', 'سامي ياكل غداه ورا الكاونتر، واقف.'), T('Sami is restocking shelves and doing sums in his head.', 'سامي يرص الرفوف ويحسب في راسه.'), T('Sami is counting the till, twice.', 'سامي يعد فلوس الكاشير، مرتين.')][s.slot],
+    doing: s => [T('Sami is having his first coffee before the morning delivery.', 'سامي يشرب أول قهوة قبل توصيلة الصبح.'), T('Sami is eating lunch behind the counter, standing up.', 'سامي ياكل غداه ورا الكاونتر، واقف.'), T('Sami is restocking shelves and doing sums in his head.', 'سامي يرص الرفوف ويحسب في راسه.'), T('Sami is counting the till, twice.', 'سامي يعد فلوس الكاشير، مرتين.')][s.slot],
     greet: s => ({ e: 'smile', t: T('Hey, {name}. What can I do for you?', 'هلا {name}. وش أقدر أسوي لك؟') })
   };
   /* things to talk about (Chapter 1, Elias) */
@@ -57,7 +57,7 @@
 })();
 
 /* Sami's day: what Sami is doing in each place (shown by js/life.js) */
-if (GAME.CHAR.sami) GAME.CHAR.sami.life = { grocery: 'shop', away: s => (s.slot === NIGHT ? 'sleep' : null) };
+if (GAME.CHAR.sami) GAME.CHAR.sami.life = { grocery: s => (s.slot === 0 ? 'coffee' : 'shop'), away: s => (s.slot === NIGHT ? 'sleep' : null) };
 
 /* small talk: what Sami says when you just chat (js/chatter.js picks one a day) */
 if (GAME.CHAR.sami) GAME.CHAR.sami.chat = [

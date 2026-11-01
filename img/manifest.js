@@ -155,6 +155,7 @@ window.IMG_MANIFEST = {
   },
   "ingrid": {
    "angry": "img/chars/ingrid-angry.webp",
+   "laugh": "img/chars/ingrid-laugh.webp",
    "neutral": "img/chars/ingrid-neutral.webp",
    "sad": "img/chars/ingrid-sad.webp",
    "shock": "img/chars/ingrid-shock.webp",
@@ -259,6 +260,7 @@ window.IMG_MANIFEST = {
   },
   "sami": {
    "angry": "img/chars/sami-angry.webp",
+   "coffee": "img/chars/sami-coffee.webp",
    "give": "img/chars/sami-give.webp",
    "laugh": "img/chars/sami-laugh.webp",
    "neutral": "img/chars/sami-neutral.webp",

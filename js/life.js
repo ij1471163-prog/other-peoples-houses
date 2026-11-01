@@ -57,6 +57,7 @@ const LIFE = (() => {
     desk:     ['☎️', 'At the front desk', 'على الاستقبال', 'على الاستقبال'],
     shop:     ['🛒', 'Minding the shop', 'في المحل', 'في المحل'],
     serve:    ['☕', 'Serving coffee', 'يقدّم قهوة', 'تقدّم قهوة'],
+    coffee:   ['☕', 'Having a coffee', 'يشرب قهوة', 'تشرب قهوة'],
     doctor:   ['🩺', 'Seeing patients', 'يكشف على المرضى', 'تكشف على المرضى'],
     dig:      ['⛏️', 'Tending the graves', 'يرتب القبور', 'ترتب القبور'],
     surf:     ['🏄', 'Surfing', 'يركب موج', 'تركب موج'],
