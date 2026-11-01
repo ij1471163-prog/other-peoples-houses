@@ -214,7 +214,7 @@ GAME.ENTER_HOOKS.push(s => {
   const add = (loc, ...spots) => { if (GAME.LOC[loc]) GAME.LOC[loc].spots.push(...spots); };
   add('marg_kitchen', cookSpot(14, 44), cleanSpot(44, 74, T('Wash the dishes', '{تغسل|تغسلين} الصحون')));
   add('marg_living', cleanSpot(30, 70));
-  add('marg_bath', laundry(80, 62));
+  add('marg_bath', laundry(60, 74));
   add('lh_kitchen', cookSpot(36, 44), cleanSpot(70, 74, T('Wash the dishes', '{تغسل|تغسلين} الصحون')));
   add('lh_living', cleanSpot(70, 74));
   add('lh_bath', laundry(70, 64));

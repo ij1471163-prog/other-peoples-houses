@@ -60,7 +60,7 @@
   });
 
   /* the hospital calendar in the kitchen */
-  if (GAME.LOC.kitchen) GAME.LOC.kitchen.spots.push({ x: 8, y: 30, label: T('A calendar by the door', 'تقويم جنب الباب'), if: s => ch1(s),
+  if (GAME.LOC.kitchen) GAME.LOC.kitchen.spots.push({ x: 30, y: 32, label: T('A calendar by the door', 'تقويم جنب الباب'), if: s => ch1(s),
     run: s => [N1('A calendar from the city hospital, the free kind they give out. Every Monday, Wednesday and Friday has a time written in: 09:00. Every one is crossed out.', 'تقويم من مستشفى المدينة، من النوع اللي يوزعونه ببلاش. كل اثنين وأربعاء وجمعة مكتوب فيها وقت: ٠٩:٠٠. وكلها مشطوبة.'),
       N1('In the margin of March, in his square capitals: NO.', 'وعلى طرف شهر مارس، بحروفه الكبيرة المربعة: لا.'), saw] });
 

@@ -72,7 +72,7 @@ GAME.LOC = {
       { to: 'elias_ext', x: 8, y: 86, label: T('Fisher\'s Row', 'شارع الصيادين'), if: s => !!s.f.metElias }
     ],
     spots: [
-      { x: 63, y: 57, label: T('Notice board', 'لوحة الإعلانات'), run: s => [{ n: T('A glossy poster: "THE SALTMERE GRAND — luxury seafront living. Fisher\'s Row redevelopment: council vote pending." Someone has written across it in marker: NOT FOR SALE.', 'بوستر لامع: «فندق سولتمير غراند — حياة فاخرة على البحر. تطوير شارع الصيادين: بانتظار تصويت المجلس.» وأحد كاتب عليه بالقلم: «مو للبيع».') }] }
+      { x: 64, y: 74, label: T('Notice board', 'لوحة الإعلانات'), run: s => [{ n: T('A glossy poster: "THE SALTMERE GRAND — luxury seafront living. Fisher\'s Row redevelopment: council vote pending." Someone has written across it in marker: NOT FOR SALE.', 'بوستر لامع: «فندق سولتمير غراند — حياة فاخرة على البحر. تطوير شارع الصيادين: بانتظار تصويت المجلس.» وأحد كاتب عليه بالقلم: «مو للبيع».') }] }
     ]
   },
   grocery: { name: T('Sami\'s Grocery', 'بقالة سامي'), bg: 'grocery', charX: 70, exits: [back('street')],
@@ -100,7 +100,7 @@ GAME.LOC = {
       { to: 'elias_bed', x: 47, y: 50, label: T('Elias\'s room', 'غرفة إلياس'), risk: s => eliasHome(s) },
       { to: 'your_room', x: 52, y: 15, label: T('Your room', 'غرفتك') },
       { to: 'yard', x: 33, y: 54, label: T('Back door', 'الباب الخلفي') },
-      { to: 'kitchen', x: 62, y: 47, label: T('Kitchen', 'المطبخ') },
+      { to: 'kitchen', x: 62, y: 40, label: T('Kitchen', 'المطبخ') },
       { to: 'bath', x: 93, y: 50, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.bathLock(s) }
     ],
     spots: [

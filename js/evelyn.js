@@ -49,8 +49,8 @@
         { to: 'lh_kitchen', x: 6, y: 46, label: T('Kitchen', 'المطبخ') },
         { to: 'lh_room', x: 30, y: 18, label: T('Evelyn\'s room', 'غرفة إيفلين'), risk: s => eHome(s) },
         { to: 'lh_bath', x: 50, y: 18, label: T('Bathroom', 'الحمام'), lock: s => GAME.SCRIPTS.eveBathLock(s) },
-        { to: 'lh_tower', x: 76, y: 18, label: T('Stairs up the tower', 'درج البرج') },
-        { to: 'lh_attic', x: 90, y: 14, label: T('The attic door', 'باب العلية'), lock: s => GAME.SCRIPTS.atticLock(s) }
+        { to: 'lh_tower', x: 76, y: 28, label: T('Stairs up the tower', 'درج البرج') },
+        { to: 'lh_attic', x: 86, y: 12, label: T('The attic door', 'باب العلية'), lock: s => GAME.SCRIPTS.atticLock(s) }
       ],
       spots: [
         { x: 30, y: 62, label: s => (s.slot === NIGHT ? T('Sleep on the camp bed', '{نام|نامي} على سرير المخيّم') : T('Lie on the camp bed', '{تمدد|تمددي} على سرير المخيّم')), run: s => GAME.SCRIPTS.eveBed(s) },
