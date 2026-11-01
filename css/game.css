@@ -1289,3 +1289,22 @@ html.saver .char svg,html.saver .char img{animation:none!important}
 html.deep *,html.deep *::before,html.deep *::after{animation-play-state:paused!important}
 html.deep .ambfx .afx-cv{opacity:0;transition:opacity 1s}
 html.deep #stage .scene{filter:brightness(.82);transition:filter 1.5s ease}
+/* ---------- hands-on.js: the big moments by hand ---------- */
+.ho-lift .cp-area{background:#1d242b}
+.ho-lift .ho-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.55) blur(1px)}
+.ho-lift .ho-man{position:absolute;left:50%;bottom:-6%;height:92%;transform-origin:50% 100%;transform:translate(-50%,46%) rotate(-14deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.5));pointer-events:none}
+.ho-lift .ho-arm{position:absolute;width:15%;aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none}
+.ho-lift .ho-arm i{position:absolute;inset:18%;border-radius:50%;background:rgba(255,226,168,.25);border:2px solid rgba(255,226,168,.8);box-shadow:0 0 18px rgba(255,200,120,.5);animation:hoPulse 1.4s ease-in-out infinite}
+.ho-lift .ho-arm.on i{background:rgba(255,226,168,.55);animation:none}
+.ho-lift .ho-arm svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.ho-lift .ho-arm circle{fill:none;stroke:#ffe2a8;stroke-width:6;stroke-linecap:round}
+.ho-lift .ho-bar{position:absolute;left:8%;right:8%;bottom:5%;height:6px;border-radius:3px;background:rgba(255,255,255,.15)}
+.ho-lift .ho-bar i{display:block;height:100%;width:0;border-radius:3px;background:#ffe2a8}
+@keyframes hoPulse{50%{transform:scale(1.12)}}
+.ho-letter .cp-area{background:#2b2620;display:flex;gap:4%;padding:3%;box-sizing:border-box;cursor:default;direction:inherit}
+.ho-letter .ho-paper{flex:1.2;background:#f3ead8;border-radius:6px;padding:5% 6%;box-shadow:0 4px 16px rgba(0,0,0,.4);color:#2b2a35;font-family:'Caveat','Segoe Script',cursive;font-size:clamp(16px,2.6vw,24px);line-height:1.35;overflow:auto;background-image:repeating-linear-gradient(transparent 0 1.32em,rgba(80,110,160,.18) 1.32em 1.38em)}
+html[lang=ar] .ho-letter .ho-paper{font-family:var(--f-ar-ui);font-size:clamp(14px,2.2vw,20px)}
+.ho-letter .ho-paper p{margin:0 0 .15em}
+.ho-letter .ho-pick{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.ho-letter .ho-pick .opt{width:100%;text-align:start}
+@media (orientation:portrait){.ho-letter .cp-area{flex-direction:column;aspect-ratio:auto;height:70vh}}

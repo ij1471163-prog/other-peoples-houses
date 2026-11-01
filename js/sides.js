@@ -31,9 +31,10 @@
     const fin = ev => { if (ev) ev.stopPropagation(); if (over) return; over = true; alt.remove(); box.classList.add('out'); setTimeout(() => box.remove(), 300); done(1); };
     alt.onclick = fin;
     const add = m => { const b = el('div', 'sd-b ' + (m.me ? 'me' : 'them')); b.textContent = tx(m.t); if (m.time) { const s = el('small', '', tx(m.time)); b.appendChild(s); } msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight; blip(m.me ? 1320 : 880, 0.08); };
+    let fast = false;
     const typeOut = (m, cb) => {   /* you see the words being typed, deleted, typed again */
       const tries = m.drafts || [], all = tries.concat([tx(m.t)]); let k = 0;
-      const one = (txt, keep, next) => { let j = 0; const tk = () => { if (over) return; typing.textContent = txt.slice(0, ++j); if (j < txt.length) setTimeout(tk, 55); else setTimeout(() => { if (keep) { next(); return; } const del = () => { if (over) return; typing.textContent = typing.textContent.slice(0, -1); if (typing.textContent.length) setTimeout(del, 25); else setTimeout(next, 400); }; del(); }, 700); }; tk(); };
+      const one = (txt, keep, next) => { let j = 0; const tk = () => { if (over) return; typing.textContent = txt.slice(0, ++j); if (j < txt.length) setTimeout(tk, fast ? 4 : 30); else setTimeout(() => { if (keep) { next(); return; } const del = () => { if (over) return; typing.textContent = typing.textContent.slice(0, -1); if (typing.textContent.length) setTimeout(del, fast ? 2 : 14); else setTimeout(next, fast ? 30 : 220); }; del(); }, fast ? 40 : 380); }; tk(); };
       const go = () => { const last = k === all.length - 1; one(k < tries.length ? tx(all[k]) : all[k], last, () => { if (last) { typing.textContent = ''; add(m); cb(); } else { k++; go(); } }); };
       go();
     };
@@ -41,9 +42,11 @@
       if (over) return;
       if (i >= st.msgs.length) { box.classList.add('end'); setTimeout(() => box.addEventListener('click', fin), 300); return; }
       const m = st.msgs[i++];
-      if (m.me && m.type) typeOut(m, () => setTimeout(step, 900)); else { add(m); setTimeout(step, m.wait || 1200); }
+      if (m.me && m.type) typeOut(m, () => setTimeout(step, fast ? 60 : 500)); else { add(m); setTimeout(step, fast ? 60 : Math.round((m.wait || 1200) * 0.55)); }
     };
-    setTimeout(step, 500);
+    /* tap the phone to read faster */
+    box.addEventListener('pointerdown', () => { if (!box.classList.contains('end')) fast = true; });
+    setTimeout(step, 300);
   };
 
   /* ---------- a sheet of paper: a letter, a postcard ---------- */
