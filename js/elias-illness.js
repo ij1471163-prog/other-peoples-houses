@@ -21,7 +21,7 @@
   const E1 = (e, en, ar) => ({ c: 'elias', e, t: T(en, ar) });
   const ch1 = s => s && s.host === 'elias' && s.f.metElias && !s.f.ended && !s.f.prologue;
   const here = s => GAME.CHAR.elias && GAME.CHAR.elias.where(s) === s.loc;
-  const stage = s => (s.f.fallDone || s.day >= 5 ? 3 : s.day >= 3 ? 2 : 1);
+  const stage = s => (s.f.fallDone || s.day >= 4 ? 3 : s.day >= 2 ? 2 : 1);
   const saw = s => { s.f.elIll = true; if (!s.f.knowsIllness && s.quests.q_secret !== 'done') quest('q_secret', 'active'); return null; };
 
   /* id · stage · where (null = wherever he is) · needs him in the room · steps */

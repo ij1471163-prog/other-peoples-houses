@@ -288,7 +288,7 @@ GAME.EVENTS = [
   { id: 'meet', once: true, when: s => s.f.prologue && s.loc === 'street', run: [{ jump: 'meet' }] },
   { id: 'wake', when: s => s.f.newDay && s.f.metElias && !s.f.ended, run: s => {
       s.f.newDay = false; s.loc = 'your_room';
-      if (s.day >= 5 && !s.f.fallDone) return [{ go: 'kitchen' }].concat(GAME.SCRIPTS.fall('home'));
+      if (s.day >= 4 && !s.f.fallDone) return [{ go: 'kitchen' }].concat(GAME.SCRIPTS.fall('home'));
       if (s.day === 1) { quest('q_care', 'active'); return GAME.SCRIPTS.wake1; }
       const lines = [N_('You hear the front door close before dawn. Elias is already out.', '{تسمع|تسمعين} باب البيت يتسكر قبل الفجر. إلياس طلع من بدري.'), N_('Gulls. Wind. The house is quiet.', 'نوارس. هوا. البيت هادي.'), N_('Rain on the window. Somewhere downstairs, the radio, very low.', 'مطر على الشباك. ومن تحت، الراديو، بصوت واطي مرة.'), N_('A gull is standing on your windowsill, staring at you like you owe it money.', 'نورس واقف على شباكك، يطالعك كأنك {مديون|مديونة} له.')];
       if ((s.trust.elias || 0) >= 3) lines.push(N_('The kettle is still warm. A cup has been left out for you.', 'الغلاية لسا دافية. وفيه كوب متروك لك.'));
@@ -296,7 +296,7 @@ GAME.EVENTS = [
       if (s.mood <= 3) out.push(N_('Getting up feels like lifting the whole house. You do it anyway.', 'القومة {تحس|تحسين} كأنك {تشيل|تشيلين} البيت كله. {وتقوم|وتقومين} على كل حال.'));
       return out;
     } },
-  { id: 'fallHarbor', once: true, when: s => s.f.metElias && !s.f.ended && !s.f.fallDone && s.day >= 4 && s.slot === 0 && s.loc === 'harbor', run: s => GAME.SCRIPTS.fall('harbor') },
+  { id: 'fallHarbor', once: true, when: s => s.f.metElias && !s.f.ended && !s.f.fallDone && s.day >= 3 && s.slot === 0 && s.loc === 'harbor', run: s => GAME.SCRIPTS.fall('harbor') },
   { id: 'noticed', once: true, when: s => s.f.metElias && !s.f.ended && s.day >= 1 && s.slot === NIGHT && s.loc === 'living' && !s.f.fallDone, run: [
       { show: [{ id: 'elias', e: 'sad' }] },
       N_('Elias has dozed off in his armchair with the radio on. He\'s breathing hard, one hand pressed to his side even in his sleep.', 'إلياس غفى على كرسيه والراديو شغال. يتنفس بصعوبة، ويده على جنبه حتى وهو نايم.'),

@@ -6,8 +6,9 @@
    short lines. Now every time you come back, he also tells you one
    small thing from his life that he hasn't told you before (Ada, his
    father, Thomas as a boy, the row), until he runs out.
-   Flavour only: its own flag (s.f.eMemo). Nothing he says here gives
-   away a secret the story keeps for later.
+   Its own flags (s.f.eMemo, s.f.t3_*), plus one point of trust the third
+   time you cook, sit or mend with him (see below). Nothing he says here
+   gives away a secret the story keeps for later.
    ===================================================================== */
 'use strict';
 (function () {
@@ -60,13 +61,17 @@
     return out;
   };
   const SC = GAME.SCRIPTS;
+  /* the chapter is a day shorter than it was (he falls on day 3 or 4, not 4 or 5), so the
+     third time you cook, sit or mend with him still counts for a little trust, as the
+     first two do; otherwise the endings that need him to trust you would come too late */
+  const third = (k, n) => s => { if ((s.f[k] || 0) === 3 && !s.f['t3_' + k]) { s.f['t3_' + k] = true; addTrust('elias', 1); } return n; };
   /* the boat and the nets: from the second time on (the first time is its own scene) */
-  [['fishing', 'fish', s => (s.f.fished || 0) >= 2], ['nets', 'nets', s => (s.f.netsCount || 0) >= 2]].forEach(([id, k, ok]) => {
+  [['fishing', 'fish', s => (s.f.fished || 0) >= 2], ['nets', 'nets', s => third('netsCount', (s.f.netsCount || 0) >= 2)(s)]].forEach(([id, k, ok]) => {
     const f0 = SC[id]; if (typeof f0 !== 'function') return;
     SC[id] = function (s) { const out = f0.apply(this, arguments); try { return ok(s) ? add(out, memo(s, k)) : out; } catch (e) { console.error(e); return out; } };
   });
   /* cooking with him, and sitting with him at night */
-  [['cook', 'cook', s => (s.f.cooked || 0) >= 2], ['sit', 'sit', () => true]].forEach(([id, k, ok]) => {
+  [['cook', 'cook', s => third('cooked', (s.f.cooked || 0) >= 2)(s)], ['sit', 'sit', s => third('sits', true)(s)]].forEach(([id, k, ok]) => {
     const t = (GAME.TOPICS.elias || []).find(x => x.id === id); if (!t || typeof t.run !== 'function') return;
     const r0 = t.run;
     t.run = s => { const out = r0(s); try { return ok(s) ? add(Array.isArray(out) ? out : out ? [out] : [], memo(s, k)) : out; } catch (e) { console.error(e); return out; } };
