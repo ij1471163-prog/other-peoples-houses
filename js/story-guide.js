@@ -33,24 +33,27 @@
   };
   const isMain = k => !!(GAME.QUEST_OWNER || {})[k] || STORY_EXTRA.includes(k);
 
+  /* in Leo's chapter nobody sets s.host, so the house you are living in is worked out here */
+  const hostOf = s => s.host || (s.ch === 2 && !s.f.leoEnded ? 'leo' : null);
   function chapterOf(s) {
-    if (s.host === 'elias') return 1;
-    if (s.host === 'leo') return 2;
-    if (s.host && HOUSE[s.host]) return 3 + ['margaret', 'evelyn', 'victor'].filter(h => (s.done || {})[h]).length;
+    const h = hostOf(s);
+    if (h === 'elias') return 1;
+    if (h === 'leo') return 2;
+    if (h && HOUSE[h]) return 3 + ['margaret', 'evelyn', 'victor'].filter(h => (s.done || {})[h]).length;
     return 0;
   }
   /* when no big story task is open yet, the thing worth doing next:
      what fits this time of day first (nets in the afternoon, chess in the evening),
      then the rest of the house's open tasks, then the postcard. */
-  const NOW = { q_nets: 2, q_money: 2, q_chess: 3, q_dawn: 0 };
-  const NEXT = { elias: ['q_nets', 'q_chess', 'q_dawn', 'q_postcard', 'q_money'] };
+  const NOW = { q_nets: 2, q_money: 2, q_chess: 3, q_dawn: 0, q_deliver: 2, q_draw: 3 };
+  const NEXT = { elias: ['q_nets', 'q_chess', 'q_dawn', 'q_postcard', 'q_money'], leo: ['q_couch', 'q_deliver', 'q_draw', 'q_secret2', 'q_postcard'] };
   function nowTask(s) {
     const own = GAME.QUEST_OWNER || {};
-    const ok = k => s.quests[k] === 'active' && GAME.QUESTS[k] && (!own[k] || own[k] === s.host);
-    const list = NEXT[s.host] || ['q_postcard', 'q_money'];
+    const ok = k => s.quests[k] === 'active' && GAME.QUESTS[k] && (!own[k] || own[k] === hostOf(s));
+    const list = NEXT[hostOf(s)] || ['q_postcard', 'q_money'];
     return list.find(k => ok(k) && NOW[k] === s.slot) || list.find(k => ok(k) && !(k in NOW && s.slot >= 4)) || list.find(ok) || null;
   }
-  GAME.NOW_TASK = s => { const list = MAIN[s.host] || MAIN.none; return list.find(k => s.quests[k] === 'active' && GAME.QUESTS[k]) || nowTask(s); };
+  GAME.NOW_TASK = s => { const list = MAIN[hostOf(s)] || MAIN.none; return list.find(k => s.quests[k] === 'active' && GAME.QUESTS[k]) || nowTask(s); };
   function topTask(s) { return GAME.NOW_TASK(s); }
 
   /* ---------- 1. the goal line ---------- */
@@ -60,7 +63,8 @@
     chips.querySelectorAll('.chip.goal').forEach(c => c.remove());
     if (RUN || VIEW.sheet || s.f.prologue || !s.f.metElias || PREFS.get('goal') === false) return;
     const n = chapterOf(s);
-    const head = s.host && HOUSE[s.host] ? tx(L.chapter(n)) + ' · ' + tx(HOUSE[s.host]) : tx(s.f.final ? L.after : L.between);
+    const hh = hostOf(s);
+    const head = hh && HOUSE[hh] ? tx(L.chapter(n)) + ' · ' + tx(HOUSE[hh]) : tx(s.f.final ? L.after : L.between);
     const k = topTask(s);
     const c = el('button', 'chip goal'); c.type = 'button';
     c.innerHTML = '<span class="g-ico">★</span><b></b>' + (k ? '<span class="g-sep"> — </span><span class="g-task"></span>' : '');
@@ -100,7 +104,7 @@
     body.appendChild(card);
     const act = Object.keys(s.quests).filter(k => s.quests[k] === 'active' && GAME.QUESTS[k]);
     const own = GAME.QUEST_OWNER || {};
-    const main = act.filter(isMain).sort((a, b) => (own[b] === s.host) - (own[a] === s.host));
+    const main = act.filter(isMain).sort((a, b) => (own[b] === hostOf(s)) - (own[a] === hostOf(s)));
     const side = act.filter(k => !isMain(k));
     const done = Object.keys(s.quests).filter(k => s.quests[k] === 'done' && GAME.QUESTS[k]);
     const section = (title, keys, cls) => {
