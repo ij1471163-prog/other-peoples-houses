@@ -1309,3 +1309,8 @@ html[lang=ar] .ho-letter .ho-paper{font-family:var(--f-ar-ui);font-size:clamp(14
 .ho-letter .ho-pick .opt{width:100%;text-align:start}
 @media (orientation:portrait){.ho-letter .cp-area{flex-direction:column;aspect-ratio:auto;height:70vh}}
 .endcine.ho-film .ec-media{opacity:1;animation:none}
+.ho-film{touch-action:none;-webkit-user-select:none;user-select:none}
+.ho-film .ho-hold{position:absolute;left:50%;bottom:9%;transform:translateX(-50%);padding:9px 18px;border-radius:999px;background:rgba(8,12,16,.7);border:1px solid rgba(255,226,168,.5);color:#ffe2a8;font-family:var(--f-ui);font-size:15px;white-space:nowrap;animation:hoPulse 1.6s ease-in-out infinite;pointer-events:none}
+html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
+.ho-film.held .ho-hold{opacity:0;transition:opacity .3s}
+.ho-film.done .ho-hold{opacity:1}

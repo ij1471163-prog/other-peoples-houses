@@ -105,12 +105,23 @@
     ['webm', 'mp4'].forEach(x => { const so = document.createElement('source'); so.src = st.src + '.' + x; so.type = 'video/' + x; v.appendChild(so); });
     media.appendChild(v); box.appendChild(media); box.appendChild(el('div', 'ec-vig'));
     $('stage').appendChild(box);
+    ['pointerdown', 'pointerup', 'click', 'touchstart'].forEach(e => box.addEventListener(e, ev => ev.stopPropagation()));
     let over = false;
     const fin = () => { if (over) return; over = true; alt.remove(); box.classList.add('out'); setTimeout(() => box.remove(), 900); done(1); };
     const alt = el('button', 'opt main cp-alt', tx(T('Go on', '{كمل|كملي}'))); alt.type = 'button'; panel.appendChild(alt); alt.onclick = fin;
-    v.onended = () => box.addEventListener('click', fin);
+    /* hold: the film only moves while your finger is on the screen */
+    if (st.hold) {
+      v.autoplay = false; v.removeAttribute('autoplay');
+      const tip = el('div', 'ho-hold', tx(st.tip || T('Hold the screen', '{اضغط|اضغطي} على الشاشة {وخلك|وخليك} ضاغط')));
+      box.appendChild(tip);
+      const go = ev => { if (over || v.ended) return; ev.preventDefault(); box.classList.add('held'); v.play().catch(() => {}); };
+      const stop = () => { box.classList.remove('held'); if (!v.ended) v.pause(); };
+      box.addEventListener('pointerdown', go); ['pointerup', 'pointercancel', 'pointerleave'].forEach(e => box.addEventListener(e, stop));
+      v.addEventListener('ended', () => { tip.textContent = tx(T('Tap to go on', '{اضغط|اضغطي} عشان {تكمل|تكملين}')); box.classList.remove('held'); box.classList.add('done'); });
+    }
+    v.onended = () => setTimeout(() => box.addEventListener('click', ev => { ev.stopPropagation(); fin(); }), 300);
     v.onerror = fin; v.querySelector('source:last-child').onerror = fin;
-    setTimeout(() => { if (!over && (v.readyState === 0)) fin(); }, 4000);
+    setTimeout(() => { if (!over && (v.readyState === 0) && v.networkState === 3) fin(); }, 4000);
   };
 
   /* ---------------- wiring ---------------- */
@@ -119,7 +130,7 @@
     const steps = fall0(where);
     const i = steps.findIndex(st => st && st.c === 'elias' && st.t && /No hospital/.test(st.t.en));
     /* at home: the fall itself, as a short film (the hold-his-arm game is off) */
-    if (where !== 'harbor') { const k = steps.findIndex(st => st && st.n && /A crash from the kitchen/.test(st.n.en)); if (k >= 0) steps.splice(k, 0, { mini: 'film', src: 'img/fx/elias_fall', bg: 'kitchen' }); }
+    if (where !== 'harbor') { const k = steps.findIndex(st => st && st.n && /A crash from the kitchen/.test(st.n.en)); if (k >= 0) steps.splice(k, 0, { mini: 'film', src: 'img/fx/elias_fall', bg: 'kitchen', hold: true, tip: T('Hold the screen to go into the kitchen', '{اضغط|اضغطي} على الشاشة {وخلك|وخليك} ضاغط عشان {تدخل|تدخلين} المطبخ') }); }
     void i;
     return steps;
   };
