@@ -1280,3 +1280,9 @@ html[lang=ar] .vcall small{font-family:var(--f-ar-ui);letter-spacing:0;font-size
 @keyframes afxGull{0%{left:var(--x0);top:var(--y0);opacity:0}4%{opacity:.85}40%{opacity:.85}46%{left:var(--x1);top:var(--y1);opacity:0}100%{left:var(--x1);top:var(--y1);opacity:0}}
 @keyframes afxFlap{from{transform:scaleY(1)}to{transform:scaleY(.45)}}
 @media (prefers-reduced-motion:reduce){.ambfx{display:none}}
+/* ---------- power-smart.js: idle and saver ---------- */
+html.idle .ambfx *,html.asleep .ambfx *{animation-play-state:paused!important}
+html.saver .ambfx .afx-shim,html.saver .ambfx .afx-gull,html.saver .ambfx .afx-cv{display:none}
+html.saver .ambfx .afx-glow{animation:none;opacity:.8}
+html.saver .spot i,html.saver .spot i::after{animation:none!important}
+html.saver .char svg,html.saver .char img{animation:none!important}

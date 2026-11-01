@@ -10,23 +10,49 @@
 (function () {
   const RM = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* kinds: glow [x,y,r,colour,strength] · steam [x,y] · dust [x0,y0,x1,y1] · shimmer [x0,y0,x1,y1] · splash [x,y] · embers [x,y,w] · gulls [x0,y0,x1,y1] */
+  const W_ = '255,190,110', F_ = '255,150,60', C_ = '140,180,255';
   const FX = {
     living: [
-      ['glow', 53, 57, 13, '255,150,60', 0.55], ['embers', 53, 54, 4],
-      ['glow', 35, 58, 8, '255,150,60', 0.4],
-      ['glow', 97, 43, 10, '255,190,110', 0.45, 'night'], ['glow', 95, 63, 5, '255,170,90', 0.35, 'night'],
+      ['glow', 53, 57, 13, F_, 0.55], ['embers', 53, 54, 4],
+      ['glow', 35, 58, 8, F_, 0.4],
+      ['glow', 97, 43, 10, W_, 0.45, 'night'], ['glow', 95, 63, 5, '255,170,90', 0.35, 'night'],
       ['steam', 7.6, 66],
       ['shimmer', 66, 41, 83, 52], ['shimmer', 13, 38, 19, 47],
       ['dust', 38, 45, 78, 92, 'day']
     ],
     marg_garden: [
-      ['glow', 14, 22, 9, '255,190,110', 0.5],
+      ['glow', 14, 22, 9, W_, 0.5],
       ['splash', 58, 46], ['shimmer', 52, 56, 64, 63],
       ['steam', 11, 67],
       ['shimmer', 72, 40, 100, 50],
       ['dust', 22, 38, 92, 92, 'day'],
       ['gulls', 40, 8, 100, 28, 'day']
-    ]
+    ],
+    kitchen: [['shimmer', 40, 34, 76, 45], ['steam', 57, 58], ['steam', 93, 49], ['dust', 25, 50, 80, 95, 'day']],
+    your_room: [['shimmer', 3, 38, 22, 47, 'day'], ['dust', 20, 55, 85, 95, 'day']],
+    hall: [['glow', 49, 9, 14, W_, 0.4, 'night'], ['glow', 58, 46, 6, W_, 0.5, 'night'], ['dust', 30, 60, 80, 98, 'day']],
+    elias_bed: [['glow', 61, 38, 9, W_, 0.45, 'night'], ['dust', 25, 55, 90, 95, 'day']],
+    shed: [['shimmer', 83, 30, 98, 45], ['dust', 10, 30, 95, 95, 'day']],
+    yard: [['shimmer', 55, 40, 100, 48], ['gulls', 30, 5, 100, 30, 'day']],
+    elias_ext: [['shimmer', 10, 50, 30, 60], ['glow', 52, 29, 9, W_, 0.5, 'night'], ['gulls', 8, 8, 30, 40, 'day']],
+    street: [['gulls', 0, 2, 60, 18, 'day']],
+    harbor: [['shimmer', 0, 42, 100, 95], ['gulls', 0, 5, 100, 25, 'day']],
+    dock: [['shimmer', 0, 50, 100, 95], ['gulls', 10, 5, 100, 25, 'day']],
+    cafe: [['glow', 55, 20, 10, W_, 0.45], ['steam', 47, 66], ['dust', 0, 20, 45, 90, 'day']],
+    grocery: [['glow', 51, 9, 9, W_, 0.45], ['glow', 77, 9, 9, W_, 0.45], ['dust', 10, 30, 95, 95, 'day']],
+    cliff_road: [['gulls', 40, 5, 100, 35, 'day'], ['shimmer', 80, 40, 100, 58]],
+    marg_living: [['glow', 66, 38, 9, W_, 0.4, 'night'], ['shimmer', 13, 42, 33, 51], ['dust', 15, 60, 70, 95, 'day']],
+    marg_kitchen: [['glow', 40, 10, 10, W_, 0.4], ['glow', 64, 8, 10, W_, 0.4], ['shimmer', 76, 26, 92, 33], ['steam', 52, 55]],
+    marg_hall: [['glow', 63, 4, 10, W_, 0.4], ['glow', 68, 62, 7, W_, 0.35, 'night']],
+    dan_room: [['glow', 46, 39, 8, C_, 0.4, 'night'], ['shimmer', 12, 30, 28, 36], ['dust', 20, 55, 85, 95, 'day']],
+    marg_guest: [['glow', 75, 50, 8, W_, 0.45, 'night'], ['glow', 26, 30, 7, W_, 0.4, 'night']],
+    marg_bed: [['glow', 10, 46, 8, W_, 0.45, 'night'], ['glow', 44, 46, 8, W_, 0.45, 'night']],
+    lh_living: [['glow', 47, 57, 11, F_, 0.55], ['embers', 47, 54, 3], ['glow', 67, 57, 11, F_, 0.55], ['embers', 67, 54, 3]],
+    lh_ext: [['gulls', 50, 20, 90, 40, 'day'], ['shimmer', 60, 60, 100, 95], ['glow', 34, 6, 10, '255,240,190', 0.7, 'night']],
+    boathouse: [['glow', 16, 46, 9, C_, 0.35], ['shimmer', 57, 38, 77, 46], ['glow', 89, 43, 8, W_, 0.45, 'night'], ['dust', 20, 50, 80, 95, 'day']],
+    cemetery: [['gulls', 0, 5, 60, 25, 'day']],
+    beach: [['shimmer', 0, 30, 60, 55], ['gulls', 10, 5, 90, 25, 'day']],
+    sami_attic: [['shimmer', 52, 38, 95, 48], ['dust', 20, 60, 90, 95, 'day']]
   };
 
   let raf = 0, key = '', cv = null, parts = [], cfg = [], t0 = 0;
@@ -62,10 +88,20 @@
     if (kind === 'embers') return { k: 'ember', x: (a + R(-c, c) / 2) / 100 * W, y: b / 100 * H, vx: R(-0.15, 0.15), vy: R(-0.6, -0.3), r: R(0.8, 1.6), life: 0, max: R(50, 110) };
   }
   const RATE = { steam: 0.12, dust: 0.25, splash: 0.9, embers: 0.12 }, CAP = { steam: 26, dust: 60, splash: 40, embers: 16 };
+  let lastF = 0, slow = 0, frames = 0;
+  const root = document.documentElement;
   function tick(now) {
     if (!cv || !cv.isConnected) { stop(); return; }
     raf = requestAnimationFrame(tick);
-    if (RUN && VIEW.sheet) return;
+    if (VIEW.sheet || root.classList.contains('asleep')) return;
+    /* smart power: 30 frames a second, 8 when nobody has touched the screen for a while */
+    const gap = root.classList.contains('idle') ? 125 : 33;
+    if (now - lastF < gap) return;
+    const dt = now - lastF; lastF = now;
+    /* a phone that can't keep up gets fewer particles, then none */
+    if (dt > 70 && dt < 1000) slow++; else if (slow > 0) slow -= 0.25;
+    if (++frames > 90 && slow > 25 && !root.classList.contains('saver')) { root.classList.add('saver'); }
+    if (root.classList.contains('saver')) { const x = cv.getContext('2d'); x.clearRect(0, 0, cv.width, cv.height); return; }
     const W = cv.clientWidth, H = cv.clientHeight; if (!W || !H) return;
     if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
     const x = cv.getContext('2d'); x.clearRect(0, 0, W, H);
