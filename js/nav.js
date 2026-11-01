@@ -46,6 +46,9 @@
       b.classList.add('nav', 'nav-' + d); if (locked) b.classList.add('nav-locked');
       const i0 = b.querySelector('i'); if (i0) i0.innerHTML = locked ? IC.lock : IC[d];
     });
+    /* a door's tap area is the size of a door in the picture, not a small button */
+    const sc = st.querySelector('.scene'), R = sc && sc.getBoundingClientRect();
+    if (R && R.width) btns.forEach(b => { if (b.classList.contains('nav-door')) { b.style.setProperty('--dw', Math.round(R.width * 0.10) + 'px'); b.style.setProperty('--dh', Math.round(R.height * 0.34) + 'px'); } });
     untangleSpots(sp);
     /* the back button, first in the top bar */
     const bar = st.querySelector('.hud .btns'); if (!bar || bar.querySelector('.ibtn.back')) return;

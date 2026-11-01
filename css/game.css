@@ -1205,6 +1205,9 @@ html[lang=ar] .jn-photo p{font-family:var(--f-ar-ui);font-size:14px}
    door / the edge of the picture goes there. Names come back on arrival and when
    you tap an empty part of the picture, like everything else. */
 .spot.exit.nav::before{content:'';position:absolute;left:-21px;top:50%;width:84px;height:116px;transform:translateY(-50%)}
+.spot.exit.nav-door::before{width:var(--dw,84px);height:var(--dh,116px);left:calc(21px - var(--dw,84px) / 2);border-radius:10px}
+.spot.exit.nav-door.flip::before{left:auto;right:calc(21px - var(--dw,84px) / 2)}
+.spot.exit.nav-door:active::before{background:rgba(255,226,168,.18);box-shadow:inset 0 0 0 2px rgba(255,226,168,.45)}
 .spot.exit.nav.flip::before{left:auto;right:-21px}
 .spot.exit.nav-left::before,.spot.exit.nav-right::before{width:66px;height:150px}
 .spot.exit.nav-up::before,.spot.exit.nav-down::before{width:130px;height:62px;left:-44px}
