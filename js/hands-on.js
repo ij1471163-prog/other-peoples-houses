@@ -96,12 +96,30 @@
     next();
   };
 
+
+  /* ---------------- a short film, full screen (plays once, tap to go on when it ends) ---------------- */
+  GAME.MINI.film = function (panel, done, st) {
+    panel.innerHTML = '';
+    const box = el('div', 'endcine ho-film'); const media = el('div', 'ec-media vid');
+    const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.autoplay = true; v.setAttribute('playsinline', '');
+    ['webm', 'mp4'].forEach(x => { const so = document.createElement('source'); so.src = st.src + '.' + x; so.type = 'video/' + x; v.appendChild(so); });
+    media.appendChild(v); box.appendChild(media); box.appendChild(el('div', 'ec-vig'));
+    $('stage').appendChild(box);
+    let over = false;
+    const fin = () => { if (over) return; over = true; alt.remove(); box.classList.add('out'); setTimeout(() => box.remove(), 900); done(1); };
+    const alt = el('button', 'opt main cp-alt', tx(T('Go on', '{كمل|كملي}'))); alt.type = 'button'; panel.appendChild(alt); alt.onclick = fin;
+    v.onended = () => box.addEventListener('click', fin);
+    v.onerror = fin; v.querySelector('source:last-child').onerror = fin;
+    setTimeout(() => { if (!over && (v.readyState === 0)) fin(); }, 4000);
+  };
+
   /* ---------------- wiring ---------------- */
   const fall0 = GAME.SCRIPTS.fall;
   if (typeof fall0 === 'function') GAME.SCRIPTS.fall = where => {
     const steps = fall0(where);
     const i = steps.findIndex(st => st && st.c === 'elias' && st.t && /No hospital/.test(st.t.en));
-    /* the hold-his-arm game is off (it didn't feel right); a video of the fall goes here when there is one */
+    /* at home: the fall itself, as a short film (the hold-his-arm game is off) */
+    if (where !== 'harbor') { const k = steps.findIndex(st => st && st.n && /A crash from the kitchen/.test(st.n.en)); if (k >= 0) steps.splice(k, 0, { mini: 'film', src: 'img/fx/elias_fall', bg: 'kitchen' }); }
     void i;
     return steps;
   };

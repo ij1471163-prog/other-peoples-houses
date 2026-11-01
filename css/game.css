@@ -1308,3 +1308,4 @@ html[lang=ar] .ho-letter .ho-paper{font-family:var(--f-ar-ui);font-size:clamp(14
 .ho-letter .ho-pick{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px}
 .ho-letter .ho-pick .opt{width:100%;text-align:start}
 @media (orientation:portrait){.ho-letter .cp-area{flex-direction:column;aspect-ratio:auto;height:70vh}}
+.endcine.ho-film .ec-media{opacity:1;animation:none}
