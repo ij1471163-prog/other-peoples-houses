@@ -1335,3 +1335,10 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .notebook .nb-th.done b{color:var(--lamp)}
 .notebook .nb-dots{color:var(--lamp);letter-spacing:2px;font-size:11px}
 .notebook .nb-clue{margin:3px 0 0;font-size:12.5px;opacity:.85}
+/* stroking the Admiral (js/cat.js) */
+.ho-pet .cp-area{background:#2a3036;cursor:grab}
+.ho-pet .ho-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.6) blur(2px)}
+.ho-pet .pet-cat{position:absolute;left:50%;bottom:0;height:92%;transform:translateX(-50%);pointer-events:none;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5));transition:filter .4s}
+.ho-pet .pet-glow{position:absolute;left:50%;bottom:4%;width:60%;height:70%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,200,130,.35),transparent);opacity:0;transition:opacity .5s;pointer-events:none}
+.ho-pet.shake .pet-cat{animation:petShake .35s ease}
+@keyframes petShake{0%,100%{transform:translateX(-50%)}25%{transform:translateX(-53%)}75%{transform:translateX(-47%)}}

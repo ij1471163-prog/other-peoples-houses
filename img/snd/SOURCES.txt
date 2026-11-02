@@ -12,3 +12,6 @@ All sounds in this folder are public domain (CC0), cut and level-matched for the
   marg-door    "100 CC0 SFX" door-open, slowed (rubberduck)                               same as above
   marg-plates  "Impact Sounds" impact-plate-light (Kenney)                                https://kenney.nl/assets/impact-sounds  (CC0)
   marg-steps   "Impact Sounds" footstep-wood (Kenney)                                     same as above
+
+cat-purr.mp3, cat-meow1.mp3, cat-meow2.mp3, cat-hiss.mp3
+  Made for this game (synthesised in Python/numpy, scratchpad catsnd/synth.py). No third-party source.
