@@ -125,7 +125,9 @@ const lifeIcon = id => (typeof LIFE !== 'undefined' ? LIFE.icon(id) : '');
 /* ...and the drawn pose for it (holding a pan, a net, a cup); null until that picture exists */
 const lifePose = id => (typeof LIFE !== 'undefined' ? LIFE.pose(id) : null);
 /* ...or a small drawing of what they are using (js/props.js): a pan, a cup, a broom */
-const lifeProp = id => (typeof PROPS !== 'undefined' ? PROPS.html(id) : '');
+/* the drawn props (a cup, a pan, a broom…) are cartoons and look wrong on top of the painted
+   characters, so they are not drawn; what someone is doing still shows as the icon by their name */
+const lifeProp = id => '';
 
 /* ---------- script runner ---------- */
 let RUN = null;           // {stack:[{steps,i}], done}
