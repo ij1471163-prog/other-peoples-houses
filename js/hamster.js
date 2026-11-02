@@ -40,7 +40,7 @@
       if (!s.f.bisSeen) {
         s.f.bisSeen = s.day;
         const out = [
-          N1('A small cage among the hydrangeas, cleaner than anything else in the house. In the bedding, a tiny gold-and-white hamster, no bigger than a walnut, is asleep, breathing very fast. Taped to the bars, in a boy\'s capitals: "BISCUIT — NO CHOCOLATE!! — D."', 'قفص صغير بين الهيدرانجيا، أنظف من أي شي ثاني في البيت. وفي النشارة، همستر صغير ذهبي وأبيض، مو أكبر من جوزة، نايم ويتنفس بسرعة. وملصوق على القضبان، بحروف ولد كبيرة: «بسكوت — لا تعطونه شوكولاتة!! — د.»')
+          N1('A small cage among the hydrangeas, cleaner than anything else in the house. In the bedding, a tiny pink-and-white hamster, round as a dumpling, is asleep, breathing very fast. Taped to the bars, in a boy\'s capitals: "BISCUIT — NO CHOCOLATE!! — D."', 'قفص صغير بين الهيدرانجيا، أنظف من أي شي ثاني في البيت. وفي النشارة، همستر صغير وردي وأبيض، مدوّر مثل الكبة، نايم ويتنفس بسرعة. وملصوق على القضبان، بحروف ولد كبيرة: «بسكوت — لا تعطونه شوكولاتة!! — د.»')
         ];
         if (home(s)) out.push({ show: [{ id: 'margaret', e: 'neutral' }] },
           M('neutral', 'That\'s Biscuit. Well. Biscuit the second. Daniel\'s Biscuit died last spring. I couldn\'t stand the empty cage.', 'هذا بسكوت. يعني، بسكوت الثاني. بسكوت حق دانيال مات الربيع اللي فات. وما قدرت أتحمل القفص فاضي.'),
@@ -71,7 +71,9 @@
       return [{ q: T('Biscuit is awake and looking at you, whiskers going.', 'بسكوت صاحي ويطالعك، وشواربه تتحرك.'), menu: [
         { t: T('Give him some seeds', '{تعطيه|تعطينه} بذور'), then: [N1('He takes each seed in both hands, turns it, and pushes it into his cheek. Then the next. Then the next. He is now mostly cheek.', 'ياخذ كل بذرة بيدينه الثنتين، ويلفها، ويدفها في خده. وبعدين اللي بعدها. واللي بعدها. والحين أغلبه خدود.'), st => care(st)] },
         { t: T('Change his water', '{تغير|تغيرين} مويته'), then: [N1('Fresh water in the little bottle. He comes over at once and drinks with tiny, serious clicks.', 'موية جديدة في القارورة الصغيرة. يجي على طول ويشرب بطقطقات صغيرة وجدية.'), st => care(st)] },
-        { t: T('Hold him', '{تمسكه|تمسكينه} بيدك'), then: [N1('He walks onto your palm like he\'s checking the ground, then sits. He is warm and weighs nothing. His heart is going like a little clock.', 'يمشي على كفك كأنه يتأكد من الأرض، وبعدين يجلس. دافي وما له وزن. وقلبه يدق مثل ساعة صغيرة.'), st => care(st)] },
+        { t: T('Hold him', '{تمسكه|تمسكينه} بيدك'), then: [{ mini: 'biscuit', then: (r, st) => [N1(...(r
+          ? ['He is asleep in your hand, warm and weighing nothing, his heart going like a little clock. You stay very still for a long time.', 'نام في كفك، دافي وما له وزن، وقلبه يدق مثل ساعة صغيرة. {وتجلس|وتجلسين} بدون حركة وقت طويل.']
+          : ['You put him back in his bedding. He starts building a nest out of it at once, very busy, very offended.', '{ترجعه|ترجعينه} لنشارته. ويبدأ يبني عش على طول، مشغول مرة، وزعلان مرة.']))] }, st => care(st)] },
         { t: T('Let him sleep', '{خله|خليه} ينام'), then: [] }
       ] }];
     } });
@@ -82,6 +84,71 @@
     if (!home(s) || n > TELLS.length) return null;
     return [{ show: [{ id: 'margaret', e: TELLS[n - 1][0].e }] }].concat(TELLS[n - 1]);
   }
+
+  /* ---------- holding him (frames from the user's video, img/fx/biscuit/00-25) ----------
+     0-3 he sniffs your palm; tap = a seed: 4-15 he stuffs it in his cheek; stroke his back
+     slowly and he gets sleepy: 16-25 his eyes close. Too fast and he freezes. */
+  GAME.MINI.biscuit = function (panel, done) {
+    panel.innerHTML = '';
+    const FR = Array.from({ length: 26 }, (_, i) => 'img/fx/biscuit/' + String(i).padStart(2, '0') + '.webp');
+    FR.forEach(u => { const im = new Image(); im.src = u; });
+    const box = el('div', 'cp ho ho-pet ho-bis'); box.setAttribute('role', 'dialog');
+    box.innerHTML = '<div class="cp-area"><div class="ho-bg"></div><div class="pet-body"><img class="pet-cat" alt=""></div><div class="pet-sub"><strong class="cp-title"></strong><span class="cp-hint"></span></div><button type="button" class="cp-skip"></button></div>';
+    $('stage').appendChild(box);
+    ['pointerdown', 'pointerup', 'click', 'touchstart'].forEach(e => box.addEventListener(e, ev => ev.stopPropagation()));
+    const q = x => box.querySelector(x), img = q('.pet-cat'), area = q('.cp-area'), body = q('.pet-body');
+    const hint = t => { q('.cp-hint').textContent = tx(t); };
+    q('.cp-title').textContent = tx(T('Biscuit', 'بسكوت'));
+    hint(T('Tap to give him a seed. Stroke his back, slowly.', '{انقر|انقري} عشان {تعطيه|تعطينه} بذرة. {وامسح|وامسحي} على ظهره، بشويش.'));
+    q('.cp-skip').textContent = tx(T('Put him back', '{رجّعه|رجّعيه}'));
+    const bg = (PEOPLE.IMG.bg && (PEOPLE.IMG.bg.marg_garden || '')) || '';
+    q('.ho-bg').style.backgroundImage = bg ? `url(${bg})` : '';
+    const alt = el('button', 'opt main cp-alt', tx(T('Put him back', '{رجّعه|رجّعيه}'))); alt.type = 'button'; panel.appendChild(alt);
+    let over = false, won = false, cur = 0, seeds = 0, calm = 0, eating = -1, freeze = 0, last = null, travel = 0, downAt = 0, raf = 0, lastStep = 0;
+    const show = i => { if (i !== cur || !img.src) { cur = i; img.src = FR[i]; } };
+    show(0);
+    const finish = r => { if (over) return; over = true; cancelAnimationFrame(raf); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 260); done(r); };
+    q('.cp-skip').onclick = ev => { ev.stopPropagation(); finish(0); };
+    alt.onclick = () => finish(0);
+    const loop = now => {
+      if (over) return; raf = requestAnimationFrame(loop);
+      const fz = Math.max(0, freeze - now) / 900;
+      body.style.transform = `translateX(-50%) scale(${(1 - fz * 0.04).toFixed(3)}, ${(1 + Math.sin(now / 420) * 0.008 - fz * 0.06).toFixed(3)})`;
+      if (now - lastStep < 83) return; lastStep = now;
+      if (eating >= 0) { const k = Math.floor((now - eating) / 83); if (k < 12) return show(4 + k); eating = -1; }
+      const sleepy = Math.round(Math.min(1, calm / 100) * 9);
+      if (sleepy > 0 && seeds > 0) {
+        const t = 16 + sleepy;
+        if (cur < 16) return show(16);
+        if (cur < t) return show(cur + 1);
+        if (cur > t) return show(cur - 1);
+        if (t >= 25 && !won) { won = true; alt.remove(); hint(T('He\'s asleep in your hand.', 'نام في كفك.')); setTimeout(() => finish(1), 1600); }
+        return;
+      }
+      if (cur > 3 && cur < 16) return show(cur === 15 ? 0 : cur);   /* cheeks full: rest on the last frame, then back */
+      show((cur + (Math.random() < 0.35 ? 1 : 0)) % 4);            /* sniffing */
+    };
+    raf = requestAnimationFrame(loop);
+    const onHim = ev => { const r = img.getBoundingClientRect(); return ev.clientX > r.left + r.width * 0.15 && ev.clientX < r.right - r.width * 0.15 && ev.clientY > r.top && ev.clientY < r.top + r.height * 0.72; };
+    area.addEventListener('pointerdown', ev => { if (over || won) return; ev.preventDefault(); last = { x: ev.clientX, y: ev.clientY, t: performance.now() }; travel = 0; downAt = last.t; try { area.setPointerCapture(ev.pointerId); } catch (e) { /* none */ } });
+    area.addEventListener('pointermove', ev => {
+      if (over || won || !last || performance.now() < freeze) return;
+      const now = performance.now(), d = Math.hypot(ev.clientX - last.x, ev.clientY - last.y), sp = d / Math.max(1, now - last.t);
+      last = { x: ev.clientX, y: ev.clientY, t: now }; travel += d;
+      if (!onHim(ev)) return;
+      if (sp > 1.8 && d > 5) { freeze = now + 900; calm = Math.max(0, calm - 20); hint(T('Too fast. He freezes into a ball.', 'بسرعة زيادة. تجمّد وتكوّر.')); return; }
+      if (seeds === 0) { hint(T('He\'s too busy sniffing for food. Give him a seed first.', 'مشغول يشم يدور أكل. {عطه|عطيه} بذرة أول.')); return; }
+      if (sp < 1.2) { calm = Math.min(100, calm + d * 0.12); if (calm > 25 && calm < 90) hint(T('His eyes are getting heavy.', 'عيونه بدت تثقل.')); }
+    });
+    area.addEventListener('pointerup', ev => {
+      if (over || won || !last) return;
+      const quick = performance.now() - downAt < 220 && travel < 8; last = null;
+      if (!quick || !onHim(ev) || eating >= 0) return;
+      seeds++; eating = performance.now(); calm = Math.max(0, calm - 10);
+      hint(seeds === 1 ? T('Into the cheek it goes. And another. He is now mostly cheek.', 'ودخلت في الخد. والثانية. والحين أغلبه خدود.') : T('Another seed. His cheeks can apparently hold the whole bag.', 'بذرة ثانية. واضح إن خدوده تشيل الكيس كله.'));
+    });
+    area.addEventListener('pointercancel', () => { last = null; });
+  };
 
   /* at night, from the sitting room: his wheel */
   if (L.marg_living) L.marg_living.spots.push({ x: 84, y: 40, label: T('A tiny squeaking, from the sunroom', 'صرير صغير، من غرفة الزرع'),

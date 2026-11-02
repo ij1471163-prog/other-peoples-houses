@@ -1347,3 +1347,5 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .ho-pet .pet-sub .cp-hint{font-size:14px;opacity:1}
 .ho-pet .cp-skip{position:absolute;top:10px;inset-inline-end:10px;z-index:2}
 .ho-pet.out{opacity:0;transition:opacity .25s}
+/* holding Biscuit (js/hamster.js): his frames include your hand, coming up from the bottom */
+.ho-bis .pet-body{bottom:-2%;height:96%}
