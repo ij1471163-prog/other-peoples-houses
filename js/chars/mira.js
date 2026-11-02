@@ -64,8 +64,8 @@
     if (h === 'leo') return [{ c: 'mira', e: 'neutral', t: fresh('miraL', [
       T('Leo from the boathouse? He draws the customers when he thinks nobody\'s looking. He drew me once. Better than my passport photo.', 'ليو حق بيت القوارب؟ يرسم الزباين لما يحسب محد شايفه. رسمني مرة. أحلى من صورة جوازي.'),
       T('He comes in, orders the cheapest thing, and leaves exact change. Every time. Like he\'s practising being no trouble.', 'يدخل، يطلب أرخص شي، ويترك الفلوس بالضبط. كل مرة. كأنه يتمرن إنه ما يزعج أحد.')]) }];
-    if (h) return [M('neutral', T('Another house, another door. You collect them, don\'t you? Like stamps.', 'بيت ثاني، وباب ثاني. {تجمعها|تجمعينها}، صح؟ مثل الطوابع.'))];
-    return [M('neutral', T('Between houses? You can sleep in the café storeroom if it comes to that. Don\'t tell Marco. Marco knows.', 'بين بيتين؟ تقدر{|ين} {تنام|تنامين} في مخزن المقهى إذا وصلت لها. لا {تقول|تقولين} لماركو. ماركو يدري.'))];
+    if (h) return [{ c: 'mira', e: 'neutral', t: T('Another house, another door. You collect them, don\'t you? Like stamps.', 'بيت ثاني، وباب ثاني. {تجمعها|تجمعينها}، صح؟ مثل الطوابع.') }];
+    return [{ c: 'mira', e: 'neutral', t: T('Between houses? You can sleep in the café storeroom if it comes to that. Don\'t tell Marco. Marco knows.', 'بين بيتين؟ تقدر{|ين} {تنام|تنامين} في مخزن المقهى إذا وصلت لها. لا {تقول|تقولين} لماركو. ماركو يدري.') }];
   }
 
   /* ---------- things to talk about ---------- */
