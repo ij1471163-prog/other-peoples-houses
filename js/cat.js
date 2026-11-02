@@ -59,7 +59,8 @@
     let film = true, cur = 0, hissAt = -1;
     pre[0].onerror = () => { film = false; cat.src = P.wary; };
     const target = () => Math.round(Math.min(1, trust / 100) * 20);
-    const show0 = i => { if (i !== cur || !cat.src) { cur = i; cat.src = film ? FR[i] : (trust >= 60 && P.calm ? P.calm : P.wary); } };
+    let jelly = null;   /* the soft body (js/jelly-pet.js), once it's ready */
+    const show0 = i => { if (i !== cur || !cat.src) { cur = i; cat.src = film ? FR[i] : (trust >= 60 && P.calm ? P.calm : P.wary); if (jelly && film) jelly.show(i); } };
     cat.src = FR[target()]; cur = target();
     const setPose = p => { if (!film) cat.src = P[p] || P.wary; };
     let lastStep = 0;
@@ -94,18 +95,23 @@
       mv.recoil *= 0.9; mv.bob *= 0.86; stepFilm(now);
       const period = trust >= 60 ? 1500 : 2600, br = Math.sin(now / period * 2 * Math.PI);
       const settle = Math.max(0, k - 0.5) * 3;   /* % lower as he relaxes into a loaf */
+      if (jelly) { area.style.transform = mv.recoil > 0.02 ? `translateY(${(mv.recoil * 2).toFixed(2)}%)` : ''; press.style.opacity = '0'; return; }
       body.style.transform = `translate(calc(-50% + ${mv.lx.toFixed(2)}%), ${(settle + mv.recoil * 4 - mv.bob).toFixed(2)}%) rotate(${mv.rot.toFixed(2)}deg) scale(${(1 - mv.recoil * 0.05).toFixed(3)}, ${(1 + br * 0.011 - mv.recoil * 0.05).toFixed(3)})`;
       if (mv.fx != null) { press.style.opacity = '1'; press.style.left = (mv.fx - r.left) + 'px'; press.style.top = (mv.fy - r.top) + 'px'; } else press.style.opacity = '0';
     };
     raf = requestAnimationFrame(live);
+    if (typeof JELLY !== 'undefined' && film) JELLY.attach(area, pre, { size: 1.55, soft: 0.5 }).then(j => {
+      if (!j || over) { if (j) j.detach(); return; }
+      jelly = j; jelly.show(cur); box.classList.add('jelly');
+    });
     const alt = el('button', 'opt main cp-alt', tx(T('Leave him', '{خله|خليه}'))); alt.type = 'button'; panel.appendChild(alt);
-    const finish = r => { if (over) return; over = true; setTimeout(() => cancelAnimationFrame(raf), 300); if (r) setTimeout(purrStop, 600); else purrStop(); alt.remove(); s.f.catT = Math.round(trust); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 260); done(r); };
+    const finish = r => { if (over) return; over = true; setTimeout(() => { cancelAnimationFrame(raf); if (jelly) jelly.detach(); }, 280); if (r) setTimeout(purrStop, 600); else purrStop(); alt.remove(); s.f.catT = Math.round(trust); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 260); done(r); };
     q('.cp-skip').onclick = ev => { ev.stopPropagation(); finish(0); };
     alt.onclick = () => finish(0);
 
     /* where on him: 0 = top (head), 1 = bottom (belly, tail) */
     function zone(ev) {
-      const r = cat.getBoundingClientRect();
+      const r = jelly ? jelly.rect() : cat.getBoundingClientRect();
       if (ev.clientX < r.left + r.width * 0.12 || ev.clientX > r.right - r.width * 0.12 || ev.clientY < r.top + r.height * 0.05 || ev.clientY > r.bottom) return -1;
       return (ev.clientY - r.top) / r.height;
     }
@@ -130,7 +136,7 @@
     area.addEventListener('pointerdown', ev => {
       if (over) return; ev.preventDefault();
       last = { x: ev.clientX, y: ev.clientY, t: performance.now() }; travel = 0; downAt = last.t;
-      try { area.setPointerCapture(ev.pointerId); } catch (e) { /* none */ }
+      if (!jelly) try { area.setPointerCapture(ev.pointerId); } catch (e) { /* none */ }   /* the soft body needs the moves itself */
     });
     area.addEventListener('pointermove', ev => {
       if (over || won || !last || performance.now() < cross) return;

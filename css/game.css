@@ -1350,3 +1350,8 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 /* playing with Biscuit (js/hamster.js): on the little table in the sunroom, like the Admiral */
 .ho-bis .pet-body{bottom:4%;height:78%}
 .ho-bis .pet-body::after{content:'';position:absolute;left:18%;right:18%;bottom:1%;height:7%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);z-index:-1}
+/* the soft body under an animal close-up (js/jelly-pet.js) */
+.jelly-host{position:absolute;left:0;right:0;top:0;z-index:1;touch-action:none}
+.jelly-host .jelly-cv{position:absolute;inset:0;width:100%;height:100%}
+.ho-pet.jelly .pet-body{visibility:hidden}
+.ho-pet .pet-sub,.ho-pet .cp-skip{z-index:3}
