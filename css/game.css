@@ -1335,10 +1335,15 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .notebook .nb-th.done b{color:var(--lamp)}
 .notebook .nb-dots{color:var(--lamp);letter-spacing:2px;font-size:11px}
 .notebook .nb-clue{margin:3px 0 0;font-size:12.5px;opacity:.85}
-/* stroking the Admiral (js/cat.js) */
-.ho-pet .cp-area{background:#2a3036;cursor:grab}
-.ho-pet .ho-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.6) blur(2px)}
-.ho-pet .pet-cat{position:absolute;left:50%;bottom:0;height:92%;transform:translateX(-50%);pointer-events:none;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5));transition:filter .4s}
-.ho-pet .pet-glow{position:absolute;left:50%;bottom:4%;width:60%;height:70%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,200,130,.35),transparent);opacity:0;transition:opacity .5s;pointer-events:none}
-.ho-pet.shake .pet-cat{animation:petShake .35s ease}
-@keyframes petShake{0%,100%{transform:translateX(-50%)}25%{transform:translateX(-53%)}75%{transform:translateX(-47%)}}
+/* stroking the Admiral (js/cat.js): full screen, close, like crouching next to him */
+.ho-pet{position:absolute;inset:0;z-index:60;background:#000;animation:cpPop .25s ease}
+.ho-pet .cp-area{position:absolute;inset:0;width:auto;aspect-ratio:auto;max-height:none;border-radius:0;cursor:grab;touch-action:none;background:#2a3036}
+.ho-pet .ho-bg{position:absolute;inset:-4%;background-size:cover;background-position:center 60%;filter:brightness(.72) blur(3px) saturate(.9);transform:scale(1.12)}
+.ho-pet .pet-body{position:absolute;left:50%;bottom:-6%;height:100%;transform:translateX(-50%);transform-origin:50% 100%;pointer-events:none}
+.ho-pet .pet-cat{height:100%;display:block;filter:drop-shadow(0 18px 22px rgba(0,0,0,.55))}
+.ho-pet .pet-press{position:absolute;width:13%;aspect-ratio:1.4;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(40,20,5,.22),transparent);mix-blend-mode:multiply;opacity:0;transition:opacity .25s;pointer-events:none}
+.ho-pet .pet-sub{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);max-width:86%;text-align:center;padding:6px 14px;border-radius:12px;background:rgba(8,12,16,.6);color:#f4ead6;pointer-events:none}
+.ho-pet .pet-sub strong{display:block;font-size:12px;color:var(--lamp);opacity:.9}
+.ho-pet .pet-sub .cp-hint{font-size:14px;opacity:1}
+.ho-pet .cp-skip{position:absolute;top:10px;inset-inline-end:10px;z-index:2}
+.ho-pet.out{opacity:0;transition:opacity .25s}

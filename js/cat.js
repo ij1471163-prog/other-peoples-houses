@@ -25,6 +25,7 @@
   const on = () => typeof AUDIO !== 'undefined' && AUDIO.on;
   const vol = k => { const st = (typeof AUDIO !== 'undefined' && AUDIO.settings) || {}; return Math.max(0, Math.min(1, (st.master || 0.8) * (st.sfx || 0.7) * k)); };
   const play = (name, k) => { if (!on()) return null; try { const a = new Audio('img/snd/' + name + '.mp3'); a.volume = vol(k); a.play().catch(() => {}); return a; } catch (e) { return null; } };
+  const MEOW = false;   /* the made-up meows sound fake; on again when real recordings are in img/snd */
   let purr = null;
   function purrTo(k) {
     if (!on()) return;
@@ -40,10 +41,10 @@
     const friendly = !!st.friendly;
     let trust = friendly ? 55 : Math.min(40, s.f.catT || 0);
     const box = el('div', 'cp ho ho-pet'); box.setAttribute('role', 'dialog');
-    box.innerHTML = '<div class="cp-card"><div class="cp-head"><div class="cp-tt"><strong class="cp-title"></strong><span class="cp-hint"></span></div><button type="button" class="cp-skip"></button></div><div class="cp-area"><div class="ho-bg"></div><img class="pet-cat" alt=""><i class="pet-glow"></i></div></div>';
+    box.innerHTML = '<div class="cp-area"><div class="ho-bg"></div><div class="pet-body"><img class="pet-cat" alt=""><i class="pet-press"></i></div><div class="pet-sub"><strong class="cp-title"></strong><span class="cp-hint"></span></div><button type="button" class="cp-skip"></button></div>';
     $('stage').appendChild(box);
     ['pointerdown', 'pointerup', 'click', 'touchstart'].forEach(e => box.addEventListener(e, ev => ev.stopPropagation()));
-    const q = x => box.querySelector(x), cat = q('.pet-cat'), area = q('.cp-area'), glow = q('.pet-glow');
+    const q = x => box.querySelector(x), cat = q('.pet-cat'), area = q('.cp-area'), body = q('.pet-body'), press = q('.pet-press');
     const hint = t => { q('.cp-hint').textContent = tx(t); };
     q('.cp-title').textContent = tx(friendly ? T('The Admiral', 'الأدميرال') : T('A ginger cat', 'قطو برتقالي'));
     hint(friendly ? T('He\'s in a good mood. Mostly.', 'مزاجه زين. غالباً.') : T('Slowly. Let him smell your hand, then stroke his head and back.', 'بشويش. {خله|خليه} يشم يدك، وبعدين {امسح|امسحي} على راسه وظهره.'));
@@ -56,8 +57,26 @@
     setPose(trust >= 60 ? 'calm' : 'wary');
 
     let over = false, won = false, cross = 0, taps = [], last = null, travel = 0, downAt = 0;
+    /* how he moves: he breathes, leans into your hand as he starts to trust you, settles
+       lower when he relaxes, and pulls back when he's annoyed */
+    const mv = { lx: 0, ly: 0, rot: 0, recoil: 0, bob: 0, fx: null, fy: null };
+    let raf = 0;
+    const live = now => {
+      if (over && !won) return;
+      raf = requestAnimationFrame(live);
+      const r = cat.getBoundingClientRect(), cx = r.left + r.width / 2, k = Math.min(1, trust / 100);
+      let tx = 0, tr = 0;
+      if (mv.fx != null && performance.now() >= cross) { tx = (mv.fx - cx) / r.width * 9 * (0.25 + k); tr = (mv.fx - cx) / r.width * 6 * (0.2 + k); }
+      mv.lx += (tx - mv.lx) * 0.08; mv.rot += (tr - mv.rot) * 0.08;
+      mv.recoil *= 0.9; mv.bob *= 0.86;
+      const period = trust >= 60 ? 1500 : 2600, br = Math.sin(now / period * 2 * Math.PI);
+      const settle = Math.max(0, k - 0.5) * 3;   /* % lower as he relaxes into a loaf */
+      body.style.transform = `translate(calc(-50% + ${mv.lx.toFixed(2)}%), ${(settle + mv.recoil * 4 - mv.bob).toFixed(2)}%) rotate(${mv.rot.toFixed(2)}deg) scale(${(1 - mv.recoil * 0.05).toFixed(3)}, ${(1 + br * 0.011 - mv.recoil * 0.05).toFixed(3)})`;
+      if (mv.fx != null) { press.style.opacity = '1'; press.style.left = (mv.fx - r.left) + 'px'; press.style.top = (mv.fy - r.top) + 'px'; } else press.style.opacity = '0';
+    };
+    raf = requestAnimationFrame(live);
     const alt = el('button', 'opt main cp-alt', tx(T('Leave him', '{خله|خليه}'))); alt.type = 'button'; panel.appendChild(alt);
-    const finish = r => { if (over) return; over = true; if (r) setTimeout(purrStop, 600); else purrStop(); alt.remove(); s.f.catT = Math.round(trust); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 260); done(r); };
+    const finish = r => { if (over) return; over = true; setTimeout(() => cancelAnimationFrame(raf), 300); if (r) setTimeout(purrStop, 600); else purrStop(); alt.remove(); s.f.catT = Math.round(trust); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 260); done(r); };
     q('.cp-skip').onclick = ev => { ev.stopPropagation(); finish(0); };
     alt.onclick = () => finish(0);
 
@@ -71,12 +90,11 @@
       cross = performance.now() + 1500; trust = Math.max(0, trust - (friendly ? 6 : 12)); purrStop();
       if (P.cross) setPose('cross');
       play('cat-hiss', 0.5);
-      box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+      mv.recoil = 1; mv.fx = null;
       hint(why);
       setTimeout(() => { if (!over && performance.now() >= cross) { setPose(trust >= 60 ? 'calm' : 'wary'); hint(T('Slower. Head and back.', 'أبطأ. الراس والظهر.')); } }, 1600);
     }
     function show() {
-      glow.style.opacity = String(Math.min(0.9, trust / 110));
       if (performance.now() < cross) return;
       setPose(trust >= 60 ? 'calm' : 'wary');
       if (trust >= 100) {
@@ -95,7 +113,8 @@
       if (over || won || !last || performance.now() < cross) return;
       const now = performance.now(), dx = ev.clientX - last.x, dy = ev.clientY - last.y, d = Math.hypot(dx, dy), dt = Math.max(1, now - last.t);
       last = { x: ev.clientX, y: ev.clientY, t: now };
-      const z = zone(ev); if (z < 0) { purrTo(0); return; }
+      const z = zone(ev); if (z < 0) { mv.fx = null; purrTo(0); return; }
+      mv.fx = ev.clientX; mv.fy = ev.clientY;
       travel += d;
       const speed = d / dt;   /* px per ms */
       if (z > 0.72) return annoyed(T('Not the belly. Never the belly.', 'مو البطن. أبداً مو البطن.'));
@@ -106,15 +125,15 @@
     const up = ev => {
       if (over || won || !last) return;
       const quick = performance.now() - downAt < 220 && travel < 8;
-      last = null; purrTo(0);
+      last = null; mv.fx = null; purrTo(0);
       if (!quick || zone(ev) < 0 || performance.now() < cross) return;
       const now = performance.now(); taps = taps.filter(t => now - t < 2500); taps.push(now);
       if (taps.length >= 4) { taps = []; return annoyed(T('Poke, poke, poke. He has had enough of you.', 'نقر ونقر ونقر. خلاص زهق منك.')); }
-      play(Math.random() < 0.5 ? 'cat-meow1' : 'cat-meow2', 0.45);
+      mv.bob = 1; if (MEOW) play(Math.random() < 0.5 ? 'cat-meow1' : 'cat-meow2', 0.45);
       if (trust < 20) trust += 3;
-      hint(T('"Mrrp?"', '«مرررب؟»')); show();
+      hint(T('He looks up at your hand, then at you.', 'يطالع يدك، وبعدين يطالعك.')); show();
     };
-    area.addEventListener('pointerup', up); area.addEventListener('pointercancel', () => { last = null; purrTo(0); });
+    area.addEventListener('pointerup', up); area.addEventListener('pointercancel', () => { last = null; mv.fx = null; purrTo(0); });
   };
 
   /* ---------- finding him (replaces "you need a fish" once his pictures exist) ---------- */
