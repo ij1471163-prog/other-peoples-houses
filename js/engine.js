@@ -222,6 +222,7 @@ function renderStage(charsOverride) {
     layer.innerHTML = ''; layer._k = key;
     cast.forEach(c => {
       const d = el('div', 'char' + (c.dim ? ' dim' : '') + (GAME.CHAR[c.id].ghost ? ' ghost' : ''));
+      d.dataset.id = c.id;
       d.style.left = c.x + '%';
       d.innerHTML = ART.portrait(c.id, c.expr);
       if (!RUN && !GAME.CHAR[c.id].ghost) d.insertAdjacentHTML('beforeend', lifeProp(c.id));

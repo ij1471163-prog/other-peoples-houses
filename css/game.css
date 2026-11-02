@@ -1355,3 +1355,6 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .jelly-host .jelly-cv{position:absolute;inset:0;width:100%;height:100%}
 .ho-pet.jelly .pet-body{visibility:hidden}
 .ho-pet .pet-sub,.ho-pet .cp-skip{z-index:3}
+/* a living close-up (js/closeups.js): the engine draws the character, the still picture hides */
+.char.live > img,.char.live > svg{visibility:hidden}
+.char .jelly-host{left:-30%;right:-30%;pointer-events:auto}

@@ -20,11 +20,9 @@ const JELLY = (() => {
   function load() {
     if (window.JellyEngine) return Promise.resolve(true);
     if (loading) return loading;
-    loading = new Promise(res => {
-      const sc = document.createElement('script'); sc.src = 'js/vendor/jelly-engine.js';
-      sc.onload = () => res(!!window.JellyEngine); sc.onerror = () => res(false);
-      document.head.appendChild(sc);
-    });
+    const one = src => new Promise(res => { const sc = document.createElement('script'); sc.src = src; sc.onload = () => res(true); sc.onerror = () => res(false); document.head.appendChild(sc); });
+    /* the engine, and for the living close-ups its face finder and the head-and-breath model */
+    loading = one('js/vendor/jelly-engine.js').then(ok => ok && Promise.all([one('js/vendor/jelly-person.js'), one('js/vendor/jelly-portrait.js')]).then(() => !!window.JellyEngine));
     return loading;
   }
   function engine() {
@@ -63,5 +61,27 @@ const JELLY = (() => {
       };
     } catch (e) { console.error(e); return null; }
   }
-  return { attach };
+  /* a living close-up of a character: the picture breathes and the head moves a little on its own
+     and turns towards your finger (the user's portrait.js). host = the character's box on the stage. */
+  let pFor = null;
+  async function portrait(host, img, o = {}) {
+    try {
+      if (!(await load()) || !window.Portrait) return null;
+      if (!img.complete || !img.naturalWidth) await new Promise((r, j) => { img.onload = r; img.onerror = j; });
+      const E = engine(); if (!E) return null;
+      pFor = img.src;
+      E.setVideo(null); E.setFrameHook(null); E.setLife(null); E.setRegions([]);
+      host.appendChild(holder); holder.style.bottom = -FB + 'px';
+      E.setSource(img, img.naturalWidth, img.naturalHeight, { round: false });
+      E.setGravity(true); E.setSize(1.6); E.setSoftness(0.35);
+      /* where the face is: found in the picture, or (if the picture can't be read) the usual place in ours */
+      let face = { u: 0.5, v: 0.13, ru: 0.15, rv: 0.1 };
+      try { const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight; c.getContext('2d').drawImage(img, 0, 0); const pr = window.Person && Person.detect(c); if (pr && pr.found && pr.face) face = pr.face; } catch (e) { /* the default */ }
+      E.setRegions([face]);
+      E.setLife({ on: true, breath: o.breath ?? 0.5, head: o.head ?? 0.45, look: o.look ?? 0.6, depth: 0.7 });
+      window.dispatchEvent(new Event('resize'));
+      return { src: img.src, detach() { if (pFor !== img.src) return; try { E.setLife(null); E.setRegions([]); } catch (e) { /* none */ } if (holder.parentNode) holder.parentNode.removeChild(holder); pFor = null; } };
+    } catch (e) { console.error(e); return null; }
+  }
+  return { attach, portrait };
 })();
