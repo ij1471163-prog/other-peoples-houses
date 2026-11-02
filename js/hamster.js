@@ -71,8 +71,8 @@
       return [{ q: T('Biscuit is awake and looking at you, whiskers going.', 'بسكوت صاحي ويطالعك، وشواربه تتحرك.'), menu: [
         { t: T('Give him some seeds', '{تعطيه|تعطينه} بذور'), then: [N1('He takes each seed in both hands, turns it, and pushes it into his cheek. Then the next. Then the next. He is now mostly cheek.', 'ياخذ كل بذرة بيدينه الثنتين، ويلفها، ويدفها في خده. وبعدين اللي بعدها. واللي بعدها. والحين أغلبه خدود.'), st => care(st)] },
         { t: T('Change his water', '{تغير|تغيرين} مويته'), then: [N1('Fresh water in the little bottle. He comes over at once and drinks with tiny, serious clicks.', 'موية جديدة في القارورة الصغيرة. يجي على طول ويشرب بطقطقات صغيرة وجدية.'), st => care(st)] },
-        { t: T('Hold him', '{تمسكه|تمسكينه} بيدك'), then: [{ mini: 'biscuit', then: (r, st) => [N1(...(r
-          ? ['He is asleep in your hand, warm and weighing nothing, his heart going like a little clock. You stay very still for a long time.', 'نام في كفك، دافي وما له وزن، وقلبه يدق مثل ساعة صغيرة. {وتجلس|وتجلسين} بدون حركة وقت طويل.']
+        { t: T('Take him out and play', '{تطلعه|تطلعينه} {وتلعب|وتلعبين} معه'), then: [{ mini: 'biscuit', then: (r, st) => [N1(...(r
+          ? ['He falls asleep right there on the little table, a warm pink ball, his sides going up and down very fast. You don\'t move for a long time.', 'نام مكانه على الطاولة الصغيرة، كورة وردية دافية، وجنبه يطلع وينزل بسرعة. وما {تتحرك|تتحركين} وقت طويل.']
           : ['You put him back in his bedding. He starts building a nest out of it at once, very busy, very offended.', '{ترجعه|ترجعينه} لنشارته. ويبدأ يبني عش على طول، مشغول مرة، وزعلان مرة.']))] }, st => care(st)] },
         { t: T('Let him sleep', '{خله|خليه} ينام'), then: [] }
       ] }];
@@ -85,8 +85,8 @@
     return [{ show: [{ id: 'margaret', e: TELLS[n - 1][0].e }] }].concat(TELLS[n - 1]);
   }
 
-  /* ---------- holding him (frames from the user's video, img/fx/biscuit/00-25) ----------
-     0-3 he sniffs your palm; tap = a seed: 4-15 he stuffs it in his cheek; stroke his back
+  /* ---------- playing with him on the little table (frames from the user's video, img/fx/biscuit/00-25) ----------
+     0-3 he sniffs about; tap = a seed: 4-15 he stuffs it in his cheek; stroke his back
      slowly and he gets sleepy: 16-25 his eyes close. Too fast and he freezes. */
   GAME.MINI.biscuit = function (panel, done) {
     panel.innerHTML = '';
@@ -122,7 +122,7 @@
         if (cur < 16) return show(16);
         if (cur < t) return show(cur + 1);
         if (cur > t) return show(cur - 1);
-        if (t >= 25 && !won) { won = true; alt.remove(); hint(T('He\'s asleep in your hand.', 'نام في كفك.')); setTimeout(() => finish(1), 1600); }
+        if (t >= 25 && !won) { won = true; alt.remove(); hint(T('He\'s asleep.', 'نام.')); setTimeout(() => finish(1), 1600); }
         return;
       }
       if (cur > 3 && cur < 16) return show(cur === 15 ? 0 : cur);   /* cheeks full: rest on the last frame, then back */

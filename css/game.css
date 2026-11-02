@@ -1347,5 +1347,6 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .ho-pet .pet-sub .cp-hint{font-size:14px;opacity:1}
 .ho-pet .cp-skip{position:absolute;top:10px;inset-inline-end:10px;z-index:2}
 .ho-pet.out{opacity:0;transition:opacity .25s}
-/* holding Biscuit (js/hamster.js): his frames include your hand, coming up from the bottom */
-.ho-bis .pet-body{bottom:-2%;height:96%}
+/* playing with Biscuit (js/hamster.js): on the little table in the sunroom, like the Admiral */
+.ho-bis .pet-body{bottom:4%;height:78%}
+.ho-bis .pet-body::after{content:'';position:absolute;left:18%;right:18%;bottom:1%;height:7%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);z-index:-1}
