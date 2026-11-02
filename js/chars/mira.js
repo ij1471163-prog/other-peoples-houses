@@ -64,6 +64,16 @@
     if (h === 'leo') return [{ c: 'mira', e: 'neutral', t: fresh('miraL', [
       T('Leo from the boathouse? He draws the customers when he thinks nobody\'s looking. He drew me once. Better than my passport photo.', 'ليو حق بيت القوارب؟ يرسم الزباين لما يحسب محد شايفه. رسمني مرة. أحلى من صورة جوازي.'),
       T('He comes in, orders the cheapest thing, and leaves exact change. Every time. Like he\'s practising being no trouble.', 'يدخل، يطلب أرخص شي، ويترك الفلوس بالضبط. كل مرة. كأنه يتمرن إنه ما يزعج أحد.')]) }];
+    if (h === 'margaret') return [{ c: 'mira', e: 'sad', t: fresh('miraM', [
+      T('Mrs Hart? She comes in on Fridays and orders three teas. Drinks one. Lets two go cold. Marco charges her for one.', 'مسز هارت؟ تجي يوم الجمعة وتطلب ثلاث شاهي. تشرب واحد. وتخلي اثنين يبردون. وماركو يحاسبها على واحد.'),
+      T('That house is so quiet I can hear it from the road. Is she alright? Are you?', 'هالبيت هادي لدرجة أسمعه من الشارع. هي بخير؟ {وأنت|وأنتِ}؟'),
+      T('She asked me once if I had a brother. I said no. She said "lucky" and then "sorry" and then left her change on the table.', 'سألتني مرة إذا عندي أخو. قلت لا. قالت «محظوظة» وبعدين «آسفة» وتركت الباقي على الطاولة.')]) }];
+    if (h === 'evelyn') return [{ c: 'mira', e: 'neutral', t: fresh('miraEv', [
+      T('You\'re sleeping at the LIGHTHOUSE? Kai says it laughs at three in the morning. Kai also says the moon is a lamp.', '{نايم|نايمة} في المنارة؟ كاي يقول إنها تضحك الساعة ثلاث الفجر. وكاي بعد يقول إن القمر لمبة.'),
+      T('Bring me a gull feather from up there. I\'m collecting proof that I left the city.', '{جب|جيبي} لي ريشة نورس من فوق. أجمع أدلة إني طلعت من المدينة.')]) }];
+    if (h === 'victor') return [{ c: 'mira', e: 'angry', t: fresh('miraV', [
+      T('The Grand. Of course. Do they give you the little soaps? Bring me the little soaps.', 'الفندق. أكيد. يعطونك الصابون الصغير؟ {جب|جيبي} لي الصابون الصغير.'),
+      T('Victor tipped me a fifty once. I gave it to Olivia for her petition. Best thing I\'ve bought here.', 'فيكتور عطاني بخشيش خمسين مرة. عطيتها أوليفيا لعريضتها. أحسن شي شريته هنا.')]) }];
     if (h) return [{ c: 'mira', e: 'neutral', t: T('Another house, another door. You collect them, don\'t you? Like stamps.', 'بيت ثاني، وباب ثاني. {تجمعها|تجمعينها}، صح؟ مثل الطوابع.') }];
     return [{ c: 'mira', e: 'neutral', t: T('Between houses? You can sleep in the café storeroom if it comes to that. Don\'t tell Marco. Marco knows.', 'بين بيتين؟ تقدر{|ين} {تنام|تنامين} في مخزن المقهى إذا وصلت لها. لا {تقول|تقولين} لماركو. ماركو يدري.') }];
   }
