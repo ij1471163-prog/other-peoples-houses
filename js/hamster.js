@@ -91,7 +91,8 @@
   GAME.MINI.biscuit = function (panel, done) {
     panel.innerHTML = '';
     const FR = Array.from({ length: 26 }, (_, i) => 'img/fx/biscuit/' + String(i).padStart(2, '0') + '.webp');
-    FR.forEach(u => { const im = new Image(); im.src = u; });
+    const pre = FR.map(u => { const im = new Image(); im.src = u; return im; });
+    let jelly = null;   /* the soft body (js/jelly-pet.js): he squishes like a little cushion */
     const box = el('div', 'cp ho ho-pet ho-bis'); box.setAttribute('role', 'dialog');
     box.innerHTML = '<div class="cp-area"><div class="ho-bg"></div><div class="pet-body"><img class="pet-cat" alt=""></div><div class="pet-sub"><strong class="cp-title"></strong><span class="cp-hint"></span></div><button type="button" class="cp-skip"></button></div>';
     $('stage').appendChild(box);
@@ -105,15 +106,16 @@
     q('.ho-bg').style.backgroundImage = bg ? `url(${bg})` : '';
     const alt = el('button', 'opt main cp-alt', tx(T('Put him back', '{رجّعه|رجّعيه}'))); alt.type = 'button'; panel.appendChild(alt);
     let over = false, won = false, cur = 0, seeds = 0, calm = 0, eating = -1, freeze = 0, last = null, travel = 0, downAt = 0, raf = 0, lastStep = 0;
-    const show = i => { if (i !== cur || !img.src) { cur = i; img.src = FR[i]; } };
+    const show = i => { if (i !== cur || !img.src) { cur = i; img.src = FR[i]; if (jelly) jelly.show(i); } };
     show(0);
-    const finish = r => { if (over) return; over = true; cancelAnimationFrame(raf); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 260); done(r); };
+    const finish = r => { if (over) return; over = true; cancelAnimationFrame(raf); if (jelly) setTimeout(() => jelly.detach(), 280); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 260); done(r); };
     q('.cp-skip').onclick = ev => { ev.stopPropagation(); finish(0); };
     alt.onclick = () => finish(0);
     const loop = now => {
       if (over) return; raf = requestAnimationFrame(loop);
       const fz = Math.max(0, freeze - now) / 900;
-      body.style.transform = `translateX(-50%) scale(${(1 - fz * 0.04).toFixed(3)}, ${(1 + Math.sin(now / 420) * 0.008 - fz * 0.06).toFixed(3)})`;
+      if (jelly) { area.style.transform = fz > 0.02 ? `scale(${(1 - fz * 0.02).toFixed(3)})` : ''; }
+      else body.style.transform = `translateX(-50%) scale(${(1 - fz * 0.04).toFixed(3)}, ${(1 + Math.sin(now / 420) * 0.008 - fz * 0.06).toFixed(3)})`;
       if (now - lastStep < 83) return; lastStep = now;
       if (eating >= 0) { const k = Math.floor((now - eating) / 83); if (k < 12) return show(4 + k); eating = -1; }
       const sleepy = Math.round(Math.min(1, calm / 100) * 9);
@@ -129,8 +131,12 @@
       show((cur + (Math.random() < 0.35 ? 1 : 0)) % 4);            /* sniffing */
     };
     raf = requestAnimationFrame(loop);
-    const onHim = ev => { const r = img.getBoundingClientRect(); return ev.clientX > r.left + r.width * 0.15 && ev.clientX < r.right - r.width * 0.15 && ev.clientY > r.top && ev.clientY < r.top + r.height * 0.72; };
-    area.addEventListener('pointerdown', ev => { if (over || won) return; ev.preventDefault(); last = { x: ev.clientX, y: ev.clientY, t: performance.now() }; travel = 0; downAt = last.t; try { area.setPointerCapture(ev.pointerId); } catch (e) { /* none */ } });
+    if (typeof JELLY !== 'undefined') JELLY.attach(area, pre, { size: 1.25, soft: 0.75 }).then(j => {
+      if (!j || over) { if (j) j.detach(); return; }
+      jelly = j; jelly.show(cur); box.classList.add('jelly');
+    });
+    const onHim = ev => { const r = jelly ? jelly.rect() : img.getBoundingClientRect(); return ev.clientX > r.left + r.width * 0.15 && ev.clientX < r.right - r.width * 0.15 && ev.clientY > r.top && ev.clientY < r.top + r.height * 0.72; };
+    area.addEventListener('pointerdown', ev => { if (over || won) return; ev.preventDefault(); last = { x: ev.clientX, y: ev.clientY, t: performance.now() }; travel = 0; downAt = last.t; if (!jelly) try { area.setPointerCapture(ev.pointerId); } catch (e) { /* none */ } });
     area.addEventListener('pointermove', ev => {
       if (over || won || !last || performance.now() < freeze) return;
       const now = performance.now(), d = Math.hypot(ev.clientX - last.x, ev.clientY - last.y), sp = d / Math.max(1, now - last.t);
