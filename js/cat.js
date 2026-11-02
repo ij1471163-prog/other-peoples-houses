@@ -52,9 +52,32 @@
     const bgId = (GAME.LOC[s.loc] && GAME.LOC[s.loc].bg) || 'street';
     const bg = (PEOPLE.IMG.bg && (PEOPLE.IMG.bg[bgId] || PEOPLE.IMG.bg.street)) || '';
     q('.ho-bg').style.backgroundImage = bg ? `url(${bg})` : '';
-    let pose = '';
-    const setPose = p => { if (pose === p) return; pose = p; cat.src = P[p] || P.wary; };
-    setPose(trust >= 60 ? 'calm' : 'wary');
+    /* his film (img/fx/admiral/00-34.webp, from the user's video): 0-20 he relaxes and his eyes
+       close, 21-34 he turns his head and hisses. Which frame shows follows how much he trusts you. */
+    const FR = Array.from({ length: 35 }, (_, i) => 'img/fx/admiral/' + String(i).padStart(2, '0') + '.webp');
+    const pre = FR.map(u => { const im = new Image(); im.src = u; return im; });
+    let film = true, cur = 0, hissAt = -1;
+    pre[0].onerror = () => { film = false; cat.src = P.wary; };
+    const target = () => Math.round(Math.min(1, trust / 100) * 20);
+    const show0 = i => { if (i !== cur || !cat.src) { cur = i; cat.src = film ? FR[i] : (trust >= 60 && P.calm ? P.calm : P.wary); } };
+    cat.src = FR[target()]; cur = target();
+    const setPose = p => { if (!film) cat.src = P[p] || P.wary; };
+    let lastStep = 0;
+    function stepFilm(now) {
+      if (!film || now - lastStep < 83) return; lastStep = now;   /* 12 frames a second, like the video */
+      if (hissAt >= 0) {                       /* the hiss: forward, hold, then back */
+        const k = Math.floor((now - hissAt) / 83);
+        if (k < 14) return show0(21 + k);
+        if (k < 22) return show0(34);
+        if (k < 36) return show0(34 - (k - 22));
+        hissAt = -1; return show0(target());
+      }
+      const t = target();
+      if (cur > 20) return show0(t);
+      if (cur < t) return show0(cur + 1);
+      if (cur > t + 1) return show0(cur - 1);
+      if (t >= 15 && mv.fx == null && Math.random() < 0.04) return show0(15 + Math.floor(Math.random() * 6));   /* eyes closed, small moves */
+    }
 
     let over = false, won = false, cross = 0, taps = [], last = null, travel = 0, downAt = 0;
     /* how he moves: he breathes, leans into your hand as he starts to trust you, settles
@@ -66,9 +89,9 @@
       raf = requestAnimationFrame(live);
       const r = cat.getBoundingClientRect(), cx = r.left + r.width / 2, k = Math.min(1, trust / 100);
       let tx = 0, tr = 0;
-      if (mv.fx != null && performance.now() >= cross) { tx = (mv.fx - cx) / r.width * 9 * (0.25 + k); tr = (mv.fx - cx) / r.width * 6 * (0.2 + k); }
+      if (mv.fx != null && performance.now() >= cross) { tx = (mv.fx - cx) / r.width * 4 * (0.25 + k); tr = (mv.fx - cx) / r.width * 3 * (0.2 + k); }
       mv.lx += (tx - mv.lx) * 0.08; mv.rot += (tr - mv.rot) * 0.08;
-      mv.recoil *= 0.9; mv.bob *= 0.86;
+      mv.recoil *= 0.9; mv.bob *= 0.86; stepFilm(now);
       const period = trust >= 60 ? 1500 : 2600, br = Math.sin(now / period * 2 * Math.PI);
       const settle = Math.max(0, k - 0.5) * 3;   /* % lower as he relaxes into a loaf */
       body.style.transform = `translate(calc(-50% + ${mv.lx.toFixed(2)}%), ${(settle + mv.recoil * 4 - mv.bob).toFixed(2)}%) rotate(${mv.rot.toFixed(2)}deg) scale(${(1 - mv.recoil * 0.05).toFixed(3)}, ${(1 + br * 0.011 - mv.recoil * 0.05).toFixed(3)})`;
@@ -87,10 +110,10 @@
       return (ev.clientY - r.top) / r.height;
     }
     function annoyed(why) {
-      cross = performance.now() + 1500; trust = Math.max(0, trust - (friendly ? 6 : 12)); purrStop();
+      cross = performance.now() + 2600; trust = Math.max(0, trust - (friendly ? 6 : 12)); purrStop();
       if (P.cross) setPose('cross');
       play('cat-hiss', 0.5);
-      mv.recoil = 1; mv.fx = null;
+      mv.recoil = film ? 0.35 : 1; mv.fx = null; hissAt = performance.now();
       hint(why);
       setTimeout(() => { if (!over && performance.now() >= cross) { setPose(trust >= 60 ? 'calm' : 'wary'); hint(T('Slower. Head and back.', 'أبطأ. الراس والظهر.')); } }, 1600);
     }
