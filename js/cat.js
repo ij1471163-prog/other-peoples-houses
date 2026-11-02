@@ -17,8 +17,9 @@
 'use strict';
 (function () {
   const N1 = (en, ar) => ({ n: T(en, ar) });
-  const pics = () => (typeof PEOPLE !== 'undefined' && PEOPLE.IMG && PEOPLE.IMG.chars && PEOPLE.IMG.chars.admiral) || null;
-  const ready = () => { const p = pics(); return !!(p && p.wary && p.calm); };
+  /* his pictures are listed in img/manifest.js under chars.admiral (he isn't a character you talk to) */
+  const pics = () => (window.IMG_MANIFEST && window.IMG_MANIFEST.chars && window.IMG_MANIFEST.chars.admiral) || null;
+  const ready = () => { const p = pics(); return !!(p && p.wary); };   /* calm and cross are used when they exist */
 
   /* ---------- sound ---------- */
   const on = () => typeof AUDIO !== 'undefined' && AUDIO.on;

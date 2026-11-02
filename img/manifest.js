@@ -108,6 +108,9 @@ window.IMG_MANIFEST = {
   "your_room_night": "img/bg/your_room_night.jpg"
  },
  "chars": {
+  "admiral": {
+   "wary": "img/chars/admiral-wary.webp"
+  },
   "ana": {
    "angry": "img/chars/ana-angry.webp",
    "neutral": "img/chars/ana-neutral.webp",
