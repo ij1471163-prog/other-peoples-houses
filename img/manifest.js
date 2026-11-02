@@ -236,6 +236,9 @@ window.IMG_MANIFEST = {
    "shock": "img/chars/maya-shock.webp",
    "smile": "img/chars/maya-smile.webp"
   },
+  "mira": {
+   "neutral": "img/chars/mira-neutral.webp"
+  },
   "nora": {
    "angry": "img/chars/nora-angry.webp",
    "neutral": "img/chars/nora-neutral.webp",
