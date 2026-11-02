@@ -675,6 +675,10 @@ html[lang=ar] .cp-title,html[lang=ar] .cp-hint,html[lang=ar] .cp-skip{font-famil
 .cp-cloth.hung{bottom:55.5%;transform-origin:50% 0;z-index:5;cursor:default}
 .cp-cloth.hung svg{filter:brightness(.95) drop-shadow(0 3px 2px rgba(0,0,0,.2))}
 .cp-peg{position:absolute;left:50%;top:-8%;width:12%;height:26%;margin-left:-6%;animation:cpPeg .2s ease-out}
+.cp-jel{position:absolute;z-index:4;touch-action:none}
+.cp-cloth.jel>svg{visibility:hidden}
+.cp-cloth.jel .cp-peg{z-index:6}
+.cp-cloth.jel{z-index:6;pointer-events:none}
 .cp-peg svg{width:100%;height:100%;display:block}
 @keyframes cpPeg{from{transform:translateY(-14px);opacity:0}}
 .cp-area.windy .cp-cloth.hung{animation:cpSway 1.1s ease-in-out infinite alternate}

@@ -336,6 +336,7 @@
     var px, py, vx, vy, lx, ly, ax, ay, dxA, dyA, rx, ry, pos, shade, hArr, boundary = [];
     var cx = 0, cy = 0, cvx = 0, cvy = 0, ang = 0, avel = 0, homeX = 0, homeY = 0;
     var tiltX = 0, tiltY = 0, tvX = 0, tvY = 0;
+    var noShadow = false;   /* the game */
     var gravityOn = true, alive = !reduceMotion, on3d = true;
     var gScale = 1;
     var time = 0, pr = 100, lifeT = 3;
@@ -2430,7 +2431,7 @@
 
       // soft contact shadow on the floor: fainter and wider the higher the body is
       var air = clamp((AH - bh * uS / 2 - cy - AD.oy * uS) / 280, 0, 1);
-      var sa = (isDark() ? 0.5 : 0.26) * (1 - 0.65 * air);
+      var sa = noShadow ? 0 : (isDark() ? 0.5 : 0.26) * (1 - 0.65 * air);   /* the game: noShadow (laundry in the air) */
       gl.uniform1f(U.u_flat, 1);
       gl.uniform1f(U.u_hs, 1);
       gl.uniform1f(U.u_zoff, 0);
@@ -3089,6 +3090,7 @@
       // smart sleep (app): seconds without a touch before a playing move pauses (0 = never); 30 fps while one plays
       setNap: function (sec) { napAfter = sec > 0 ? sec : 0; lastInput = performance.now(); },
       poke: function () { lastInput = performance.now(); if (napping) { napping = false; wake(); } },
+      setShadow: function (on) { noShadow = !on; wake(); },   /* the game */
       kickAt: function (dvx, dvy, x, y) { kick(dvx, dvy, x, y); wake(); },   /* the game: a jump (a fish flopping) */
       isNapping: function () { return napping; },
       setHalfRate: function (on) { halfRate = !!on; },

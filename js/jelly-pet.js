@@ -45,7 +45,7 @@ const JELLY = (() => {
       let cur = 0;
       E.setVideo(null); E.setFrameHook(null);
       E.setSource(first, first.naturalWidth, first.naturalHeight, { round: false });
-      E.setGravity(true); E.setSize(o.size || 1.5); E.setSoftness(o.soft == null ? 0.5 : o.soft);
+      E.setGravity(true); if (E.setShadow) E.setShadow(true); E.setSize(o.size || 1.5); E.setSoftness(o.soft == null ? 0.5 : o.soft);
       E.setFrameHook(() => { const im = frames[cur]; return im && im.complete && im.naturalWidth ? im : null; });
       E.setVideo(V);
       window.dispatchEvent(new Event('resize'));

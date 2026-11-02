@@ -99,6 +99,39 @@
   };
   const PATH_SHIRT = 'M40 10 l-30 22 l14 18 l12 -8 v66 h48 v-66 l12 8 l14 -18 l-30 -22 q-20 14 -40 0z';
 
+  /* ---------------- a wet piece on the line, soft (laundry) ---------------- */
+  let softNow = null;
+  async function soft(area, it, svg) {
+    if (softNow) { softNow.stop(); softNow = null; }
+    if (REDUCED() || typeof JELLY === 'undefined') return;
+    try {
+      const im = new Image();
+      im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" '));
+      await new Promise((r, j) => { im.onload = r; im.onerror = j; });
+      if (!it.isConnected) return;
+      const ar = area.getBoundingClientRect(), r = it.getBoundingClientRect();
+      const box = el('div', 'cp-jel');
+      const pw = r.width * 0.45, ph = r.height * 0.35;
+      box.style.left = (r.left - ar.left - pw) + 'px'; box.style.top = (r.top - ar.top - ph * 0.6) + 'px';
+      box.style.width = (r.width + pw * 2) + 'px'; box.style.height = (r.height + ph * 1.4) + 'px';
+      area.appendChild(box);
+      const j = await JELLY.attach(box, [im], { size: 1.0, soft: 0.85 });
+      if (!j || !it.isConnected) { if (j) j.detach(); box.remove(); return; }
+      j.engine.setGravity(false); j.engine.setShadow(false);
+      it.classList.add('jel');
+      const E = j.engine;
+      const push = (vx, vy, top) => { try { const st = E.state(); E.kickAt(vx, vy, st.cx + (Math.random() - 0.5) * st.bw * 0.5, top ? st.cy - st.bh * 0.3 : st.cy + st.bh * 0.3); } catch (e) { /* none */ } };
+      push(0, 260, false);                                   /* the weight of the water as it is pegged */
+      const t = setInterval(() => {
+        if (!box.isConnected) { me.stop(); return; }
+        if (Math.random() < 0.6) push(80 + Math.random() * 140, (Math.random() - 0.5) * 40, false);   /* the wind, from one side */
+      }, 900);
+      box.addEventListener('pointerdown', ev => { ev.stopPropagation(); push((Math.random() - 0.5) * 300, 180, false); SND.drip(); });
+      const me = { stop() { clearInterval(t); j.detach(); box.remove(); it.classList.remove('jel'); if (softNow === me) softNow = null; } };
+      softNow = me;
+    } catch (e) { /* stays a picture */ }
+  }
+
   /* ---------------- the frame every chore plays in ---------------- */
   let busy = false, openAlt = null;
   function frame(kind) {
@@ -226,7 +259,10 @@
       });
       SND.done(); shirt.classList.add('shine'); sparkle(f.area, sx + 60 * sc, sy + 60 * sc); await wait(300);
     },
-    /* laundry: tap each wet piece in the basket; it flies to the line and gets a peg */
+    /* laundry: tap each wet piece in the basket; it flies to the line and gets a peg.
+       With the user's jelly engine (js/jelly-pet.js), the piece you have just pegged is soft and heavy
+       with water: it sags, wobbles, and the wind pushes it; you can poke it. Only one at a time (one
+       engine); the one before goes back to the picture. No WebGL: nothing changes. */
     async laundry(f) {
       const line = el('div', 'cp-line'); f.area.appendChild(line);
       const basket = el('div', 'cp-basket'); basket.innerHTML = SVG.basket; f.area.appendChild(basket);
@@ -243,6 +279,7 @@
             SND.plop();
             setTimeout(() => {
               const pg = el('i', 'cp-peg'); pg.innerHTML = SVG.peg; it.appendChild(pg); SND.peg();
+              soft(f.area, it, svg);
               const r = it.getBoundingClientRect(), ar = f.area.getBoundingClientRect();
               puff(f.area, r.left - ar.left + r.width / 2, r.bottom - ar.top - 6, 'drop', 3); setTimeout(SND.drip, 160);
             }, REDUCED() ? 0 : 420);
@@ -253,6 +290,7 @@
       });
       SND.done();
     },
+    /* (see laundry) */
     /* cooking: three ingredients into the pan, then stir until it's golden */
     async cook(f) {
       const stove = el('div', 'cp-stove'); f.area.appendChild(stove);
@@ -328,6 +366,8 @@
     alt.onclick = finish;
     setTimeout(() => GAMES[kind](f).then(() => setTimeout(finish, REDUCED() ? 100 : 500), finish), REDUCED() ? 0 : 320);   /* after the card has popped in, so measurements are right */
   }
+
+  GAME.H.chore = playChore;   /* (reachable for testing) */
 
   /* which spots are chores: tagged here, by their (English) label, so no other file changes */
   const KIND = [[/^(Cook a meal|Make something|Cook for)/, 'cook'], [/^(Wash the dishes|Wash up)/, 'dishes'], [/^(Clean up|Tidy|Sweep|Clear up)/, 'clean'], [/(laundry|Wash your clothes)/i, 'laundry'], [/^Help with the ironing/, 'iron']];
