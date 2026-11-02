@@ -1,6 +1,6 @@
 /* The jelly engine, from the user's own project "صورة حيّة" (netlify-v40, js/engine.js), unchanged.
    Loaded only when an animal close-up opens (js/jelly-pet.js). One change for the game: the option
-   noGrab (a drag on the body strokes it instead of picking it up), marked "the game" below. */
+   noGrab (a drag on the body strokes it instead of picking it up) and kickAt (a jump), marked "the game" below. */
 /* The jelly engine: a WebGL textured mesh driven by a small soft-body simulation.
  *
  *   var engine = JellyEngine.create({ canvas, stage, say, sound, onFirstTouch, onFrame, onSleep, onPower, onQuality });
@@ -3089,6 +3089,7 @@
       // smart sleep (app): seconds without a touch before a playing move pauses (0 = never); 30 fps while one plays
       setNap: function (sec) { napAfter = sec > 0 ? sec : 0; lastInput = performance.now(); },
       poke: function () { lastInput = performance.now(); if (napping) { napping = false; wake(); } },
+      kickAt: function (dvx, dvy, x, y) { kick(dvx, dvy, x, y); wake(); },   /* the game: a jump (a fish flopping) */
       isNapping: function () { return napping; },
       setHalfRate: function (on) { halfRate = !!on; },
       isSleeping: function () { return sleeping; },

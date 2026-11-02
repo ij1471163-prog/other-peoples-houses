@@ -62,6 +62,24 @@
     return `<svg viewBox="0 0 160 70"><path d="M20 35 Q55 4 110 22 L150 6 L140 35 L150 64 L110 48 Q55 66 20 35Z" fill="${col[0]}" stroke="#1b2228" stroke-width="3"/><path d="M50 22 Q70 35 50 48" fill="none" stroke="${col[1]}" stroke-width="3"/><circle cx="34" cy="31" r="4" fill="#111"/><path d="M60 18 Q90 26 108 22" fill="none" stroke="${col[1]}" stroke-width="2" opacity=".6"/></svg>`;
   };
 
+  /* the caught fish as a soft body that jumps now and then, like a fish on the boards */
+  async function FLOP(host, svg) {
+    try {
+      const im = new Image(); im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="210" '));
+      await new Promise((r, j) => { im.onload = r; im.onerror = j; });
+      const box = el('div', 'fs-flop'); host.parentNode.appendChild(box);
+      const j = await JELLY.attach(box, [im], { size: 1.1, soft: 0.7 });
+      if (!j) { box.remove(); return null; }
+      host.classList.add('flop');
+      const jump = () => { try { const st = j.engine.state(); j.engine.kickAt((Math.random() - 0.5) * 260, -320 - Math.random() * 220, st.cx + (Math.random() - 0.5) * st.bw * 0.6, st.cy); } catch (e) { /* none */ } };
+      jump(); const t = setInterval(() => { if (Math.random() < 0.7) jump(); }, 650);
+      box.addEventListener('pointerdown', jump);
+      return { stop() { clearInterval(t); j.detach(); box.remove(); host.classList.remove('flop'); } };
+    } catch (e) { return null; }
+  }
+
+  GAME.H.fishFlop = FLOP;   /* (kept reachable for testing) */
+
   /* ---------- the game ---------- */
   const W = {
     title: T('Fishing', 'صيد'),
@@ -184,7 +202,11 @@
       gainXP(kind === 'fish' ? 2 : kind === 'bottle' ? 2 : 4);
       const c = q('.fs-catch'); c.innerHTML = FISH_SVG(kind) + '<b></b>'; c.querySelector('b').textContent = tx(NAME[kind]); c.className = 'fs-catch show k-' + kind;
       q('.fs-count').textContent = tx(W.cast2(n)) + '  ·  🐟 ' + got.length;
-      await wait(1500); c.className = 'fs-catch';
+      /* the fish flops on the boards, soft, in the user's jelly engine (tap it and it flops again) */
+      const flop = kind !== 'bottle' && !REDUCED() && typeof JELLY !== 'undefined' ? await FLOP(c, FISH_SVG(kind)) : null;
+      await wait(flop ? 2600 : 1500);
+      if (flop) flop.stop();
+      c.className = 'fs-catch';
     }
     (async () => {
       await wait(REDUCED() ? 0 : 320);
