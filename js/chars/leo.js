@@ -51,5 +51,17 @@
   GAME.CHAR.leo.height = 1.02;
 })();
 
+/* Leo's small talk (js/chatter.js): what he says when you just hang out. The ones with "if" react to what has happened. */
+if (GAME.CHAR.leo) GAME.CHAR.leo.chat = [
+  { e: 'neutral', t: T('The sea\'s the only thing in this town Victor hasn\'t bought. He\'s probably asked.', 'البحر الشي الوحيد في هالبلد اللي فيكتور ما اشتراه. وأكيد سأل عن سعره.') },
+  { if: s => s.slot === 0, e: 'neutral', t: T('Mornings are a scam. Nobody has ever been happy at seven. Name one person. You can\'t.', 'الصباح نصب. محد بتاريخ البشرية كان مبسوط الساعة سبع. {عطني|عطيني} اسم واحد. ما {تقدر|تقدرين}.') },
+  { if: s => (s.f.drawCount || 0) >= 2, e: 'smile', t: T('Your gulls are getting worse. That\'s progress. Bad on purpose is a style.', 'نوارسك قاعدة تسوء. وهذا تطور. السيء المقصود يعتبر أسلوب.') },
+  { if: s => !!s.f.knowsDebt, e: 'angry', t: T('I counted. Three months is ninety-one days of pretending the letterbox doesn\'t exist.', 'حسبتها. ثلاث شهور يعني واحد وتسعين يوم وأنا أسوي نفسي ما فيه صندوق بريد.') },
+  { if: s => !!s.f.crashDone && !s.f.finale2Done, e: 'sad', t: T('Wrist\'s fine. It\'s the rest of me that\'s on a week\'s rest.', 'المعصم تمام. الباقي مني هو اللي في إجازة أسبوع.') },
+  { if: s => !!s.f.leoCarol, e: 'sad', t: T('She gave you a lemon, didn\'t she. She always gives a lemon. ...Don\'t say anything.', 'عطتك ليمونة، صح؟ دايم تعطي ليمونة. ...{لا تقول|لا تقولين} شي.') },
+  { if: s => !!s.f.leoGrave, e: 'sad', t: T('Thanks for the other morning. Most people say things. You didn\'t.', 'شكراً على ذاك الصبح. أغلب الناس يقولون أشياء. {وأنت ما قلت|وأنتِ ما قلتي}.') },
+  { if: s => !!s.f.leoBreath, e: 'smile', t: T('Four in, six out. I do it on the bike now. People think I\'m whistling badly.', 'أربع شهيق، ست زفير. صرت أسويها على الدراجة. الناس يحسبوني أصفّر غلط.') }
+];
+
 /* Leo's day: what Leo is doing in each place (shown by js/life.js) */
 if (GAME.CHAR.leo) GAME.CHAR.leo.life = { loft: 'sleep', bh_bath: 'shower', boathouse: s => (s.slot === NIGHT ? 'game' : 'eat'), street: 'deliver', dock: 'draw' };

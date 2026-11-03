@@ -234,6 +234,7 @@ GAME.SCRIPTS = {
     N_('Elias doesn\'t make it. He dies the night before the train arrives.', 'إلياس ما يلحق. يموت الليلة اللي قبل وصول القطار.'),
     N_('At the cemetery, a man in his twenties stands beside you. "You\'re the one who was with him?" You nod.', 'في المقبرة، شاب في العشرينات يوقف جنبك. «{أنت اللي كان معه|أنتِ اللي كانت معه}؟» {تهز|تهزين} راسك.'),
     N_('"Thank you for not letting him be alone."', '«شكراً إنك ما {خليته|خليتيه} لحاله.»'),
+    st => st.f.thCall ? [N_('Later he says: "You\'re the one who picked up. On the phone." He looks at his hands. "If you hadn\'t, I\'d have rung off and told myself I tried."', 'بعدين يقول: «{أنت اللي رد|أنتِ اللي ردت}. في التلفون.» ويطالع يدينه. «لو ما {رديت|رديتي}، كان سكّرت وقلت لنفسي إني حاولت.»')] : null,
     st => st.f.shipDone ? [N_('Later, in his old room, Thomas finds the model ship finished, the last mast crooked. He laughs, and then he doesn\'t.', 'بعدين، في غرفته القديمة، توماس يلقى مجسم السفينة مخلص، وآخر صاري معوج. يضحك، وبعدين ما يضحك.')] : null, // links.js
     { end: 'ELIAS_LETTER' }],
   endLetterSneak: [
@@ -242,6 +243,7 @@ GAME.SCRIPTS = {
     { show: [] },
     N_('Elias dies on Friday night, in his armchair, with the radio on.', 'إلياس يموت ليلة الجمعة، على كرسيه، والراديو شغال.'),
     N_('Thomas arrives the next morning and finds you sitting on the doorstep. He sits down next to you and doesn\'t say anything for a long time.', 'توماس يوصل الصبح، ويلقاك {جالس|جالسة} على عتبة الباب. يجلس جنبك وما يقول شي وقت طويل.'),
+    st => st.f.thCall ? [N_('Later he says: "You\'re the one who picked up. On the phone." He looks at his hands. "If you hadn\'t, I\'d have rung off and told myself I tried."', 'بعدين يقول: «{أنت اللي رد|أنتِ اللي ردت}. في التلفون.» ويطالع يدينه. «لو ما {رديت|رديتي}، كان سكّرت وقلت لنفسي إني حاولت.»')] : null,
     st => st.f.shipDone ? [N_('Later, in his old room, Thomas finds the model ship finished, the last mast crooked. He laughs, and then he doesn\'t.', 'بعدين، في غرفته القديمة، توماس يلقى مجسم السفينة مخلص، وآخر صاري معوج. يضحك، وبعدين ما يضحك.')] : null, // links.js
     { end: 'ELIAS_LETTER' }],
   endPeace: [{ show: [{ id: 'elias', e: 'neutral' }] },

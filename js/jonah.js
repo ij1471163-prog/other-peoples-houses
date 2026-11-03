@@ -146,6 +146,14 @@
     s => { take('jletter'); s.f.jLetterV = true; return null; }
   ] });
 
+  /* if Victor's chapter is already over, the letter (and the tin from number 9) can still go somewhere: the wall the two boys sat on */
+  if (GAME.LOC.cemetery) GAME.LOC.cemetery.spots.push({ x: 66, y: 56, label: T('Leave Dad\'s things on the boys\' wall', '{حط|حطي} أغراض أبوك على سور الولدين'),
+    if: s => !!(s.done || {}).victor && (has('jletter') || has('n9tin')),
+    run: s => { const both = has('jletter') && has('n9tin'); if (has('jletter')) { take('jletter'); s.f.jLetterWall = true; } if (has('n9tin')) { take('n9tin'); s.f.n9TinWall = true; } addMood(1); return [
+      N1(both ? 'You put the tin on the wall where the initials are, and the letter under it, so the wind can\'t have it.' : 'You put it on the wall where the initials are, and a stone on top, so the wind can\'t have it.', both ? '{تحط|تحطين} العلبة على السور عند الحروف، والرسالة تحتها، عشان الهوا ما ياخذها.' : '{تحطها|تحطينها} على السور عند الحروف، وحجر فوقها، عشان الهوا ما ياخذها.'),
+      N1('Whoever comes up here at dawn can read it. You have a good idea who that will be.', 'اللي يطلع هنا الفجر يقدر يقراها. وعندك فكرة زينة مين بيكون.')
+    ]; } });
+
   /* ---------- 4. the call ---------- */
   GAME.SCRIPTS.jonah4 = s => [
     N1('You call her. It rings once.', '{تتصل|تتصلين} عليها. يرن مرة وحدة.'),
@@ -166,7 +174,7 @@
     N1('Before she hangs up: "Come home when you\'re ready. Not before. I\'ll be here." This time you believe her.', 'قبل لا تسكّر: «{تعال|تعالي} البيت لما تكون {جاهز|جاهزة}. مو قبل. أنا هنا.» وهالمرة {تصدقها|تصدقينها}.'),
     st => { st.f.jm = 4; quest('q_jonah', 'done'); return null; }
   ];
-  const callSpot = { x: 50, y: 50, label: T('Call Mum', '{اتصل|اتصلي} على أمي'), cls: 'main', if: s => step(s) >= 1 && step(s) < 4 && !!(s.f.vJonah || s.f.jLetterV || (s.f.jTicket && step(s) >= 2)) && s.slot >= 3, run: s => GAME.SCRIPTS.jonah4(s) };
+  const callSpot = { x: 50, y: 50, label: T('Call Mum', '{اتصل|اتصلي} على أمي'), cls: 'main', if: s => step(s) >= 1 && step(s) < 4 && !!(s.f.vJonah || s.f.jLetterV || s.f.jLetterWall || (s.f.jTicket && step(s) >= 2)) && s.slot >= 3, run: s => GAME.SCRIPTS.jonah4(s) };
   ['your_room', 'sami_attic', 'loft', 'lh_room', 'marg_guest', 'hotel_suite'].forEach(l => { if (GAME.LOC[l]) GAME.LOC[l].spots.push(Object.assign({}, callSpot)); });
 
   /* people notice */

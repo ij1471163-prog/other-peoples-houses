@@ -136,6 +136,7 @@ Object.assign(GAME.SCRIPTS, {
     const lost = s.mood <= 2;
     const lessons = (s.lessons || []).map(l => ({ n: l.t }));
     return [{ go: 'sami_attic' }, { show: [] }, N_('Weeks pass. Saltmere has learned your name, and mostly says it kindly.', 'تمر أسابيع. سولتمير تعلّمت اسمك، وأغلب الوقت تقوله بلطف.')].concat(lessons).concat([
+      st => GAME.SCRIPTS.fatherCoda ? GAME.SCRIPTS.fatherCoda(st) : null,
       { go: 'street' }, { time: 0 },
       st => { st.slot = NIGHT; return null; },
       N_('An ordinary night. You walk past Sami\'s. On the bench where you once sat, a young man is sitting, thobe creased, eyes on the ground.', 'ليلة عادية. {تمر|تمرين} قدام بقالة سامي. على الكرسي اللي {جلست|جلستي} عليه مرة، شاب جالس، ثيابه مكرمشة، وعيونه في الأرض.'),
@@ -153,6 +154,17 @@ Object.assign(GAME.SCRIPTS, {
   endDark: [N_('You look at him and think: useful. Desperate people do what they\'re told. Victor taught you that.', '{تطالعه وتفكر|تطالعينه وتفكرين}: مفيد. الناس اليائسين يسوون اللي ينقال لهم. فيكتور علّمك هذا.'), N_('You sit beside him and smile with your whole face and none of your eyes. "I know a man at the Grand Hotel," you say. "He could use someone like you."', '{تجلس|تجلسين} جنبه {وتبتسم|وتبتسمين} بوجهك كله، وعيونك لا. «أعرف رجّال في الفندق الكبير،» {تقول|تقولين}. «يحتاج واحد مثلك.»'), { end: 'END_DARK' }],
   sandboxStart: s => { s.f.sandbox = true; s.host = null; s.slot = 0; s.day++; return [{ go: 'sami_attic' }, { show: [] }, N_('Life in Saltmere goes on. Sami needs boxes lifted. Marco needs an audience. The sea needs nothing, as usual. You can keep living here as long as you like.', 'الحياة في سولتمير تكمل. سامي يبي أحد يشيل كراتين. ماركو يبي جمهور. والبحر ما يبي شي، مثل العادة. {تقدر تكمل تعيش|تقدرين تكملين تعيشين} هنا قد ما {تبي|تبين}.')]; }
 });
+/* who V. was, and why Dad owed him: a few lines before the last night, whatever you found out (or didn't) */
+GAME.SCRIPTS.fatherCoda = s => {
+  const out = [];
+  if ((s.f.vJonah || s.f.jLetterV) && has('postcard')) out.push(
+    N_('One morning you buy a stamp at Sami\'s and post your father\'s card. It is a lot of years late. It only has three streets to go.', 'صباح من الأيام {تشتري|تشترين} طابع من سامي {وترسل|وترسلين} كرت أبوك. متأخر سنين كثير. وباقي له ثلاث شوارع بس.'),
+    N_('Two days later it comes back through Sami\'s door, in an envelope from the Grand. Under your father\'s line, in a different pen: "Received. — V."', 'بعد يومين يرجع من باب سامي، في ظرف من الفندق. وتحت سطر أبوك، بقلم ثاني: «وصل. — ف.»'));
+  else if (s.f.vJonah || s.f.jLetterV) out.push(N_('Some mornings Victor walks down to Fisher\'s Row and stands outside number 9 for a while. He has stopped pretending he is checking the gutters.', 'بعض الصباحات فيكتور ينزل لشارع الصيادين ويوقف قدام رقم ٩ شوي. وبطّل يسوي نفسه يشيّك على المزاريب.'));
+  else if (s.f.knowJonah || s.f.knowV) out.push(N_('You know some of it now: a boy from number 9, a friend from number 3, a debt nobody knew how to pay back. The rest you may never get. Some of it is yours to carry anyway.', '{تعرف|تعرفين} شي منها الحين: ولد من رقم ٩، وصديق من رقم ٣، ودين محد عرف كيف يرده. والباقي يمكن عمرك ما {توصله|توصلينه}. وبعضه حقك {تشيله|تشيلينه} على كل حال.'));
+  else out.push(N_('Gregor passes you on the street with his wheelbarrow, and stops. "That postcard you had. V. That\'d be Victor, number 3. Your dad\'s friend, once. Ask him sometime." He goes on before you can answer.', 'غريغور يمر جنبك في الشارع بعربيته، ويوقف. «الكرت اللي كان معك. ف. هذا فيكتور، رقم ٣. صديق أبوك، زمان. {اسأله|اسأليه} يوم.» ويكمل قبل لا {ترد|تردين}.'));
+  return out;
+};
 Object.assign(GAME.QUESTS, { q_doors: { title: T('Three closed doors', 'ثلاث أبواب مسكّرة'), hint: T('Margaret\'s white house on Cliff Road, the lighthouse, the Grand Hotel. Knock on any of them, in any order.', 'بيت مارغريت الأبيض في شارع الجرف، والمنارة، والفندق الكبير. {اطرق|اطرقي} أي واحد، بأي ترتيب.') } });
 Object.assign(GAME.END, {
   END_HOST: { title: T('The Host', '{المضيف|المضيفة}'), final: true, after: T('Your ending. Every house you lived in is part of it.', 'نهايتك {أنت|أنتِ}. وكل بيت {سكنت|سكنتي} فيه جزء منها.') },

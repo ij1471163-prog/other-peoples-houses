@@ -110,7 +110,7 @@
     { mini: 'paper', kind: 'letter', body: T('Mum. Gone to the gig with Leo. I KNOW it\'s a school night. Back by ten. Don\'t be mad. Love you. D.', 'ماما. رحت الحفلة مع ليو. أدري إنه بكرة مدرسة. برجع الساعة عشر. لا تزعلين. أحبك. د.') },
     N1('In the corner, in her handwriting, very small: "7.00. Found this on the hall table when I came down to lay dinner."', 'في الزاوية، بخطها، صغير مرة: «٧:٠٠. لقيتها على طاولة الممر لما نزلت أحط العشا.»'),
     N1('Seven o\'clock. The clock in the sitting room. Dinner at seven, every night. "Where were you?" Back by ten.', 'الساعة سبعة. الساعة اللي في الصالة. العشا الساعة سبعة، كل ليلة. «وين كنت؟» برجع الساعة عشر.'),
-    st => { st.f.mdNote = true; st.f.mdSeven = true; return null; }] });
+    st => { st.f.mdNote = true; return null; }] });
   /* the headlights */
   push('marg_living', { x: 46, y: 52, label: T('A gap in the curtain', 'فتحة في الستارة'), if: s => inM(s) && s.slot >= 3 && !s.f.mdLights, run: s => [
     N1('Through the gap: the dark, and the long curve of Cliff Road coming up from town. A car turns onto it. Its headlights sweep up the hill towards the house.', 'من الفتحة: الظلام، ومنحنى شارع الجرف الطويل طالع من البلدة. سيارة تلف عليه. وأنوارها تطلع التلة جاية للبيت.'),
@@ -138,6 +138,8 @@
     M('smile', 'It\'s RAPTURE, Martha, it\'s always rapture, you say elation every week and it\'s never elation.', 'نشوة يا مارثا، دايم نشوة، كل أسبوع تقولين بهجة وعمرها ما كانت بهجة.'),
     N1('Margaret laughs. A real laugh, loud, a bit like a seal. You have never heard it before. Martha catches your eye over her glasses, and winks.', 'مارغريت تضحك. ضحكة حقيقية، عالية، شوي مثل الفقمة. عمرك ما {سمعتها|سمعتيها} قبل. ومارثا تطالعك من فوق نظارتها، وتغمز.'),
     C('martha', 'neutral', 'Twenty years we\'ve done this. She missed one Thursday. One. The week after. Then she turned up at my door with the paper and a pen and said "I need something with answers in it."', 'عشرين سنة نسويها. فوتت خميس واحد. واحد بس. الأسبوع اللي بعده. وبعدين جت عند بابي ومعها الجريدة والقلم وقالت «أحتاج شي له أجوبة.»'),
+    C('martha', 'sad', 'The clock in her front room. You\'ve seen it, stopped at seven. She stopped it herself, that night, when she came down to lay dinner and found his note. I offered to wind it, once. Once.', 'الساعة اللي في صالتها. {شفتها|شفتيها}، واقفة على سبعة. هي اللي وقفتها، هذيك الليلة، لما نزلت تحط العشا ولقت ورقته. عرضت أعبيها، مرة. مرة وحدة بس.'),
+    st => { st.f.mdSeven = true; return null; },
     { menu: [
       { t: T('Pull up a chair and help', '{جيب|جيبي} كرسي {وساعد|وساعدي}'), then: [N1('You get two clues and one wrong. Margaret corrects you in pen, with enormous satisfaction. For an hour, nobody in the kitchen is grieving.', '{تحل|تحلين} سؤالين {وتغلط|وتغلطين} في واحد. مارغريت تصححك بالقلم، وهي مبسوطة مرة. ولمدة ساعة، محد في المطبخ حزين.'), st => { kind(st, 'martha'); addMood(1); return null; }] },
       { t: T('Leave them to it', '{خلهم|خليهم} على راحتهم'), then: [N1('You leave them to it. All the way up the stairs you can hear them arguing about rapture.', '{تخليهم|تخلينهم}. وطول ما أنت {طالع|طالعة} الدرج {تسمعهم|تسمعينهم} يتهاوشون على النشوة.')] }

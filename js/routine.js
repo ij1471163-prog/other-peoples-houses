@@ -44,9 +44,16 @@
       M('smile', 'It\'s nice. Somebody in the other chair. I\'d forgotten it creaks when someone sits in it.', 'حلو. أحد جالس على الكرسي الثاني. كنت ناسي إنه يطقطق لما أحد يجلس عليه.')
     ]
   };
+  const JONAH = {
+    fish: M('smile', 'Your father coiled a line exactly as wrong as you do. Over the elbow, like a skipping rope. I never fixed it. I\'m not fixing yours either.', 'أبوك كان يلف الخيط غلط بالضبط مثلك. على الكوع، مثل حبل نط. عمري ما صلحته له. ولا راح أصلحه لك.'),
+    nets: M('neutral', 'Jonah hated the nets. Called them the sea\'s knitting. Then he\'d stay till dark to finish a row, so nobody could say he hadn\'t.', 'جونا كان يكره الشباك. يسميها حياكة البحر. وبعدين يقعد لين الظلام عشان يخلص الصف، عشان محد يقول إنه ما خلّصه.'),
+    sit: M('sad', 'He sat in that chair. The boy from number 9. Pretending he wasn\'t hungry. Ada always made too much, on purpose, and never once let him see her do it.', 'كان يجلس على هالكرسي. ولد رقم ٩. ويسوي نفسه مو جوعان. وآدا دايم تطبخ زيادة، بقصد، وعمرها ما خلته يشوفها.')
+  };
   /* the next thing he hasn't told you yet, from this part of his day */
   function memo(s, k) {
     if (!ch1(s)) return null;
+    /* once you know about your father, one memory of him in each part of the day comes first */
+    if (s.f.knowJonah && JONAH[k]) { s.f.eMemoJ = s.f.eMemoJ || {}; if (!s.f.eMemoJ[k]) { s.f.eMemoJ[k] = true; return { c: 'elias', e: JONAH[k].e, t: JONAH[k].t }; } }
     s.f.eMemo = s.f.eMemo || {};
     const i = s.f.eMemo[k] || 0, list = POOL[k];
     if (i >= list.length) return null;

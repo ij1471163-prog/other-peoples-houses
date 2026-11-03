@@ -181,7 +181,7 @@
       N1('The tea towel is folded the way a man folds a flag.', 'الفوطة مطوية مثل ما يطوي رجال علم.')];
   });
   topic('evelyn', { id: 'sdMarble', once: true, label: T('Show her the marble left by the teacup', '{ورّها|ورّيها} البلية اللي انحطت جنب الكوب'), if: s => inE(s) && has('cupmarble'), run: [
-    C('evelyn', 'shock', 'Another one. Left by the cup? ...Grandad kept a bag of these. In his coat. He\'d roll one across the table to me when I was little and I wasn\'t allowed to ask why.', 'وحدة ثانية. جنب الكوب؟ ...جدي كان عنده كيس منها. في كوته. كان يدحرج لي وحدة على الطاولة وأنا صغيرة وما كان مسموح لي أسأل ليش.'),
+    s => [has('marble') ? C('evelyn', 'shock', 'Another one. Left by the cup? ...Grandad kept a bag of these. In his coat. He\'d roll one across the table to me when I was little and I wasn\'t allowed to ask why.', 'وحدة ثانية. جنب الكوب؟ ...جدي كان عنده كيس منها. في كوته. كان يدحرج لي وحدة على الطاولة وأنا صغيرة وما كان مسموح لي أسأل ليش.') : C('evelyn', 'shock', 'A marble. Left by the cup? ...Grandad kept a bag of these. In his coat. He\'d roll one across the table to me when I was little and I wasn\'t allowed to ask why.', 'بلية. جنب الكوب؟ ...جدي كان عنده كيس منها. في كوته. كان يدحرج لي وحدة على الطاولة وأنا صغيرة وما كان مسموح لي أسأل ليش.')],
     C('evelyn', 'sad', 'They were Toby\'s. Weren\'t they. They were Toby\'s marbles.', 'كانت حقت توبي. صح؟ كانت بلي توبي.'),
     N1('She closes her hand round it. Outside, for once, the lamp seems to turn a little slower.', 'تسكر يدها عليها. وبرا، ولأول مرة، الفانوس كأنه يلف أبطأ شوي.'),
     s => { addMood(1); return null; }
