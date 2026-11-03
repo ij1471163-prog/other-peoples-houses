@@ -30,13 +30,13 @@
   const ip = intro.findIndex(st => st && st.n && /In one of the boxes, a postcard/.test(st.n.en));
   if (ip >= 0) intro.splice(ip, 1,
     N1('In one of the boxes, a postcard of a harbour you\'d never seen. SALTMERE. Your father\'s handwriting.', 'في واحد من الكراتين، كرت بريدي لميناء عمرك ما {شفته|شفتيه}. «سولتمير». وبخط أبوك.'),
-    { mini: 'paper', kind: 'postcard', stamp: '⚓', body: T('V. — I saw the hotel today. You did it, like you always said you would. I\'ll pay you back, every cent. I\'m sorry.', 'ف. — شفت الفندق اليوم. سويتها، مثل ما كنت دايم تقول. برجّع لك كل قرش. آسف.'), sign: T('— J.   7 March', '— ج.   ٧ مارس') },
+    { mini: 'paper', kind: 'postcard', stamp: '⚓', body: T('V. — I saw the hotel today. You did it, like you always said you would. I\'ll pay you back, every cent. I\'m sorry.', 'ف. — شفت الفندق اليوم. سويتها، مثل ما كنت دايم تقول. برجّع لك كل سنت. آسف.'), sign: T('— J.   7 March', '— ج.   ٧ مارس') },
     N1('Dated the seventh of March. Never posted.', 'مؤرخ سبعة مارس. وعمره ما انرسل.'));
 
   /* the first night: a name through the floor */
   const iEnd = meet.findIndex(st => st && st.n && /The bed is made/.test(st.n.en));
   if (iEnd >= 0) meet.splice(iEnd + 1, 0,
-    N1('Later, half asleep, you hear him downstairs. A drawer opens. A long silence. Then, very quietly, to nobody, a name.', 'بعدين، وأنت {نص نايم|نص نايمة}، {تسمعه|تسمعينه} تحت. درج ينفتح. سكوت طويل. وبعدين، بصوت واطي مرة، لولا أحد، اسم.'),
+    N1('Later, half asleep, you hear him downstairs. A drawer opens. A long silence. Then, very quietly, to nobody, a name.', 'بعدين، {وأنت|وأنتِ} {نص نايم|نص نايمة}، {تسمعه|تسمعينه} تحت. درج ينفتح. سكوت طويل. وبعدين، بصوت واطي مرة، لولا أحد، اسم.'),
     N1('"...Jonah?"', '«...جونا؟»'),
     N1('Your father\'s name. You lie awake until the window goes grey.', 'اسم أبوك. {تجلس صاحي|تجلسين صاحية} لين الشباك يصير رمادي.'),
     s => { s.f.heardName = true; return null; });

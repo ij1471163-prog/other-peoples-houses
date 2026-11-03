@@ -30,7 +30,7 @@
         { t: T('"He isn\'t doing the treatment."', '«هو ما يتعالج.»'), then: [V('"No. He wouldn\'t. He\'d rather be right than alive. He always would." A pause. "Sorry. You don\'t need that."', '«لا. أكيد. يفضّل يكون على حق ولا يكون عايش. دايم كذا.» سكوت. «آسف. ما لك دخل في هذا.»')] },
         { t: T('"He\'s alright. He\'s out on the boat."', '«هو بخير. طالع بالقارب.»'), then: [V('"Of course he is." Something that is almost a laugh. "Sick as a dog, and still out on the boat."', '«أكيد طالع.» شي قريب من الضحكة. «تعبان على الآخر، ولسا طالع بالقارب.»')] }
       ] },
-      V('"Does he... does he ever talk about me?"', '«هو... يجيب طاري؟»'),
+      V('"Does he... does he ever talk about me?"', '«هو... يتكلم عني؟»'),
       st => [{ menu: [
         st.f.clue && st.f.clue.marks
           ? { t: T('"There are pencil marks on the door frame. A line above eighteen, with no name."', '«فيه خطوط رصاص على إطار الباب. وخط فوق الثمنطعش، بدون اسم.»'), then: [V('Silence. Then: "He kept those?" His voice goes. "He painted that hall twice. He painted round them."', 'سكوت. وبعدين: «خلاها؟» صوته يتكسر. «صبغ الممر مرتين. وصبغ حولها.»')] }

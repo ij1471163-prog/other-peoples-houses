@@ -35,20 +35,20 @@
     ['ship', 'son', 'your_room', 'Model ship', null, T('A model ship in Thomas\'s room, waiting to be finished.', 'مجسم سفينة في غرفة توماس، ينتظر أحد يكمله.')],
     ['tphone', 'son', 'living', 'Telephone', null, T('A number taped by the phone: "T.". The tape is yellow with age.', 'رقم ملصوق جنب الهاتف: «T.». والشريط صاير أصفر.')],
     ['cap', 'boy', 'hall', 'A yellow oilskin on the hook', null, T('A boy\'s fishing cap on Elias\'s hook. Nobody has moved it in thirty years.', 'كاب صيد ولد صغير على علاقة إلياس. محد حركه من ثلاثين سنة.')],
-    ['photo', 'boy', 'living', 'Photographs', null, T('A boy of nine on Elias\'s shoulders, holding a fish bigger than his arm.', 'ولد عمره تسع على أكتاف إلياس، ماسك سمكة أكبر من ذراعه.')],
-    ['drawing', 'boy', 'living', 'A child\'s drawing on the mantelpiece', null, T('A child\'s drawing: a big man and a small boy in a boat.', 'رسمة طفل: رجال كبير وولد صغير في قارب.')],
+    ['photo', 'boy', 'living', 'Photographs', null, T('A boy of eleven or so on Elias\'s shoulders, holding a fish bigger than his arm.', 'ولد عمره تقريباً إحدعش على أكتاف إلياس، ماسك سمكة أكبر من ذراعه.')],
+    ['drawing', 'son', 'living', 'A child\'s drawing on the mantelpiece', null, T('Thomas\'s drawing from the tin, where his father can see it from his chair.', 'رسمة توماس اللي كانت في العلبة، في مكان يشوفها أبوه من كرسيه.')],
     ['wall', 'boy', 'no9', 'The boarded window', null, T('Number 9: an empty child\'s room, wallpaper with little blue boats.', 'رقم ٩: غرفة طفل فاضية، ورق جدارها قوارب زرق صغيرة.')]
   ];
   const DED = {
     ill: s => [
-      N1('📓 You put it together on the stairs. Appointments he crosses out. Pills he never opens. Elias isn\'t forgetting his treatment. He is refusing it.', '📓 {تركبها|تركبينها} في راسك وأنت على الدرج. مواعيد يشطبها. ودوا ما يفتحه. إلياس ما نسى علاجه. هو رافضه.'),
+      N1('📓 You put it together on the stairs. Appointments he crosses out. Pills he never opens. Elias isn\'t forgetting his treatment. He is refusing it.', '📓 {تركبها|تركبينها} في راسك {وأنت|وأنتِ} على الدرج. مواعيد يشطبها. ودوا ما يفتحه. إلياس ما نسى علاجه. هو رافضه.'),
       s.f.knowsIllness ? null : N1('Martha cleans for him on Tuesdays and Fridays. If anyone has noticed, she has.', 'مارثا تنظف عنده الثلاثاء والجمعة. إذا أحد انتبه، فهي.'),
       st => { st.f.elIll = true; return null; }],
     son: s => [
       N1('📓 Eighteen, and then nothing. No more photos, no more pencil lines. Something happened between Elias and Thomas, and he has been waiting ever since for it to un-happen.', '📓 ثمنطعش، وبعدها ولا شي. لا صور، ولا خطوط رصاص. صار شي بين إلياس وتوماس، ومن يومها وهو ينتظره ينمحي.'),
       s.f.thStep ? null : N1('This was Thomas\'s room. His desk is still in it. Desks keep things.', 'هذي كانت غرفة توماس. ومكتبه لسا فيها. والمكاتب تحفظ أشياء.')],
     boy: s => [
-      N1('📓 A boy who fished with Elias, a long time ago. A cap nobody moves. A drawing he keeps where he can see it from his chair. You don\'t know whose boy that was.', '📓 ولد كان يصيد مع إلياس، من زمان. كاب محد يحركه. ورسمة حاطها في مكان يشوفها من كرسيه. وما {تدري|تدرين} ولد مين.'),
+      N1('📓 A boy who fished with Elias, a long time ago. A cap nobody moves. A photo he never takes down. You don\'t know whose boy that was.', '📓 ولد كان يصيد مع إلياس، من زمان. كاب محد يحركه. وصورة عمره ما نزّلها. وما {تدري|تدرين} ولد مين.'),
       (s.f.knowV || s.f.knowJonah) ? null : N1('Someone who has been in Saltmere long enough would remember. Gregor, at the cemetery, has known everyone.', 'أحد عايش في سولتمير من زمان بيتذكر. غريغور اللي في المقبرة يعرف الكل.')]
   };
   const noteOf = id => CLUES.find(c => c[0] === id);

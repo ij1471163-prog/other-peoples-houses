@@ -27,7 +27,7 @@
   /* things to talk about (Victor's chapter) */
   GAME.TOPICS.maya.push(
     { id: 'berth', label: T('Give her Victor\'s message about the berth', '{تبلّغها|تبلّغينها} رسالة فيكتور عن المرسى'), if: s => s.f.vMayaTask && !s.f.vMayaDone, run: s => [{ menu: [
-        { t: T('Deliver it, word for word', '{تبلّغها|تبلّغينها}، حرف بحرف'), cls: 'risk', then: [st => { st.f.vMayaDone = 'did'; addTrust('maya', -2); return null; }, { c: 'maya', e: 'angry', t: T('Reviewed. Two hundred. "The next offer is lower." You came all the way down here to say that to my face?', 'انراجع. مية وخمسين. «العرض الجاي أقل.» {نزلت|نزلتي} لين هنا عشان {تقولها|تقولينها} في وجهي؟') }, N_('She throws a mackerel at you. It\'s a good throw.', 'ترمي عليك سمكة إسقمري. رمية حلوة.')] },
+        { t: T('Deliver it, word for word', '{تبلّغها|تبلّغينها}، حرف بحرف'), cls: 'risk', then: [st => { st.f.vMayaDone = 'did'; addTrust('maya', -2); return null; }, { c: 'maya', e: 'angry', t: T('Reviewed. Two hundred. "The next offer is lower." You came all the way down here to say that to my face?', 'انراجع. ميتين. «العرض الجاي أقل.» {نزلت|نزلتي} لين هنا عشان {تقولها|تقولينها} في وجهي؟') }, N_('She throws a mackerel at you. It\'s a good throw.', 'ترمي عليك سمكة إسقمري. رمية حلوة.')] },
         { t: T('Warn her instead', '{تحذرها|تحذرينها} بدال'), cls: 'main', then: [st => { st.f.vMayaDone = 'warned'; addTrust('maya', 2); return null; }, { c: 'maya', e: 'neutral', t: T('He sent you to scare me and you told me instead. Well. I owe you a fish. A thrown one, but gently.', 'أرسلك تخوّفني {وأنت قلت|وأنتِ قلتي} لي بدال. طيب. لك علي سمكة. مرمية، بس بلطف.') }] }
       ] }] }
   );

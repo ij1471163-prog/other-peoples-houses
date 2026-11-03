@@ -36,6 +36,6 @@ if (GAME.CHAR.nora) GAME.CHAR.nora.life = { marg_kitchen: 'tea', cliff_road: 'ph
 
 /* small talk: what Nora says when you just chat (js/chatter.js picks one a day) */
 if (GAME.CHAR.nora) GAME.CHAR.nora.chat = [
-  { e: 'neutral', t: T("We were the loud Hart girls, both of us. Now she's quiet, so I'm loud enough for two.", "كنا بنات هارت الصوت العالي، الثنتين. الحين هي ساكتة، فأنا صوتي عالي عن ثنتين.") },
+  { e: 'neutral', t: T("We were the loud sisters, both of us. Now she's quiet, so I'm loud enough for two.", "كنا الخوات أهل الصوت العالي، الثنتين. الحين هي ساكتة، فأنا صوتي عالي عن ثنتين.") },
   { e: 'sad', t: T("I bring her soup. She doesn't eat it. I bring it anyway. That's sisters.", "أجيب لها شوربة. ما تاكلها. وأجيبها على كل حال. هذي الأخوات.") }
 ];

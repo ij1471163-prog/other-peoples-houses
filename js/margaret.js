@@ -197,7 +197,7 @@
     },
     margCabinet: s => {
       if (roll(GAME.SCRIPTS.margRisk(s, -0.1))) return [N_('The cabinet hinge squeals.', 'مفصلة الدولاب تصيح.'), { jump: 'margCaught' }];
-      if (s.f.mPills) return [N_('Plasters, cough syrup, her real prescription from Dr. Irene, half used. And the space where the gold "G" bottle was.', 'لزقات، شراب كحة، ووصفتها الحقيقية من الدكتورة إيرين، نصها مستخدم. والمكان اللي كانت فيه علبة «G» الذهبية.')];
+      if (s.f.mPills) return [N_('Plasters, cough syrup, her real prescription from Dr. Irene, barely touched. And the space where the gold "G" bottle was.', 'لزقات، شراب كحة، ووصفتها الحقيقية من الدكتورة إيرين، بالكاد انلمست. والمكان اللي كانت فيه علبة «G» الذهبية.')];
       s.f.mPills = true; give('pillsM'); quest('q_m_pills', 'active');
       return [N_('Plasters. Cough syrup. Sleeping tablets from Dr. Irene, properly labeled, barely touched.', 'لزقات. شراب كحة. حبوب نوم من الدكتورة إيرين، عليها ملصق صحيح، وبالكاد انلمست.'),
         N_('And behind them, a heavy brown bottle with no label at all. Just a gold "G" on the cap. Half empty. You pocket it before you can think.', 'ووراها علبة بنية ثقيلة بدون أي ملصق. بس حرف «G» ذهبي على الغطا. نصها فاضي. {تحطها|تحطينها} في جيبك قبل لا {تفكر|تفكرين}.')];
@@ -211,7 +211,7 @@
     danDesk: s => {
       if (roll(GAME.SCRIPTS.margRisk(s, 0.05))) return [N_('Downstairs, the front door opens.', 'تحت، الباب الأمامي ينفتح.'), { jump: 'margCaught' }];
       if (s.f.danLetter) return [N_('Revision notes, a guitar tab for a song you half know, a sticker sheet of dinosaurs.', 'ملخصات مذاكرة، ونوتة قيتار لأغنية {تعرفها|تعرفينها} نص معرفة، وورقة ستيكرات ديناصورات.')];
-      s.f.danLetter = true; give('danLetter'); s.f.knowsDaniel = true;
+      s.f.danLetter = true; give('danLetter'); s.f.knowsDaniel = true; quest('q_m_room2', 'done');
       return [N_('In the drawer, under revision notes: a birthday card, never posted. "HAPPY BIRTHDAY MUM!"', 'في الدرج، تحت ملخصات المذاكرة: بطاقة عيد ميلاد، ما انرسلت أبداً. «كل عام وأنتِ بخير يا ماما!»'),
         N_('Inside, in a teenager\'s scrawl: "Sorry I\'m rubbish at saying stuff. You\'re the best person I know. Please open the curtains sometimes, it\'s like living in a cave. Love you. D. (Leo says hi.)"', 'داخلها، بخط مراهق: «آسف إني ما أعرف أقول أشياء. أنتِ أحسن شخص أعرفه. تكفين افتحي الستاير أحياناً، كأننا ساكنين في كهف. أحبك. د. (ليو يسلّم.)»'),
         N_('Her birthday was three weeks after the accident.', 'عيد ميلادها كان بعد الحادث بثلاث أسابيع.')];

@@ -35,7 +35,7 @@
         { t: T('Offer him your arm', '{تمد|تمدين} له يدك'), then: [E1('smile', 'I\'m admiring the frame. ...Fine. Since you\'re here.', 'أتأمل البرواز. ...طيب. بما إنك هنا.'), N1('He leans on you more than he means to. You both pretend he doesn\'t.', 'يتكي عليك أكثر مما يبي. وانتوا الاثنين تسوون نفسكم ما انتبهتوا.')] },
         { t: T('Pretend you didn\'t notice', '{تسوي|تسوين} نفسك ما {انتبهت|انتبهتي}'), then: [N1('After a while he straightens up. "Lovely picture," he says, to nobody, and walks on.', 'بعد شوي يعتدل. «صورة حلوة،» يقول لولا أحد، ويكمل مشيه.')] }] }]],
     ['coins', 2, 'kitchen', true, [E1('neutral', 'Tea tastes like coins lately. Pennies. Ada would say I\'d been at the change jar again.', 'الشاي صار طعمه فلوس هالأيام. فكة. آدا كانت بتقول إني رجعت لمرطبان الفكة.')]],
-    ['coat', 2, 'living', true, [N1('Elias sits by the fire in his coat. The fire is high. He is still cold.', 'إلياس جالس جنب الدفاية لابس كوته. النار عالية. وهو لسا بردان.'), E1('sad', 'Can\'t get warm. Spring, my foot.', 'ما أقدر أدفى. ربيع قال.')]],
+    ['coat', 2, 'living', true, [N1('Elias sits by the fire in his coat. The fire is high. He is still cold.', 'إلياس جالس جنب الدفاية لابس كوته. النار عالية. وهو لسا بردان.'), E1('sad', 'Can\'t get warm. Autumn, and I\'m cold as January.', 'ما أقدر أدفى. خريف، وأنا بردان كأنه يناير.')]],
     ['cramps', 2, 'morning', false, [N1('Last night, around three, you heard him in the hall: slow steps, up and down, stopping to rub his legs and swear very quietly at them.', 'البارحة، تقريباً الساعة ثلاث، {سمعته|سمعتيه} في الممر: خطوات بطيئة، رايح جاي، يوقف يفرك رجوله ويسبها بصوت واطي مرة.')]],
     ['asleep', 3, 'living', true, [E1('rest', '...and the gull, the gull takes the whole sandwich, out of her hand, and Ada says...', '...والنورس، النورس ياخذ السندويشة كلها من يدها، وآدا تقول...'),
       N1('He\'s asleep. Just like that, between one word and the next. You wait. He doesn\'t finish the story.', 'نام. كذا، بين كلمة والثانية. {تنتظر|تنتظرين}. وما يكمّل القصة.')]],
@@ -43,7 +43,7 @@
       { menu: [
         { t: T('Take the kettle from him, gently', '{تاخذ|تاخذين} الإبريق منه، بهدوء'), then: [E1('sad', 'Thank you, {lad|lass}.', 'مشكور يا {ولدي|بنتي}.'), N1('He says it so quietly you almost miss it. He watches you pour. He doesn\'t correct how you do it, and that is the worst part.', 'يقولها بهدوء لدرجة كان بيفوتك. يطالعك {وأنت تصب|وأنتِ تصبين}. وما يصحح طريقتك، وهذا أسوأ شي.')] },
         { t: T('Pretend not to see, and wipe the table after', '{تسوي|تسوين} نفسك ما {شفت|شفتي}، {وتمسح|وتمسحين} الطاولة بعدين'), then: [N1('He drinks half a cup of tea and half a cup of saucer. You wipe the table when he goes. Neither of you mentions it.', 'يشرب نص كوب شاي ونص كوب من الصحن. {تمسح|تمسحين} الطاولة لما يطلع. ولا واحد فيكم يجيب طاريها.')] }] }]],
-    ['thomas', 3, null, true, [E1('smile', 'Thomas, pass the—', 'توماس، عطني—'), E1('sad', '...You. Pass the salt. You know who I meant.', '...أنت. عطني الملح. {تدري|تدرين} مين قصدت.')]]
+    ['thomas', 3, null, true, [E1('smile', 'Thomas, pass the—', 'توماس، عطني—'), E1('sad', '...You. Pass the salt. You know who I meant.', '...{أنت|أنتِ}. عطني الملح. {تدري|تدرين} مين قصدت.')]]
   ];
 
   GAME.ENTER_HOOKS = GAME.ENTER_HOOKS || [];
@@ -94,7 +94,7 @@
   GAME.TOPICS.martha.push({ id: 'elIll', once: true, label: T('"Has Elias been ill for long?"', '«إلياس صار له زمان مريض؟»'), if: s => ch1(s) && !!(s.f.elIll || s.f.noticed || s.f.knowsIllness), run: [
     { c: 'martha', e: 'sad', t: T('Since the winter. Grey in the face, and pretending he isn\'t.', 'من الشتا. وجهه رمادي، ويسوي نفسه مو كذا.') },
     { c: 'martha', e: 'angry', t: T('I take the salt off the table, he puts it back. I hide the crisps, he finds them. I water down the soup, he adds a stock cube. Stubborn old goat.', 'أشيل الملح من الطاولة، يرجعه. أخبي الشيبس، يلقاه. أخفف الشوربة بالماي، يحط مكعب مرق. تيس عنيد.') },
-    { c: 'martha', e: 'sad', t: T('Ten years I\'ve cleaned this house. I\'d like to clean it for a few more. Tell him that. He won\'t listen to me.', 'عشر سنين وأنا أنظف هالبيت. ودي أنظفه كم سنة زيادة. {قله|قوليله} هالشي. ما يسمع مني.') }] });
+    { c: 'martha', e: 'sad', t: T('Twenty years I\'ve cleaned this house. I\'d like to clean it for a few more. Tell him that. He won\'t listen to me.', 'عشرين سنة وأنا أنظف هالبيت. ودي أنظفه كم سنة زيادة. {قله|قوليله} هالشي. ما يسمع مني.') }] });
 })();
 
 /* Irene at his bedside (img/fx/elias_irene.jpg): the night after the ambulance, and in his last week */

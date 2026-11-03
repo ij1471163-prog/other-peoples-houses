@@ -34,7 +34,7 @@
     run: s => [
       N_('Number 14. The blue has gone grey in places, but someone has kept painting the frame. A planter by the step, with nothing in it.',
         'رقم ١٤. الأزرق صار رمادي في أماكن، بس فيه أحد مستمر يصبغ الإطار. وجنب الدرجة حوض زرع، ما فيه شي.'),
-      s.f.calledMother
+      (s.f.calledMother || s.f.jm)
         ? N_('You take the picture.', '{تصوّر|تصوّرين}.')
         : N_('You turn your phone over for the first time in a long while. The screen lights up with your mother\'s name. You don\'t open anything. You take the picture.',
           '{تقلب|تقلبين} جوالك لأول مرة من زمان. الشاشة تنور باسم أمك. ما {تفتح|تفتحين} شي. بس {تصوّر|تصوّرين}.'),

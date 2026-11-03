@@ -43,7 +43,7 @@
       { c: 'leo', e: 'shock', t: T('How do you know that name.', 'من وين {تعرف|تعرفين} هالاسم.') },
       L_('sad', 'Daniel was my best friend. Two years ago we drove to a concert in the city. He was driving. I was doing the music. And I kept saying "faster, we\'ll miss the start". As a joke.', 'دانيال كان أعز أصحابي. قبل سنتين رحنا لحفلة في المدينة. هو يسوق، وأنا ماسك الأغاني. وكنت أقول «أسرع، بتفوتنا البداية». كنت أمزح.'),
       L_('sad', 'The road was wet. I walked away with a cut on my head. He didn\'t walk away.', 'الطريق كان مبلول. أنا طلعت بجرح في راسي. وهو ما طلع.'),
-      L_('sad', 'His mum lives in the white house on Cliff Road. Margaret. She doesn\'t know I said that. Nobody knows. I can\'t even walk past her house.', 'أمه ساكنة في البيت الأبيض بشارع الجرف. مارغريت. ما تدري إني قلت كذا. محد يدري. ما أقدر حتى أمر قدام بيتها.')]; } }
+      L_('sad', 'His mum lives in the white house on Cliff Road. Margaret. She doesn\'t know I said "faster". Nobody knows. I can\'t even walk past her house.', 'أمه ساكنة في البيت الأبيض بشارع الجرف. مارغريت. ما تدري إني قلت «أسرع». محد يدري. ما أقدر حتى أمر قدام بيتها.')]; } }
   ];
   /* how Leo looks when drawn in code (used when there is no AI picture in img/chars) */
   PEOPLE.SPEC.leo = { sex: 'm', skin: '#e8bd98', hair: '#2a1c16', eye: '#5a4632', brow: '#2a1c16', hairStyle: 'messy', age: 19, sw: 92, ww: 70, hw: 74, pose: ['pocket', 'pocket'], fit: { top: 'hoodie', c1: '#e0a42a', jacket: '#d23f34', bottom: 'jeans', b: '#2a2c34', headphones: true, tag: 'EATS' } };

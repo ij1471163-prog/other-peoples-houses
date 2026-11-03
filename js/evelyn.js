@@ -85,7 +85,7 @@
       spots: [
         { x: 66, y: 62, label: T('The trunk', 'الصندوق'), run: s => [N_('A child\'s things, folded with great care: a jumper for a nine-year-old, a tin boat, a comic from 1958, and a school report: "Tobias is cheerful, curious and talks too much."', 'أغراض طفل، مطوية بعناية كبيرة: كنزة لولد عمره تسع، وقارب صفيح، ومجلة مصورة من ١٩٥٨، وتقرير مدرسة: «توبياس مرح، فضولي، ويتكلم كثير.»'), st => { st.f.eTrunk = true; return null; }] },
         { x: 86, y: 48, label: T('The attic clock', 'ساعة العلية'), run: s => GAME.SCRIPTS.eveMachine(s) },
-        { x: 50, y: 22, label: T('The little window', 'الشباك الصغير'), run: s => [N_('It looks out onto the gallery, three metres below. The latch is new. Somebody, a long time ago, screwed it shut.', 'يطل على الشرفة، تحته بثلاث أمتار. القفل جديد. أحد، من زمان، ثبّته بالمسامير.')] }
+        { x: 50, y: 22, label: T('The little window', 'الشباك الصغير'), run: s => [N_('It looks out over the roof slates to the tower\'s iron ladder. The screws in the frame are newer than the frame. Somebody, a long time ago, screwed it shut.', 'يطل على قراميد السطح وعلى السلّم الحديد حق البرج. المسامير في الإطار أجدد من الإطار نفسه. أحد، من زمان، ثبّته بالمسامير.')] }
       ]
     }
   });
@@ -205,7 +205,7 @@
       return [{ go: 'lh_living' }, { show: [{ id: 'evelyn', e: 'shock' }] },
         N_('3:07. The laughter starts, and it doesn\'t stop. Ten seconds. Thirty. A minute. Louder. Like it\'s calling.', '٣:٠٧. الضحك يبدأ، وما يوقف. عشر ثواني. ثلاثين. دقيقة. يعلى. كأنه ينادي.'),
         E('shock', 'It\'s never done this. Never. My whole life. Never this long.', 'عمره ما سوى كذا. أبداً. طول عمري. أبداً بهالطول.'),
-        E('sad', 'I\'m going up. Tonight. I can\'t do another forty years. With you or without you.', 'بطلع. الليلة. ما أقدر أكمل أربعين سنة ثانية. معك أو بدونك.'),
+        E('sad', 'I\'m going up. Tonight. I can\'t do the rest of my life like this. With you or without you.', 'بطلع. الليلة. ما أقدر أكمل باقي عمري كذا. معك أو بدونك.'),
         st => [{ c: 'evelyn', e: 'sad', menu: [
           { t: T('Take her hand, go up, and tell her what\'s behind the clock', '{تمسك|تمسكين} يدها، تطلعون، {وتقول|وتقولين} لها وش ورا الساعة'), need: x => !!x.f.eMech && !!x.f.eLog && (x.trust.evelyn || 0) >= 6, why: T('You\'d need to know the whole truth, and she\'d need to trust you with it.', '{تحتاج تعرف|تحتاجين تعرفين} الحقيقة كاملة، وتحتاج هي تثق فيك فيها.'), hide: x => !x.f.eMech, cls: 'main', then: [{ jump: 'endEvePeace' }] },
           { t: T('Go up with her, and laugh back', '{تطلع|تطلعين} معها، {وتضحك ترد|وتضحكين تردين} عليه'), need: x => (x.trust.evelyn || 0) >= 5 && (x.fear || 0) <= 6, why: T('You\'re too frightened, or she doesn\'t trust you enough to share this.', '{أنت خايف|أنتِ خايفة} زيادة، أو هي ما تثق فيك كفاية تشاركك هذا.'), then: [{ jump: 'endEveStay' }] },
@@ -218,10 +218,10 @@
       E('sad', 'Oh, Grandad. Oh, you silly, sad old man.', 'آه يا جدي. يا الشايب الحزين الأهبل.'),
       N_('She listens to the end of the tape: a little boy laughing, and then a young man\'s voice, Arthur at nineteen, saying "Again? All right, Toby. Again." Then she presses STOP.', 'تسمع آخر الشريط: ولد صغير يضحك، وبعدين صوت شاب، آرثر بعمر تسعطعش، يقول «مرة ثانية؟ طيب يا توبي. مرة ثانية.» وبعدين تضغط إيقاف.'),
       st => has('postcard') ? [N_('Fifty years paying back something nobody asked him to pay. You think of a postcard in your pocket that was never posted.', 'خمسين سنة يسدد شي ما أحد طالبه فيه. {وتتذكر|وتتذكرين} كرت في جيبك ما انرسل أبداً.')] : null, // links.js
-      N_('You unscrew the little window together. Cold air, the beam going over. She says goodbye to a great-uncle she never met, and sorry for a grandfather who couldn\'t, and then, for herself, goodnight.', 'تفكون مسامير الشباك الصغير مع بعض. هوا بارد، والشعاع يمر. تودّع عم جدها اللي عمرها ما قابلته، وتعتذر عن جد ما قدر، وبعدين، لنفسها، تقول تصبحين على خير.'),
+      N_('You unscrew the little window together. Cold air, the beam going over. She says goodbye to a great-uncle she never met, and sorry for a grandfather who couldn\'t, and then, for herself, goodnight.', 'تفكون مسامير الشباك الصغير مع بعض. هوا بارد، والشعاع يمر. تودّع أخو جدها اللي عمرها ما قابلته، وتعتذر عن جد ما قدر، وبعدين، لنفسها، تقول تصبحين على خير.'),
       N_('The next night, at 3:07, there is silence. Evelyn sleeps through it for the first time in her life. Mostly silence. You could swear that, far out on the water, something laughed once. Happily.', 'الليلة اللي بعدها، الساعة ٣:٠٧، سكوت. وإيفلين تنام وما تصحى لأول مرة في حياتها. سكوت تقريباً. {تقدر تحلف|تقدرين تحلفين} إن بعيد على الموية، شي ضحك مرة. مبسوط.'),
       { end: 'EVE_PEACE' }],
-    endEveStay: [{ go: 'lh_attic' }, N_('You go up together. In the dark the laugh is everywhere. Evelyn grips your arm. And then, for no reason she can explain, she laughs back.', 'تطلعون مع بعض. بالظلام الضحكة في كل مكان. إيفلين ماسكة ذراعك. وبعدين، بدون سبب {تقدر تشرحه، تضحك ترد|تقدرين تشرحينه، تضحكين تردين}.'),
+    endEveStay: [{ go: 'lh_attic' }, N_('You go up together. In the dark the laugh is everywhere. Evelyn grips your arm. And then, for no reason she can explain, she laughs back.', 'تطلعون مع بعض. بالظلام الضحكة في كل مكان. إيفلين ماسكة ذراعك. وبعدين، بدون سبب تقدر تشرحه، تضحك ترد عليها.'),
       N_('So do you. It\'s ridiculous. Two adults in an attic at three in the morning, laughing at a ghost. It stops at 3:08 like it always does. "Same time tomorrow?" she says to the dark.', '{وأنت|وأنتِ} بعد. شي سخيف. اثنين كبار في علية الساعة ثلاث الفجر، يضحكون على شبح. ويوقف ٣:٠٨ مثل دايم. «نفس الوقت بكرة؟» تقول للظلام.'),
       N_('You become the assistant keeper of Saltmere Light. You never find out what laughs at 3:07. Every night, the two of you laugh back.', '{تصير مساعد|تصيرين مساعدة} حارس منارة سولتمير. وعمرك ما {تعرف|تعرفين} وش اللي يضحك الساعة ٣:٠٧. وكل ليلة، أنتم الاثنين تضحكون تردون عليه.'),
       { end: 'EVE_STAY' }],
@@ -241,7 +241,7 @@
 
   Object.assign(GAME.END, {
     EVE_PEACE: { who: 'evelyn', title: T('3:08', '٣:٠٨'), after: T('Evelyn\'s chapter is complete.', 'خلص فصل إيفلين.'), lesson: T('Evelyn: some hauntings are just love that never got to say goodbye.', 'إيفلين: بعض الأشباح بس حب ما قدر يودّع.') },
-    EVE_STAY: { who: 'evelyn', title: T('The assistant keeper', 'مساعد الحارس'), after: T('Evelyn\'s chapter is complete.', 'خلص فصل إيفلين.'), lesson: T('Evelyn: you don\'t have to understand the dark to stop being alone in it.', 'إيفلين: ما تحتاج تفهم الظلام عشان ما تكون لحالك فيه.') },
+    EVE_STAY: { who: 'evelyn', title: T('The assistant keeper', '{مساعد|مساعدة} الحارس'), after: T('Evelyn\'s chapter is complete.', 'خلص فصل إيفلين.'), lesson: T('Evelyn: you don\'t have to understand the dark to stop being alone in it.', 'إيفلين: ما {تحتاج|تحتاجين} {تفهم|تفهمين} الظلام عشان ما {تكون|تكونين} لحالك فيه.') },
     EVE_FLEE: { who: 'evelyn', title: T('Down the cliff path', 'نزول طريق الجرف'), after: T('Evelyn\'s chapter is complete.', 'خلص فصل إيفلين.'), lesson: T('Evelyn: running is allowed. The fear comes with you, though.', 'إيفلين: الهروب مسموح. بس الخوف يجي معك.') },
     EVE_DEATH: { who: 'evelyn', death: true, title: T('The gallery', 'الشرفة'), after: T('You died. The storm was fair: Evelyn told you to clip on, and to stay inside. Load a save to try again.', '{مت|متي}. العاصفة كانت عادلة: إيفلين قالت لك {تشبك|تشبكين}، {وتقعد|وتقعدين} داخل. {حمّل|حمّلي} حفظ عشان {تحاول|تحاولين} مرة ثانية.') },
     EVE_KICK: { who: 'evelyn', title: T('Not for you', 'مو لك'), after: T('Evelyn\'s chapter is complete.', 'خلص فصل إيفلين.'), lesson: T('Evelyn: two rules is not a lot to ask.', 'إيفلين: قانونين مو كثير.') }

@@ -22,7 +22,7 @@ Object.assign(GAME.QUESTS, {
   q_rent: { title: T('Three months behind', 'متأخر ثلاث شهور'), hint: T('Someone from Victor\'s company wants the rent. Leo doesn\'t have it.', 'أحد من شركة فيكتور يبي الإيجار. وليو ما عنده.') },
   q_father: { title: T('Frank\'s Motors', 'كراج فرانك'), hint: T('Leo\'s father runs the garage at the top of town. Leo won\'t go near it.', 'أبو ليو عنده الكراج اللي فوق في البلدة. وليو ما يقرّب منه.') },
   q_secret2: { title: T('What Leo won\'t draw', 'اللي ما يرسمه ليو'), hint: T('Leo tears up one drawing every time: a car. His loft is private.', 'ليو يقطّع رسمة وحدة كل مرة: سيارة. والسطح حقه خاص.') },
-  q_final2: { title: T('Deadline', 'آخر موعد'), hint: T('The rent, the scholarship, his father. Talk to Leo tonight, at the boathouse.', 'الإيجار، والمنحة، وأبوه. كلّم ليو الليلة في بيت القوارب.') }
+  q_final2: { title: T('Deadline', 'آخر موعد'), hint: T('The rent, the scholarship, his father. Talk to Leo tonight, at the boathouse.', 'الإيجار، والمنحة، وأبوه. {كلّم|كلّمي} ليو الليلة في بيت القوارب.') }
 });
 
 /* ---------------- locations ---------------- */
@@ -135,7 +135,7 @@ Object.assign(GAME.SCRIPTS, {
     if (roll(GAME.SCRIPTS.riskLeo(s, 0.08))) return [N_('You\'re turning pages when you hear him on the ladder.', '{أنت تقلب|أنتِ تقلبين} الصفحات لما {تسمعه|تسمعينه} على السلّم.'), { jump: 'caughtLeo' }];
     s.f.sawSketchbook = true; quest('q_secret2', 'active');
     return [N_('Gulls, boats, Sami, Marco mid-joke, Elias on the Ada. Hundreds of drawings. He\'s really good.', 'نوارس، قوارب، سامي، ماركو بنص نكتة، إلياس على «آدا». مئات الرسومات. وهو شاطر من جد.'),
-      N_('Then, page after page of the same thing: a car on its side at night. And a boy your age in the driver\'s seat. Under one, very small: "Daniel. I\'m sorry."', 'وبعدين، صفحة ورا صفحة لنفس الشي: سيارة مقلوبة على جنبها بالليل. وولد بعمرك في كرسي السواق. وتحت وحدة، بخط صغير جداً: «دانيال. آسف.»')];
+      N_('Then, page after page of the same thing: a red car on its side at night. And a boy your age in the driver\'s seat. Under one, very small: "Daniel. I\'m sorry."', 'وبعدين، صفحة ورا صفحة لنفس الشي: سيارة حمرا مقلوبة على جنبها بالليل. وولد بعمرك في كرسي السواق. وتحت وحدة، بخط صغير جداً: «دانيال. آسف.»')];
   },
   leoPhone: s => {
     if (roll(GAME.SCRIPTS.riskLeo(s, 0.12))) return [N_('The phone lights up in your hand. "What are you doing?"', 'الجوال ينور في يدك. «وش {تسوي|تسوين}؟»'), { jump: 'caughtLeo' }];
@@ -146,7 +146,7 @@ Object.assign(GAME.SCRIPTS, {
   envelope: s => {
     if (roll(GAME.SCRIPTS.riskLeo(s))) return [N_('Paper rustles, too loud.', 'الورق يخشخش، بصوت عالي.'), { jump: 'caughtLeo' }];
     s.f.knowsDebt = true; quest('q_rent', 'active');
-    return [N_('A letter on thick cream paper: "Saltmere Grand Holdings. Notice of arrears. Three months. Vacate by Friday." Signed with a smile-shaped flourish: V.', 'خطاب على ورق كريمي سميك: «شركة سولتمير غراند القابضة. إشعار متأخرات. ثلاث شهور. أخلِ المكان قبل الجمعة.» وموقّع بتوقيع على شكل ابتسامة: V.')];
+    return [N_('A letter on thick cream paper: "Saltmere Grand Holdings. Notice of arrears. Three months. Vacate by the end of the week." Signed with a smile-shaped flourish: V.', 'خطاب على ورق كريمي سميك: «شركة سولتمير غراند القابضة. إشعار متأخرات. ثلاث شهور. أخلِ المكان قبل آخر الأسبوع.» وموقّع بتوقيع على شكل ابتسامة: ف.')];
   },
 
   deliveries: s => {
@@ -195,7 +195,7 @@ Object.assign(GAME.SCRIPTS, {
     N_('Leo kills the lights and signals you to keep quiet.', 'ليو يطفي الأنوار ويأشر لك {تسكت|تسكتين}.'),
     { menu: [
       { t: T('Stay quiet with him', '{تسكت|تسكتين} معه'), fx: st => addTrust('leo', 1), then: [N_('You sit on the floor in the dark, backs to the wall. The banging stops. A car leaves. Leo laughs under his breath, and you laugh too, and you don\'t know why.', 'تجلسون على الأرض بالظلام، ظهوركم للجدار. الدق يوقف. سيارة تمشي. ليو يضحك بصوت واطي، {وأنت تضحك|وأنتِ تضحكين} معه، وما {تدري|تدرين} ليش.'), L_('sad', 'Three months. I owe them three months. Victor bought every boathouse on this harbor last year. Then he tripled the rent.', 'ثلاث شهور. علي لهم ثلاث شهور. فيكتور اشترى كل بيوت القوارب في الميناء السنة اللي فاتت. وبعدين ضاعف الإيجار ثلاث مرات.'), st => { st.f.knowsDebt = true; quest('q_rent', 'active'); return null; }] },
-      { t: T('Open the door', '{تفتح|تفتحين} الباب'), fx: st => { addTrust('leo', -1); st.f.knowsDebt = true; quest('q_rent', 'active'); }, then: [N_('A man in a good suit with a bad smile. "Three months. Friday, or the locks change. Mr. Victor sends his regards."', 'رجل ببدلة حلوة وابتسامة سيئة. «ثلاث شهور. الجمعة، أو تتغير الأقفال. السيد فيكتور يسلّم عليكم.»'), N_('Leo doesn\'t look at you for the rest of the day.', 'ليو ما يطالعك باقي اليوم.')] }
+      { t: T('Open the door', '{تفتح|تفتحين} الباب'), fx: st => { addTrust('leo', -1); st.f.knowsDebt = true; quest('q_rent', 'active'); }, then: [N_('A man in a good suit with a bad smile. "Three months. End of the week, or the locks change. Mr. Victor sends his regards."', 'رجل ببدلة حلوة وابتسامة سيئة. «ثلاث شهور. آخر الأسبوع، أو تتغير الأقفال. السيد فيكتور يسلّم عليكم.»'), N_('Leo doesn\'t look at you for the rest of the day.', 'ليو ما يطالعك باقي اليوم.')] }
     ] }],
   dadCall: s => [{ show: [{ id: 'leo', e: 'neutral' }] },
     N_('Leo\'s phone rings. The screen says "Dad". He watches it ring out, then throws the phone onto the sofa.', 'جوال ليو يرن. الشاشة تقول «أبوي». يطالعه لين يوقف، وبعدين يرمي الجوال على الكنب.'),
@@ -238,7 +238,7 @@ Object.assign(GAME.SCRIPTS, {
     N_('He leaves you the boathouse key and the drawing of the house. The figure who stood outside the door is inside now.', 'يترك لك مفتاح بيت القوارب ورسمة البيت. الشخص اللي كان واقف برا الباب، صار داخل.'),
     st => st.f.leoHouse ? [N_('It is your house: the blue door that sticks, the lemon tree, your window over the garage. He finished the shading.', 'هو بيتك: الباب الأزرق اللي يعلق، وشجرة الليمون، وشباكك فوق الكراج. خلّص التظليل.')] : null, // links.js: only if you told him about your house
     { end: 'LEO_HOME' }],
-  endLeoHomeFrank: [F_('sad', 'Your friend came to the garage. Told me where you were. Showed me a drawing.', '{صديقك جا|صديقتك جت} الكراج. {قال|قالت} لي وينك. {وراني|ورتني} رسمة.'),
+  endLeoHomeFrank: [st => [st.f.frankSoft ? F_('sad', 'Your friend came to the garage. Told me where you were. Showed me a drawing.', '{صديقك جا|صديقتك جت} الكراج. {قال|قالت} لي وينك. {وراني|ورتني} رسمة.') : F_('sad', 'Your friend came to the garage. Told me where you were. Stood there till I listened.', '{صديقك جا|صديقتك جت} الكراج. {قال|قالت} لي وينك. {ووقف|ووقفت} هناك لين سمعت.')],
     F_('sad', 'I burned the wrong things, son.', 'أحرقت الأشياء الغلط يا ولدي.'),
     N_('Leo doesn\'t say anything. He just walks into his father, the way you walk into the sea when it\'s cold: all at once, so you can\'t change your mind.', 'ليو ما يقول شي. بس يمشي لأبوه، مثل ما تمشي للبحر وهو بارد: مرة وحدة، عشان ما تغير رايك.'),
     { end: 'LEO_HOME' }],
@@ -271,7 +271,7 @@ Object.assign(GAME.SCRIPTS, {
   endLeoTruth: [L_('sad', 'If I tell her, she\'ll hate me.', 'لو قلت لها، بتكرهني.'),
     N_('"Maybe," you say. "And maybe she\'s been waiting two years for someone to tell her what his last night was like."', '«يمكن،» {تقول|تقولين}. «ويمكن هي تنتظر من سنتين أحد يقول لها كيف كانت آخر ليلة له.»'),
     N_('In the morning you walk with him up Cliff Road. He has never taken this road. At the white house with every curtain closed, he stops.', 'الصبح {تمشي|تمشين} معه في شارع الجرف. عمره ما مشى هالطريق. وعند البيت الأبيض اللي كل ستايره مسكّرة، يوقف.'),
-    N_('He knocks. The door opens. A woman of about forty looks at Leo, and then at you, as if she has seen a ghost.', 'يطق. الباب ينفتح. امرأة في الأربعين تطالع ليو، وبعدين تطالعك، كأنها شافت شبح.'),
+    st => [(st.done || {}).margaret ? N_('He knocks. The door opens. Margaret sees you first, and almost smiles. Then she sees who you have brought, and holds on to the door frame.', 'يطق. الباب ينفتح. مارغريت تشوفك {أنت|أنتِ} أول، وتكاد تبتسم. وبعدين تشوف مين {جايب|جايبة} معك، وتمسك إطار الباب.') : N_('He knocks. The door opens. A woman of about forty looks at Leo, and then at you, as if she has seen a ghost.', 'يطق. الباب ينفتح. امرأة في الأربعين تطالع ليو، وبعدين تطالعك، كأنها شافت شبح.')],
     { end: 'LEO_TRUTH' }]
 });
 
@@ -281,7 +281,7 @@ Object.assign(GAME.SCRIPTS, {
 const SOON3 = T('Margaret\'s house, the lighthouse and the Grand Hotel open in the next chapters. Your save keeps everything you\'ve done.', 'بيت مارغريت، والمنارة، والفندق الكبير، ينفتحون في الفصول الجاية. والحفظ يحتفظ بكل اللي {سويته|سويتيه}.');
 Object.assign(GAME.END, {
   LEO_HOME: { who: 'leo', title: T('He goes home', 'يرجع لأهله'), after: SOON3, chapter: 2 },
-  LEO_STAY: { who: 'leo', title: T('He stays with you', 'يضل معك'), after: SOON3, chapter: 2 },
+  LEO_STAY: { who: 'leo', title: T('He applies', 'يقدّم'), after: SOON3, chapter: 2 },
   LEO_RUN: { who: 'leo', title: T('He runs', 'يهرب'), after: SOON3, chapter: 2 },
   LEO_KICK: { who: 'leo', title: T('He throws you out', 'يطردك'), after: SOON3, chapter: 2 },
   LEO_TRUTH: { who: 'leo', title: T('The knock on Margaret\'s door', 'الطقة على باب مارغريت'), after: T('To be continued in Margaret\'s chapter.', 'تكملتها في فصل مارغريت.'), chapter: 2 }

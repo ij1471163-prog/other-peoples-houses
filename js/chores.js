@@ -389,7 +389,7 @@
 
   /* ---------------- everyday chores in the houses ---------------- */
   const inElias = s => s.host === 'elias' && !s.f.ended;
-  const inLeo = s => s.host === 'leo' && !s.f.leoEnded;
+  const inLeo = s => GAME.HOST(s) === 'leo' && !s.f.leoEnded;
   const inMarg = s => s.host === 'margaret';
   const inEve = s => s.host === 'evelyn';
   const here = (s, id) => GAME.CHAR[id] && GAME.CHAR[id].where && GAME.CHAR[id].where(s) === s.loc;
@@ -419,7 +419,7 @@
         T('Potatoes baked in their skins, the way the cookbook on the shelf says. The cookbook is older than both of you put together, nearly.', 'بطاطس مشوية بقشرها، مثل ما يقول كتاب الطبخ اللي على الرف. والكتاب أقدم منكم الاثنين تقريباً.'),
         T('An omelette that turns into scrambled eggs halfway through. Nobody needs to know.', 'أومليت يتحول بيض مخفوق في النص. ومحد يحتاج يدري.')],
       react: [say('elias', 'smile', 'He eats a few bites and pushes the plate an inch away. "Lovely." It was more than yesterday.', 'ياكل كم لقمة ويبعّد الصحن شوي. «حلو.» بس أكثر من أمس.'),
-        say('elias', 'neutral', '"You cook like a man who\'s been hungry," he says. It isn\'t a complaint.', '«{تطبخ|تطبخين} مثل واحد جاع قبل،» يقول. وما هي شكوى.')] }),
+        say('elias', 'neutral', '"You cook like someone who\'s been hungry," he says. It isn\'t a complaint.', '«{تطبخ|تطبخين} مثل {واحد|وحدة} جاع قبل،» يقول. وما هي شكوى.')] }),
     job('eDish', { x: 62, y: 50, anim: 'dishes', host: 'elias', when: inElias, label: T('Wash the dishes', '{تغسل|تغسلين} الصحون'),
       lines: [T('Two cups, one plate, one spoon. A house for one, pretending to be a house for two.', 'كوبين، وصحن واحد، وملعقة. بيت لشخص واحد، يتظاهر إنه لشخصين.'),
         T('You dry the cups and hang them on their hooks. One hook stays empty. Ada\'s, probably.', '{تنشف|تنشفين} الأكواب {وتعلقها|وتعلقينها} في مكانها. فيه مسمار يبقى فاضي. حق آدا، غالباً.'),

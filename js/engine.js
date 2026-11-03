@@ -10,6 +10,8 @@
 /* ---------- text ---------- */
 const T = (en, ar) => ({ en, ar });
 const GAME = { lang: 'en', S: null, LOC: {}, CHAR: {}, TOPICS: {}, EVENTS: [], END: {}, QUESTS: {}, ITEMS: {}, UI: {}, H: {} };
+/* whose house you live in. In Leo's chapter s.host is never set (on purpose: his chapter has no house rules), so it is worked out here */
+GAME.HOST = s => (s && (s.host || (s.ch === 2 && s.f.metLeo && !s.f.leoEnded ? 'leo' : null))) || null;
 try { const l = localStorage.getItem('oph.lang'); if (l === 'en' || l === 'ar') GAME.lang = l; else if ((navigator.language || '').startsWith('ar')) GAME.lang = 'ar'; } catch (e) {}
 
 /* tx: picks the language, fills {name}, and resolves {male|female} gender markers */

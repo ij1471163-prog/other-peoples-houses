@@ -22,7 +22,7 @@ GAME.SCRIPTS = {
     { go: 'station' },
     N_('The last train. The line ends here.', 'آخر قطار. الخط ينتهي هنا.'),
     /* why you are here (docs/STORY.md §2) */
-    N_('A month ago you came home from a trip and your key didn\'t fit the door. A family you\'d never seen was eating dinner in your kitchen.', '{قبل شهر رجعت|قبل شهر رجعتي} من سفرة، والمفتاح ما ركب في الباب. عايلة {عمرك ما شفتها|عمرك ما شفتيها} كانت تتعشى في مطبخكم.'),
+    N_('Four weeks ago you came home from a trip and your key didn\'t fit the door. A family you\'d never seen was eating dinner in your kitchen.', '{قبل شهر رجعت|قبل شهر رجعتي} من سفرة، والمفتاح ما ركب في الباب. عايلة {عمرك ما شفتها|عمرك ما شفتيها} كانت تتعشى في مطبخكم.'),
     N_('Your things were in boxes by the gate. Your mother had sold the house to pay debts your father hid until the day he died. She hadn\'t found the words to tell you.', 'أغراضك كانت في كراتين عند البوابة. أمك باعت البيت عشان تسدد ديون خبّاها أبوك لين يوم مات. وما لقت الكلام اللي تقوله لك.'),
     N_('In one of the boxes, a postcard of a harbor you\'d never seen. SALTMERE. Your father\'s handwriting: "V. — I saw the hotel today. You did it, like you always said you would. I\'ll pay you back, every cent. I\'m sorry. — J." Dated 7 March. Never posted.', 'في واحد من الكراتين، كرت بريدي لميناء {عمرك ما شفته|عمرك ما شفتيه}. سولتمير. بخط أبوك: «ف. — شفت الفندق اليوم. سويتها مثل ما كنت تقول دايم. برجّع لك كل شي، كل سنت. آسف. — ج.» مكتوب عليه ٧ مارس. وما انرسل.'),
     N_('Your father never once said the word Saltmere. So you got on the last train, to find out who "V." was.', 'أبوك عمره ما قال كلمة سولتمير. {فركبت|فركبتي} آخر قطار، {عشان تعرف|عشان تعرفين} مين «ف.».'),
@@ -84,7 +84,7 @@ GAME.SCRIPTS = {
       N_('You catch nothing. He catches four. He gives you one anyway.', '{ما تصيد|ما تصيدين} شي. هو يصيد أربع. ويعطيك وحدة على كل حال.'),
       E('smile', 'Beginner\'s share.', 'نصيب المبتدئ.'),
       E('neutral', 'Afternoons, I mend the nets out back. If you\'ve nothing better to do.', 'وقت العصر أصلّح الشباك ورا البيت. إذا ما عندك شي أحسن.'),
-      E('neutral', 'And evenings, I lose at chess to Marco. Well. He loses to me.', 'والمغرب ألعب شطرنج مع ماركو. يعني، هو يخسر قدامي.'),
+      E('neutral', 'And evenings, I lose at chess to Marco. Well. He loses to me.', 'والمغرب أخسر شطرنج قدام ماركو. يعني، هو يخسر قدامي.'),
       st => { quest('q_nets', 'active'); quest('q_chess', 'active'); return null; }
     ] : [pickOne([
       N_('The sea is flat as a plate. Elias hums something under his breath. Neither of you needs to talk.', 'البحر مسطح مثل الصحن. إلياس يدندن شي بصوت واطي. ولا واحد فيكم يحتاج يتكلم.'),
@@ -112,7 +112,7 @@ GAME.SCRIPTS = {
     s.f.chessCount = (s.f.chessCount || 0) + 1; onceToday('chess'); quest('q_chess', 'done');
     if (s.f.chessCount === 1) { addTrust('elias', 1); return [
       N_('Marco brings the board and stays to watch, narrating like a sports commentator. Elias beats you in twelve moves.', 'ماركو يجيب اللوحة ويوقف يتفرج، ويعلق كأنه معلق مباراة. إلياس يغلبك في اثنعش نقلة.'),
-      E('smile', 'Thomas taught me this game. He was nine. He cheated.', 'توماس علّمني هاللعبة. كان عمره تسع. وكان يغش.'),
+      E('smile', 'Thomas learned this game at nine. At this table. He cheated.', 'توماس تعلّم هاللعبة وعمره تسع. على هالطاولة. وكان يغش.'),
       E('neutral', 'I let him.', 'وكنت أخليه.'),
       { time: 1 }
     ]; }
@@ -204,7 +204,7 @@ GAME.SCRIPTS = {
   finale: s => {
     s.f.finaleDone = true;
     const steps = [{ go: 'living' }, { show: [{ id: 'elias', e: 'sad' }] },
-      N_('Elias is weaker tonight. He didn\'t go out at all. When you come in he points at the other chair.', 'إلياس أتعب الليلة. ما طلع أبداً. أول ما {تدخل|تدخلين} يأشر على الكرسي الثاني.'),
+      N_('Elias is weaker tonight. He came home early and hasn\'t moved since. When you come in he points at the other chair.', 'إلياس أتعب الليلة. رجع بدري وما تحرك من مكانه. أول ما {تدخل|تدخلين} يأشر على الكرسي الثاني.'),
       E('neutral', 'Sit. I want to hear what you think.', '{اجلس|اجلسي}. أبي أسمع رايك.')];
     if (s.f.sentSneak) return steps.concat([
       E('angry', 'Thomas called today. He said I left him a message. I didn\'t.', 'توماس اتصل اليوم. يقول إني تركت له رسالة. وأنا ما تركت.'),

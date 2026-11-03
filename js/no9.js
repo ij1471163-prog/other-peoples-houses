@@ -25,7 +25,7 @@
     exits: [back('elias_ext')],
     spots: [
       { x: 64, y: 70, label: T('The sign', 'اللوحة'), run: s => [
-        N1('SOLD. Saltmere Grand Holdings. Underneath, a smaller notice in a plastic sleeve: numbers 3 to 11, Fisher\'s Row, scheduled for demolition.', 'مباع. شركة سولتمير غراند القابضة. وتحتها، إعلان أصغر في كيس بلاستيك: البيوت من ٣ لين ١١، شارع الصيادين، مقرر هدمها.'),
+        N1('SOLD. Saltmere Grand Holdings. Underneath, a smaller notice in a plastic sleeve: Fisher\'s Row, all numbers, scheduled for demolition.', 'مباع. شركة سولتمير غراند القابضة. وتحتها، إعلان أصغر في كيس بلاستيك: شارع الصيادين، كل البيوت، مقرر هدمها.'),
         st => (st.quests.q_petition === 'done' || st.f.tp_olivia_petition ? [N1('Someone has stuck one of Olivia\'s leaflets over the word DEMOLITION. It has been there long enough to go soft in the rain.', 'أحد لصق واحد من منشورات أوليفيا فوق كلمة «هدم». صار له فترة لين لان من المطر.')] : null)
       ] },
       { x: 73, y: 46, label: T('The boarded window', 'الشباك المسكّر بالخشب'), run: s => [
@@ -59,7 +59,7 @@
 
   /* the first time you stand there */
   GAME.EVENTS.push({ id: 'n9first', once: true, when: s => s.loc === 'no9' && !RUN, run: [
-    N1('Number 9 is smaller than you pictured. You had pictured it, you realise. All your life, without knowing what you were picturing.', 'رقم ٩ أصغر مما {تخيلت|تخيلتي}. {وتنتبه|وتنتبهين} إنك كنت {متخيله|متخيلته}. طول عمرك، بدون ما {تدري|تدرين} وش {تتخيل|تتخيلين}.'),
+    N1('Number 9 is smaller than you pictured. You had pictured it, you realise. All your life, without knowing what you were picturing.', 'رقم ٩ أصغر مما {تخيلت|تخيلتي}. {وتنتبه|وتنتبهين} إنك {كنت متخيله|كنتي متخيلته}. طول عمرك، بدون ما {تدري|تدرين} وش {تتخيل|تتخيلين}.'),
     N1('Your father walked out of this door every morning before school, down to the harbour, to learn the nets. Then one morning he walked out and didn\'t come back.', 'أبوك كان يطلع من هالباب كل صبح قبل المدرسة، ينزل للميناء، يتعلم الشباك. وبعدين صبح من الأيام طلع وما رجع.')
   ] });
 
@@ -96,7 +96,7 @@
     N1('Victor knows the tin before you open it. He sits down, which you have never seen him do in front of anyone.', 'فيكتور يعرف العلبة قبل لا {تفتحها|تفتحينها}. يجلس، وعمرك ما {شفته|شفتيه} يجلس قدام أحد.'),
     say('victor', 'sad', 'I never lifted it. For a year I couldn\'t walk down this row. After that I walked past that step every day for thirty years, and I never once lifted it. I was so angry he went. I thought if I didn\'t look, he hadn\'t left anything.', 'عمري ما رفعتها. سنة كاملة ما قدرت أمشي في هالشارع. وبعدها مريت جنب هالعتبة كل يوم ثلاثين سنة، وعمري ما رفعتها. كنت معصب مرة إنه راح. حسبت إذا ما طالعت، يعني ما خلّى شي.'),
     N1('He holds the marble for a long time. "He was terrible at marbles," he says. "I let him win this one."', 'يمسك البلية وقت طويل. «كان سيئ مرة في البلي،» يقول. «خليته يفوز بهذي.»'),
-    say('victor', 'neutral', 'Number 3 and number 9 are on my list. I signed it in a meeting. I didn\'t read the numbers. ...I will read them now.', 'رقم ٣ ورقم ٩ في قايمتي. وقعتها في اجتماع. ما قريت الأرقام. ...بقراها الحين.'),
+    say('victor', 'neutral', 'Number 3 and number 9 are on my list. I read them. I signed anyway. ...I will read them differently now.', 'رقم ٣ ورقم ٩ في قايمتي. قريت الأرقام. ووقعت على كل حال. ...بقراها غير الحين.'),
     st => { take('n9tin'); st.f.n9V = true; return null; }
   ] });
 

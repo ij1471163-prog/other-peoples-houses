@@ -50,7 +50,7 @@
     M('worry', 'I have a room. It\'s empty. It\'s... it\'s been empty a while. Just until you find somewhere. You can\'t sit out here all night, love.', 'عندي غرفة. فاضية. هي... صار لها فترة فاضية. بس لين {تلقى|تلقين} مكان. ما {تقدر|تقدرين} {تجلس|تجلسين} هنا الليل كله، يا عمري.'),
     { c: 'margaret', e: 'worry', menu: [
       { t: T('"Thank you. I\'d like that."', '«شكراً. ودي.»'), cls: 'main', then: [M('smile', 'Good. Good. Come on, then. I\'ll put the kettle on. I always put the kettle on.', 'زين. زين. {تعال|تعالي} أجل. بحط الإبريق. أنا دايم أحط الإبريق.')] },
-      { t: T('"Why would you do that for a stranger?"', '«ليش تسوين كذا لواحد ما تعرفينه؟»'), then: [M('sad', 'Because somebody should have done it for my son. And nobody did.', 'لأن كان لازم أحد يسويها لولدي. ومحد سواها.'), N1('She says it very quietly. Then she holds the umbrella over you, and doesn\'t say anything else.', 'تقولها بهدوء مرة. وبعدين تحط الشمسية فوقك، وما تقول شي ثاني.')] }
+      { t: T('"Why would you do that for a stranger?"', '«ليش تسوين كذا {لواحد|لوحدة} ما تعرفينه؟»'), then: [M('sad', 'Because somebody should have looked out for my son, that night. And nobody did.', 'لأن كان لازم أحد ينتبه لولدي، هذيك الليلة. ومحد انتبه.'), N1('She says it very quietly. Then she holds the umbrella over you, and doesn\'t say anything else.', 'تقولها بهدوء مرة. وبعدين تحط الشمسية فوقك، وما تقول شي ثاني.')] }
     ] },
     { go: 'cliff_road' },
     N1('Cliff Road. A white house with every curtain closed. She unlocks the door: three locks, one after another.', 'شارع الجرف. بيت أبيض وكل ستايره مسكّرة. تفتح الباب: ثلاث أقفال، واحد ورا الثاني.'),
@@ -104,7 +104,7 @@
       N1('Behind you she locks the door. Unlocks it. Locks it again. Checks it. Three times.', 'وراك تقفل الباب. تفتحه. تقفله مرة ثانية. تتأكد منه. ثلاث مرات.'),
       { menu: [
         { t: T('"I\'m sorry. I\'ll tell you next time."', '«{آسف|آسفة}. المرة الجاية بقول لك.»'), then: [M('smile', 'Would you? Just a text. "Back at six." That\'s all. I know it\'s silly.', 'صدق؟ بس رسالة. «راجع الساعة ست.» بس كذا. أدري إنه سخيف.'), st => { kind(st, 'worry'); return null; }] },
-        { t: T('"I\'m an adult, Margaret."', '«أنا {كبير|كبيرة} يا مارغريت.»'), then: [M('sad', 'Yes. Yes, of course you are. He was too.', 'إيه. أكيد. وهو بعد كان كبير.'), st => { tenseUp(st); return null; }] }
+        { t: T('"I\'m an adult, Margaret."', '«أنا {كبير|كبيرة} يا مارغريت.»'), then: [M('sad', 'Yes. Yes, of course you are. He thought he was, too.', 'إيه. أكيد. وهو بعد كان يحسب نفسه كبير.'), st => { tenseUp(st); return null; }] }
       ] }],
     seeing: s => [{ show: [{ id: 'margaret', e: 'blank' }] },
       N1('Margaret puts a mug of tea in front of you. A blue mug with a chipped handle and a football club badge. Everybody else\'s mugs in this house are white.', 'مارغريت تحط قدامك كوب شاي. كوب أزرق يده مكسورة شوي وعليه شعار نادي كورة. كل الأكواب الثانية في البيت بيضا.'),
@@ -119,7 +119,7 @@
     break: s => {
       const big = (s.f.mcLeft || 0) > 0;
       return [{ show: [{ id: 'margaret', e: 'angry' }] },
-        N1(big ? 'You hear it from the stairs: a plate, then another. When you reach the kitchen she has her back to the wall and her hands over her ears.' : 'You laugh at something on your phone, at dinner. Just a laugh. Margaret puts her fork down.', big ? '{تسمعها|تسمعينها} من الدرج: صحن، وبعدين صحن ثاني. ولما توصل المطبخ تلقاها ظهرها على الجدار ويدينها على أذونها.' : '{تضحك|تضحكين} على شي في جوالك، على العشا. بس ضحكة. مارغريت تحط الشوكة.'),
+        N1(big ? 'You hear it from the stairs: a plate, then another. When you reach the kitchen she has her back to the wall and her hands over her ears.' : 'You laugh at something on your phone, at dinner. Just a laugh. Margaret puts her fork down.', big ? '{تسمعها|تسمعينها} من الدرج: صحن، وبعدين صحن ثاني. ولما {توصل|توصلين} المطبخ {تلقاها|تلقينها} ظهرها على الجدار ويدينها على أذونها.' : '{تضحك|تضحكين} على شي في جوالك، على العشا. بس ضحكة. مارغريت تحط الشوكة.'),
         snd('marg-scream', 0.9),
         M('scream', big ? 'Don\'t. Don\'t come near me. You don\'t get to walk out and walk back in. HE didn\'t get to!' : 'Don\'t laugh like that. Don\'t you DARE laugh like that. That\'s HIS laugh.', big ? 'لا. لا {تقرب|تقربين} مني. ما يحق لك {تطلع|تطلعين} {وترجع|وترجعين}. هو ما رجع!' : 'لا {تضحك|تضحكين} كذا. إياك {تضحك|تضحكين} كذا. هذي ضحكته هو.'),
         M('cry', 'You\'re not him. You\'re in his house and his chair and you\'re NOT him!', '{أنت مو هو|أنتِ مو هو}. {أنت|أنتِ} في بيته وعلى كرسيه {وأنت|وأنتِ} مو هو!'),
@@ -195,7 +195,7 @@
       st => { VIEW.bgOver = Object.assign({}, VIEW.bgOver, { marg_guest: 'marg_bedside2' }); return null; },
       Object.assign(M('blank', 'I was just making sure you were breathing. Go back to sleep, Danny.', 'كنت بس أتأكد إنك تتنفس. ارجع نام، يا داني.'), { off: true }),
       { menu: [
-        { t: T('"It\'s me, Margaret. Not Danny."', '«هذا أنا يا مارغريت. مو داني.»'), then: [st => { if (VIEW.bgOver) delete VIEW.bgOver.marg_guest; return null; }, { show: [{ id: 'margaret', e: 'worry' }] }, M('worry', 'I know. I know it is. I\'m sorry. I know.', 'أدري. أدري إنه أنت. آسفة. أدري.'), N1('She goes. She leaves the door open a crack. You don\'t sleep again.', 'تروح. وتخلي الباب مفتوح شوي. وما {تنام|تنامين} بعدها.'), st => { kind(st, 'bedside'); return null; }] },
+        { t: T('"It\'s me, Margaret. Not Danny."', '«{هذا|هذي} أنا يا مارغريت. مو داني.»'), then: [st => { if (VIEW.bgOver) delete VIEW.bgOver.marg_guest; return null; }, { show: [{ id: 'margaret', e: 'worry' }] }, M('worry', 'I know. I know it is. I\'m sorry. I know.', 'أدري. أدري إنه أنت. آسفة. أدري.'), N1('She goes. She leaves the door open a crack. You don\'t sleep again.', 'تروح. وتخلي الباب مفتوح شوي. وما {تنام|تنامين} بعدها.'), st => { kind(st, 'bedside'); return null; }] },
         { t: T('Pretend to be asleep', '{سوّ|سوّي} نفسك {نايم|نايمة}'), then: [N1('You lie still. After a long time she stands, tucks the blanket in around your feet, very tight, the way you do for a small child, and goes.', '{تتمدد|تتمددين} بدون حركة. بعد وقت طويل توقف، وتدخل البطانية حول رجولك، مشدودة مرة، مثل ما تسوي لطفل صغير، وتروح.'), st => { tenseUp(st); return null; }] }
       ] }, st => { if (VIEW.bgOver) delete VIEW.bgOver.marg_guest; return null; }, { show: null }] },
     { id: 'phone', mood: [1, 2, 3], slot: [0, 1, 2, 3], run: s => [

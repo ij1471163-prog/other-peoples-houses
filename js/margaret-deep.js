@@ -53,7 +53,7 @@
   const H = [
     { id: 'mirror', when: s => dM(s) >= 1 && s.slot === 0 && (s.loc === 'marg_guest' || s.loc === 'marg_bath'), run: s => [snd('creak3', 0.4),
       N1('You wash your face and look up. In the mirror your hair is parted on the left, combed flat, neat as a school photo.', '{تغسل|تغسلين} وجهك {وترفع|وترفعين} راسك. في المراية شعرك مفروق على اليسار، ممشط ومرتب، مثل صورة مدرسة.'),
-      N1('You have never parted your hair on the left in your life. The boy over the fireplace does.', 'عمرك ما فرقت شعرك على اليسار. الولد اللي فوق المدفأة يفرقه كذا.'),
+      N1('You have never parted your hair on the left in your life. The boy over the fireplace does.', 'عمرك ما {فرقت|فرقتي} شعرك على اليسار. الولد اللي فوق المدفأة يفرقه كذا.'),
       N1('On the edge of the sink: a comb you have never seen, with one grey hair in it, and one of yours.', 'على طرف المغسلة: مشط عمرك ما {شفته|شفتيه}، فيه شعرة رمادية وحدة، وشعرة منك.'),
       st => { st.f.mdMirror = true; return null; }] },
     { id: 'heights', when: s => dM(s) >= 2 && s.slot >= 2 && s.slot <= 3 && s.loc === 'marg_living', run: s => [
@@ -66,7 +66,7 @@
       { menu: [
         { t: T('Keep turning the pages', '{كمل|كملي} تقليب الصفحات'), then: [
           N1('The last two pages are new. The photos are of a bed, in a dim room, taken from the doorway. Someone asleep under the blanket, one arm hanging down.', 'آخر صفحتين جديدة. الصور لسرير، في غرفة معتمة، متصورة من الباب. أحد نايم تحت البطانية، ويده متدلية.'),
-          N1('It\'s you. Seven nights. Seven photos. Under each one, in pencil: "Home."', '{هذا أنت|هذي أنتِ}. سبع ليالي. سبع صور. وتحت كل وحدة، بالرصاص: «في البيت.»'),
+          N1('It\'s you. Every night since you came, one photo. Under each one, in pencil: "Home."', '{هذا أنت|هذي أنتِ}. كل ليلة من جيت، صورة. وتحت كل وحدة، بالرصاص: «في البيت.»'),
           st => { st.f.mdAlbum = true; return null; }] },
         { t: T('Close it', '{سكّره|سكّريه}'), then: [N1('You close it. Later the album is gone, and the sofa cushion has been plumped as if no one ever sat there.', '{تسكّره|تسكّرينه}. وبعدين الألبوم يختفي، ومخدة الكنبة متعدلة كأن محد جلس عليها.')] }
       ] }] },
@@ -77,7 +77,7 @@
     { id: 'voice2', when: s => !!s.f.mdVoice && s.day - s.f.mdVoice >= 2 && s.slot === NIGHT && home(s), run: s => [
       beep, N1('The beep again, through the wall. You wait for the boy\'s voice.', 'التيت مرة ثانية، من ورا الجدار. {تنتظر|تنتظرين} صوت الولد.'),
       N1('"...yeah, I\'m fine, I\'m home, don\'t worry."', '«...إيه، أنا بخير، أنا في البيت، لا {تشيل|تشيلين} هم.»'),
-      N1('It\'s your voice. Something you said on the phone in the kitchen, days ago. Recorded. Cut so it starts in the middle. Beep. Again. "...I\'m fine, I\'m home."', 'هذا صوتك. شي {قلته|قلتيه} في التلفون في المطبخ، قبل أيام. متسجل. ومقصوص عشان يبدأ من النص. تيت. مرة ثانية. «...أنا بخير، أنا في البيت.»'),
+      N1('It\'s your voice. Something you said in your sleep, days ago, with the phone left on the bedside table. Recorded. Cut so it starts in the middle. Beep. Again. "...I\'m fine, I\'m home."', 'هذا صوتك. شي {قلته|قلتيه} وأنت{|ِ} {نايم|نايمة}، قبل أيام، والجوال على الكومدينة. متسجل. ومقصوص عشان يبدأ من النص. تيت. مرة ثانية. «...أنا بخير، أنا في البيت.»'),
       { menu: [
         { t: T('Knock on her wall, softly', '{دق|دقي} على جدارها، بشويش'), then: [N1('The playing stops. A long silence. Then, very quietly, from the other side, she knocks back. Twice. Then the house is silent until morning.', 'التشغيل يوقف. سكوت طويل. وبعدين، بهدوء مرة، من الجهة الثانية، تدق هي. مرتين. وبعدها البيت ساكت لين الصبح.'), st => { kind(st, 'voice'); return null; }] },
         { t: T('Put the pillow over your head', '{حط|حطي} المخدة على راسك'), then: [N1('Through the pillow, faintly, all night: "...I\'m fine, I\'m home."', 'من ورا المخدة، خفيف، طول الليل: «...أنا بخير، أنا في البيت.»'), st => { addMood(-1); return null; }] }
@@ -118,7 +118,7 @@
     snd('gravel', 0.4), M('worry', 'Don\'t. Please. Close it.', 'لا. {تكفى|تكفين}. {سكّرها|سكّريها}.'),
     N1('She is behind you. She isn\'t looking at the window. She is looking at the floor.', 'هي وراك. ما تطالع الشباك. تطالع الأرض.'),
     M('sad', 'That night I watched headlights come up that road for four hours. Every one of them was him. Then at eleven one of them was the police.', 'هذيك الليلة طالعت أنوار السيارات وهي تطلع هالطريق أربع ساعات. وكل وحدة فيها كانت هو. وبعدين الساعة إحدعش وحدة منها كانت الشرطة.'),
-    M('sad', 'I can\'t look at headlights coming up the hill. That\'s all the curtains are. It\'s not mad. It\'s just that.', 'ما أقدر أطالع أنوار طالعة التلة. هذا كل سالفة الستاير. مو جنون. بس كذا.'),
+    M('sad', 'He used to nag me to open them. Now I can\'t look at headlights coming up the hill. That\'s all the curtains are. It\'s not mad. It\'s just that.', 'كان يزن علي أفتحها. والحين ما أقدر أطالع أنوار طالعة التلة. هذا كل سالفة الستاير. مو جنون. بس كذا.'),
     { menu: [
       { t: T('Close the curtain, and stay with her', '{سكّر|سكّري} الستارة، {واقعد|واقعدي} معها'), then: [N1('You close it. She lets out a breath she has been holding since you came in, and sits down, and so do you.', '{تسكّرها|تسكّرينها}. وتطلع نفَس كانت ماسكته من دخلت، وتجلس، {وتجلس|وتجلسين} معها.'), st => kind(st, 'lights')] },
       { t: T('"They\'re just cars, Margaret."', '«بس سيارات يا مارغريت.»'), then: [M('sad', 'I know. I know they are.', 'أدري. أدري إنها كذا.')] }
@@ -134,7 +134,7 @@
   GAME.EVENTS.push({ id: 'mdMartha', once: true, when: s => inM(s) && !RUN && weekday(s.day) === 4 && s.slot === 2 && s.loc === 'marg_kitchen' && dM(s) >= 1, run: s => [
     { show: [{ id: 'martha', e: 'smile' }, { id: 'margaret', e: 'smile' }] },
     N1('Thursday. Martha and Margaret at the kitchen table with the newspaper folded to the crossword and a pot of tea between them, arguing.', 'الخميس. مارثا ومارغريت على طاولة المطبخ والجريدة مطوية على الكلمات المتقاطعة وإبريق شاي بينهم، ويتهاوشون.'),
-    C('martha', 'smile', 'Seven letters, "a feeling of great happiness." It\'s ELATION.', 'سبع حروف، «شعور بفرح كبير.» بهجة.'),
+    C('martha', 'smile', 'Seven letters, "a feeling of great happiness." It\'s ELATION.', '«شعور بفرح كبير.» أربع حروف. بهجة.'),
     M('smile', 'It\'s RAPTURE, Martha, it\'s always rapture, you say elation every week and it\'s never elation.', 'نشوة يا مارثا، دايم نشوة، كل أسبوع تقولين بهجة وعمرها ما كانت بهجة.'),
     N1('Margaret laughs. A real laugh, loud, a bit like a seal. You have never heard it before. Martha catches your eye over her glasses, and winks.', 'مارغريت تضحك. ضحكة حقيقية، عالية، شوي مثل الفقمة. عمرك ما {سمعتها|سمعتيها} قبل. ومارثا تطالعك من فوق نظارتها، وتغمز.'),
     C('martha', 'neutral', 'Twenty years we\'ve done this. She missed one Thursday. One. The week after. Then she turned up at my door with the paper and a pen and said "I need something with answers in it."', 'عشرين سنة نسويها. فوتت خميس واحد. واحد بس. الأسبوع اللي بعده. وبعدين جت عند بابي ومعها الجريدة والقلم وقالت «أحتاج شي له أجوبة.»'),

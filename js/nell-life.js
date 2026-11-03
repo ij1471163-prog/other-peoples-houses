@@ -54,7 +54,7 @@
     st => { st.f.nlBoard = true; return null; }
   ] });
   push('cafe', { x: 18, y: 30, label: T('An old photo by the door', 'صورة قديمة جنب الباب'), if: s => s.f.nlIngrid || s.f.nlMartha, run: s => [
-    N1('Behind the coat hooks, a photo gone orange with age: the café, years ago, full and smoky. A woman at the piano; a younger, laughing Ingrid; and at the microphone a girl in a yellow oilskin far too big for her, mid-note, eyes shut.', 'ورا علاقات الكوتات، صورة صارت برتقالية من القدم: المقهى، من سنين، مليان ودخان. امرأة على البيانو؛ وإنغريد أصغر وتضحك؛ وعند الميكروفون بنت لابسة كوت أصفر كبير عليها مرة، بنص نغمة، ومغمضة عيونها.'),
+    N1('Behind the coat hooks, a photo gone orange with age: the café, years ago, full and smoky. A man at the piano; a younger, laughing Ingrid; and at the microphone a girl in a yellow oilskin far too big for her, mid-note, eyes shut.', 'ورا علاقات الكوتات، صورة صارت برتقالية من القدم: المقهى، من سنين، مليان ودخان. رجّال على البيانو؛ وإنغريد أصغر وتضحك؛ وعند الميكروفون بنت لابسة كوت أصفر كبير عليها مرة، بنص نغمة، ومغمضة عيونها.'),
     N1('On the frame, in ballpoint: "Thursday, July 1980".', 'على الإطار، بالقلم: «خميس، يوليو ١٩٨٠».'),
     st => { st.f.nlPhoto = true; return null; }
   ] });

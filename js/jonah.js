@@ -48,7 +48,7 @@
 
   const texts = (msgs, sub) => ({ mini: 'texts', who: MOM, sub: sub || T('mobile', 'جوال'), msgs });
   const step = s => s.f.jm || 0;
-  const busy = s => !s || RUN || s.f.prologue || s.f.ended && !s.host;
+  const busy = s => !s || RUN || s.f.prologue || s.f.ended && !s.host && !s.f.sandbox;   /* (free play after the end: the thread can still finish) */
   const quiet = s => s.slot >= 3;   /* evenings and nights: when people write to you */
 
   /* ---------- 1. the first answer, and the photo ---------- */
@@ -65,7 +65,7 @@
         st => { st.f.jm = 1; st.f.jmDay = st.day; quest('q_jonah', 'active'); give('jphoto'); return null; },
         texts([
           { t: T('Just one word so I know you\'re alive.', 'بس كلمة وحدة عشان أعرف إنك {حي|حية}.'), time: T('today', 'اليوم') },
-          { me: true, type: true, drafts: [T('I\'m fine', 'أنا بخير'), T('Why didn\'t you tell me', 'ليش ما قلتي لي')], t: T('Alive. In Saltmere. Dad grew up here. Did you know?', '{حي|حية}. في سولتمير. أبوي تربى هنا. كنتي تدرين؟') },
+          { me: true, type: true, drafts: [T('I\'m fine', 'أنا بخير'), T('Why didn\'t you tell me', 'ليش ما قلتي لي')], t: s => s.f.knowJonah ? T('Alive. In Saltmere. Dad grew up here. Did you know?', '{حي|حية}. في سولتمير. أبوي تربى هنا. كنتي تدرين؟') : T('Alive. In Saltmere. The town on Dad\'s postcard. Did he ever mention it?', '{حي|حية}. في سولتمير. البلد اللي في كرت أبوي. عمره جاب طاريها؟') },
           { t: T('...', '...'), wait: 2400 },
           { t: T('No. He never said that name. Not once in 26 years.', 'لا. عمره ما قال هالاسم. ولا مرة في ٢٦ سنة.') },
           { t: T('Wait. There\'s a box of his I never opened. Hold on.', 'لحظة. فيه كرتون حقه عمري ما فتحته. {انتظر|انتظري}.'), wait: 2600 },
@@ -78,7 +78,7 @@
       { t: T('Turn it face down again', '{اقلبه|اقلبيه} على وجهه مرة ثانية'), then: [st => { st.f.jmLater = st.day; return null; }, N1('Forty-eight unread.', 'ثمان وأربعين ما انقرت.')] }
     ] }
   ];
-  GAME.EVENTS.push({ id: 'jonah1', when: s => !busy(s) && step(s) === 0 && s.host && s.day >= 2 && quiet(s) && s.f.jmLater !== s.day && ['your_room', 'sami_attic', 'loft', 'lh_room', 'marg_guest', 'hotel_suite', 'living'].includes(s.loc), run: s => GAME.SCRIPTS.jonah1(s) });
+  GAME.EVENTS.push({ id: 'jonah1', when: s => !busy(s) && step(s) === 0 && !s.f.calledMother && (GAME.HOST(s) || s.f.sandbox) && s.day >= 2 && quiet(s) && s.f.jmLater !== s.day && ['your_room', 'sami_attic', 'loft', 'lh_room', 'marg_guest', 'hotel_suite', 'living'].includes(s.loc), run: s => GAME.SCRIPTS.jonah1(s) });
 
   /* the photo, to people who were there */
   GAME.TOPICS.gregor = GAME.TOPICS.gregor || [];
@@ -92,7 +92,7 @@
   GAME.TOPICS.elias.push({ id: 'jticket', once: true, label: T('Ask how Jonah could afford to leave', '{تسأله|تسألينه} كيف جونا قدر يطلع'), if: s => has('jphoto') && (s.f.knowJonah || s.f.jGregor), run: [
     N1('Elias looks at the photo for a long time. Then he gets up and puts the kettle on, which is what he does instead of answering.', 'إلياس يطالع الصورة وقت طويل. وبعدين يقوم ويحط الغلاية، وهذا اللي يسويه بدال ما يجاوب.'),
     say('elias', 'neutral', 'Jonah\'s father drank the boat money. There was no ticket. There was no city. There was going to be gutting fish at number 9 until he died, like his father.', 'أبو جونا شرب فلوس القارب. ما كان فيه تذكرة. ولا مدينة. كان بيظل ينظف سمك في رقم ٩ لين يموت، مثل أبوه.'),
-    say('elias', 'sad', 'Then one morning the outboard motor off the Gascoigne boat was gone. Victor\'s father\'s boat. Sold in the next town for the price of a train ticket and a month\'s rent.', 'وبعدين صباح من الأيام، مكينة القارب حق عيلة غاسكوين اختفت. قارب أبو فيكتور. انباعت في البلد اللي جنبنا بسعر تذكرة قطار وإيجار شهر.'),
+    say('elias', 'sad', 'Then one morning the outboard motor off the Gascoigne boat was gone. The boat Victor\'s father mended nets on, and borrowed when they let him. Sold in the next town for the price of a train ticket and a month\'s rent.', 'وبعدين صباح من الأيام، مكينة القارب حق عيلة غاسكوين اختفت. القارب اللي كان أبو فيكتور يصلّح شباكه، ويستلفه إذا خلّوه. انباعت في البلد اللي جنبنا بسعر تذكرة قطار وإيجار شهر.'),
     say('elias', 'sad', 'Victor took the beating for it. A bad one. He never said where the money went. I only know because I saw him put an envelope in Jonah\'s coat at the station, and walk away before the train came.', 'فيكتور أكل الضرب عليها. ضرب شين. وعمره ما قال وين راحت الفلوس. وأنا ما أعرف إلا لأني شفته يحط ظرف في كوت جونا في المحطة، ويمشي قبل لا يجي القطار.'),
     say('elias', 'neutral', 'He was seventeen. He stayed so your father could go.', 'كان عمره سبعطعش. قعد عشان أبوك يقدر يروح.'),
     s => { s.f.jTicket = true; addMood(-1); return null; }
@@ -105,7 +105,7 @@
       { t: T('I went through his bank papers. All of them. I couldn\'t sleep.', 'فتشت أوراق البنك حقته. كلها. ما قدرت أنام.') },
       { t: T('I always thought he was paying someone back. Every month, the money just disappeared.', 'كنت دايم أحسبه يسدد لأحد. كل شهر، الفلوس تختفي.') },
       { t: T('It wasn\'t going OUT.', 'ما كانت تطلع.'), wait: 1800 },
-      { t: T('It was coming IN. Every time we were short. 25 years. From something called Saltmere Grand Holdings.', 'كانت تدخل. كل مرة كنا ناقصين. ٢٥ سنة. من شي اسمه سولتمير غراند القابضة.') },
+      { t: T('It was coming IN. Every time we were short. 25 years. From Saltmere Grand Holdings. The same name as the letters after the funeral. The ones that took the house.', 'كانت تدخل. كل مرة كنا ناقصين. ٢٥ سنة. من سولتمير غراند القابضة. نفس الاسم اللي على الرسايل بعد الجنازة. اللي أخذوا البيت.') },
       { t: T('Your school trip. The roof. My operation. It\'s all there. Who ARE these people?', 'رحلة مدرستك. السقف. عمليتي. كلها هنا. مين هالناس؟') }
     ]),
     { menu: [
@@ -115,7 +115,7 @@
     N1('So it was never one debt. It was twenty-five years of somebody quietly catching your family every time it fell. And then, the moment Dad died, the same hand closing.', 'يعني ما كان دين واحد. كان خمسة وعشرين سنة أحد يلقف عيلتكم بهدوء كل ما طاحت. وبعدين، لحظة ما مات أبوك، نفس اليد تتسكر.'),
     s2 => { s2.f.jm = 2; s2.f.jmDay = s2.day; return null; }
   ];
-  GAME.EVENTS.push({ id: 'jonah2', when: s => !busy(s) && step(s) === 1 && s.ch >= 2 && s.day > (s.f.jmDay || 0) && quiet(s) && s.host, run: s => GAME.SCRIPTS.jonah2(s) });
+  GAME.EVENTS.push({ id: 'jonah2', when: s => !busy(s) && step(s) === 1 && s.ch >= 2 && s.day > (s.f.jmDay || 0) && quiet(s) && (GAME.HOST(s) || s.f.sandbox), run: s => GAME.SCRIPTS.jonah2(s) });
   GAME.TOPICS.frank = GAME.TOPICS.frank || [];
   GAME.TOPICS.frank.push({ id: 'jsgh', once: true, label: T('Ask about Saltmere Grand Holdings', '{تسأله|تسألينه} عن سولتمير غراند القابضة'), if: s => step(s) >= 2 && !!s.f.metFrank, run: [
     say('frank', 'neutral', 'Grand Holdings? They own my loan. Polite letters. Every month.', 'غراند القابضة؟ هم يملكون قرضي. رسايل مؤدبة. كل شهر.'),
@@ -126,10 +126,10 @@
 
   /* ---------- 3. the letter in the wallet ---------- */
   GAME.SCRIPTS.jonah3 = s => [
-    N1('A parcel is waiting for you, sent care of Sami\'s shop. Your mother\'s handwriting on the label, very careful. Inside: your father\'s old wallet, and a note.', 'فيه طرد ينتظرك، مرسول على عنوان بقالة سامي. خط أمك على الورقة، مرتب مرة. داخله: محفظة أبوك القديمة، وورقة.'),
-    N1('"This was in his wallet behind his driving licence. It\'s not to me. I think it\'s to the man who owns that hotel. I think you should read it first. — Mum"', '«هذي كانت في محفظته ورا الرخصة. مو لي. أحسها للرجال اللي يملك ذاك الفندق. أحس لازم {تقراها أنت|تقرينها أنتِ} أول. — أمك»'),
+    N1('A parcel is waiting for you at the grocery, addressed to "the shop by the harbour, Saltmere". Your mother\'s handwriting on the label, very careful. Inside: your father\'s old wallet, and a note.', 'فيه طرد ينتظرك في البقالة، مكتوب عليه «الدكان اللي جنب الميناء، سولتمير». خط أمك على الورقة، مرتب مرة. داخله: محفظة أبوك القديمة، وورقة.'),
+    N1('"This was in his wallet behind his driving licence. It\'s not to me. I think it\'s to whoever V. is. I think you should read it first. — Mum"', '«هذي كانت في محفظته ورا الرخصة. مو لي. أحسها لـ«ف.»، أياً كان. أحس لازم {تقراها أنت|تقرينها أنتِ} أول. — أمك»'),
     st => { give('jletter'); st.f.jm = 3; st.f.jmDay = st.day; return null; },
-    { mini: 'paper', kind: 'letter', body: T('V.,\nI stood across from your hotel today for an hour. You did it. You actually did it. I wanted to come in and say so, and I couldn\'t.\nBecause if I walk into that lobby I have to say it out loud: that the boy who was going to get out was you. That you sold your dad\'s engine and took the beating and put me on the train, and I let you. And then I wrote to you for money every time I failed, for twenty-five years, and you never once said no, and I never once said thank you.\nI\'m going to pay you back. Every cent. Then I\'ll come in.\nJ.', 'ف.،\nوقفت قدام فندقك اليوم ساعة. سويتها. سويتها صدق. كنت أبي أدخل وأقولها لك، وما قدرت.\nلأني لو دخلت ذاك اللوبي لازم أقولها بصوت عالي: إن الولد اللي كان بيطلع هو أنت. إنك بعت مكينة أبوك وأكلت الضرب وركبتني القطار، وأنا خليتك. وبعدين كتبت لك أطلب فلوس كل ما فشلت، خمسة وعشرين سنة، وأنت ولا مرة قلت لا، وأنا ولا مرة قلت شكراً.\nبرجّع لك. كل سنت. وبعدين بدخل.\nج.') },
+    { mini: 'paper', kind: 'letter', body: T('V.,\nI came back and stood across from your hotel again today, for an hour. You did it. You actually did it. I wanted to come in and say so, and I couldn\'t.\nBecause if I walk into that lobby I have to say it out loud: that the boy who was going to get out was you. That you sold your dad\'s engine and took the beating and put me on the train, and I let you. And then I wrote to you for money every time I failed, for twenty-five years, and you never once said no, and I never once said thank you.\nI\'m going to pay you back. Every cent. Then I\'ll come in.\nJ.', 'ف.،\nرجعت ووقفت قدام فندقك اليوم مرة ثانية، ساعة. سويتها. سويتها صدق. كنت أبي أدخل وأقولها لك، وما قدرت.\nلأني لو دخلت ذاك اللوبي لازم أقولها بصوت عالي: إن الولد اللي كان بيطلع هو أنت. إنك بعت مكينة أبوك وأكلت الضرب وركبتني القطار، وأنا خليتك. وبعدين كتبت لك أطلب فلوس كل ما فشلت، خمسة وعشرين سنة، وأنت ولا مرة قلت لا، وأنا ولا مرة قلت شكراً.\nبرجّع لك. كل سنت. وبعدين بدخل.\nج.') },
     N1('He never came in. He never paid it back. And the man upstairs read his name on a file and signed anyway.', 'ما دخل أبد. وما رجّع شي. والرجال اللي فوق قرا اسمه على ملف ووقّع على كل حال.'),
     N1('You fold it small again, the way he kept it.', '{تطويها|تطوينها} صغيرة مرة ثانية، مثل ما كان يحفظها.')
   ];
@@ -152,7 +152,7 @@
     N1('"...Hi." Her voice is smaller than you remember. "You called."', '«...هلا.» صوتها أصغر مما {تتذكر|تتذكرين}. «{اتصلت|اتصلتي}.»'),
     N1('She waits. She has learned to wait.', 'تنتظر. تعلمت تنتظر.'),
     { menu: [
-      { t: T('Tell her everything. The wall, the engine, the money, the file.', '{قل|قولي} لها كل شي. السور، والمكينة، والفلوس، والملف.'), then: [
+      { t: T('Tell her everything. The wall, the engine, the money, the file.', '{قل|قولي} لها كل شي. السور، والمكينة، والفلوس، والملف.'), hide: st => !st.f.jTicket, then: [
         N1('It takes an hour. She stops you only once, at the engine. "He never told me," she says. "He let me think he did it all himself." Then: "That\'s so like him I could scream."', 'ياخذ ساعة. توقفك مرة وحدة بس، عند المكينة. «عمره ما قال لي،» تقول. «خلاني أحسب إنه سواها كلها بنفسه.» وبعدين: «هذا يشبهه لدرجة أبي أصارخ.»'),
         N1('"I\'m not angry at him," she says at the end, surprised. "I\'m angry I never got to meet the other boy."', '«مو زعلانة منه،» تقول في الأخير، متفاجئة. «زعلانة إني ما قابلت الولد الثاني أبد.»'),
         st => { st.f.jCall = 'all'; addMood(2); return null; }] },

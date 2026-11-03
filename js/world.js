@@ -115,7 +115,7 @@ GAME.LOC = {
       { to: 'kitchen', x: 6, y: 40, label: T('Kitchen', 'المطبخ') }
     ],
     spots: [
-      { x: 18, y: 30, label: T('Photographs', 'صور'), run: s => { s.f.sawPhotos = true; return [{ n: T('A woman laughing on the deck of a boat: Ada. And a boy of nine on Elias\'s shoulders, holding a fish bigger than his arm.', 'امرأة تضحك على سطح قارب: آدا. وولد عمره تسع سنين على كتف إلياس، ماسك سمكة أكبر من ذراعه.') }]; } },
+      { x: 18, y: 30, label: T('Photographs', 'صور'), run: s => { s.f.sawPhotos = true; return [{ n: T('A woman laughing on the deck of a boat: Ada. And a boy of eleven or so on Elias\'s shoulders, holding a fish bigger than his arm.', 'امرأة تضحك على سطح قارب: آدا. وولد عمره تسع سنين على كتف إلياس، ماسك سمكة أكبر من ذراعه.') }]; } },
       { x: 73, y: 53, label: T('Radio', 'الراديو'), run: s => [{ n: T('An old radio. It only gets one station, and that station only plays songs older than you.', 'راديو قديم. ما يجيب إلا محطة وحدة، والمحطة ما تشغل إلا أغاني أقدم منك.') }] },
       { x: 87, y: 60, label: T('Telephone', 'الهاتف'), risk: s => s.slot === NIGHT, run: s => GAME.SCRIPTS.phoneSpot(s) }
     ]

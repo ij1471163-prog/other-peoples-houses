@@ -103,7 +103,7 @@
         C('nora', 'angry', '...No, Irene, I am not "calming down". Gold G. G for Grand. My sister thinks her dead son visits her at night because a man in a white coat sold her dreams in a bottle.', '...لا يا إيرين، ما راح «أهدى». حرف «G» الذهبي. G يعني غراند. أختي تحسب ولدها الميت يزورها بالليل لأن رجال لابس أبيض باع لها أحلام في علبة.'),
         C('nora', 'angry', 'Yes. Yes, I wrote it all down. Dates, the bottles, the "pharmacist" with the nice teeth. I\'m taking it to that hotel right now and I am going to have several words.', 'إيه. إيه، كتبت كل شي. التواريخ، والعلب، و«الصيدلي» أبو الأسنان الحلوة. وأنا رايحة فيها للفندق الحين، وبقول كم كلمة.'),
         N1('A pause. Whatever Irene says, it stops her. When she speaks again her voice is very small.', 'سكتة. اللي قالته إيرين، وقّفها. ولما تتكلم مرة ثانية صوتها صغير مرة.'),
-        C('nora', 'sad', '...You\'re right. If I go in there shouting, he\'ll smile and I\'ll be the mad sister. Mags needs me at the house, not at the hotel. ...Thank you. Sorry. Thank you.', '...معك حق. لو دخلت أصارخ، بيبتسم وبصير أنا الأخت المجنونة. ماغز تحتاجني في البيت، مو في الفندق. ...شكراً. آسفة. شكراً.'),
+        C('nora', 'sad', '...You\'re right. If I go in there shouting, he\'ll smile and I\'ll be the mad sister. Mags needs me at the house, not at the hotel. ...Thank you. Sorry. Thank you.', '...معك حق. لو دخلت أصارخ، بيبتسم وبصير أنا الأخت المجنونة. ماقز تحتاجني في البيت، مو في الفندق. ...شكراً. آسفة. شكراً.'),
         N1('She hangs up. Then she sees you, half behind the menu board, holding a chalk duster you picked up to look busy.', 'تسكّر. وبعدين تشوفك، نصك ورا اللوحة، {ماسك|ماسكة} ممسحة طباشير {شلتها|شلتيها} عشان تبين مشغول.'),
         C('nora', 'neutral', 'How much did you hear. ...All of it. Good. Then you know. Come for soup on Sunday. She eats when there\'s three of us.', 'كم {سمعت|سمعتي}. ...كله. زين. أجل {تعرف|تعرفين}. {تعال|تعالي} للشوربة يوم الأحد. هي تاكل لما نكون ثلاثة.'),
         st => { st.f.sdNora = true; return null; }] },
@@ -172,7 +172,7 @@
   Object.assign(GAME.ITEMS, { cupmarble: { name: T('A marble by the teacup', 'بلية جنب الكوب'), desc: T('Old, chipped, warm, for no reason.', 'قديمة، فيها شطفة، ودافية، بدون سبب.') } });
   push('lh_kitchen', { x: 62, y: 52, label: T('Put out a second cup of tea', '{حط|حطي} كوب شاي ثاني'), if: s => inE(s) && (s.f.sawKeeper || 0) >= 1 && !s.f.keeperPeace && !s.f.sdCup && s.slot === NIGHT, run: s => { s.f.sdCup = s.day; return [
     N1('You make tea at three, because that\'s what this house does. Two cups. You leave the second on the table across from you, black, the way the old men in Saltmere drink it.', '{تسوي|تسوين} شاي الساعة ثلاث، لأن هذا اللي يسويه هالبيت. كوبين. {وتخلي|وتخلين} الثاني على الطاولة قدامك، سادة، مثل ما يشربه شيبان سولتمير.'),
-    N1('Nothing happens. The clock ticks. The lamp turns overhead. You go back to bed, and feel silly, and don\'t.', 'ولا شي يصير. الساعة تتكتك. والفانوس يلف فوق. {ترجع|ترجعين} للسرير، {وتحس|وتحسين} إنك سخيف، وما {تحس|تحسين}.')]; } });
+    N1('Nothing happens. The clock ticks. The lamp turns overhead. You go back to bed, and feel silly, and don\'t.', 'ولا شي يصير. الساعة تتكتك. والفانوس يلف فوق. {ترجع|ترجعين} للسرير، {وتحس|وتحسين} إنك {سخيف|سخيفة}، وما {تحس|تحسين} كذا.')]; } });
   GAME.ENTER_HOOKS = GAME.ENTER_HOOKS || [];
   GAME.ENTER_HOOKS.push(s => {
     if (!s || RUN || !inE(s) || !s.f.sdCup || s.f.sdCupSeen || s.day <= s.f.sdCup || s.loc !== 'lh_kitchen') return null;
@@ -180,9 +180,9 @@
     return [N1('The second cup is where you left it. Empty, and still warm. Beside it, set down carefully on a folded tea towel, a red glass marble.', 'الكوب الثاني مكان ما {خليته|خليتيه}. فاضي، ولسا دافي. وجنبه، محطوطة بعناية على فوطة مطوية، بلية زجاج حمرا.'),
       N1('The tea towel is folded the way a man folds a flag.', 'الفوطة مطوية مثل ما يطوي رجال علم.')];
   });
-  topic('evelyn', { id: 'sdMarble', once: true, label: T('Show her the marble left by the teacup', 'ورّيها البلية اللي انحطت جنب الكوب'), if: s => inE(s) && has('cupmarble'), run: [
+  topic('evelyn', { id: 'sdMarble', once: true, label: T('Show her the marble left by the teacup', '{ورّها|ورّيها} البلية اللي انحطت جنب الكوب'), if: s => inE(s) && has('cupmarble'), run: [
     C('evelyn', 'shock', 'Another one. Left by the cup? ...Grandad kept a bag of these. In his coat. He\'d roll one across the table to me when I was little and I wasn\'t allowed to ask why.', 'وحدة ثانية. جنب الكوب؟ ...جدي كان عنده كيس منها. في كوته. كان يدحرج لي وحدة على الطاولة وأنا صغيرة وما كان مسموح لي أسأل ليش.'),
-    C('evelyn', 'sad', 'They were Toby\'s. Weren\'t they. They were Toby\'s marbles.', 'كانت حقت توبي. صح؟ كانت كرات توبي.'),
+    C('evelyn', 'sad', 'They were Toby\'s. Weren\'t they. They were Toby\'s marbles.', 'كانت حقت توبي. صح؟ كانت بلي توبي.'),
     N1('She closes her hand round it. Outside, for once, the lamp seems to turn a little slower.', 'تسكر يدها عليها. وبرا، ولأول مرة، الفانوس كأنه يلف أبطأ شوي.'),
     s => { addMood(1); return null; }
   ] });

@@ -132,7 +132,7 @@
     pier: s => [
       st => { ghost('far'); rec(pickOf('whisper', 5), 0.35); return null; },
       N1('Past the end of the pier, out on the black water, the surface breaks. Something is coming up. A girl. Rising out of the sea slowly, as if she were climbing stairs.', 'ورا آخر الرصيف، على الموية السودا، السطح ينشق. فيه شي طالع. بنت. تطلع من البحر شوي شوي، كأنها تطلع درج.'),
-      N1('Barefoot, soaked through, standing on the water as if it were a floor. She isn\'t looking at the town. She is looking at you.', 'حافية، مبلولة كلها، واقفة على الموية كأنها أرض. ما تطالع البلد. تطالعك أنت.'),
+      N1('Barefoot, soaked through, standing on the water as if it were a floor. She isn\'t looking at the town. She is looking at you.', 'حافية، مبلولة كلها، واقفة على الموية كأنها أرض. ما تطالع البلد. تطالعك {أنت|أنتِ}.'),
       st => replay() ? [N1('For a second you could swear she knows you. As if she has watched you walk down this pier before.', 'لثانية {تحلف|تحلفين} إنها تعرفك. كأنها شافتك تمشي على هالرصيف قبل.')] : null,
       st => { gone(); rec('wave1', 0.5); return null; },
       N1('The lamp flickers, and she goes back down into the sea, without a ripple. On the last boards of the pier there are wet footprints, leading to the edge. None come back.', 'اللمبة ترمش، وهي ترجع تنزل في البحر، بدون ولا موجة. وعلى آخر خشب الرصيف فيه آثار رجول مبلولة، رايحة للحافة. وولا وحدة راجعة.'),
@@ -158,7 +158,7 @@
       N1('The radio is on, very low. It isn\'t playing music. It is hissing. In the armchair, Elias is asleep.', 'الراديو شغال، واطي مرة. ما يشغل أغاني. يوشوش. وإلياس نايم على كرسيه.'),
       { mini: 'radio', then: (r, st) => r === 'tuned' ? [
         N1('A voice comes up out of the hiss, thin and far away, like a call from the bottom of a well.', 'صوت يطلع من تحت التشويش، رفيع وبعيد، كأنه نداء من قاع بير.'),
-        N1('"...Harbour to pier. Harbour to pier. Joe Farrow\'s girl has taken the dinghy out to look for him. She has a lantern. Do you see a light past the north rocks? Over."', '«...الميناء ينادي الرصيف. الميناء ينادي الرصيف. بنت جو فارو طلعت بالقارب الصغير تدور أبوها. معها فانوس. {تشوف|تشوفين} ضو ورا الصخور الشمالية؟ حوّل.»'),
+        N1('"...Harbour to pier. Harbour to pier. Joe Farrow\'s girl has taken the dinghy out to look for him. She has a lantern. Do you see a light past the north rocks? Over."', '«...الميناء ينادي الرصيف. الميناء ينادي الرصيف. بنت جو فارو طلعت بالقارب الصغير تدور أبوها. معها فانوس. تشوف ضو ورا الصخور الشمالية؟ حوّل.»'),
         N1('Static. Then a young man\'s voice. You know it. It is Elias\'s voice, forty-three years younger.', 'تشويش. وبعدين صوت شاب. {تعرفه|تعرفينه}. هذا صوت إلياس، أصغر بثلاثة وأربعين سنة.'),
         N1('"...Pier to harbour. No. I see nothing. Over."', '«...الرصيف ينادي الميناء. لا. ما أشوف شي. حوّل.»'),
         st2 => { face(); return null; },
@@ -248,7 +248,7 @@
   /* ---------- people who notice ---------- */
   if (GAME.CHAR.gregor && Array.isArray(GAME.CHAR.gregor.chat)) {
     GAME.CHAR.gregor.chat.unshift({ if: s => !!s.f.nellRest, e: 'neutral', t: T('Somebody left flowers on the Farrow stone. And a lantern. First flowers on it in forty-three years. I\'ll not ask who.', 'أحد حط ورد على حجر فارو. وفانوس. أول ورد ينحط عليه من ثلاثة وأربعين سنة. وما راح أسأل مين.') });
-    GAME.CHAR.gregor.chat.unshift({ if: s => !!s.f.nellPage && !s.f.nellRest, e: 'sad', t: T('The Farrow girl\'s stone. My father dug that grave, and put nothing in it. He said it was the hardest one he ever dug.', 'حجر بنت فارو. أبوي حفر ذاك القبر، وما حط فيه شي. قال إنه أصعب قبر حفره بحياته.') });
+    GAME.CHAR.gregor.chat.unshift({ if: s => !!s.f.nellPage && !s.f.nellRest, e: 'sad', t: T('The Farrow girl\'s stone. I dug that grave, my first year with the spade, and put nothing in it. Still the hardest one I ever dug.', 'حجر بنت فارو. أنا حفرت ذاك القبر، أول سنة لي مع المسحاة، وما حطيت فيه شي. ولين الحين هو أصعب قبر حفرته بحياتي.') });
   }
 
   /* ---------- playing again: the town half-remembers you ---------- */

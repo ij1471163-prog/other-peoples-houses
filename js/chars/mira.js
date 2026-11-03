@@ -42,7 +42,7 @@
     { show: [{ id: 'mira', e: 'neutral' }] },
     N1('A girl in a purple jacket three sizes too big puts a cup of tea down in front of you. You didn\'t order tea.', 'بنت لابسة جاكيت بنفسجي أكبر منها بثلاث مقاسات، تحط قدامك كوب شاي. وأنت ما {طلبت|طلبتي} شاي.'),
     M('neutral', 'On the house. You\'ve got the face. The "I got off the last train and kept walking" face. I had it for a week.', 'على حساب المحل. شكلك فيه الوجه. وجه «نزلت من آخر قطار وقعدت أمشي». أنا جلست فيه أسبوع.'),
-    M('smile', 'Mira. I\'ve been here a month, which in Saltmere makes me a local. Marco says three more years and I can have opinions.', 'ميرا. صار لي شهر هنا، وهذا في سولتمير يخليني من أهل البلد. ماركو يقول بعد ثلاث سنين يحق لي يكون عندي رأي.'),
+    M('smile', 'Mira. I came a month before you, which in Saltmere makes me a local. Marco says three more years and I can have opinions.', 'ميرا. جيت قبلك بشهر، وهذا في سولتمير يخليني من أهل البلد. ماركو يقول بعد ثلاث سنين يحق لي يكون عندي رأي.'),
     { menu: [
       { t: T('"Thanks. I needed this."', '«مشكورة. كنت {محتاجه|محتاجته}.»'), then: [M('smile', 'I know. That\'s the face.', 'أدري. هذا الوجه.')] },
       { t: T('"What face?"', '«أي وجه؟»'), then: [M('neutral', 'That one. Exactly that one. Drink your tea.', 'هذا. هذا بالضبط. {اشرب|اشربي} شايك.')] }

@@ -27,7 +27,7 @@
       N_('Frank holds the paper by the very edges, the way you hold something you\'re afraid to get grease on.', 'فرانك يمسك الورقة من أطرافها، مثل ما تمسك شي خايف توسخه بالشحم.'),
       { c: 'frank', e: 'sad', t: T('He got that from his mother. I burned three years of these. Three years.', 'أخذها من أمه. وأنا أحرقت ثلاث سنين من هذي. ثلاث سنين.') }]; } },
     { id: 'tell', once: true, label: T('Tell him where Leo is', '{تقول|تقولين} له وين ليو'), cls: 'risk', if: s => s.f.metFrank && s.f.knowsFather && !s.f.toldFrank, run: s => { s.f.toldFrank = true; s.conscience = (s.conscience || 0) - 1; return [
-      { c: 'frank', e: 'shock', t: T('The boathouse? On the harbor? He\'s been two streets away this whole time?', 'بيت القوارب؟ في الميناء؟ كان على بعد شارعين طول هالوقت؟') },
+      { c: 'frank', e: 'shock', t: T('The boathouse? On the harbor? He\'s been down on the harbor this whole time?', 'بيت القوارب؟ في الميناء؟ كان تحت في الميناء طول هالوقت؟') },
       N_('He doesn\'t say thank you. He goes very quiet, and then he says he\'ll think about it. You feel like you\'ve set something in motion you can\'t stop.', 'ما يقول شكراً. يسكت مرة، وبعدين يقول إنه بيفكر. {وتحس إنك حركت شي ما تقدر توقفه|وتحسين إنك حركتي شي ما تقدرين توقفينه}.')]; } }
   ];
   /* how Frank looks when drawn in code (used when there is no AI picture in img/chars) */
@@ -42,8 +42,8 @@ if (GAME.CHAR.frank) GAME.CHAR.frank.life = { garage: 'work' };
 /* small talk: what Frank says when you just chat (js/chatter.js picks one a day) */
 if (GAME.CHAR.frank) GAME.CHAR.frank.chat = [
   { e: 'neutral', t: T("A car's like a person. Make a noise long enough and somebody finally listens.", "السيارة مثل الإنسان. تسوي صوت مدة كافية، وأخيراً أحد يسمع.") },
-  { if: s => s.host === 'leo', e: 'sad', t: T("How is he? Don't tell me. Just tell me if he's eating.", "كيفه؟ {لا تقول|لا تقولين} لي. بس {قل|قولي} لي إذا ياكل.") },
+  { if: s => GAME.HOST(s) === 'leo', e: 'sad', t: T("How is he? Don't tell me. Just tell me if he's eating.", "كيفه؟ {لا تقول|لا تقولين} لي. بس {قل|قولي} لي إذا ياكل.") },
   { e: 'smile', t: T("Blood pressure's fine. Doctor says it isn't. Doctor's never fixed a Mustang.", "الضغط تمام. الدكتورة تقول لا. الدكتورة عمرها ما صلّحت موستنج.") },
-  /* reacts to what happened (phase 2) */ { if: s => !!s.f.tp_frank_calendar, e: 'sad', t: T("That calendar in the office. Three years on the same month. I keep meaning to turn it.", "التقويم اللي في المكتب. ثلاث سنين على نفس الشهر. كل مرة أقول بقلبه.") },
+  /* reacts to what happened (phase 2) */ { if: s => !!s.f.tp_frank_calendar, e: 'sad', t: T("That calendar in the office. Three years on the same month. As long as it's that month, the place is still mine.", "التقويم اللي في المكتب. ثلاث سنين على نفس الشهر. دام إنه ذاك الشهر، المحل لسا حقي.") },
   /* reacts to what happened (phase 2) */ { if: s => (s.done || {}).leo === 'LEO_HOME', e: 'smile', t: T("He comes in on Sundays now. Draws the cars instead of fixing them. I let him.", "صار يجي كل أحد. يرسم السيارات بدال ما يصلحها. وأنا أخليه.") }
 ];

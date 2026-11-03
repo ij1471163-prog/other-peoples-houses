@@ -52,9 +52,9 @@
   GAME.TOPICS.frank.push({ id: 'calendar', once: true, label: T('Ask about the old calendar in the office', '{تسأله|تسألينه} عن الرزنامة القديمة في المكتب'),
     if: s => !!s.f.sawOffice && !!s.f.metFrank,
     run: s => [
-      say('frank', 'sad', 'The calendar? That\'s the month I took a loan to keep this place open. A year later a company called Saltmere Grand Holdings bought the loan. Nice letters. Very polite. Every month.', 'الرزنامة؟ هذا الشهر اللي أخذت فيه قرض عشان يبقى المحل مفتوح. بعد سنة، شركة اسمها سولتمير غراند القابضة اشترت القرض. رسايل حلوة. مؤدبة مرة. كل شهر.'),
+      say('frank', 'sad', 'The calendar? That\'s the month I took a loan to keep this place open. That same year a company called Saltmere Grand Holdings bought the loan. Nice letters. Very polite. Every month.', 'الرزنامة؟ هذا الشهر اللي أخذت فيه قرض عشان يبقى المحل مفتوح. نفس السنة، شركة اسمها سولتمير غراند القابضة اشترت القرض. رسايل حلوة. مؤدبة مرة. كل شهر.'),
       say('frank', 'neutral', 'I stopped turning the pages. Stupid, I know. As long as it\'s still that month, I still own the garage.', 'وقفت أقلب الصفحات. غباء، أدري. دام إنه لسا نفس الشهر، فالكراج لسا حقي.'),
-      N_('Your father must have had letters like that. You never saw a single one.', 'أكيد أبوك كانت تجيه رسايل مثلها. {وأنت عمرك ما شفت|وأنتِ عمرك ما شفتي} وحدة.')] });
+      N_('Your mother must have had letters like that, after. You never saw a single one.', 'أكيد أمك جتها رسايل مثلها، بعدين. {وأنت عمرك ما شفت|وأنتِ عمرك ما شفتي} وحدة.')] });
 
   /* ---------- Victor: the truth ---------- */
   const { inV } = GAME.H.victor;

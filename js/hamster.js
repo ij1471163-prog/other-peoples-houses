@@ -45,7 +45,7 @@
         if (home(s)) out.push({ show: [{ id: 'margaret', e: 'neutral' }] },
           M('neutral', 'That\'s Biscuit. Well. Biscuit the second. Daniel\'s Biscuit died last spring. I couldn\'t stand the empty cage.', 'هذا بسكوت. يعني، بسكوت الثاني. بسكوت حق دانيال مات الربيع اللي فات. وما قدرت أتحمل القفص فاضي.'),
           M('smile', 'Don\'t wake him. He\'s three months old and he thinks he owns the house. He might be right.', 'لا {تصحيه|تصحينه}. عمره ثلاث شهور ويحسب إنه يملك البيت. يمكن معه حق.'),
-          N1('It\'s the first time you have seen her smile. It doesn\'t last, but it was there.', 'هذي أول مرة {تشوفها|تشوفينها} تبتسم. ما طوّلت، بس كانت موجودة.'));
+          N1('It\'s the first time you have seen her smile without looking at the photo first. It doesn\'t last, but it was there.', 'هذي أول مرة {تشوفها|تشوفينها} تبتسم بدون ما تطالع الصورة قبلها. ما طوّلت، بس كانت موجودة.'));
         return out;
       }
       /* the morning he gets out */
