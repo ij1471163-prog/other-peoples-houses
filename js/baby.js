@@ -23,10 +23,10 @@
   const FR = [0, 1, 2, 3, 4, 5].map(i => 'img/fx/pip/' + i + '.webp');   /* 0 curious, 1 laughing, 2 hiding, 3 yawning, 4 asleep with her rabbit, 5 lying down, eyes still open */
 
   /* the user's film of her (img/fx/pipv/00-99, 10 a second): what each stretch of it is */
-  const VF = Array.from({ length: 100 }, (_, i) => 'img/fx/pipv/' + String(i).padStart(2, '0') + '.webp');
-  const SEG = { calm: [0, 18], happy: [20, 39], yawn: [40, 53], flop: [54, 57], sleep: [58, 99], oh: [9, 13], look: [5, 8] };   /* oh: mouth open, hands up; look: looking away */
+  const VF = Array.from({ length: 140 }, (_, i) => 'img/fx/pipv/' + String(i).padStart(2, '0') + '.webp');
+  const SEG = { calm: [0, 18], happy: [20, 39], yawn: [40, 53], flop: [54, 57], sleep: [58, 99], oh: [9, 13], look: [5, 8], happy2: [100, 119], swat: [120, 139] };   /* 100-139: the second film (Nov): another laugh that settles into a smile; she reaches out, swats, and laughs */   /* oh: mouth open, hands up; look: looking away */
   /* where things are in the film (768x432): her mouth, and the spot on the blanket by her foot where the tower stands */
-  const MOUTH = [342, 193], TOWER = [570, 342], RAB0 = [860, 215];
+  const MOUTH = [342, 193], TOWER = [535, 340], RAB0 = [860, 215];
   const on = () => typeof AUDIO !== 'undefined' && AUDIO.on;
   const vol = k => { const st = (typeof AUDIO !== 'undefined' && AUDIO.settings) || {}; return Math.max(0, Math.min(1, (st.master || 0.8) * (st.sfx || 0.7) * k)); };
   /* her sounds: only once real ones exist (img/snd/pip-*.mp3); the film's own soundtrack wasn't her */
@@ -93,10 +93,11 @@
     [...tools.children].forEach(b => b.addEventListener('pointerdown', ev => { ev.stopPropagation(); setMode(b.dataset.m); }));
 
     /* laughing: the happy stretch of the film, with her giggle */
-    const laugh = (word, amt) => {
+    const laugh = (word, amt, anim) => {
       if (phase !== 'you') return;
       busyTill = performance.now() + 2000; lastPlay = performance.now();
-      play('happy', () => loop('calm')); snd('pip-giggle', 0.8);
+      if (anim !== false) play(anim || (Math.random() < 0.5 ? 'happy' : 'happy2'), () => loop('calm'));
+      snd('pip-giggle', 0.8);
       say(word || pick(BAB.happy), 900);
       joy += amt != null ? amt : (mode === 'bub' ? 0.6 : 1);
       if (joy >= 5) later(tired, 2100);
@@ -238,11 +239,16 @@
     };
     const knock = () => {
       knockT = null; if (over || phase !== 'you' || !height) return;
-      const h = height; tower.classList.add('fall');
-      [...tower.children].forEach((b, i) => { b.style.setProperty('--fx', ((Math.random() * 2 - 0.6) * 90 * (1 + i * 0.2)) + 'px'); b.style.setProperty('--fr', ((Math.random() - 0.5) * 540) + 'deg'); });
-      laugh(h >= 5 ? T('CRASH!', 'طااااخ!') : T('Crash!', 'طاخ!'), Math.min(1.6, 0.2 + h * 0.22));
+      const h = height; busyTill = performance.now() + 2600;
+      play('swat', () => loop('calm'));   /* she reaches out and swats it; the blocks go when her hand gets there */
+      later(() => {
+        tower.classList.add('fall');
+        [...tower.children].forEach((b, i) => { b.style.setProperty('--fx', ((Math.random() * 1.4 - 0.2) * 90 * (1 + i * 0.2)) + 'px'); b.style.setProperty('--fr', ((Math.random() - 0.5) * 540) + 'deg'); });
+        laugh(h >= 5 ? T('CRASH!', 'طااااخ!') : T('Crash!', 'طاخ!'), Math.min(1.6, 0.2 + h * 0.22), false);
+        busyTill = performance.now() + 2000;
+      }, 200);
       if (h < 3) hint(T('She couldn\'t wait. Build it faster next time.', 'ما قدرت تنتظر. {ابنه|ابنيه} أسرع المرة الجاية.'));
-      later(() => { tower.classList.remove('fall'); clearTower(); patience = 3 + Math.floor(Math.random() * 4); }, 1100);
+      later(() => { tower.classList.remove('fall'); clearTower(); patience = 3 + Math.floor(Math.random() * 4); }, 1350);
     };
     place(); setMode('peek');
 
