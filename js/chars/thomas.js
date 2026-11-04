@@ -13,6 +13,6 @@
     art: true,
     where: s => null
   };
-  GAME.CHAR.thomas.height = 1.04;
+  GAME.CHAR.thomas.height = 1.0;
   if (typeof PEOPLE !== 'undefined' && PEOPLE.SPEC) PEOPLE.SPEC.thomas = { sex: 'm', skin: '#ecc8a8', hair: '#3a2a20', eye: '#7a8a9a', brow: '#3a2a20', hairStyle: 'short', age: 26, sw: 100, ww: 84, hw: 82, pose: ['pocket', 'pocket'], fit: { top: 'coat', c1: '#1e2540', c2: '#7a7a7a', bottom: 'pants', b: '#22242c' } };
 })();

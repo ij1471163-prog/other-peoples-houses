@@ -13,6 +13,6 @@
     art: true,
     where: s => null
   };
-  GAME.CHAR.carol.height = 0.95;
+  GAME.CHAR.carol.height = 0.92;
   if (typeof PEOPLE !== 'undefined' && PEOPLE.SPEC) PEOPLE.SPEC.carol = { sex: 'f', skin: '#f0d0b8', hair: '#5a3a26', eye: '#6a4a2a', brow: '#4a3020', hairStyle: 'wavy', age: 50, sw: 90, ww: 78, hw: 88, pose: ['hold', 'pocket'], item: 'flower', fit: { top: 'cardigan', c1: '#e8dcc6', c2: '#4a6aa0', bottom: 'skirt', b: '#2e2830' } };
 })();
