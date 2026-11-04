@@ -1416,3 +1416,10 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .ho-pip .pip-blanket.held{cursor:grabbing;animation:none;transform:scale(1.05) rotate(-3deg)}
 @keyframes pipNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .ho-pip .pip-tools[hidden]{display:none}
+
+/* Pip feels alive: the picture breathes and sways a little; a bounce when she laughs */
+.ho-pip .pip-pic.on{animation:pipBreathe 3.6s ease-in-out infinite}
+.ho-pip .pip-pic.on.bump{animation:pipBump .5s ease, pipBreathe 3.6s ease-in-out .5s infinite}
+@keyframes pipBreathe{0%,100%{transform:scale(1.02) translate(0,0)}50%{transform:scale(1.035) translate(-.4%,-.6%)}}
+@keyframes pipBump{0%{transform:scale(1.03)}35%{transform:scale(1.06) translateY(-1.5%)}70%{transform:scale(1.035) translateY(.4%)}100%{transform:scale(1.03)}}
+.ho-pip .cp-area.dim .pip-pic.on{animation:none}

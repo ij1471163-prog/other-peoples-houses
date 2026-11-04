@@ -46,7 +46,19 @@
     const timers = [];
     const later = (f, ms) => timers.push(setTimeout(() => { if (!over) f(); }, ms));
     const say = (t, ms = 900) => { boo.textContent = tx(t); boo.classList.remove('on'); void boo.offsetWidth; boo.classList.add('on'); later(() => boo.classList.remove('on'), ms); };
-    const finish = r => { if (over) return; over = true; cancelAnimationFrame(raf); timers.forEach(clearTimeout); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 300); done(r); };
+    /* she babbles: little sounds over her head, now and then, and when she laughs */
+    const BAB = { idle: [T('ba?', 'با؟'), T('da!', 'دا!'), T('mmm', 'ممم'), T('ah-ah', 'آه آه'), T('ba-ba-ba', 'بابابا'), T('oo?', 'أوو؟')], happy: [T('hee!', 'هيي!'), T('again!', 'كمان!'), T('boo!', 'بخ!'), T('ha-ha!', 'هاها!'), T('more!', 'زيد!')], bored: [T('ba...', 'با...'), T('hmph.', 'همف.'), T('da?', 'دا؟')] };
+    const pick = a => a[Math.floor(Math.random() * a.length)];
+    let lastPlay = performance.now();
+    const babble = kind => say(pick(BAB[kind]), 1000);
+    const bounce = () => { front.classList.remove('bump'); void front.offsetWidth; front.classList.add('bump'); };
+    const idleT = setInterval(() => {
+      if (over || phase === 'sleep' || phase === 'tired' || phase === 'her' || performance.now() < busyTill) return;
+      const quiet = performance.now() - lastPlay;
+      if (quiet > 7000) { babble('bored'); hint(T('She\'s waiting for you. She\'s not good at waiting.', 'تنتظرك. وما تعرف تنتظر.')); lastPlay = performance.now() - 3500; }
+      else if (Math.random() < 0.35) babble('idle');
+    }, 2600);
+    const finish = r => { if (over) return; over = true; clearInterval(idleT); cancelAnimationFrame(raf); timers.forEach(clearTimeout); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 300); done(r); };
     q('.cp-skip').onclick = ev => { ev.stopPropagation(); finish(0); };
     alt.onclick = () => finish(0);
 
@@ -75,7 +87,7 @@
 
     /* ---- peekaboo ---- */
     const laugh = () => {
-      laughs++; show(1); say(T('Peekaboo!', 'بـــخ!')); gain(1);
+      laughs++; show(1); bounce(); say(T('Peekaboo!', 'بـــخ!')); later(() => babble('happy'), 950); gain(1); lastPlay = performance.now();
       busyTill = performance.now() + 1500;
       later(() => {
         if (phase === 'tired' || phase === 'sleep' || mode !== 'peek') return;
@@ -111,7 +123,7 @@
         const inReach = Math.abs(o.x / W - 0.5) < 0.17 && o.y / H > 0.22 && o.y / H < 0.75;
         if (inReach && now > busyTill && phase === 'you' && mode === 'bub') {
           o.b.classList.add('pop'); live.splice(k, 1); setTimeout(() => o.b.remove(), 250);
-          busyTill = now + 1100; show(1); if (Math.random() < 0.5) say(T('Pop!', 'طق!'), 700); gain(0.5);
+          busyTill = now + 1100; show(1); bounce(); say(Math.random() < 0.5 ? T('Pop!', 'طق!') : pick(BAB.happy), 800); gain(0.5); lastPlay = now;
           later(() => { if (phase === 'you' && mode === 'bub') show(0); }, 1000);
           continue;
         }
@@ -134,6 +146,7 @@
 
     area.addEventListener('pointerdown', ev => {
       if (over || phase === 'sleep' || phase === 'tired') return;
+      lastPlay = performance.now();
       if (mode === 'bub') { const a = area.getBoundingClientRect(); blow(ev.clientX - a.left, ev.clientY - a.top); return; }
       if (phase === 'her') {
         if (!peekAt) { say(T('Not yet...', 'مو الحين...'), 700); return; }
