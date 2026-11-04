@@ -126,6 +126,11 @@ window.IMG_MANIFEST = {
    "shock": "img/chars/bella-shock.webp",
    "smile": "img/chars/bella-smile.webp"
   },
+  "carol": {
+   "neutral": "img/chars/carol-neutral.webp",
+   "sad": "img/chars/carol-sad.webp",
+   "smile": "img/chars/carol-smile.webp"
+  },
   "elias": {
    "angry": "img/chars/elias-angry.webp",
    "chess": "img/chars/elias-chess.webp",

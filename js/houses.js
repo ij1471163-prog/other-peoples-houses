@@ -63,24 +63,27 @@
     run: s => {
       const n = step(s, 'leo');
       if (n >= 2 || !newDay(s, 'leo')) return [N1('Carol waves at you from the kitchen window, and holds up a lemon, and puts it on the gatepost for you.', 'كارول تلوّح لك من شباك المطبخ، وترفع ليمونة، وتحطها لك على عمود البوابة.')];
-      if (n === 0) return [{ go: 'leo_home_kitchen' }, { show: [] }, enter('leo'),
+      if (n === 0) return [{ go: 'leo_home_kitchen' }, enter('carol'), { show: [{ id: 'carol', e: 'neutral' }] },
         N1('Carol opens the gate before you reach it. "Come in. He won\'t know. I won\'t tell him if you don\'t."', 'كارول تفتح البوابة قبل لا {توصلها|توصلينها}. «{ادخل|ادخلي}. ما بيدري. أنا ما بقول له إذا أنت{|ِ} ما {قلت|قلتي}.»'),
         N1('The kitchen smells of garlic and something sweet in the oven. She puts a cup of tea in front of you without asking how you take it, and gets it right.', 'المطبخ ريحته ثوم وشي حلو في الفرن. تحط قدامك كوب شاي بدون ما تسألك كيف {تبيه|تبينه}، وتطلع صح.'),
         N1('"Tell me one thing," she says. "Not where he is. I know where he is. Tell me if he laughs."', '«{قل|قولي} لي شي واحد،» تقول. «مو وينه. أنا أعرف وينه. {قل|قولي} لي إذا يضحك.»'),
         { menu: [
-          { t: T('"He laughs at his own gull drawings."', '«يضحك على رسمات النوارس حقته.»'), then: [N1('"Angry bananas," she says, and has to turn round to the sink for a while.', '«موز معصب،» تقول، وتلف للمغسلة شوي.')] },
-          { t: T('"Not much. But more than when I got there."', '«مو كثير. بس أكثر من يوم جيت.»'), then: [N1('"More than when you got there," she repeats, as if writing it down somewhere inside.', '«أكثر من يوم جيت،» تعيدها، كأنها تكتبها في مكان داخلها.')] }
+          { t: T('"He laughs at his own gull drawings."', '«يضحك على رسمات النوارس حقته.»'), then: [{ show: [{ id: 'carol', e: 'smile' }] }, N1('"Angry bananas," she says, and has to turn round to the sink for a while.', '«موز معصب،» تقول، وتلف للمغسلة شوي.')] },
+          { t: T('"Not much. But more than when I got there."', '«مو كثير. بس أكثر من يوم جيت.»'), then: [{ show: [{ id: 'carol', e: 'sad' }] }, N1('"More than when you got there," she repeats, as if writing it down somewhere inside.', '«أكثر من يوم جيت،» تعيدها، كأنها تكتبها في مكان داخلها.')] }
         ] },
+        { show: [{ id: 'carol', e: 'neutral' }] },
         N1('"His room is upstairs. I haven\'t changed anything. Frank wanted to. I told him he could change it over my dead body. He said that isn\'t funny in this family. He was right." She nods at the stairs. "Go on. I\'ll be here."', '«غرفته فوق. ما غيرت فيها شي. فرانك كان يبي يغيرها. قلت له على جثتي. قال هالكلام مو مضحك في هالعيلة. وكان معه حق.» وتأشر على الدرج. «{روح|روحي}. أنا هنا.»'),
         st => { setStep(st, 'leo', 1); addMood(1); return null; }];
-      return [{ go: 'leo_home_kitchen' }, { show: [] }, enter('leo'),
+      return [{ go: 'leo_home_kitchen' }, enter('carol'), { show: [{ id: 'carol', e: 'neutral' }] },
         N1('Carol is at the table with a big envelope. She waits until you sit down.', 'كارول على الطاولة ومعها ظرف كبير. تنتظرك لين {تجلس|تجلسين}.'),
         N1('"The night Frank burned them, I put the fire out with the washing-up bowl. I got six pages. Five are just ash at the edges. This one is the only one you can see."', '«الليلة اللي حرقها فيها فرانك، طفيت النار بطشت الغسيل. لحقت ست صفحات. خمس منها رماد على الأطراف. وهذي الوحيدة اللي يبان فيها شي.»'),
         N1('Two boys on a bike, done in pencil, mid-laugh. The top half of the page is gone, burned in a clean curve, so all that is left of them is two pairs of legs and a back wheel.', 'ولدين على دراجة، بالرصاص، يضحكون. النص الفوقي من الورقة راح، محروق بقوس مرتب، فكل اللي باقي منهم رجلين ورجلين وكفر ورا.'),
+        { show: [{ id: 'carol', e: 'sad' }] },
         N1('"Give it to him when he\'s ready. Not before. You\'ll know. I never did."', '«{أعطه|أعطيه} إياها لما يكون جاهز. مو قبل. بتعرف{|ين}. أنا عمري ما عرفت.»'),
         st => { give('burntpage'); setStep(st, 'leo', 2); addMood(1); return null; }];
     } };
   GAME.LOC.street.spots.push(leoDoor);
+  host('carol', LH);
   GAME.TOPICS.leo.push({ id: 'burntpage', once: true, label: T('Give him the half-burned page from his mother', '{أعطه|أعطيه} الورقة النص محروقة من أمه'),
     if: s => has('burntpage') && s.ch === 2 && !s.f.leoEnded && (s.trust.leo || 0) >= 4,
     run: s => { take('burntpage'); return [{ show: [{ id: 'leo', e: 'shock' }] },

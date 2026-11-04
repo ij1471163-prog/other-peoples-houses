@@ -55,12 +55,13 @@
     if: s => in2(s) && s.loc === 'street' && (s.f.deliverCount || 0) >= 2 && !s.f.crashDone && s.f.restDayLeo !== s.day && !doneToday('deliver'),
     run: s => { onceToday('deliver'); advance(1); return [
       N1('One order is for the big house with the wide garden. Leo reads the address twice, then holds the bag out to you without looking at it. "You do this one."', 'فيه طلب للبيت الكبير اللي فيه حديقة واسعة. ليو يقرا العنوان مرتين، وبعدين يمد لك الكيس بدون ما يطالعه. «هذا {عليك|عليكِ}.»'),
+      { show: [{ id: 'carol', e: 'neutral' }] },
       N1('The door opens before you knock, as if someone has been watching the road. A woman of about fifty, flour on her sleeve. She looks past you, at the boy by the bike pretending to fix the chain.', 'الباب ينفتح قبل لا {تطق|تطقين}، كأن أحد كان يطالع الطريق. امرأة في الخمسين تقريباً، على كمها طحين. تطالع من وراك، الولد اللي جنب الدراجة يسوي نفسه يصلح السلسلة.'),
       N1('"Is he eating?" she asks. Not who are you. Is he eating.', '«ياكل؟» تسأل. مو مين {أنت|أنتِ}. ياكل؟'),
       { menu: [
-        { t: T('"Pasta, mostly. I make it with lemon."', '«مكرونة، أغلب الوقت. أسويها بليمون.»'), then: [
+        { t: T('"Pasta, mostly. I make it with lemon."', '«مكرونة، أغلب الوقت. أسويها بليمون.»'), then: [{ show: [{ id: 'carol', e: 'smile' }] },
           N1('Something in her face lets go. "With lemon," she says. "Then tell him the sauce is the same. Don\'t tell him I asked."', 'شي في وجهها يرتخي. «بليمون،» تقول. «أجل {قل|قولي} له الصوص نفسه. {ولا تقول|ولا تقولين} له إني سألت.»')] },
-        { t: T('"Not enough."', '«مو كفاية.»'), then: [
+        { t: T('"Not enough."', '«مو كفاية.»'), then: [{ show: [{ id: 'carol', e: 'sad' }] },
           N1('She nods, as if you have confirmed something she already knew, and goes back inside. She comes out with a foil tray still warm. "Lasagne. He\'ll say he isn\'t hungry. Leave it on the table and walk away."', 'تهز راسها، كأنك {أكدت|أكدتي} شي هي تعرفه، وتدخل. وتطلع بصينية ألمنيوم لسا حارة. «لازانيا. بيقول ما هو جوعان. {حطها|حطيها} على الطاولة {وامش|وامشي}.»')] }
       ] },
       N1('She tips ten dollars and a lemon.', 'تعطيك بقشيش عشر دولارات وليمونة.'),
