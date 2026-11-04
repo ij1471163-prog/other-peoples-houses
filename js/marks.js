@@ -89,9 +89,11 @@
     if (!s || s.f.ch2Tease || !s.f.eliasEnd || !Array.isArray(out)) return out;
     s.f.ch2Tease = true;
     return [{ go: 'harbor' }, { show: [] },
-      N1('That night, at the far end of the harbour, a boy in a black hoodie sits on the sea wall with a sketchbook on his knees.', 'هذيك الليلة، في آخر الميناء، ولد لابس هودي أسود جالس على سور البحر، ودفتر رسم على ركبه.'),
-      N1('He draws for a long time. Then he tears the page out, tears it again, and again, and lets the pieces go into the black water.', 'يرسم وقت طويل. وبعدين يقطع الورقة، ويقطعها مرة ثانية، وثالثة، ويخلي القطع تطيح في الموية السودا.'),
-      N1('One piece doesn\'t sink. It turns slowly on the water: half of a car, coloured in red. Under it, in pencil, a date two years ago.', 'قطعة وحدة ما تغرق. تلف بشويش على الموية: نص سيارة، ملوّنة أحمر. وتحتها، بالرصاص، تاريخ قبل سنتين.')
+      { mini: 'chapterCard', img: 'ch2_tease', float: [14.4, 77.6, 13.8, 16], lines: [
+        T('That night, at the far end of the harbour, a boy in a black hoodie sits on the sea wall with a sketchbook on his knees.', 'هذيك الليلة، في آخر الميناء، ولد لابس هودي أسود جالس على سور البحر، ودفتر رسم على ركبه.'),
+        T('He draws for a long time. Then he tears the page out, tears it again, and again, and lets the pieces go into the black water.', 'يرسم وقت طويل. وبعدين يقطع الورقة، ويقطعها مرة ثانية، وثالثة، ويخلي القطع تطيح في الموية السودا.'),
+        T('One piece doesn\'t sink. It turns slowly on the water: half of a car, coloured in red. Under it, in pencil, a date two years ago.', 'قطعة وحدة ما تغرق. تلف بشويش على الموية: نص سيارة، ملوّنة أحمر. وتحتها، بالرصاص، تاريخ قبل سنتين.')
+      ], kicker: T('CHAPTER TWO', 'الفصل الثاني'), title: T('Leo', 'ليو'), sub: T('The boathouse', 'بيت القوارب') }
     ].concat(out);
   };
 })();

@@ -16,6 +16,7 @@ window.IMG_MANIFEST = {
   "cafe_stage": "img/bg/cafe_stage.jpg",
   "cemetery": "img/bg/cemetery.jpg",
   "cemetery_night": "img/bg/cemetery_night.jpg",
+  "ch2_tease": "img/bg/ch2_tease.jpg",
   "cliff_road": "img/bg/cliff_road.jpg",
   "cliff_road_night": "img/bg/cliff_road_night.jpg",
   "clinic": "img/bg/clinic.jpg",
