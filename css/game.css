@@ -1386,3 +1386,22 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .chc-title b{font-size:clamp(34px,7vw,58px);font-weight:700;letter-spacing:.04em}
 .chc-title span{font-size:14px;opacity:.75}
 @media (prefers-reduced-motion:reduce){.chc-pic,.chc-float,.chc-ring{animation:none}}
+
+/* Pip (js/baby.js): peekaboo */
+.ho-pip{position:absolute;inset:0;z-index:60;background:#000;animation:cpPop .25s ease}
+.ho-pip .cp-area{position:absolute;inset:0;width:auto;aspect-ratio:auto;max-height:none;border-radius:0;touch-action:none;background:#2a2420;overflow:hidden;cursor:pointer}
+.ho-pip .pip-pic{position:absolute;inset:0;background-size:cover;background-position:center 30%;opacity:0;transition:opacity .35s ease, filter 1.4s ease, transform 4s ease}
+.ho-pip .pip-pic.on{opacity:1}
+.ho-pip .cp-area.dim .pip-pic{filter:brightness(.55) saturate(.8);transform:scale(1.04)}
+.ho-pip .pip-hand{position:absolute;top:-6%;bottom:-6%;width:56%;background:repeating-linear-gradient(90deg,rgba(90,45,25,0) 0 15%,rgba(90,45,25,.55) 15.5% 16.5%,rgba(90,45,25,0) 17% 24%),radial-gradient(ellipse 85% 75% at 50% 45%,#e9bd9c 0,#d8a380 60%,#b97c5c 100%);filter:blur(3px);opacity:.97;transition:transform .22s ease;pointer-events:none;border-radius:40%}
+.ho-pip .pip-hand.l{left:0;transform:translateX(-105%)}
+.ho-pip .pip-hand.r{right:0;transform:translateX(105%)}
+.ho-pip .cp-area.hide .pip-hand.l{transform:translateX(-2%) rotate(4deg)}
+.ho-pip .cp-area.hide .pip-hand.r{transform:translateX(2%) rotate(-4deg)}
+.ho-pip .pip-boo{position:absolute;left:50%;top:14%;transform:translate(-50%,0) scale(.6);font-size:clamp(26px,5vw,44px);color:#fff6e0;text-shadow:0 2px 8px rgba(0,0,0,.6);opacity:0;pointer-events:none}
+.ho-pip .pip-boo.on{animation:pipBoo .9s ease forwards}
+@keyframes pipBoo{0%{opacity:0;transform:translate(-50%,10px) scale(.6)}25%{opacity:1;transform:translate(-50%,0) scale(1.08)}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-8px) scale(1)}}
+.ho-pip .pet-sub{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);max-width:86%;text-align:center;padding:6px 14px;border-radius:12px;background:rgba(8,12,16,.6);color:#f4ead6;pointer-events:none}
+.ho-pip .pet-sub strong{display:block;font-size:12px;color:var(--lamp);opacity:.9}
+.ho-pip .cp-skip{position:absolute;top:10px;inset-inline-end:10px;z-index:2}
+.ho-pip.out{opacity:0;transition:opacity .3s}
