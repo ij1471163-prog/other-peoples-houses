@@ -48,10 +48,10 @@
       { menu: [
         { t: T('"Just tell her."', '«بس قل لها.»'),
           then: [say('neutral', '"Just." You say it like it\'s a small word.', '«بس.» {تقولها|تقولينها} كأنها كلمة صغيرة.')] },
-        { t: T('"My phone\'s been face down for weeks."', '«جوالي مقلوب على وجهه من أسابيع.»'), hide: s => !!(s.f.calledMother || s.f.jm),
+        { t: T('"My phone\'s been face down for weeks."', '«جوالي مقلوب على وجهه من أسابيع.»'), hide: s => !!(s.f.calledMother || s.f.jm || s.f.mdMum),
           then: [N_('Kai looks at your pocket, then at you. For once, he doesn\'t make a joke.', 'كاي يطالع جيبك، وبعدين يطالعك. وهالمرة، ما يمزح.'),
             say('neutral', 'Huh. So we\'re the same kind of stupid.', 'هه. يعني إحنا نفس نوع الغباء.')] },
-        { t: T('"I called my mum. It was awful. Then it wasn\'t."', '«اتصلت بأمي. كان شي فظيع. وبعدين ما صار فظيع.»'), hide: s => !(s.f.calledMother || s.f.jCall),
+        { t: T('"I called my mum. It was awful. Then it wasn\'t."', '«اتصلت بأمي. كان شي فظيع. وبعدين ما صار فظيع.»'), hide: s => !(s.f.calledMother || s.f.jCall || s.f.mdMum),
           then: [say('shock', 'You did? ...Okay. Okay. That\'s annoying, because now I\'ve got no excuse.', '{سويتها|سويتيها}؟ ...طيب. طيب. هذا يقهر، لأن الحين ما عندي عذر.')] }
       ] },
       say('neutral', 'Next Sunday afternoon. If you\'re on the beach, I\'ll do it. If you\'re not, I\'ll describe a documentary.',
@@ -70,7 +70,7 @@
       N_('Then he laughs: a real one, wet and surprised.', 'وبعدين يضحك: ضحكة حقيقية، فيها دموع ومفاجأة.'),
       say('smile', 'She knew. Since New Year. The uni sent a letter. She was waiting for me to say it. She said she\'d rather have a son who surfs badly than one who lies well.',
         'كانت تدري. من رأس السنة. الجامعة أرسلت خطاب. وكانت تنتظرني أقولها. قالت تبي ولد يتزلج بشكل سيء، أحسن من ولد يكذب زين.'),
-      (s.f.calledMother || s.f.jCall)
+      (s.f.calledMother || s.f.jCall || s.f.mdMum)
         ? say('smile', 'You already did yours, didn\'t you. Show-off.', '{أنت|أنتِ} {سويت|سويتي} حقك من قبل، صح؟ {شايف|شايفة} نفسك.')
         : say('neutral', 'Your phone\'s still face down, legend. Just saying. Ten minutes. I\'ll sit with you.', 'جوالك لسا مقلوب، {يا بطل|يا بطلة}. بس أقول. عشر دقايق. وأنا بجلس معك.'),
       st => { st.f.kaiArc = 3; addTrust('kai', 2); addMood(1); quest('q_kai', 'done'); return null; }] });

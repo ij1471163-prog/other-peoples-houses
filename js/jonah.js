@@ -78,7 +78,7 @@
       { t: T('Turn it face down again', '{اقلبه|اقلبيه} على وجهه مرة ثانية'), then: [st => { st.f.jmLater = st.day; return null; }, N1('Forty-eight unread.', 'ثمان وأربعين ما انقرت.')] }
     ] }
   ];
-  GAME.EVENTS.push({ id: 'jonah1', when: s => !busy(s) && step(s) === 0 && !s.f.calledMother && (GAME.HOST(s) || s.f.sandbox) && s.day >= 2 && quiet(s) && s.f.jmLater !== s.day && ['your_room', 'sami_attic', 'loft', 'lh_room', 'marg_guest', 'hotel_suite', 'living'].includes(s.loc), run: s => GAME.SCRIPTS.jonah1(s) });
+  GAME.EVENTS.push({ id: 'jonah1', when: s => !busy(s) && step(s) === 0 && !s.f.calledMother && !s.f.mdMum && (GAME.HOST(s) || s.f.sandbox) && s.day >= 2 && quiet(s) && s.f.jmLater !== s.day && ['your_room', 'sami_attic', 'loft', 'lh_room', 'marg_guest', 'hotel_suite', 'living'].includes(s.loc), run: s => GAME.SCRIPTS.jonah1(s) });
 
   /* the photo, to people who were there */
   GAME.TOPICS.gregor = GAME.TOPICS.gregor || [];
