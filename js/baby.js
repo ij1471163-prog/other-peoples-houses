@@ -27,7 +27,9 @@
   const SEG = { calm: [0, 18], happy: [20, 39], yawn: [40, 53], flop: [54, 57], sleep: [58, 99] };
   const on = () => typeof AUDIO !== 'undefined' && AUDIO.on;
   const vol = k => { const st = (typeof AUDIO !== 'undefined' && AUDIO.settings) || {}; return Math.max(0, Math.min(1, (st.master || 0.8) * (st.sfx || 0.7) * k)); };
-  const snd = (name, k) => { if (!on()) return; try { const a = new Audio('img/snd/' + name + '.mp3'); a.volume = vol(k); a.play().catch(() => {}); } catch (e) { /* no sound */ } };
+  /* her sounds: only once real ones exist (img/snd/pip-*.mp3); the film's own soundtrack wasn't her */
+  const HAS = { 'pip-giggle': false, 'pip-babble': false, 'pip-yawn': false };
+  const snd = (name, k) => { if (!HAS[name] || !on()) return; try { const a = new Audio('img/snd/' + name + '.mp3'); a.volume = vol(k); a.play().catch(() => {}); } catch (e) { /* no sound */ } };
 
   GAME.MINI.pip = function (panel, done) {
     panel.innerHTML = '';
