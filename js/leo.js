@@ -12,6 +12,7 @@ const d2 = s => s.day - (s.f.ch2Day || 0); // days since chapter 2 began
 
 /* Leo and Frank live in js/chars/leo.js and js/chars/frank.js */
 Object.assign(GAME.ITEMS, {
+  eknife: { name: T('Elias\'s fishing knife', 'سكينة صيد إلياس'), desc: T('A worn leather sheath, the blade kept sharp for forty years. "For the lodger. It cuts line, not fingers."', 'غمد جلد مهترئ، والنصل حاد من أربعين سنة. «للساكن. تقطع الخيط، مو الأصابع.»') },
   sketch: { name: T('Leo\'s drawing of you', 'رسمة ليو لك'), desc: T('You look less sad in it than you feel.', 'شكلك فيها أقل حزن من اللي {تحسه|تحسينه}.') },
   groceries: { name: T('Groceries', 'مقاضي'), desc: T('Enough for one real dinner.', 'تكفي لعشا حقيقي واحد.') }
 });
@@ -84,12 +85,16 @@ Object.assign(GAME.SCRIPTS, {
     const e = s.f.eliasEnd;
     const intro = {
       ELIAS_STAY: N_('Elias goes into the hospital in the city for a month, to get used to the machine. Before he gets on the train he points at the harbor: "The boy in the boathouse needs someone more than I do. Go on."', 'إلياس يدخل مستشفى المدينة شهر، عشان يتعود على الجهاز. قبل ما يركب القطار يأشر على الميناء: «الولد اللي في بيت القوارب محتاج أحد أكثر مني. {روح|روحي}.»'),
-      ELIAS_LETTER: N_('Thomas stays a week to sort the house, then locks it and gives you a hug you didn\'t expect. The cottage isn\'t yours. You walk down to the harbor because your legs know the way.', 'توماس يقعد أسبوع يرتب البيت، وبعدين يقفله ويضمك ضمة ما {توقعتها|توقعتيها}. البيت مو لك. {تنزل|تنزلين} للميناء لأن رجولك تعرف الطريق.'),
-      ELIAS_PEACE: N_('You post the letters, one by one, at the little post office. Then you have nowhere to be. You walk down to the harbor because your legs know the way.', '{ترسل|ترسلين} الرسايل، وحدة وحدة، من مكتب البريد الصغير. وبعدها ما عندك مكان. {تنزل|تنزلين} للميناء لأن رجولك تعرف الطريق.'),
+      ELIAS_LETTER: N_('Thomas stays a week to sort the house, then locks it and gives you a hug you didn\'t expect. The cottage is his now; it was always going to be. You walk down to the harbor because your legs know the way.', 'توماس يقعد أسبوع يرتب البيت، وبعدين يقفله ويضمك ضمة ما {توقعتها|توقعتيها}. البيت صار له؛ من الأول كان بيصير له. {تنزل|تنزلين} للميناء لأن رجولك تعرف الطريق.'),
+      ELIAS_PEACE: N_('You post the letters, one by one, at the little post office. A man from the solicitor\'s in town comes with a padlock and a form, kind and in a hurry: the cottage is Thomas\'s now, and Thomas hasn\'t answered yet. You leave your key on the kitchen table, next to Ada\'s cup. Then you have nowhere to be. You walk down to the harbor because your legs know the way.', '{ترسل|ترسلين} الرسايل، وحدة وحدة، من مكتب البريد الصغير. ويجي رجّال من مكتب المحامي اللي في البلد، معه قفل وورقة، لطيف ومستعجل: البيت صار لتوماس، وتوماس للحين ما رد. {تحط|تحطين} مفتاحك على طاولة المطبخ، جنب كوب آدا. وبعدها ما عندك مكان. {تنزل|تنزلين} للميناء لأن رجولك تعرف الطريق.'),
       ELIAS_KICK: N_('Two nights on the bench outside Sami\'s. Sami brings you tea in the mornings and doesn\'t ask. On the third night, you walk down to the harbor.', 'ليلتين على الكرسي قدام بقالة سامي. سامي يجيب لك شاي الصبح وما يسأل. والليلة الثالثة، {تنزل|تنزلين} للميناء.'),
       ELIAS_GO: N_('You told your mother you\'d come back to her at the end of the month. She cried. You need somewhere to sleep until then, and money for the ticket.', '{قلت|قلتي} لأمك إنك {بترجع|بترجعين} آخر الشهر. بكت. {وتحتاج مكان تنام|وتحتاجين مكان تنامين} فيه لين ذاك الوقت، وفلوس للتذكرة.')
     }[e] || N_('You walk down to the harbor.', '{تنزل|تنزلين} للميناء.');
-    return [{ go: 'harbor' }, { show: e === 'ELIAS_LETTER' ? [{ id: 'thomas', e: 'smile' }] : [] }, intro, st => (e === 'ELIAS_LETTER' ? [{ show: [] }] : null),
+    /* when Elias has died, he has left you one small thing, in writing (the house is Thomas's) */
+    const knife = (e === 'ELIAS_LETTER' || e === 'ELIAS_PEACE') && !has('eknife') ? st => { give('eknife'); return [N_(...(e === 'ELIAS_LETTER'
+      ? ['Before he goes, Thomas gives you a fishing knife in a worn leather sheath, and an envelope in his father\'s capitals: "FOR THE LODGER. IT CUTS LINE, NOT FINGERS." "It was in his will," Thomas says. "The only thing in it that wasn\'t for me."', 'قبل لا يمشي، توماس يعطيك سكينة صيد في غمد جلد مهترئ، وظرف بخط أبوه الكبير: «للساكن. تقطع الخيط، مو الأصابع.» «كانت في وصيته،» يقول توماس. «الشي الوحيد فيها اللي مو لي.»']
+      : ['The solicitor\'s man holds out a small parcel before he goes. A fishing knife in a worn leather sheath, and a note in capitals: "FOR THE LODGER. IT CUTS LINE, NOT FINGERS." "It was in the will," he says. "The only thing in it that wasn\'t for the son."', 'رجّال المحامي يمد لك علبة صغيرة قبل لا يمشي. سكينة صيد في غمد جلد مهترئ، وورقة بحروف كبيرة: «للساكن. تقطع الخيط، مو الأصابع.» «كانت في الوصية،» يقول. «الشي الوحيد فيها اللي مو للولد.»']))]; } : (st => null);
+    return [{ go: 'harbor' }, { show: e === 'ELIAS_LETTER' ? [{ id: 'thomas', e: 'smile' }] : [] }, intro, knife, st => (e === 'ELIAS_LETTER' ? [{ show: [] }] : null),
       N_('A delivery bike comes round the corner too fast, skids on the wet boards, and dumps its rider, a bag of noodles and a cracked helmet at your feet.', 'دراجة توصيل تلف الزاوية بسرعة، تتزحلق على الخشب المبلول، وترمي راكبها وكيس نودلز وخوذة مشقوقة عند رجولك.'),
       { show: [{ id: 'leo', e: 'shock' }] },
       L_('shock', 'Okay. Okay. The noodles are fine. That\'s the main thing.', 'طيب. طيب. النودلز سليمة. هذا المهم.'),
