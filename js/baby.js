@@ -3,11 +3,12 @@
    morning shift at the cannery, so in the mornings Pip is in a playpen
    behind the counter at the grocery, and Sami serves customers around
    her. She is in charge.
-   Mornings only, once a day, with Sami right there. A small game of
-   peekaboo (MINI.pip): cover your eyes (hold), and show them again; she
-   laughs. After a while she plays it back (she hides her face: wait,
-   and when she peeks, say "peekaboo!"). When she has laughed enough she
-   gets sleepy and nods off.
+   Mornings only, once a day, with Sami right there (MINI.pip). Two
+   games, chosen at the bottom: peekaboo (hold to cover your eyes, let
+   go; after two goes she plays it back: wait till she peeks, then tap)
+   and bubbles (tap to blow; when one drifts into her reach she grabs it
+   and it pops). When she has laughed enough she rubs her eyes: drag the
+   blanket onto her and she nods off holding her rabbit.
    No touching game (that is for the cat and the hamster): everything is
    done through play. Four pictures from the user (img/fx/pip/0-3:
    curious, laughing with her arms out, hiding her face, yawning).
@@ -23,13 +24,17 @@
     panel.innerHTML = '';
     FR.forEach(u => { const im = new Image(); im.src = u; });
     const box = el('div', 'cp ho ho-pip'); box.setAttribute('role', 'dialog');
-    box.innerHTML = '<div class="cp-area"><div class="pip-pic a"></div><div class="pip-pic b"></div><div class="pip-hand l"></div><div class="pip-hand r"></div><b class="pip-boo"></b><div class="pet-sub"><strong class="cp-title"></strong><span class="cp-hint"></span></div><button type="button" class="cp-skip"></button></div>';
+    box.innerHTML = '<div class="cp-area"><div class="pip-pic a"></div><div class="pip-pic b"></div><div class="pip-bubs"></div><div class="pip-hand l"></div><div class="pip-hand r"></div><b class="pip-boo"></b>'
+      + '<div class="pip-blanket" hidden></div><div class="pip-tools"><button type="button" data-m="peek"></button><button type="button" data-m="bub"></button></div>'
+      + '<div class="pet-sub"><strong class="cp-title"></strong><span class="cp-hint"></span></div><button type="button" class="cp-skip"></button></div>';
     $('stage').appendChild(box);
     ['pointerdown', 'pointerup', 'click', 'touchstart'].forEach(e => box.addEventListener(e, ev => ev.stopPropagation()));
-    const q = x => box.querySelector(x), area = q('.cp-area'), A = q('.pip-pic.a'), B = q('.pip-pic.b'), boo = q('.pip-boo');
+    const q = x => box.querySelector(x), area = q('.cp-area'), A = q('.pip-pic.a'), B = q('.pip-pic.b'), boo = q('.pip-boo'), bubs = q('.pip-bubs'), blanket = q('.pip-blanket'), tools = q('.pip-tools');
     const hint = t => { q('.cp-hint').textContent = tx(t); };
     q('.cp-title').textContent = tx(T('Pip', 'بِب'));
     q('.cp-skip').textContent = tx(T('Give her back to Sami', '{رجّعها|رجّعيها} لسامي'));
+    tools.children[0].textContent = tx(T('Peekaboo', 'غمّيضة'));
+    tools.children[1].textContent = tx(T('Bubbles', 'فقاعات'));
     const alt = el('button', 'opt main cp-alt', tx(T('Give her back to Sami', '{رجّعها|رجّعيها} لسامي'))); alt.type = 'button'; panel.appendChild(alt);
 
     /* two layers, so one picture fades into the next */
@@ -37,47 +42,104 @@
     const show = i => { if (i === cur) return; cur = i; const back = front === A ? B : A; back.style.backgroundImage = `url("${FR[i]}")`; back.classList.add('on'); front.classList.remove('on'); front = back; };
     show(0);
 
-    let over = false, joy = 0, phase = 'you', downAt = 0, hidden = false, theirT = 0, peekAt = 0;
+    let over = false, joy = 0, mode = 'peek', phase = 'you', laughs = 0, downAt = 0, hidden = false, peekAt = 0, busyTill = 0, raf = 0;
     const timers = [];
     const later = (f, ms) => timers.push(setTimeout(() => { if (!over) f(); }, ms));
     const say = (t, ms = 900) => { boo.textContent = tx(t); boo.classList.remove('on'); void boo.offsetWidth; boo.classList.add('on'); later(() => boo.classList.remove('on'), ms); };
-    const finish = r => { if (over) return; over = true; timers.forEach(clearTimeout); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 300); done(r); };
+    const finish = r => { if (over) return; over = true; cancelAnimationFrame(raf); timers.forEach(clearTimeout); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 300); done(r); };
     q('.cp-skip').onclick = ev => { ev.stopPropagation(); finish(0); };
     alt.onclick = () => finish(0);
 
-    const sleepy = () => {
-      phase = 'sleep'; hint(T('She\'s getting sleepy...', 'بدا يجيها النوم...'));
-      later(() => show(3), 900);
-      later(() => { show(5); hint(T('Sami lays her down. She fights it. She\'s losing.', 'سامي يمددها. تقاوم. وقاعدة تخسر.')); }, 2600);
-      later(() => { show(4); hint(T('She\'s asleep.', 'نامت.')); }, 4800);
-      later(() => area.classList.add('dim'), 6200);
-      later(() => finish(1), 7400);
+    const HINT = {
+      peek: T('Hold to cover your eyes. Then let go.', '{اضغط|اضغطي} مطوّل عشان {تغطي|تغطين} عيونك. وبعدين {فك|فكي}.'),
+      bub: T('Tap to blow bubbles. Let them float to her.', '{انقر|انقري} عشان {تنفخ|تنفخين} فقاعات. {خلها|خليها} تطير لها.')
     };
+    const setMode = m => { if (phase === 'sleep' || phase === 'tired') return; mode = m; phase = 'you'; peekAt = 0; [...tools.children].forEach(b => b.classList.toggle('on', b.dataset.m === m)); show(0); hint(HINT[m]); };
+    [...tools.children].forEach(b => b.addEventListener('pointerdown', ev => { ev.stopPropagation(); setMode(b.dataset.m); }));
+    setMode('peek');
+
+    /* she has laughed enough: rubbing her eyes; give her the blanket */
+    const tired = () => {
+      phase = 'tired'; tools.hidden = true; show(3);
+      hint(T('She\'s rubbing her eyes. Drag the blanket to her.', 'قاعدة تفرك عيونها. {اسحب|اسحبي} البطانية لها.'));
+      blanket.hidden = false;
+    };
+    const asleep = () => {
+      phase = 'sleep'; blanket.hidden = true;
+      show(5); hint(T('Sami lays her down. She fights it. She\'s losing.', 'سامي يمددها. تقاوم. وقاعدة تخسر.'));
+      later(() => { show(4); hint(T('She\'s asleep.', 'نامت.')); }, 2200);
+      later(() => area.classList.add('dim'), 3600);
+      later(() => finish(1), 4800);
+    };
+    const gain = n => { joy += n; if (joy >= 5 && phase !== 'tired' && phase !== 'sleep') later(tired, 1500); };
+
+    /* ---- peekaboo ---- */
     const laugh = () => {
-      joy++; show(1); say(T('Peekaboo!', 'بـــخ!'));
-      if (joy >= 5) return later(sleepy, 1700);
+      laughs++; show(1); say(T('Peekaboo!', 'بـــخ!')); gain(1);
+      busyTill = performance.now() + 1500;
       later(() => {
+        if (phase === 'tired' || phase === 'sleep' || mode !== 'peek') return;
         show(0);
-        if (joy >= 2 && phase === 'you') { phase = 'her'; theirTurn(); }
-        else if (phase === 'her') theirTurn();
+        if (laughs >= 2) theirTurn();
         else hint(T('Again! Hold to cover your eyes, then let go.', 'مرة ثانية! {اضغط|اضغطي} مطوّل عشان {تغطي|تغطين} عيونك، وبعدين {فك|فكي}.'));
-      }, 1600);
+      }, 1500);
     };
     /* her turn: she hides her face; wait, and when she peeks out, tap */
     const theirTurn = () => {
       phase = 'her'; peekAt = 0; show(2);
       hint(T('Now she\'s hiding! Wait for her to peek... then tap.', 'الحين هي اللي تتخبى! {انتظر|انتظري} لين تطل... وبعدين {انقر|انقري}.'));
-      theirT = setTimeout(() => { if (over) return; peekAt = performance.now(); show(0); hint(T('She peeked! Tap!', 'طلّت! {انقر|انقري}!')); }, 1300 + Math.random() * 1500);
-      timers.push(theirT);
+      later(() => { if (phase !== 'her' || mode !== 'peek') return; peekAt = performance.now(); show(0); hint(T('She peeked! Tap!', 'طلّت! {انقر|انقري}!')); }, 1300 + Math.random() * 1500);
     };
-    hint(T('Hold to cover your eyes. Then let go.', '{اضغط|اضغطي} مطوّل عشان {تغطي|تغطين} عيونك. وبعدين {فك|فكي}.'));
+
+    /* ---- bubbles: they float up and sideways; when one drifts into her reach she grabs at it and it pops ---- */
+    const live = [];
+    const blow = (x, y) => {
+      for (let k = 0; k < 4; k++) {
+        const b = el('i', 'pip-bub'); const r = 14 + Math.random() * 22; b.style.width = b.style.height = r + 'px'; bubs.appendChild(b);
+        live.push({ b, x: x + (Math.random() - 0.5) * 30, y: y + (Math.random() - 0.5) * 20, vx: (x < area.clientWidth / 2 ? 1 : -1) * (25 + Math.random() * 40), vy: -(30 + Math.random() * 35), t: 0, ph: Math.random() * 6 });
+      }
+      if (!raf) { last = performance.now(); raf = requestAnimationFrame(step); }
+    };
+    let last = 0;
+    const step = now => {
+      if (over) return;
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      const W = area.clientWidth, H = area.clientHeight;
+      for (let k = live.length - 1; k >= 0; k--) {
+        const o = live[k]; o.t += dt; o.x += (o.vx + Math.sin(o.t * 2.4 + o.ph) * 22) * dt; o.y += o.vy * dt;
+        o.b.style.transform = `translate(${o.x}px, ${o.y}px)`;
+        const inReach = Math.abs(o.x / W - 0.5) < 0.17 && o.y / H > 0.22 && o.y / H < 0.75;
+        if (inReach && now > busyTill && phase === 'you' && mode === 'bub') {
+          o.b.classList.add('pop'); live.splice(k, 1); setTimeout(() => o.b.remove(), 250);
+          busyTill = now + 1100; show(1); if (Math.random() < 0.5) say(T('Pop!', 'طق!'), 700); gain(0.5);
+          later(() => { if (phase === 'you' && mode === 'bub') show(0); }, 1000);
+          continue;
+        }
+        if (o.t > 4.5 || o.y < -60) { o.b.classList.add('pop'); live.splice(k, 1); setTimeout(() => o.b.remove(), 250); }
+      }
+      raf = live.length ? requestAnimationFrame(step) : 0;
+    };
+
+    /* ---- the blanket: drag it onto her ---- */
+    let drag = null;
+    blanket.addEventListener('pointerdown', ev => { ev.stopPropagation(); const r = blanket.getBoundingClientRect(); drag = { dx: ev.clientX - r.left, dy: ev.clientY - r.top }; blanket.classList.add('held'); blanket.setPointerCapture(ev.pointerId); });
+    blanket.addEventListener('pointermove', ev => { if (!drag) return; const a = area.getBoundingClientRect(); blanket.style.left = (ev.clientX - a.left - drag.dx) + 'px'; blanket.style.top = (ev.clientY - a.top - drag.dy) + 'px'; blanket.style.right = blanket.style.bottom = 'auto'; });
+    blanket.addEventListener('pointerup', ev => {
+      if (!drag) return; drag = null; blanket.classList.remove('held');
+      const a = area.getBoundingClientRect(), r = blanket.getBoundingClientRect();
+      const cx = (r.left + r.width / 2 - a.left) / a.width, cy = (r.top + r.height / 2 - a.top) / a.height;
+      if (Math.abs(cx - 0.5) < 0.2 && cy > 0.3 && cy < 0.85) asleep();
+      else { blanket.style.left = blanket.style.top = ''; blanket.style.right = blanket.style.bottom = ''; }
+    });
 
     area.addEventListener('pointerdown', ev => {
-      if (over || phase === 'sleep') return;
+      if (over || phase === 'sleep' || phase === 'tired') return;
+      if (mode === 'bub') { const a = area.getBoundingClientRect(); blow(ev.clientX - a.left, ev.clientY - a.top); return; }
       if (phase === 'her') {
         if (!peekAt) { say(T('Not yet...', 'مو الحين...'), 700); return; }
-        peekAt = 0; return laugh();
+        peekAt = 0; phase = 'you'; return laugh();
       }
+      if (performance.now() < busyTill) return;
       downAt = performance.now(); hidden = true; area.classList.add('hide');
     });
     const up = () => {
