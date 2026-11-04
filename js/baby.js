@@ -194,8 +194,24 @@
             : ['Asleep again. She\'s going to expect you now. That\'s how it starts.', 'نامت مرة ثانية. الحين بتصير تنتظرك. كذا تبدأ السالفة.']))];
         } }].filter(Boolean);
     } });
+  /* ---------- she touches the story, a little ---------- */
+  /* Elias: tell him about her, and Thomas comes up */
+  GAME.TOPICS.elias = GAME.TOPICS.elias || [];
+  GAME.TOPICS.elias.push({ id: 'ePip', once: true, label: T('Tell him about Pip at the grocery', '{قل|قولي} له عن بِب اللي في البقالة'),
+    if: s => s.host === 'elias' && s.f.metElias && !s.f.ended && (s.f.pipNaps || 0) >= 1 && GAME.CHAR.elias.where(s) === s.loc,
+    run: s => [{ show: [{ id: 'elias', e: 'neutral' }] },
+      { c: 'elias', e: 'neutral', t: T('Sami\'s sister\'s little one? I\'ve seen her. She looked at me like I owed her money.', 'بنت أخت سامي الصغيرة؟ شفتها. طالعتني كأني مديون لها.') },
+      N1('You tell him about the bubbles, and the peekaboo, and how she laughs with her whole body. He listens with his hands round his cup.', '{تقول|تقولين} له عن الفقاعات، والغمّيضة، وكيف تضحك بجسمها كله. يسمع ويدينه حول كوبه.'),
+      { c: 'elias', e: 'sad', t: T('Thomas laughed like that. At anything. At a spoon. Ada used to say he\'d laugh at a funeral, and then he did, at her mother\'s, and nobody minded.', 'توماس كان يضحك كذا. على أي شي. على ملعقة. آدا كانت تقول إنه بيضحك حتى في عزا، وضحك فعلاً، في عزا أمها، ومحد زعل.') },
+      N1('He doesn\'t say anything else for a while. But he is smiling at the cup.', 'ما يقول شي ثاني فترة. بس يبتسم للكوب.'),
+      st => { st.f.ePip = true; addMood(1); return null; }] });
+  /* the last night on the bench: she remembers you */
+  GAME.SCRIPTS.pipCoda = s => (s.f.pipNaps || 0) >= 1 ? [N1('Sami\'s sister goes past with the pushchair. Pip sees you, points, and says, very seriously: "Boo." Her mother looks at you like you have explained something.', 'أخت سامي تمر بعربية الطفل. بِب تشوفك، وتأشر عليك، وتقول بكل جدية: «بخ.» وأمها تطالعك كأنك {شرحت|شرحتي} لها شي.')] : null;
+
   /* the town notices */
   const chat = (id, when, e, en, ar) => { const c = GAME.CHAR[id]; if (c && Array.isArray(c.chat)) c.chat.unshift({ if: when, e, t: T(en, ar) }); };
   chat('sami', s => (s.f.pipNaps || 0) >= 2, 'smile', 'Pip said a new word today. It was "boo". I\'m blaming you.', 'بِب قالت كلمة جديدة اليوم. كانت «بخ». وأنا ألومك {أنت|أنتِ}.');
+  /* Margaret only comes in the afternoons now; Sami doesn't explain much */
+  chat('sami', s => !!s.f.pipMet && !!s.f.metMarg, 'sad', 'Margaret Hart comes in the afternoons now. Never mornings. Not since Pip. She says it\'s the light. It isn\'t the light.', 'مارغريت هارت صارت تجي العصر. أبد ما تجي الصبح. من يوم جت بِب. تقول عشان الضو. وهو مو عشان الضو.');
   chat('martha', s => !!s.f.pipMet, 'smile', 'Sami\'s sister\'s little one. Born in the big storm, you know. Not a peep out of her the whole night. Now look.', 'بنت أخت سامي الصغيرة. انولدت في العاصفة الكبيرة، تدري. ولا صوت منها طول الليل. وشوفها الحين.');
 })();

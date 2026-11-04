@@ -137,6 +137,7 @@ Object.assign(GAME.SCRIPTS, {
     const lessons = (s.lessons || []).map(l => ({ n: l.t }));
     return [{ go: 'sami_attic' }, { show: [] }, N_('Weeks pass. Saltmere has learned your name, and mostly says it kindly.', 'تمر أسابيع. سولتمير تعلّمت اسمك، وأغلب الوقت تقوله بلطف.')].concat(lessons).concat([
       st => GAME.SCRIPTS.fatherCoda ? GAME.SCRIPTS.fatherCoda(st) : null,
+      st => GAME.SCRIPTS.pipCoda ? GAME.SCRIPTS.pipCoda(st) : null,
       { go: 'street' }, { time: 0 },
       st => { st.slot = NIGHT; return null; },
       N_('An ordinary night. You walk past Sami\'s. On the bench where you once sat, a young man is sitting, thobe creased, eyes on the ground.', 'ليلة عادية. {تمر|تمرين} قدام بقالة سامي. على الكرسي اللي {جلست|جلستي} عليه مرة، شاب جالس، ثيابه مكرمشة، وعيونه في الأرض.'),
