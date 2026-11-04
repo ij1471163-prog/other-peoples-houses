@@ -102,6 +102,8 @@
     panel.innerHTML = '';
     const box = el('div', 'endcine ho-film'); const media = el('div', 'ec-media vid');
     const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.autoplay = true; v.setAttribute('playsinline', '');
+    /* the first picture shows until it plays (without it, phones draw their own grey 'video' icon) */
+    v.poster = st.src + '-poster.webp'; v.preload = 'auto'; v.controls = false; v.disableRemotePlayback = true;
     ['webm', 'mp4'].forEach(x => { const so = document.createElement('source'); so.src = st.src + '.' + x; so.type = 'video/' + x; v.appendChild(so); });
     media.appendChild(v); box.appendChild(media); box.appendChild(el('div', 'ec-vig'));
     $('stage').appendChild(box);

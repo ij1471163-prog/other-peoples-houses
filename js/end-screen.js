@@ -38,7 +38,7 @@
       const base = 'img/end/' + VIDEO[id].replace(/\.mp4$/, '');
       const fb = () => { if (!v.isConnected) return; v.remove(); media.classList.remove('vid'); media.style.backgroundImage = 'url(img/' + p[0] + '.jpg)'; media.classList.add('still'); };
       ['webm', 'mp4'].forEach((x, i, a) => { const so = document.createElement('source'); so.src = base + '.' + x; so.type = 'video/' + x; if (i === a.length - 1) so.onerror = fb; v.appendChild(so); });
-      v.muted = true; v.playsInline = true; v.autoplay = true; v.setAttribute('playsinline', ''); v.addEventListener('loadedmetadata', () => { try { v.playbackRate = v.duration < 6 ? 0.8 : 1; } catch (e) {} });
+      v.muted = true; v.playsInline = true; v.autoplay = true; v.setAttribute('playsinline', ''); v.poster = base + '-poster.webp'; v.preload = 'auto'; v.controls = false; v.addEventListener('loadedmetadata', () => { try { v.playbackRate = v.duration < 6 ? 0.8 : 1; } catch (e) {} });
       v.onerror = fb;
       v.onended = () => o.classList.add('done');
       media.appendChild(v); media.classList.add('vid');
