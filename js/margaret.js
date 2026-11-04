@@ -14,7 +14,7 @@
   const HOUSE = ['marg_living', 'marg_kitchen', 'marg_guest', 'marg_bed', 'dan_room', 'marg_bath'];
   const mHome = s => { const w = GAME.CHAR.margaret.where(s); return !!w && HOUSE.includes(w); };
   const byDay = (s, a) => a[s.day % a.length];
-  const danPath = s => (s.f.mWore ? 1 : 0) + (s.f.mAnswered ? 1 : 0) + (s.f.mGoodnight ? 1 : 0);
+  const danPath = s => (s.f.mWore ? 1 : 0) + (s.f.mAnswered ? 1 : 0) + (s.f.mGoodnight ? 1 : 0) + (s.f.mCameBack ? 1 : 0);   /* mCameBack: js/margaret-left.js */
 
   /* this chapter's people live in js/chars/<id>.js */
 
