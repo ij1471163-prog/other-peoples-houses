@@ -16,3 +16,7 @@ All sounds in this folder are public domain (CC0), cut and level-matched for the
 cat-purr.mp3, cat-meow1.mp3, cat-meow2.mp3, cat-hiss.mp3
   Made for this game (synthesised in Python/numpy, scratchpad catsnd/synth.py). No third-party source.
 
+pip-giggle1.mp3, pip-giggle2.mp3
+  Cut from "Sound effect: Baby laughing 01" by scottishperson on Pixabay (Pixabay Content License: free for commercial use, no attribution required). Chosen and downloaded by the user, 2026-11-04.
+pip-giggle3.mp3, pip-giggle4.mp3
+  Cut from "Baby laughing" by freesound_community on Pixabay (Pixabay Content License). Chosen and downloaded by the user, 2026-11-04.

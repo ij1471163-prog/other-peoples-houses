@@ -28,8 +28,11 @@
   const on = () => typeof AUDIO !== 'undefined' && AUDIO.on;
   const vol = k => { const st = (typeof AUDIO !== 'undefined' && AUDIO.settings) || {}; return Math.max(0, Math.min(1, (st.master || 0.8) * (st.sfx || 0.7) * k)); };
   /* her sounds: only once real ones exist (img/snd/pip-*.mp3); the film's own soundtrack wasn't her */
-  const HAS = { 'pip-giggle': false, 'pip-babble': false, 'pip-yawn': false };
-  const snd = (name, k) => { if (!HAS[name] || !on()) return; try { const a = new Audio('img/snd/' + name + '.mp3'); a.volume = vol(k); a.play().catch(() => {}); } catch (e) { /* no sound */ } };
+  /* her laughs: four short giggles from two Pixabay recordings the user chose (img/snd/SOURCES.txt), never the same twice running */
+  const GIG = ['pip-giggle1', 'pip-giggle2', 'pip-giggle3', 'pip-giggle4']; let lastG = -1;
+  const HAS = { 'pip-giggle': true, 'pip-babble': false, 'pip-yawn': false };
+  const snd = (name, k) => { if (!HAS[name] || !on()) return;
+    if (name === 'pip-giggle') { let g; do { g = Math.floor(Math.random() * GIG.length); } while (g === lastG); lastG = g; name = GIG[g]; } try { const a = new Audio('img/snd/' + name + '.mp3'); a.volume = vol(k); a.play().catch(() => {}); } catch (e) { /* no sound */ } };
 
   GAME.MINI.pip = function (panel, done) {
     panel.innerHTML = '';
