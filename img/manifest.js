@@ -130,9 +130,13 @@ window.IMG_MANIFEST = {
    "smile": "img/chars/bella-smile.webp"
   },
   "carol": {
+   "eat": "img/chars/carol-eat.webp",
+   "fond": "img/chars/carol-fond.webp",
+   "laugh": "img/chars/carol-laugh.webp",
    "neutral": "img/chars/carol-neutral.webp",
    "sad": "img/chars/carol-sad.webp",
-   "smile": "img/chars/carol-smile.webp"
+   "smile": "img/chars/carol-smile.webp",
+   "tea": "img/chars/carol-tea.webp"
   },
   "elias": {
    "angry": "img/chars/elias-angry.webp",

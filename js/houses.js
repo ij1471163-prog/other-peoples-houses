@@ -70,13 +70,17 @@
     if: s => s.ch === 2 && !!s.f.leoCarol && !s.f.leoEnded && hasBg('leo_home_kitchen') && s.slot >= 1 && s.slot <= 2 && GAME.CHAR.leo.where(s) !== 'street',
     run: s => {
       const n = step(s, 'leo');
+      if (n >= 2 && newDay(s, 'leo')) return carolTea(s);
       if (n >= 2 || !newDay(s, 'leo')) return [N1('Carol waves at you from the kitchen window, and holds up a lemon, and puts it on the gatepost for you.', 'كارول تلوّح لك من شباك المطبخ، وترفع ليمونة، وتحطها لك على عمود البوابة.')];
       if (n === 0) return [{ go: 'leo_home_kitchen' }, enter('carol'), { show: [{ id: 'carol', e: 'neutral' }] },
         N1('Carol opens the gate before you reach it. "Come in. He won\'t know. I won\'t tell him if you don\'t."', 'كارول تفتح البوابة قبل لا {توصلها|توصلينها}. «{ادخل|ادخلي}. ما بيدري. أنا ما بقول له إذا أنت{|ِ} ما {قلت|قلتي}.»'),
         N1('The kitchen smells of garlic and something sweet in the oven. She puts a cup of tea in front of you without asking how you take it, and gets it right.', 'المطبخ ريحته ثوم وشي حلو في الفرن. تحط قدامك كوب شاي بدون ما تسألك كيف {تبيه|تبينه}، وتطلع صح.'),
+        { show: [{ id: 'carol', e: 'tea' }] },
+        N1('She holds her own cup in both hands and closes her eyes over the steam for a second, the way people do when the tea is the only quiet thing in the day.', 'وتمسك كوبها بيدينها الثنتين وتغمض عيونها فوق البخار ثانية، مثل ما يسوي اللي الشاي هو الشي الهادي الوحيد في يومه.'),
+        { show: [{ id: 'carol', e: 'neutral' }] },
         N1('"Tell me one thing," she says. "Not where he is. I know where he is. Tell me if he laughs."', '«{قل|قولي} لي شي واحد،» تقول. «مو وينه. أنا أعرف وينه. {قل|قولي} لي إذا يضحك.»'),
         { menu: [
-          { t: T('"He laughs at his own gull drawings."', '«يضحك على رسمات النوارس حقته.»'), then: [{ show: [{ id: 'carol', e: 'smile' }] }, N1('"Angry bananas," she says, and has to turn round to the sink for a while.', '«موز معصب،» تقول، وتلف للمغسلة شوي.')] },
+          { t: T('"He laughs at his own gull drawings."', '«يضحك على رسمات النوارس حقته.»'), then: [{ show: [{ id: 'carol', e: 'laugh' }] }, N1('"Angry bananas," she says, and has to turn round to the sink for a while.', '«موز معصب،» تقول، وتلف للمغسلة شوي.')] },
           { t: T('"Not much. But more than when I got there."', '«مو كثير. بس أكثر من يوم جيت.»'), then: [{ show: [{ id: 'carol', e: 'sad' }] }, N1('"More than when you got there," she repeats, as if writing it down somewhere inside.', '«أكثر من يوم جيت،» تعيدها، كأنها تكتبها في مكان داخلها.')] }
         ] },
         { show: [{ id: 'carol', e: 'neutral' }] },
@@ -90,6 +94,34 @@
         N1('"Give it to him when he\'s ready. Not before. You\'ll know. I never did."', '«{أعطه|أعطيه} إياها لما يكون جاهز. مو قبل. بتعرف{|ين}. أنا عمري ما عرفت.»'),
         st => { give('burntpage'); setStep(st, 'leo', 2); addMood(1); return null; }];
     } };
+  /* after the envelope: once a day she lets you in for tea, and one small thing (Carol's eat / tea / laugh / fond pictures) */
+  const carolTea = s => {
+    const k = (s.f.carolTea || 0); s.f.carolTea = k + 1; s.f.hd_leo = s.day;
+    const head = [{ go: 'leo_home_kitchen' }, enter('carol')];
+    const V = [
+      () => [{ show: [{ id: 'carol', e: 'eat' }] },
+        N1('Carol is eating half a sandwich standing up at the counter. She pushes the other half across to you.', 'كارول واقفة عند الكاونتر تاكل نص سندويشة. وتدف النص الثاني لك.'),
+        N1('"Cheese and pickle. Frank\'s lunch. He\'s down at the boat, he\'ll never know." She chews. "He\'ll know. He counts them."', '«جبن ومخلل. غدا فرانك. هو تحت عند القارب، ما بيدري.» تمضغ. «بيدري. يعدّها.»'),
+        { show: [{ id: 'carol', e: 'fond' }] },
+        N1('"Leo used to pull the crusts off and throw them to the gulls from that window. Every day. That\'s how it started, him and the gulls. I used to shout at him for it."', '«ليو كان يشيل الأطراف ويرميها للنوارس من هالشباك. كل يوم. كذا بدت قصته هو والنوارس. وكنت أصارخ عليه عشانها.»'),
+        st => { feed(30); addMood(1); return null; }],
+      () => [{ show: [{ id: 'carol', e: 'tea' }] },
+        N1('Two cups already on the table. She sits, and closes her eyes over hers.', 'كوبين على الطاولة من قبل. تجلس، وتغمض عيونها فوق كوبها.'),
+        N1('"Five minutes. Every day at three I have five minutes where nobody is dead and nobody is angry. Sit in them with me. Don\'t talk."', '«خمس دقايق. كل يوم الساعة ثلاث عندي خمس دقايق محد فيها ميت ومحد فيها زعلان. {اجلس|اجلسي} فيها معي. لا {تتكلم|تتكلمين}.»'),
+        N1('You don\'t. The clock. The fridge. A gull somewhere. It is the best five minutes you have had this week, and you didn\'t do anything.', 'ما {تتكلم|تتكلمين}. الساعة. الثلاجة. نورس في مكان. أحلى خمس دقايق مرت عليك هالأسبوع، {وأنت ما سويت|وأنتِ ما سويتي} شي.'),
+        st => { addMood(2); return null; }],
+      () => [{ show: [{ id: 'carol', e: 'neutral' }] },
+        N1('"Tell me something he did this week. Anything. Something stupid."', '«{قل|قولي} لي شي سواه هالأسبوع. أي شي. شي غبي.»'),
+        { menu: [
+          { t: T('"He argued with a gull. Out loud. He lost."', '«تهاوش مع نورس. بصوت عالي. وخسر.»'), then: [{ show: [{ id: 'carol', e: 'laugh' }] }, N1('She laughs so suddenly she has to put the cup down. "He talks to them! He always talked to them! Frank said he\'d grow out of it."', 'تضحك فجأة لدرجة إنها تحط الكوب. «يكلمهم! من زمان يكلمهم! فرانك قال بيكبر ويتركها.»')] },
+          { t: T('"He burned the toast and ate it anyway, to prove a point."', '«حرق التوست وأكله برضو، عشان يثبت وجهة نظر.»'), then: [{ show: [{ id: 'carol', e: 'laugh' }] }, N1('"That\'s his father. That is exactly his father." She laughs, and then stops, and then laughs again, as if she has decided she\'s allowed.', '«هذا أبوه. هذا أبوه بالضبط.» تضحك، وبعدين توقف، وبعدين تضحك مرة ثانية، كأنها قررت إنه مسموح لها.')] }
+        ] },
+        { show: [{ id: 'carol', e: 'fond' }] },
+        N1('"Thank you. I\'ll have that for the rest of the day."', '«شكراً. بيكفيني هذا لآخر اليوم.»'),
+        st => { addMood(1); return null; }]
+    ];
+    return head.concat(V[k % V.length](), [{ show: [{ id: 'carol', e: 'neutral' }] }]);
+  };
   GAME.LOC.street.spots.push(leoDoor);
   host('carol', ['leo_home_kitchen']);   /* she stays in her kitchen; you go round on your own */
   GAME.TOPICS.leo.push({ id: 'burntpage', once: true, label: T('Give him the half-burned page from his mother', '{أعطه|أعطيه} الورقة النص محروقة من أمه'),
