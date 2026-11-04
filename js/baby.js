@@ -17,7 +17,7 @@
 (function () {
   const N1 = (en, ar) => ({ n: T(en, ar) });
   const S1 = (e, en, ar) => ({ c: 'sami', e, t: T(en, ar) });
-  const FR = [0, 1, 2, 3].map(i => 'img/fx/pip/' + i + '.webp');   /* 0 curious, 1 laughing, 2 hiding, 3 yawning */
+  const FR = [0, 1, 2, 3, 4, 5].map(i => 'img/fx/pip/' + i + '.webp');   /* 0 curious, 1 laughing, 2 hiding, 3 yawning, 4 asleep with her rabbit, 5 lying down, eyes still open */
 
   GAME.MINI.pip = function (panel, done) {
     panel.innerHTML = '';
@@ -48,8 +48,10 @@
     const sleepy = () => {
       phase = 'sleep'; hint(T('She\'s getting sleepy...', 'بدا يجيها النوم...'));
       later(() => show(3), 900);
-      later(() => { area.classList.add('dim'); hint(T('She\'s asleep.', 'نامت.')); }, 2600);
-      later(() => finish(1), 4200);
+      later(() => { show(5); hint(T('Sami lays her down. She fights it. She\'s losing.', 'سامي يمددها. تقاوم. وقاعدة تخسر.')); }, 2600);
+      later(() => { show(4); hint(T('She\'s asleep.', 'نامت.')); }, 4800);
+      later(() => area.classList.add('dim'), 6200);
+      later(() => finish(1), 7400);
     };
     const laugh = () => {
       joy++; show(1); say(T('Peekaboo!', 'بـــخ!'));
@@ -90,8 +92,10 @@
   /* ---------- in the grocery ---------- */
   const gro = GAME.LOC.grocery;
   if (gro) gro.spots.push({ x: 70, y: 70, label: T('The playpen behind the counter', 'سرير اللعب اللي ورا الكاونتر'),
-    if: s => !s.f.prologue && s.slot <= 1 && GAME.CHAR.sami.where(s) === 'grocery' && !doneToday('pip'),
+    if: s => !s.f.prologue && s.slot <= 1 && GAME.CHAR.sami.where(s) === 'grocery',
     run: s => {
+      if (doneToday('pip') && s.f.pipDay !== s.day) return [N1('Pip is busy explaining something important to her rabbit. You are not part of the conversation.', 'بِب مشغولة تشرح لأرنبها شي مهم. وأنت{|ِ} مو جزء من السالفة.')];
+      if (doneToday('pip')) return [{ mini: 'cg', src: FR[4], full: true, cap: T('Still asleep, holding on to her rabbit. Sami serves customers in a whisper.', 'لسا نايمة، وماسكة أرنبها. وسامي يخدم الزباين بصوت واطي.') }];
       onceToday('pip');
       const first = !s.f.pipMet; s.f.pipMet = true;
       return [{ show: [{ id: 'sami', e: 'smile' }] },
@@ -99,7 +103,7 @@
         first ? S1('neutral', 'She doesn\'t like strangers. She likes peekaboo. Those are the rules. I don\'t make them.', 'ما تحب الغرب. تحب الغمّيضة. هذي القوانين. وأنا ما أحطها.') : S1('smile', 'She\'s been looking at the door all morning. Don\'t tell her I said that, she\'s got a reputation.', 'طول الصبح وهي تطالع الباب. لا {تقول|تقولين} لها إني قلت، عندها سمعة تحافظ عليها.'),
         { mini: 'pip', then: (r, st) => {
           if (!r) return [N1('Pip looks at you, unimpressed, and goes back to chewing her rabbit\'s ear.', 'بِب تطالعك، ولا هي منبهرة، وترجع تعض أذن أرنبها.')];
-          st.f.pipNaps = (st.f.pipNaps || 0) + 1; addMood(1);
+          st.f.pipNaps = (st.f.pipNaps || 0) + 1; st.f.pipDay = st.day; addMood(1);
           if (st.f.pipNaps === 1) addTrust('sami', 1);
           return [S1('smile', ...(st.f.pipNaps === 1
             ? ['She\'s out. Do you know how long that takes me? You\'re hired. The pay is nothing.', 'نامت. تدري كم تاخذ مني؟ {توظفت|توظفتي}. والراتب ولا شي.']
