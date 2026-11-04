@@ -1423,3 +1423,6 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 @keyframes pipBreathe{0%,100%{transform:scale(1.02) translate(0,0)}50%{transform:scale(1.035) translate(-.4%,-.6%)}}
 @keyframes pipBump{0%{transform:scale(1.03)}35%{transform:scale(1.06) translateY(-1.5%)}70%{transform:scale(1.035) translateY(.4%)}100%{transform:scale(1.03)}}
 .ho-pip .cp-area.dim .pip-pic.on{animation:none}
+
+.ho-pip.vid .pip-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 8%;transition:filter 1.4s ease}
+.ho-pip.vid .cp-area.dim .pip-v{filter:brightness(.55) saturate(.8)}

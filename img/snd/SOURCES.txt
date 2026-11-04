@@ -15,3 +15,6 @@ All sounds in this folder are public domain (CC0), cut and level-matched for the
 
 cat-purr.mp3, cat-meow1.mp3, cat-meow2.mp3, cat-hiss.mp3
   Made for this game (synthesised in Python/numpy, scratchpad catsnd/synth.py). No third-party source.
+
+pip-babble.mp3, pip-giggle.mp3, pip-yawn.mp3
+  Cut from the soundtrack of the user's own generated video of Pip (Gemini), 2026-11-04.
