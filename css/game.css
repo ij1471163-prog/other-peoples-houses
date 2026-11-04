@@ -1426,3 +1426,18 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 
 .ho-pip.vid .pip-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 8%;transition:filter 1.4s ease}
 .ho-pip.vid .cp-area.dim .pip-v{filter:brightness(.55) saturate(.8)}
+
+/* Pip: the rabbit's twin, the spoon, the tower (js/baby.js) */
+.ho-pip .pip-bunny{position:absolute;left:0;top:0;z-index:4;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35));will-change:transform}
+.ho-pip .pip-bunny[hidden],.ho-pip .pip-spoon[hidden]{display:none}
+.ho-pip .pip-spoon{--s:1;position:absolute;left:7%;bottom:15%;width:calc(150px * var(--s));height:calc(44px * var(--s));z-index:3;cursor:grab;touch-action:none;animation:pipNudge 1.6s ease-in-out infinite;
+  background:linear-gradient(90deg,transparent 0 30%,#d9dde2 30% 100%) no-repeat right center/100% 22%;border-radius:0 8px 8px 0;filter:drop-shadow(0 6px 8px rgba(0,0,0,.4))}
+.ho-pip .pip-spoon::before{content:'';position:absolute;left:0;top:0;width:40%;height:100%;border-radius:50%;background:radial-gradient(ellipse at 40% 35%,#fff 0 6%,#e8ecef 30%,#aeb5bc 100%)}
+.ho-pip .pip-spoon i{position:absolute;left:5%;top:14%;width:30%;height:66%;border-radius:50%;background:radial-gradient(ellipse at 40% 35%,#ffb562 0 20%,#f08a2c 70%,#d96f16 100%);transition:opacity .2s}
+.ho-pip .pip-spoon.empty i{opacity:0}
+.ho-pip .pip-spoon.held{cursor:grabbing;animation:none;transform:rotate(-6deg) scale(1.06)}
+.ho-pip .pip-tower{--b:26px;position:absolute;width:var(--b);height:0;z-index:1;pointer-events:none;transform:translateX(-50%)}
+.ho-pip .pip-tower i{position:absolute;left:0;width:var(--b);height:var(--b);transform:rotate(var(--r,0deg));border-radius:4px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),inset -3px -3px 0 rgba(0,0,0,.18),0 3px 5px rgba(0,0,0,.35);color:rgba(255,255,255,.9);font:700 calc(var(--b) * .55)/var(--b) system-ui,sans-serif;text-align:center;font-style:normal;animation:pipDrop .25s ease-out}
+.ho-pip .pip-tower.fall i{transition:transform .9s cubic-bezier(.2,.6,.4,1),opacity .9s ease;transform:translate(var(--fx,0),calc(var(--b) * 2)) rotate(var(--fr,0deg));opacity:0}
+@keyframes pipDrop{0%{transform:translateY(-160%) rotate(var(--r,0deg));opacity:0}100%{transform:rotate(var(--r,0deg));opacity:1}}
+.ho-pip .pip-tools{flex-wrap:wrap;max-width:calc(100% - 200px)}
