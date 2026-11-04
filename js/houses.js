@@ -40,18 +40,26 @@
   });
 
   /* ================= 1. Leo's family home ================= */
-  const LH = ['leo_home_kitchen', 'leo_kidroom', 'leo_yard'];
+  const LH = ['leo_home_kitchen', 'leo_hall', 'leo_kidroom', 'leo_yard'];
   Object.assign(GAME.LOC, {
     leo_home_kitchen: { name: T('The big house: the kitchen', 'البيت الكبير: المطبخ'), bg: 'leo_home_kitchen', charX: 60,
-      exits: [{ to: 'street', x: 6, y: 86, label: T('Out to the street', '{اطلع|اطلعي} للشارع') }, { to: 'leo_kidroom', x: 88, y: 30, label: T('Upstairs: his room', 'فوق: غرفته') }, { to: 'leo_yard', x: 90, y: 74, label: T('The back yard', 'الحوش') }],
+      exits: [{ to: 'leo_hall', x: 6, y: 86, label: T('The hall', 'الممر') }, { to: 'leo_yard', x: 90, y: 74, label: T('The back yard', 'الحوش'), if: () => hasBg('leo_yard') }],
       spots: [
-        { x: 30, y: 30, label: T('The window', 'الشباك'), run: s => [N1('A lemon tree outside, so heavy with fruit that the branches rest on the fence. "Planted it the week he was born," Carol says. "Everybody gets lemons from me. Everybody."', 'شجرة ليمون برا، مليانة ثمر لدرجة إن أغصانها مسنودة على السور. «زرعتها الأسبوع اللي انولد فيه،» تقول كارول. «الكل ياخذ ليمون مني. الكل.»')] },
-        { x: 64, y: 62, label: T('The table', 'الطاولة'), run: s => [N1('Three chairs. Two have cushions that have gone flat with sitting. The third is pushed in very neatly, the way you push in a chair nobody uses.', 'ثلاث كراسي. اثنين مخداتهم مفرودة من كثر الجلوس. والثالث مدخّل تحت الطاولة بترتيب مرة، مثل ما تدخّل كرسي محد يستخدمه.')] }
+        { x: 66, y: 34, label: T('The window', 'الشباك'), run: s => [N1('The bay, and the lighthouse on its point. On the counter, a bowl of lemons from the tree in the garden. "Planted it the week he was born," Carol says. "Everybody gets lemons from me. Everybody."', 'الخليج، والمنارة على رأسها. وعلى الرخامة صحن ليمون من الشجرة اللي في الحديقة. «زرعتها الأسبوع اللي انولد فيه،» تقول كارول. «الكل ياخذ ليمون مني. الكل.»')] },
+        { x: 50, y: 66, label: T('The table', 'الطاولة'), run: s => [N1('Four chairs, three cushions gone flat with sitting. The fourth chair is pushed in very neatly, the way you push in a chair nobody uses any more.', 'أربع كراسي، ثلاث مخداتها مفرودة من كثر الجلوس. والرابع مدخّل تحت الطاولة بترتيب مرة، مثل ما تدخّل كرسي محد يستخدمه.')] },
+        { x: 12, y: 46, label: T('The fridge', 'الثلاجة'), run: s => [N1('Two photos under magnets: a sailing boat, and a boy of about eight on the deck of it, scowling at the camera with a lemon in each hand.', 'صورتين تحت مغناطيس: قارب شراعي، وولد عمره تقريباً ثمان على سطحه، معصب على الكاميرا وفي كل يد ليمونة.')] }
       ] },
-    leo_kidroom: { name: T('Leo\'s old room', 'غرفة ليو القديمة'), bg: 'leo_kidroom', exits: [{ to: 'leo_home_kitchen', x: 6, y: 86, label: T('Back downstairs', '{انزل|انزلي} تحت') }],
+    leo_hall: { name: T('The big house: the hall', 'البيت الكبير: الممر'), bg: 'leo_hall', charX: 50,
+      exits: [{ to: 'street', x: 6, y: 86, label: T('Out to the street', '{اطلع|اطلعي} للشارع') }, { to: 'leo_home_kitchen', x: 22, y: 45, label: T('The kitchen', 'المطبخ') }, { to: 'leo_kidroom', x: 69, y: 45, label: T('Leo\'s room', 'غرفة ليو') }],
       spots: [
-        { x: 40, y: 30, label: T('The drawings on the wall', 'الرسومات اللي على الجدار'), run: s => [N1('Cars and gulls, from crayon to pencil to something that is clearly already good. The oldest, at knee height: a gull shaped like an angry banana, signed "LEO 6".', 'سيارات ونوارس، من رسم بالألوان الشمعية لين رسم بالرصاص، لين شي واضح إنه زين من بدري. أقدمها، على مستوى الركبة: نورس على شكل موزة معصبة، موقّعة «ليو ٦».'), N1('So that\'s where it comes from.', 'يعني من هنا جات.')] },
-        { x: 74, y: 40, label: T('The empty hook', 'المعلاق الفاضي'), run: s => [N1('A hook by the bed with nothing on it, and a pale shape on the wallpaper around it where a pair of headphones hung for years.', 'معلاق جنب السرير ما عليه شي، وحوله على ورق الجدار أثر فاتح، مكان سماعات كانت معلقة سنين.')] }
+        { x: 50, y: 52, label: T('The bathroom', 'الحمّام'), run: s => [N1('Three toothbrush holders. Two toothbrushes.', 'ثلاث علب فرش أسنان. وفرشتين.')] },
+        { x: 88, y: 62, label: T('The pink room at the end', 'الغرفة الوردية اللي في الآخر'), run: s => [N1('A pink room, a rabbit sitting very straight on the bed. "The spare room," Carol says behind you. "For guests. We don\'t have guests. Frank\'s mother made the rabbit, and you can\'t throw away something somebody\'s mother made."', 'غرفة وردية، وأرنب جالس مستقيم على السرير. «غرفة الضيوف،» تقول كارول وراك. «للضيوف. وإحنا ما عندنا ضيوف. أم فرانك خيّطت الأرنب، وما تقدر ترمي شي خيّطته أم أحد.»')] }
+      ] },
+    leo_kidroom: { name: T('Leo\'s old room', 'غرفة ليو القديمة'), bg: 'leo_kidroom', exits: [{ to: 'leo_hall', x: 6, y: 86, label: T('Back to the hall', '{ارجع|ارجعي} للممر') }],
+      spots: [
+        { x: 30, y: 30, label: T('The pictures on the wall', 'الصور اللي على الجدار'), run: s => [N1('Not prints. Drawings, his, in frames his mother bought: boats, the bay, the lighthouse, getting better year by year. The oldest is down by the bed, unframed, stuck on with tape: a gull shaped like an angry banana, signed "LEO 6".', 'مو صور مطبوعة. رسوماته هو، في براويز شرتها أمه: قوارب، والخليج، والمنارة، وكل سنة أحسن من اللي قبلها. وأقدمها تحت جنب السرير، بدون برواز، ملصوق بشريط: نورس على شكل موزة معصبة، موقّع «ليو ٦».'), N1('So that\'s where it comes from.', 'يعني من هنا جات.')] },
+        { x: 52, y: 58, label: T('The bed', 'السرير'), run: s => [N1('Made with corners like a hotel. Somebody makes it every week, though nobody has slept in it for two years. The blanket at the foot still has a few long brown hairs on it, and they have been left there.', 'مرتب بزوايا مثل الفندق. أحد يرتبه كل أسبوع، مع إن محد نام فيه من سنتين. والبطانية اللي تحت فيها كم شعرة بنية طويلة، وأحد تركها مكانها.')] },
+        { x: 86, y: 52, label: T('The wardrobe', 'الدولاب'), run: s => [N1('His clothes from two years ago, ironed. On the inside of the door, in pencil, a list of heights: LEO 8, LEO 11, LEO 14... and next to the last one, smaller, DAN 17, and a little drawing of a car.', 'ملابسه من قبل سنتين، مكوية. وداخل الباب، بالرصاص، قايمة أطوال: ليو ٨، ليو ١١، ليو ١٤... وجنب آخر واحد، بخط أصغر، دان ١٧، ورسمة صغيرة لسيارة.')] }
       ] },
     leo_yard: { name: T('The back yard', 'الحوش'), bg: 'leo_yard', charX: 40, exits: [{ to: 'leo_home_kitchen', x: 8, y: 60, label: T('Back inside', '{ارجع|ارجعي} داخل') }],
       spots: [
@@ -72,7 +80,7 @@
           { t: T('"Not much. But more than when I got there."', '«مو كثير. بس أكثر من يوم جيت.»'), then: [{ show: [{ id: 'carol', e: 'sad' }] }, N1('"More than when you got there," she repeats, as if writing it down somewhere inside.', '«أكثر من يوم جيت،» تعيدها، كأنها تكتبها في مكان داخلها.')] }
         ] },
         { show: [{ id: 'carol', e: 'neutral' }] },
-        N1('"His room is upstairs. I haven\'t changed anything. Frank wanted to. I told him he could change it over my dead body. He said that isn\'t funny in this family. He was right." She nods at the stairs. "Go on. I\'ll be here."', '«غرفته فوق. ما غيرت فيها شي. فرانك كان يبي يغيرها. قلت له على جثتي. قال هالكلام مو مضحك في هالعيلة. وكان معه حق.» وتأشر على الدرج. «{روح|روحي}. أنا هنا.»'),
+        N1('"His room is down the hall. I haven\'t changed anything. Frank wanted to. I told him he could change it over my dead body. He said that isn\'t funny in this family. He was right." She nods at the hall. "Go on. I\'ll be here."', '«غرفته آخر الممر. ما غيرت فيها شي. فرانك كان يبي يغيرها. قلت له على جثتي. قال هالكلام مو مضحك في هالعيلة. وكان معه حق.» وتأشر على الممر. «{روح|روحي}. أنا هنا.»'),
         st => { setStep(st, 'leo', 1); addMood(1); return null; }];
       return [{ go: 'leo_home_kitchen' }, enter('carol'), { show: [{ id: 'carol', e: 'neutral' }] },
         N1('Carol is at the table with a big envelope. She waits until you sit down.', 'كارول على الطاولة ومعها ظرف كبير. تنتظرك لين {تجلس|تجلسين}.'),
@@ -83,7 +91,7 @@
         st => { give('burntpage'); setStep(st, 'leo', 2); addMood(1); return null; }];
     } };
   GAME.LOC.street.spots.push(leoDoor);
-  host('carol', LH);
+  host('carol', ['leo_home_kitchen']);   /* she stays in her kitchen; you go round on your own */
   GAME.TOPICS.leo.push({ id: 'burntpage', once: true, label: T('Give him the half-burned page from his mother', '{أعطه|أعطيه} الورقة النص محروقة من أمه'),
     if: s => has('burntpage') && s.ch === 2 && !s.f.leoEnded && (s.trust.leo || 0) >= 4,
     run: s => { take('burntpage'); return [{ show: [{ id: 'leo', e: 'shock' }] },

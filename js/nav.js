@@ -24,6 +24,7 @@
     marg_hall: { marg_guest: [46, 8, 53, 83], dan_room: [62, 19, 74, 60], marg_bath: [78, 11, 84, 76], marg_bed: [91, 5, 100, 95] },
     street: { grocery: [19, 52, 27, 72], cafe: [71, 58, 93, 84] },
     elias_ext: { hall: [62, 29, 73, 78] },
+    leo_hall: { leo_home_kitchen: [16, 6, 29, 80], leo_kidroom: [65, 15, 74, 70] },
     cliff_road: { marg_living: [48, 38, 58, 56] },
     dock: { boathouse: [30, 34, 37, 50] },
     lh_ext: { lh_living: [51, 43, 59, 56] }
@@ -71,6 +72,15 @@
       sp.insertBefore(d, sp.firstChild);
     });
     untangleSpots(sp);
+    /* a door drawn in the picture always wins over another thing's label lying across it:
+       the label lets taps through to the door; the thing's own dot still works */
+    const hits = [...sp.querySelectorAll('.doorhit')].map(d => d.getBoundingClientRect());
+    if (hits.length) sp.querySelectorAll('.spot').forEach(x => {
+      const r = x.getBoundingClientRect();
+      const over = hits.some(h => r.left < h.right && r.right > h.left && r.top < h.bottom && r.bottom > h.top);
+      x.style.pointerEvents = over ? 'none' : '';
+      const dot = x.querySelector('i'); if (dot) dot.style.pointerEvents = over ? 'auto' : '';
+    });
     /* the back button, first in the top bar */
     const bar = st.querySelector('.hud .btns'); if (!bar || bar.querySelector('.ibtn.back')) return;
     const h = backExit(s); if (!h) return;

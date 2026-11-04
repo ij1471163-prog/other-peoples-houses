@@ -58,6 +58,8 @@
         if (armed !== b || now - armedAt > 4000) {
           sp.querySelectorAll('.spot.armed').forEach(o => { o.classList.remove('armed'); const sx = o.querySelector('span'); if (sx && sx.dataset.txt) sx.textContent = sx.dataset.txt; });
           armed = b; armedAt = now; b.classList.add('armed', 'show');
+          /* a door drawn in the picture has its button hidden: show it while it asks, so "tap again" can be seen */
+          if (b.classList.contains('nav-hid')) { b.classList.remove('nav-hid'); b.dataset.hid = '1'; setTimeout(() => { if (armed !== b && b.dataset.hid) { b.classList.add('nav-hid'); delete b.dataset.hid; } }, 4100); }
           if (span) { span.dataset.txt = span.textContent; span.textContent = '👁 ' + tx(L.ask); }
           const who = host && houseOf(s.loc) === host ? host : null, k = who && KICK[who];
           if (who) say(tx(k ? L.warn(s.susp[who] || 0, k, nameOf(who)) : L.warnAny(nameOf(who))));
