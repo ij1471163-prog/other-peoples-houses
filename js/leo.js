@@ -89,7 +89,7 @@ Object.assign(GAME.SCRIPTS, {
       ELIAS_KICK: N_('Two nights on the bench outside Sami\'s. Sami brings you tea in the mornings and doesn\'t ask. On the third night, you walk down to the harbor.', 'ليلتين على الكرسي قدام بقالة سامي. سامي يجيب لك شاي الصبح وما يسأل. والليلة الثالثة، {تنزل|تنزلين} للميناء.'),
       ELIAS_GO: N_('You told your mother you\'d come back to her at the end of the month. She cried. You need somewhere to sleep until then, and money for the ticket.', '{قلت|قلتي} لأمك إنك {بترجع|بترجعين} آخر الشهر. بكت. {وتحتاج مكان تنام|وتحتاجين مكان تنامين} فيه لين ذاك الوقت، وفلوس للتذكرة.')
     }[e] || N_('You walk down to the harbor.', '{تنزل|تنزلين} للميناء.');
-    return [{ go: 'harbor' }, { show: [] }, intro,
+    return [{ go: 'harbor' }, { show: e === 'ELIAS_LETTER' ? [{ id: 'thomas', e: 'smile' }] : [] }, intro, st => (e === 'ELIAS_LETTER' ? [{ show: [] }] : null),
       N_('A delivery bike comes round the corner too fast, skids on the wet boards, and dumps its rider, a bag of noodles and a cracked helmet at your feet.', 'دراجة توصيل تلف الزاوية بسرعة، تتزحلق على الخشب المبلول، وترمي راكبها وكيس نودلز وخوذة مشقوقة عند رجولك.'),
       { show: [{ id: 'leo', e: 'shock' }] },
       L_('shock', 'Okay. Okay. The noodles are fine. That\'s the main thing.', 'طيب. طيب. النودلز سليمة. هذا المهم.'),

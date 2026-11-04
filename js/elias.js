@@ -232,19 +232,21 @@ GAME.SCRIPTS = {
     N_('Thomas answers two days later: "I\'m coming."', 'توماس يرد بعد يومين: «جاي.»'),
     { show: [] },
     N_('Elias doesn\'t make it. He dies the night before the train arrives.', 'إلياس ما يلحق. يموت الليلة اللي قبل وصول القطار.'),
+    { show: [{ id: 'thomas', e: 'sad' }] },
     N_('At the cemetery, a man in his twenties stands beside you. "You\'re the one who was with him?" You nod.', 'في المقبرة، شاب في العشرينات يوقف جنبك. «{أنت اللي كان معه|أنتِ اللي كانت معه}؟» {تهز|تهزين} راسك.'),
     N_('"Thank you for not letting him be alone."', '«شكراً إنك ما {خليته|خليتيه} لحاله.»'),
-    st => st.f.thCall ? [N_('Later he says: "You\'re the one who picked up. On the phone." He looks at his hands. "If you hadn\'t, I\'d have rung off and told myself I tried."', 'بعدين يقول: «{أنت اللي رد|أنتِ اللي ردت}. في التلفون.» ويطالع يدينه. «لو ما {رديت|رديتي}، كان سكّرت وقلت لنفسي إني حاولت.»')] : null,
-    st => st.f.shipDone ? [N_('Later, in his old room, Thomas finds the model ship finished, the last mast crooked. He laughs, and then he doesn\'t.', 'بعدين، في غرفته القديمة، توماس يلقى مجسم السفينة مخلص، وآخر صاري معوج. يضحك، وبعدين ما يضحك.')] : null, // links.js
+    st => st.f.thCall ? [{ show: [{ id: 'thomas', e: 'neutral' }] }, N_('Later he says: "You\'re the one who picked up. On the phone." He looks at his hands. "If you hadn\'t, I\'d have rung off and told myself I tried."', 'بعدين يقول: «{أنت اللي رد|أنتِ اللي ردت}. في التلفون.» ويطالع يدينه. «لو ما {رديت|رديتي}، كان سكّرت وقلت لنفسي إني حاولت.»')] : null,
+    st => st.f.shipDone ? [{ show: [{ id: 'thomas', e: 'smile' }] }, N_('Later, in his old room, Thomas finds the model ship finished, the last mast crooked. He laughs, and then he doesn\'t.', 'بعدين، في غرفته القديمة، توماس يلقى مجسم السفينة مخلص، وآخر صاري معوج. يضحك، وبعدين ما يضحك.')] : null, // links.js
     { end: 'ELIAS_LETTER' }],
   endLetterSneak: [
     E('sad', 'I should be angry. I am angry.', 'المفروض أكون زعلان. وأنا زعلان.'),
     E('sad', 'He\'s coming on Saturday. First time in eight years. Because of you.', 'جاي يوم السبت. أول مرة من ثمان سنين. بسببك.'),
     { show: [] },
     N_('Elias dies on Friday night, in his armchair, with the radio on.', 'إلياس يموت ليلة الجمعة، على كرسيه، والراديو شغال.'),
+    { show: [{ id: 'thomas', e: 'sad' }] },
     N_('Thomas arrives the next morning and finds you sitting on the doorstep. He sits down next to you and doesn\'t say anything for a long time.', 'توماس يوصل الصبح، ويلقاك {جالس|جالسة} على عتبة الباب. يجلس جنبك وما يقول شي وقت طويل.'),
-    st => st.f.thCall ? [N_('Later he says: "You\'re the one who picked up. On the phone." He looks at his hands. "If you hadn\'t, I\'d have rung off and told myself I tried."', 'بعدين يقول: «{أنت اللي رد|أنتِ اللي ردت}. في التلفون.» ويطالع يدينه. «لو ما {رديت|رديتي}، كان سكّرت وقلت لنفسي إني حاولت.»')] : null,
-    st => st.f.shipDone ? [N_('Later, in his old room, Thomas finds the model ship finished, the last mast crooked. He laughs, and then he doesn\'t.', 'بعدين، في غرفته القديمة، توماس يلقى مجسم السفينة مخلص، وآخر صاري معوج. يضحك، وبعدين ما يضحك.')] : null, // links.js
+    st => st.f.thCall ? [{ show: [{ id: 'thomas', e: 'neutral' }] }, N_('Later he says: "You\'re the one who picked up. On the phone." He looks at his hands. "If you hadn\'t, I\'d have rung off and told myself I tried."', 'بعدين يقول: «{أنت اللي رد|أنتِ اللي ردت}. في التلفون.» ويطالع يدينه. «لو ما {رديت|رديتي}، كان سكّرت وقلت لنفسي إني حاولت.»')] : null,
+    st => st.f.shipDone ? [{ show: [{ id: 'thomas', e: 'smile' }] }, N_('Later, in his old room, Thomas finds the model ship finished, the last mast crooked. He laughs, and then he doesn\'t.', 'بعدين، في غرفته القديمة، توماس يلقى مجسم السفينة مخلص، وآخر صاري معوج. يضحك، وبعدين ما يضحك.')] : null, // links.js
     { end: 'ELIAS_LETTER' }],
   endPeace: [{ show: [{ id: 'elias', e: 'neutral' }] },
     N_('You don\'t do anything big. You sit with him.', '{ما تسوي|ما تسوين} شي كبير. {تجلس|تجلسين} معه.'),

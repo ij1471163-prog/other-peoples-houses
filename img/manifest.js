@@ -287,6 +287,11 @@ window.IMG_MANIFEST = {
    "shock": "img/chars/stella-shock.webp",
    "smile": "img/chars/stella-smile.webp"
   },
+  "thomas": {
+   "neutral": "img/chars/thomas-neutral.webp",
+   "sad": "img/chars/thomas-sad.webp",
+   "smile": "img/chars/thomas-smile.webp"
+  },
   "victor": {
    "angry": "img/chars/victor-angry.webp",
    "neutral": "img/chars/victor-neutral.webp",
