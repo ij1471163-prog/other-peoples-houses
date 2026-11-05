@@ -1440,4 +1440,6 @@ html[lang=ar] .ho-film .ho-hold{font-family:var(--f-ar-ui)}
 .ho-pip .pip-tower i{position:absolute;left:0;width:var(--b);height:var(--b);transform:rotate(var(--r,0deg));border-radius:4px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),inset -3px -3px 0 rgba(0,0,0,.18),0 3px 5px rgba(0,0,0,.35);color:rgba(255,255,255,.9);font:700 calc(var(--b) * .55)/var(--b) system-ui,sans-serif;text-align:center;font-style:normal;animation:pipDrop .25s ease-out}
 .ho-pip .pip-tower.fall i{transition:transform .9s cubic-bezier(.2,.6,.4,1),opacity .9s ease;transform:translate(var(--fx,0),calc(var(--b) * 2)) rotate(var(--fr,0deg));opacity:0}
 @keyframes pipDrop{0%{transform:translateY(-160%) rotate(var(--r,0deg));opacity:0}100%{transform:rotate(var(--r,0deg));opacity:1}}
-.ho-pip .pip-tools{flex-wrap:wrap;max-width:calc(100% - 200px)}
+.ho-pip .pip-tools{flex-wrap:nowrap;overflow-x:auto;max-width:calc(100% - 110px);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.ho-pip .pip-tools::-webkit-scrollbar{display:none}
+.ho-pip .pip-tools button{flex:0 0 auto}

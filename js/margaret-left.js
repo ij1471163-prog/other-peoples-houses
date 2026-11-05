@@ -30,7 +30,7 @@
   GAME.LOC.marg_guest.spots.push({ x: 9, y: 64, label: T('Pack your bag', '{جهّز|جهّزي} شنطتك'),
     if: s => inM(s) && !s.f.mFinaleDone && !RUN,
     run: s => [
-      N1('One bag. It takes four minutes to pack everything you own.', 'شنطة وحدة. أربع دقايق {وتكون جمعت|وتكونين جمعتي} كل شي تملكه.'),
+      N1('One bag. It takes four minutes to pack everything you own.', 'شنطة وحدة. أربع دقايق {وتكون جمعت كل شي تملكه|وتكونين جمعتي كل شي تملكينه}.'),
       { menu: [
         { t: T('Leave a note on the pillow, and go', '{خل|خلي} ورقة على المخدة، {وامش|وامشي}'), cls: 'risk', then: [
           { mini: 'paper', kind: 'letter', body: T('Thank you for the dinners. I\'m sorry.\n— {name}', 'شكراً على العشا. {آسف|آسفة}.\n— {name}') },
@@ -63,13 +63,14 @@
   });
 
   /* ---------- 3. she finds you (shared by step 2 and the evening after) ---------- */
-  const meet = s => [{ show: [{ id: 'margaret', e: 'sad' }] },
-    s.host
+  /* where she finds you: at the door of the house you live in now, or out in the street */
+  const meet = s => { const door = !!s.host && houseOf(s.loc) === s.host; return [{ show: [{ id: 'margaret', e: 'sad' }] },
+    door
       ? N1('A knock on the door of the place you live now. Margaret, in her good coat, holding a plastic box with both hands. Your hoodie is folded over her arm.', 'طق على باب المكان اللي {ساكن|ساكنة} فيه الحين. مارغريت، لابسة معطفها الزين، ماسكة علبة بلاستيك بيدينها الثنتين. وكنزتك مطوية على يدها.')
       : N1('Margaret, in her good coat, crossing the street towards you, holding a plastic box with both hands. Your hoodie is folded over her arm.', 'مارغريت، لابسة معطفها الزين، تقطع الشارع لك، ماسكة علبة بلاستيك بيدينها الثنتين. وكنزتك مطوية على يدها.'),
     M('neutral', 'You left this on the chair. And you haven\'t been eating, I can tell. Fish pie. It\'s still warm. I walked fast.', '{نسيتها|نسيتيها} على الكرسي. وما {تاكل|تاكلين}، باين عليك. فطيرة سمك. لسا دافية. مشيت بسرعة.'),
     M('sad', 'I\'m not angry. I just needed to see you were somewhere. That\'s all. That\'s all it is.', 'مو زعلانة. بس كنت أحتاج أشوف إنك في مكان. بس كذا. هذا كل شي.'),
-    s.f.mdTray != null ? M('sad', 'Is someone looking for you too? Your mother? ...Tell her where you are. Someone should always know.', 'فيه أحد ثاني يدورك بعد؟ أمك؟ ...{قل|قولي} لها وينك. لازم دايم أحد يعرف.') : (st => null),
+    (s.f.mdTray != null && s.f.mdMum !== 'truth' && !s.f.calledMother) ? M('sad', 'Is someone looking for you too? Your mother? ...Tell her where you are. Someone should always know.', 'فيه أحد ثاني يدورك بعد؟ أمك؟ ...{قل|قولي} لها وينك. لازم دايم أحد يعرف.') : (st => null),
     { c: 'margaret', e: 'sad', menu: [
       { t: T('Go back with her', '{ارجع|ارجعي} معها'), cls: 'risk', hide: st => !!st.host, then: [
         st => { st.host = 'margaret'; st.f.mLeft = null; st.f.mSeek = 'back'; st.f.mCameBack = true; addTrust('margaret', 1); return null; },
@@ -89,12 +90,12 @@
         st => { st.f.mSeek = 'truth'; st.f.mCorrected = (st.f.mCorrected || 0) + 1; addTrust('margaret', 1); feed(30); return null; }, { show: [] }] },
       { t: T('Don\'t let her see you', 'لا {تخليها تشوفك|تخلينها تشوفك}'), then: [
         { show: [] },
-        s.host
+        door
           ? N1('You don\'t answer. Through the window you watch her wait on the step until the street lights come on.', 'ما {ترد|تردين}. من الشباك {تشوفها|تشوفينها} تنتظر على العتبة لين تشتغل أنوار الشارع.')
-          : N1('You step back into Sami\'s doorway. She stands in the street, turning slowly, until the street lights come on.', '{ترجع|ترجعين} لورا عند باب بقالة سامي. وهي واقفة في الشارع، تلتفت بشويش، لين تشتغل أنوار الشارع.'),
+          : N1('You step back into a doorway. She stands in the street, turning slowly, until the street lights come on.', '{ترجع|ترجعين} لورا عند باب. وهي واقفة في الشارع، تلتفت بشويش، لين تشتغل أنوار الشارع.'),
         N1('Then she puts the box down on the step, the hoodie folded on top, and goes. On the lid, in her careful hand: "For whoever needs it."', 'وبعدين تحط العلبة على العتبة، والكنزة مطوية فوقها، وتمشي. وعلى الغطا، بخطها المرتب: «لأي أحد يحتاجها.»'),
         st => { st.f.mSeek = 'hid'; st.f.mSeekDay = st.day; addTrust('margaret', -1); addMood(-1); feed(30); return null; }] }
-    ] }];
+    ] }]; };
 
   /* ---------- 2. the day after: in town, asking ---------- */
   GAME.EVENTS.push({ id: 'mSeek2',

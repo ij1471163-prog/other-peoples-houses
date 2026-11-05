@@ -78,7 +78,7 @@
       if (quiet > 7000) { babble('bored', true); hint(T('She\'s waiting for you. She\'s not good at waiting.', 'تنتظرك. وما تعرف تنتظر.')); lastPlay = performance.now() - 3500; }
       else if (Math.random() < 0.3) babble('idle', Math.random() < 0.4);
     }, 2600);
-    const finish = r => { if (over) return; over = true; window.removeEventListener('resize', place); clearInterval(idleT); cancelAnimationFrame(raf); timers.forEach(clearTimeout); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 300); done(r); };
+    const finish = r => { if (over) return; over = true; window.removeEventListener('resize', place); if (knockT) clearTimeout(knockT); clearInterval(idleT); cancelAnimationFrame(raf); timers.forEach(clearTimeout); alt.remove(); box.classList.add('out'); box.style.pointerEvents = 'none'; setTimeout(() => box.remove(), 300); done(r); };
     q('.cp-skip').onclick = ev => { ev.stopPropagation(); finish(0); };
     alt.onclick = () => finish(0);
 
@@ -89,7 +89,7 @@
       spoon: T('Mashed carrot. Fly the spoon to her mouth: swoop it up and down like a plane and she\'ll eat anything.', 'جزر مهروس. {طيّر|طيّري} الملعقة لفمها: {لفها|لفيها} فوق وتحت مثل الطيارة، وبتاكل أي شي.'),
       blocks: T('Tap to stack a block. She\'s waiting to knock it down. The taller it gets, the bigger the crash.', '{انقر|انقري} عشان {تحط|تحطين} مكعب فوق مكعب. هي تنتظر تطيحه. كل ما طال، كل ما صارت الطيحة أكبر.')
     };
-    const setMode = m => { if (phase !== 'you') return; if (m === 'spoon' && fed >= 3) { hint(T('She\'s full. She shows you by turning her whole head away.', 'شبعت. وتوريك هالشي إنها تلف راسها كله.')); return; } mode = m; [...tools.children].forEach(b => b.classList.toggle('on', b.dataset.m === m)); hint(HINT[m]); bunny.hidden = m !== 'get'; spoon.hidden = m !== 'spoon'; if (m !== 'blocks') clearTower(); place(); };
+    const setMode = m => { if (phase !== 'you') return; if (m === 'spoon' && fed >= 3) { hint(T('She\'s full. She shows you by turning her whole head away.', 'شبعت. وتوريك هالشي إنها تلف راسها كله.')); return; } mode = m; if (seg === 'oh' && !once) loop('calm'); [...tools.children].forEach(b => b.classList.toggle('on', b.dataset.m === m)); hint(HINT[m]); bunny.hidden = m !== 'get'; spoon.hidden = m !== 'spoon'; if (m !== 'blocks') clearTower(); place(); };
     [...tools.children].forEach(b => b.addEventListener('pointerdown', ev => { ev.stopPropagation(); setMode(b.dataset.m); }));
 
     /* laughing: the happy stretch of the film, with her giggle */
@@ -212,13 +212,17 @@
       const [mx, my] = mouthAt(), r = spoon.getBoundingClientRect(), d = Math.hypot(r.left + r.width * 0.2 - a.left - mx, r.top + r.height * 0.3 - a.top - my);
       if (d < area.clientHeight * 0.3) { if (seg !== 'oh' && !once) loop('oh'); } else if (seg === 'oh' && !once) loop('calm');
     });
+    const spoonHome = () => { spoon.style.left = spoon.style.top = ''; spoon.style.right = spoon.style.bottom = ''; };
+    const spoonCancel = () => { if (!sDrag) return; sDrag = null; spoon.classList.remove('held'); spoonHome(); if (seg === 'oh' && !once) loop('calm'); };
+    spoon.addEventListener('pointercancel', spoonCancel);
+    spoon.addEventListener('lostpointercapture', () => later(spoonCancel, 0));
     spoon.addEventListener('pointerup', ev => {
       if (!sDrag) return; const g = sDrag; sDrag = null; spoon.classList.remove('held');
       const a = area.getBoundingClientRect(), r = spoon.getBoundingClientRect(), [mx, my] = mouthAt();
       const d = Math.hypot(r.left + r.width * 0.2 - a.left - mx, r.top + r.height * 0.3 - a.top - my);
       const home = () => { spoon.style.left = spoon.style.top = ''; spoon.style.right = spoon.style.bottom = ''; };
       if (d > area.clientHeight * 0.14) { home(); if (seg === 'oh') loop('calm'); return; }
-      fed++; spoon.classList.add('empty'); later(() => { home(); spoon.classList.remove('empty'); if (fed >= 3) { spoon.hidden = true; mode = 'peek'; [...tools.children].forEach(b => b.classList.toggle('on', b.dataset.m === 'peek')); hint(T('All gone. She\'s full, and most of it is on her chin.', 'خلص. شبعت، وأغلبه على دقنها.')); } }, 700);
+      fed++; spoon.classList.add('empty'); later(() => { home(); spoon.classList.remove('empty'); if (fed >= 3) { spoon.hidden = true; if (mode === 'spoon') { setMode('peek'); hint(T('All gone. She\'s full, and most of it is on her chin.', 'خلص. شبعت، وأغلبه على دقنها.')); } } }, 700);
       const straight = Math.hypot(ev.clientX - g.sx, ev.clientY - g.sy) || 1;
       if (g.plane || g.path / straight > 2.2) laugh(T('Mmm!', 'ممم!'), 1.1);
       else { busyTill = performance.now() + 1200; play('calm'); say(T('mm.', 'مم.'), 800); hint(T('She ate it. Politely. A plane would have been more fun.', 'أكلته. بأدب. لو طيارة كان أوناس.')); joy += 0.3; }

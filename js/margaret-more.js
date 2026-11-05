@@ -65,7 +65,7 @@
   /* ---------- 4. your mother rings (after the tray) ---------- */
   const V = (en, ar) => ({ n: T('📞 ' + en, '📞 ' + ar) });   /* her voice on the line */
   GAME.EVENTS.push({ id: 'mdMum', once: true,
-    when: s => inM(s) && !RUN && s.f.mdTray != null && s.slot >= 1 && s.slot < NIGHT && home(s) && !s.f.calledMother,
+    when: s => inM(s) && !RUN && s.f.mdTray != null && s.slot >= 1 && s.slot < NIGHT && s.loc === 'marg_guest' && !s.f.calledMother && !s.f.jm,
     run: s => [{ show: [] },
       N1('Your phone buzzes on the bed. MOM. The thirteenth call. This time, before you can think about it, your thumb answers.', 'جوالك يهتز على السرير. «أمي». الاتصال الثالث عشر. وهالمرة، قبل لا {تفكر|تفكرين}، إبهامك يرد.'),
       V('A breath, as if she has been holding one for weeks. "...{name}?"', 'نفس، كأنها حابسته من أسابيع. «...{name}؟»'),
@@ -89,7 +89,7 @@
           N1('She hangs up first. A minute later, a text: "Fine." With a full stop. She never uses full stops.', 'هي اللي تسكّر أول. وبعد دقيقة، رسالة: «طيب.» وبعدها نقطة. وهي عمرها ما تحط نقطة.'),
           st => { st.f.mdMum = 'lie'; addMood(-1); return null; }] },
         { t: T('Say nothing', 'ما {تقول|تقولين} شي'), then: [
-          N1('You can\'t. You sit on Daniel\'s bed with the phone against your ear and listen to her breathe, and she listens to you.', 'ما {تقدر|تقدرين}. {تجلس|تجلسين} على سرير دانيال والجوال على أذنك {وتسمعها|وتسمعينها} تتنفس، وهي تسمعك.'),
+          N1('You can\'t. You sit on the bed with the phone against your ear and listen to her breathe, and she listens to you.', 'ما {تقدر|تقدرين}. {تجلس|تجلسين} على السرير والجوال على أذنك {وتسمعها|وتسمعينها} تتنفس، وهي تسمعك.'),
           V('"...I\'m here. When you want. I\'m here."', '«...أنا هنا. متى ما {بغيت|بغيتي}. أنا هنا.»'),
           N1('She hangs up so you don\'t have to.', 'هي اللي تسكّر عشان ما {تضطر|تضطرين} {أنت|أنتِ}.'),
           st => { st.f.mdMum = 'silent'; return null; }] }

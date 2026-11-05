@@ -52,7 +52,27 @@
   const quiet = s => s.slot >= 3;   /* evenings and nights: when people write to you */
 
   /* ---------- 1. the first answer, and the photo ---------- */
-  GAME.SCRIPTS.jonah1 = s => [
+  /* after you have spoken to her on the phone in Margaret's chapter (js/margaret-more.js, mdMum), her messages are not the unread pile any more */
+  const afterCall = s => s.f.mdMum ? [
+    N1('Your phone buzzes against your leg. Her. Since the phone call, she sends one message at a time, as if she is afraid of using them up.', 'جوالك يهتز على رجلك. هي. من بعد المكالمة، صارت ترسل رسالة وحدة كل مرة، كأنها خايفة تخلص.'),
+    texts([
+      s.f.mdMum === 'truth' ? { t: T('It was so good to hear your voice.', 'كان حلو مرة أسمع صوتك.'), time: T('3 days ago', 'قبل ٣ أيام') }
+        : s.f.mdMum === 'lie' ? { t: T('You cough when you lie. I\'m still not angry.', '{تكح|تكحين} لما {تكذب|تكذبين}. وللحين مو زعلانة.'), time: T('3 days ago', 'قبل ٣ أيام') }
+        : { t: T('Thank you for staying on the line. That was enough.', 'شكراً إنك {بقيت|بقيتي} على الخط. كان كفاية.'), time: T('3 days ago', 'قبل ٣ أيام') },
+      { t: T('Last night I opened a box of your father\'s. The one I never opened.', 'أمس فتحت كرتون حق أبوك. اللي عمري ما فتحته.'), time: T('today', 'اليوم') },
+      { t: T('[photo]', '[صورة]') },
+      { t: T('Is this him? Who is the other boy?', 'هذا هو؟ ومين الولد الثاني؟') }
+    ], T('4 unread', '٤ رسائل ما انقرت')),
+    { menu: [
+      { t: T('Open the photo', '{افتح|افتحي} الصورة'), cls: 'main', then: [
+        st => { st.f.jm = 1; st.f.jmDay = st.day; quest('q_jonah', 'active'); give('jphoto'); return null; },
+        { mini: 'photo' },
+        N1('Two boys on a stone wall by a graveyard, legs dangling, the sea behind them. Too far away to see their faces. On the back, in pencil: "J. + V. — Gregor\'s wall, 1989. Out of here by 18!"', 'ولدين على سور حجر جنب مقبرة، رجولهم معلقة، والبحر وراهم. بعيدين ما تبان وجيههم. وورا الصورة، بالرصاص: «ج. + ف. — سور غريغور، ١٩٨٩. برا هالبلد قبل الـ١٨!»'),
+        N1('V. Same letter as the postcard.', 'ف. نفس الحرف اللي في الكرت.')] },
+      { t: T('Not now', 'مو الحين'), then: [st => { st.f.jmLater = st.day; return null; }, N1('You put the phone away. The photo will still be there.', '{تحط|تحطين} الجوال بعيد. الصورة بتظل موجودة.')] }
+    ] }
+  ] : null;
+  GAME.SCRIPTS.jonah1 = s => afterCall(s) || [
     N1('Your phone buzzes against your leg. Then again. You know who it is without looking. You look anyway.', 'جوالك يهتز على رجلك. ومرة ثانية. {تعرف|تعرفين} مين بدون ما {تطالع|تطالعين}. {وتطالع|وتطالعين} على كل حال.'),
     texts([
       { t: T('Are you eating?', '{تاكل|تاكلين}؟'), time: T('3 weeks ago', 'قبل ٣ أسابيع') },
@@ -78,7 +98,7 @@
       { t: T('Turn it face down again', '{اقلبه|اقلبيه} على وجهه مرة ثانية'), then: [st => { st.f.jmLater = st.day; return null; }, N1('Forty-eight unread.', 'ثمان وأربعين ما انقرت.')] }
     ] }
   ];
-  GAME.EVENTS.push({ id: 'jonah1', when: s => !busy(s) && step(s) === 0 && !s.f.calledMother && !s.f.mdMum && (GAME.HOST(s) || s.f.sandbox) && s.day >= 2 && quiet(s) && s.f.jmLater !== s.day && ['your_room', 'sami_attic', 'loft', 'lh_room', 'marg_guest', 'hotel_suite', 'living'].includes(s.loc), run: s => GAME.SCRIPTS.jonah1(s) });
+  GAME.EVENTS.push({ id: 'jonah1', when: s => !busy(s) && step(s) === 0 && !s.f.calledMother && (GAME.HOST(s) || s.f.sandbox) && s.day >= 2 && quiet(s) && s.f.jmLater !== s.day && ['your_room', 'sami_attic', 'loft', 'lh_room', 'marg_guest', 'hotel_suite', 'living'].includes(s.loc), run: s => GAME.SCRIPTS.jonah1(s) });
 
   /* the photo, to people who were there */
   GAME.TOPICS.gregor = GAME.TOPICS.gregor || [];

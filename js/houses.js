@@ -64,7 +64,7 @@
     leo_yard: { name: T('The back yard', 'الحوش'), bg: 'leo_yard', charX: 40, exits: [{ to: 'leo_home_kitchen', x: 19, y: 50, label: T('Back inside', '{ارجع|ارجعي} داخل') }],
       spots: [
         { x: 74, y: 74, label: T('The black patch on the stones', 'البقعة السودا على البلاط'), run: s => [N1('Two years of rain and it hasn\'t come out. Next to it, an oil drum with a hole burned in its side.', 'سنتين مطر وما راحت. وجنبها برميل زيت فيه خرق محروق من جنب.'), N1('Somebody has tried to scrub it. Somebody else has put a pot of geraniums on the worst of it, and stopped there.', 'أحد حاول يفركها. وأحد ثاني حط حوض جيرانيوم على أسوأ جزء منها، ووقف لين هنا.')] },
-        { x: 65, y: 50, label: T('The lemon tree', 'شجرة الليمون'), run: s => [N1('The tree Carol tips in. Low down, where a boy could reach, someone has carved two names into the bark, one under the other: LEO, DAN. Somebody else has tried to sand them off, and given up halfway.', 'الشجرة اللي كارول تعطي منها بقشيش. تحت، بمستوى يوصله ولد، أحد حافر اسمين في اللحا، واحد تحت الثاني: ليو، دان. وأحد ثاني حاول يحكها، ووقف في النص.')] }
+        { x: 65, y: 50, label: T('The lemon tree', 'شجرة الليمون'), run: s => [N1('Where Carol\'s lemons come from. Low down, where a boy could reach, someone has carved two names into the bark, one under the other: LEO, DAN. Somebody else has tried to sand them off, and given up halfway.', 'الشجرة اللي تجي منها ليمونات كارول. تحت، بمستوى يوصله ولد، أحد حافر اسمين في اللحا، واحد تحت الثاني: ليو، دان. وأحد ثاني حاول يحكها، ووقف في النص.')] }
       ] }
   });
   const leoDoor = { x: 74, y: 30, label: T('The big house with the wide garden', 'البيت الكبير اللي فيه حديقة واسعة'),
