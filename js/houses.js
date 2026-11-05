@@ -61,9 +61,10 @@
         { x: 52, y: 58, label: T('The bed', 'السرير'), run: s => [N1('Made with corners like a hotel. Somebody makes it every week, though nobody has slept in it for two years. The blanket at the foot still has a few long brown hairs on it, and they have been left there.', 'مرتب بزوايا مثل الفندق. أحد يرتبه كل أسبوع، مع إن محد نام فيه من سنتين. والبطانية اللي تحت فيها كم شعرة بنية طويلة، وأحد تركها مكانها.')] },
         { x: 86, y: 52, label: T('The wardrobe', 'الدولاب'), run: s => [N1('His clothes from two years ago, ironed. On the inside of the door, in pencil, a list of heights: LEO 8, LEO 11, LEO 14... and next to the last one, smaller, DAN 17, and a little drawing of a car.', 'ملابسه من قبل سنتين، مكوية. وداخل الباب، بالرصاص، قايمة أطوال: ليو ٨، ليو ١١، ليو ١٤... وجنب آخر واحد، بخط أصغر، دان ١٧، ورسمة صغيرة لسيارة.')] }
       ] },
-    leo_yard: { name: T('The back yard', 'الحوش'), bg: 'leo_yard', charX: 40, exits: [{ to: 'leo_home_kitchen', x: 8, y: 60, label: T('Back inside', '{ارجع|ارجعي} داخل') }],
+    leo_yard: { name: T('The back yard', 'الحوش'), bg: 'leo_yard', charX: 40, exits: [{ to: 'leo_home_kitchen', x: 19, y: 50, label: T('Back inside', '{ارجع|ارجعي} داخل') }],
       spots: [
-        { x: 58, y: 72, label: T('The black patch on the stones', 'البقعة السودا على البلاط'), run: s => [N1('Two years of rain and it hasn\'t come out. Next to it, an oil drum with a hole burned in its side.', 'سنتين مطر وما راحت. وجنبها برميل زيت فيه خرق محروق من جنب.'), N1('Somebody has tried to scrub it. Somebody else has put a pot of geraniums on the worst of it, and stopped there.', 'أحد حاول يفركها. وأحد ثاني حط حوض جيرانيوم على أسوأ جزء منها، ووقف لين هنا.')] }
+        { x: 74, y: 74, label: T('The black patch on the stones', 'البقعة السودا على البلاط'), run: s => [N1('Two years of rain and it hasn\'t come out. Next to it, an oil drum with a hole burned in its side.', 'سنتين مطر وما راحت. وجنبها برميل زيت فيه خرق محروق من جنب.'), N1('Somebody has tried to scrub it. Somebody else has put a pot of geraniums on the worst of it, and stopped there.', 'أحد حاول يفركها. وأحد ثاني حط حوض جيرانيوم على أسوأ جزء منها، ووقف لين هنا.')] },
+        { x: 65, y: 50, label: T('The lemon tree', 'شجرة الليمون'), run: s => [N1('The tree Carol tips in. Low down, where a boy could reach, someone has carved two names into the bark, one under the other: LEO, DAN. Somebody else has tried to sand them off, and given up halfway.', 'الشجرة اللي كارول تعطي منها بقشيش. تحت، بمستوى يوصله ولد، أحد حافر اسمين في اللحا، واحد تحت الثاني: ليو، دان. وأحد ثاني حاول يحكها، ووقف في النص.')] }
       ] }
   });
   const leoDoor = { x: 74, y: 30, label: T('The big house with the wide garden', 'البيت الكبير اللي فيه حديقة واسعة'),
@@ -137,10 +138,11 @@
 
   /* ================= 2. Ingrid's parlour ================= */
   GAME.LOC.ingrid_home = { name: T('Ingrid\'s parlour', 'صالة إنغريد'), bg: 'ingrid_home', charX: 62,
-    exits: [{ to: 'street', x: 6, y: 86, label: T('Out to the street', '{اطلع|اطلعي} للشارع') }],
+    exits: [{ to: 'street', x: 6, y: 58, label: T('Out to the street', '{اطلع|اطلعي} للشارع') }],
     spots: [
-      { x: 24, y: 30, label: T('The posters', 'البوسترات'), run: s => [N1('"INGRID LARS & THE HARBOUR BOYS. One night only." Six of them, all "one night only", from six different years.', '«إنغريد لارس وعيال الميناء. ليلة وحدة بس.» ستة منها، كلها «ليلة وحدة بس»، من ست سنين مختلفة.')] },
-      { x: 50, y: 56, label: T('The record player', 'مشغّل الأسطوانات'), run: s => [N1(...(step(s, 'ingrid') >= 2 ? ['The record is still on it. There is a coin taped to the arm now. She has not taken it off.', 'الأسطوانة لسا عليه. وفيه عملة ملصوقة على الذراع الحين. وما شالتها.'] : ['A record on the turntable: "LIVE AT MARCO\'S, 1979". The label has a ring on it from a teacup.', 'أسطوانة على المشغّل: «مباشر من مقهى ماركو، ١٩٧٩». وعلى الورقة أثر دائرة من كوب شاي.']))] }
+      { x: 73, y: 50, label: T('The armchair with the cardigan', 'الكرسي اللي عليه الكارديغان'), run: s => [N1('A man\'s grey cardigan folded over the arm, the way you fold something for someone who is coming back for it. There is a dent in the cushion. Nobody sits in it, and nobody has plumped it.', 'كارديغان رجالي رمادي مطوي على يد الكرسي، مثل ما تطوي شي لأحد بيرجع ياخذه. والمخدة فيها نقرة. محد يجلس عليه، ومحد نفخ المخدة.')] },
+      { x: 30, y: 20, label: T('The posters', 'البوسترات'), run: s => [N1('"INGRID LARS & THE HARBOUR BOYS. One night only." Six of them, all "one night only", from six different years.', '«إنغريد لارس وعيال الميناء. ليلة وحدة بس.» ستة منها، كلها «ليلة وحدة بس»، من ست سنين مختلفة.')] },
+      { x: 33, y: 42, label: T('The record player', 'مشغّل الأسطوانات'), run: s => [N1(...(step(s, 'ingrid') >= 2 ? ['The record is still on it. There is a coin taped to the arm now. She has not taken it off.', 'الأسطوانة لسا عليه. وفيه عملة ملصوقة على الذراع الحين. وما شالتها.'] : ['A record on the turntable: "LIVE AT MARCO\'S, 1979". The label has a ring on it from a teacup.', 'أسطوانة على المشغّل: «مباشر من مقهى ماركو، ١٩٧٩». وعلى الورقة أثر دائرة من كوب شاي.']))] }
     ] };
   host('ingrid', ['ingrid_home']);
   GAME.LOC.street.spots.push({ x: 12, y: 40, label: T('Ingrid\'s green door', 'باب إنغريد الأخضر'),
@@ -175,9 +177,10 @@
 
   /* ================= 3. Rex's kitchen (above the police station) ================= */
   GAME.LOC.rex_kitchen = { name: T('Rex\'s kitchen', 'مطبخ ريكس'), bg: 'rex_kitchen', charX: 58,
-    exits: [{ to: 'police', x: 6, y: 86, label: T('Down to the station', '{انزل|انزلي} للمركز') }],
+    exits: [{ to: 'police', x: 7, y: 70, label: T('Down to the station', '{انزل|انزلي} للمركز') }],
     spots: [
-      { x: 26, y: 40, label: T('The fridge', 'الثلاجة'), run: s => [N1(...(step(s, 'rex') >= 3 ? ['In the middle of the fridge, held by four magnets: Lily\'s school photo. The plait is a disaster. She is grinning like she has won something.', 'بنص الثلاجة، ماسكتها أربع مغناطيسات: صورة ليلي حقت المدرسة. الضفيرة كارثة. وهي تبتسم كأنها فازت بشي.'] : ['Drawings by a ten-year-old: a police car with wings, a cat in handcuffs, "DAD" with a very big moustache.', 'رسومات بنت عمرها عشر: سيارة شرطة بأجنحة، وقطو مكلبش، و«بابا» بشنب كبير مرة.']))] }
+      { x: 19, y: 86, label: T('A school bag by the fridge', 'شنطة مدرسة جنب الثلاجة'), run: s => [N1('A school bag with a teddy-bear keyring. A spelling test is sticking out of it: 19 out of 20. The one wrong word is "necessary". Somebody has written next to it, in a big careful police hand: "nobody can spell this".', 'شنطة مدرسة فيها ميدالية دبدوب. وورقة اختبار إملاء طالعة منها: ١٩ من ٢٠. والكلمة الوحيدة الغلط «necessary». وأحد كاتب جنبها، بخط شرطي كبير ومرتب: «محد يعرف يكتبها».')] },
+      { x: 24, y: 40, label: T('The fridge', 'الثلاجة'), run: s => [N1(...(step(s, 'rex') >= 3 ? ['In the middle of the fridge, held by four magnets: Lily\'s school photo. The plait is a disaster. She is grinning like she has won something.', 'بنص الثلاجة، ماسكتها أربع مغناطيسات: صورة ليلي حقت المدرسة. الضفيرة كارثة. وهي تبتسم كأنها فازت بشي.'] : ['Drawings by a ten-year-old: a police car with wings, a cat in handcuffs, "DAD" with a very big moustache.', 'رسومات بنت عمرها عشر: سيارة شرطة بأجنحة، وقطو مكلبش، و«بابا» بشنب كبير مرة.']))] }
     ] };
   host('rex', ['rex_kitchen']);
   if (GAME.LOC.police) GAME.LOC.police.spots.push({ x: 82, y: 40, label: T('The stairs up to the flat', 'الدرج للشقة اللي فوق'),
@@ -213,10 +216,10 @@
 
   /* ================= 4. Stella's flat (above the florist) ================= */
   GAME.LOC.stella_flat = { name: T('Stella\'s flat', 'شقة ستيلا'), bg: 'stella_flat', charX: 40,
-    exits: [{ to: 'florist', x: 6, y: 86, label: T('Down to the shop', '{انزل|انزلي} للمحل') }],
+    exits: [{ to: 'florist', x: 6, y: 80, label: T('Down to the shop', '{انزل|انزلي} للمحل') }],
     spots: [
-      { x: 72, y: 56, label: T('The cactus on the terrace', 'الصبّارة اللي في السطح'), run: s => [N1(...(step(s, 'stella') >= 2 ? ['The flower is closed now, folded down like a used umbrella. Next year, Stella says. It always says next year.', 'الزهرة مسكّرة الحين، منطوية مثل شمسية مستخدمة. السنة الجاية، تقول ستيلا. دايم تقول السنة الجاية.'] : ['A tall, untidy cactus in a cracked pot, and on it one fat white bud, as long as your hand, pointing at the sky.', 'صبّارة طويلة وشكلها مهمل، في حوض مشقوق، وعليها برعم أبيض واحد منتفخ، بطول يدك، يأشر للسما.']))] },
-      { x: 30, y: 70, label: T('The Admiral\'s basket', 'سلة الأدميرال'), run: s => [N1('A basket with a cushion with a ginger hollow in it. The Admiral is not in it. The Admiral is on the good chair, which is his, the basket being for visitors.', 'سلة فيها مخدة عليها حفرة برتقالية. الأدميرال مو فيها. الأدميرال على الكرسي الزين، اللي هو حقه، والسلة للضيوف.')] }
+      { x: 92, y: 46, label: T('The cactus on the terrace', 'الصبّارة اللي في السطح'), run: s => [N1(...(step(s, 'stella') >= 2 ? ['The flower is closed now, folded down like a used umbrella. Next year, Stella says. It always says next year.', 'الزهرة مسكّرة الحين، منطوية مثل شمسية مستخدمة. السنة الجاية، تقول ستيلا. دايم تقول السنة الجاية.'] : ['A tall, untidy cactus in a cracked pot, and on it one fat white bud, as long as your hand, pointing at the sky.', 'صبّارة طويلة وشكلها مهمل، في حوض مشقوق، وعليها برعم أبيض واحد منتفخ، بطول يدك، يأشر للسما.']))] },
+      { x: 18, y: 74, label: T('The Admiral\'s basket', 'سلة الأدميرال'), run: s => [N1('A basket with a cushion with a ginger hollow in it. The Admiral is not in it. The Admiral is on the good chair, which is his, the basket being for visitors.', 'سلة فيها مخدة عليها حفرة برتقالية. الأدميرال مو فيها. الأدميرال على الكرسي الزين، اللي هو حقه، والسلة للضيوف.')] }
     ] };
   host('stella', ['stella_flat']);
   if (GAME.LOC.florist) GAME.LOC.florist.spots.push({ x: 88, y: 36, label: T('The stairs up to Stella\'s flat', 'الدرج لشقة ستيلا'),
