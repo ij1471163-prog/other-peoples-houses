@@ -32,6 +32,13 @@
     }
     box.forEach(q => { q.p.style.left = (q.x + q.w / 2) + 'px'; q.p.style.top = q.y + 'px'; q.p.classList.remove('edge-l', 'edge-r'); });
   };
+  /* the parts of the bigger town that open later (an add-on): shown as "coming soon" pins */
+  Object.assign(PINS, { oldtown: [22.7, 57.4], forest: [43.4, 15.5], cave: [93.0, 73.5] });
+  GAME.MAP.push(
+    { place: 'oldtown', label: T('The old town', 'البلدة القديمة'), msg: T('The road west ends in a square with a dry fountain. The school bell has not rung in thirty years. Somebody still oils the door of the old station. Coming soon.', 'الطريق اللي يروح غرب يخلص عند ساحة فيها نافورة ناشفة. جرس المدرسة ما رن من ثلاثين سنة. وفيه أحد للحين يزيّت باب المحطة القديمة. قريباً.') },
+    { place: 'forest', label: T('The forest', 'الغابة'), msg: T('A path behind the chapel climbs into the trees, up to the old tree that lights up at dusk. Gregor says every name in this town is carved on it. He will not say whose was carved last. Coming soon.', 'ورا الكنيسة الصغيرة ممر يطلع بين الشجر، لين الشجرة القديمة اللي تنوّر وقت المغرب. غريغور يقول إن كل اسم في هالبلدة محفور عليها. وما يرضى يقول مين آخر واحد انحفر اسمه. قريباً.') },
+    { place: 'cave', label: T('The cave', 'الكهف'), msg: T('At low tide, under the cliffs past the lighthouse, there is a dark opening in the rock. Elias used to say the sea keeps things for people. Coming soon.', 'وقت الجزر، تحت الجرف ورا المنارة، فيه فتحة سودا في الصخر. إلياس كان يقول إن البحر يحفظ أشياء للناس. قريباً.') }
+  );
   ART.map = s => {
     Object.assign(ART.PLACES, PINS);
     const t = (GAME.S && typeof slotName === 'function') ? slotName() : 'noon';
