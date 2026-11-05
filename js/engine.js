@@ -468,8 +468,8 @@ function renderSheet() {
     /* a house's rooms count as "here" for the pin at its front door */
     const DOOR = { elias: 'elias_ext', leo: 'boathouse', margaret: 'cliff_road', evelyn: 'lh_ext', victor: 'hotel_lobby' };
     const isHere = to => to === here || (hereHouse && (DOOR[hereHouse] === to || houseOf(to) === hereHouse));
-    const NUDGE = { florist: [0, -4], cemetery: [0, -1], beach: [-3, 2], margaret: [-2, 5], cliff_road: [-2, 5] };   /* keep neighbouring labels apart */
-    const place = (x, b, k) => { const n = NUDGE[k] || [0, 0]; x = [x[0] + n[0], x[1] + n[1]]; b.style.left = x[0] + '%'; b.style.top = (x[1] + 7) + '%'; if (x[0] < 14) b.classList.add('edge-l'); else if (x[0] > 86) b.classList.add('edge-r'); };
+    const NUDGE = ART.NUDGE || { florist: [0, -4], cemetery: [0, -1], beach: [-3, 2], margaret: [-2, 5], cliff_road: [-2, 5] };   /* keep neighbouring labels apart */
+    const place = (x, b, k) => { const n = NUDGE[k] || [0, 0]; x = [x[0] + n[0], x[1] + n[1]]; b.style.left = x[0] + '%'; b.style.top = (x[1] + (ART.PIN_DY != null ? ART.PIN_DY : 7)) + '%'; if (x[0] < 14) b.classList.add('edge-l'); else if (x[0] > 86) b.classList.add('edge-r'); };
     const go = (p) => ev => { if (!tapOk(ev)) return; VIEW.sheet = null; AUDIO.sfx('steps'); goTo(p.to); };
     const closed = (p) => ev => { if (!tapOk(ev)) return; toast(tx(p.lockMsg || GAME.UI.closedNow)); };
     const story = (p) => () => { VIEW.sheet = null; play([{ n: p.msg }]); };
@@ -496,6 +496,7 @@ function renderSheet() {
       r.onclick = lock ? closed(p) : go(p); list.appendChild(r);
     }
     body.appendChild(wrap); body.appendChild(list); sh.appendChild(body);
+    if (ART.spreadPins) requestAnimationFrame(() => ART.spreadPins(wrap));
     } else {
     const tabs = [['quests', UI('quests')], ['people', UI('people')], ['bag', UI('bag')], ['me', UI('me')], ['settings', UI('settings')]];
     tabs.forEach(([k, label]) => { const b = el('button', 'tab' + (VIEW.tab === k ? ' on' : ''), label); b.type = 'button'; b.onclick = () => { VIEW.tab = k; renderSheet(); }; head.appendChild(b); });

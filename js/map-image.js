@@ -9,7 +9,31 @@
 (function () {
   const SRC = 'img/bg/map.jpg';
   const m0 = ART.map;
+  /* the bigger town (Nov): every pin moved onto its building in the new picture (in % of the picture) */
+  const PINS = { station: [44.3, 38.8], motel: [55.0, 40.9], florist: [49.6, 47.8], grocery: [59.2, 49.9], cemetery: [41.6, 53.1], margaret: [53.8, 55.8], street: [64.0, 57.4], garage: [70.3, 39.3], clinic: [82.8, 41.4], police: [77.0, 46.2], cafe: [71.2, 49.1], hotel: [76.6, 62.7], elias_ext: [45.2, 65.0], boathouse: [67.3, 72.8], harbor: [60.7, 78.4], beach: [48.7, 73.3], lighthouse: [84.0, 71.0], sami_attic: [61.5, 45.4], cliff_road: [53.8, 55.8], lh_ext: [84.0, 71.0], hotel_lobby: [76.6, 62.7] };
+  ART.NUDGE = {}; ART.PIN_DY = 1.5;   /* labels sit just under their building; overlaps are sorted out after drawing */
+  /* the town is dense now: push overlapping labels apart, the smallest move first, staying inside the map */
+  ART.spreadPins = wrap => {
+    const pins = [...wrap.querySelectorAll('.pin')]; if (pins.length < 2) return;
+    const W = wrap.clientWidth, H = wrap.clientHeight, pad = 3;
+    const box = pins.map(p => ({ p, x: p.offsetLeft - p.offsetWidth / 2, y: p.offsetTop, w: p.offsetWidth, h: p.offsetHeight }));
+    for (let it = 0; it < 60; it++) {
+      let moved = false;
+      for (let i = 0; i < box.length; i++) for (let j = i + 1; j < box.length; j++) {
+        const a = box[i], b = box[j];
+        const ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x) + pad, oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y) + pad;
+        if (ox <= pad || oy <= pad) continue;
+        moved = true;
+        if (oy <= ox) { const d = oy / 2, up = a.y < b.y ? a : b, dn = up === a ? b : a; up.y -= d; dn.y += d; }
+        else { const d = ox / 2, l = a.x < b.x ? a : b, r = l === a ? b : a; l.x -= d; r.x += d; }
+      }
+      box.forEach(q => { q.x = Math.max(2, Math.min(W - q.w - 2, q.x)); q.y = Math.max(2, Math.min(H - q.h - 2, q.y)); });
+      if (!moved) break;
+    }
+    box.forEach(q => { q.p.style.left = (q.x + q.w / 2) + 'px'; q.p.style.top = q.y + 'px'; q.p.classList.remove('edge-l', 'edge-r'); });
+  };
   ART.map = s => {
+    Object.assign(ART.PLACES, PINS);
     const t = (GAME.S && typeof slotName === 'function') ? slotName() : 'noon';
     const img = `<image href="${SRC}" x="0" y="0" width="1600" height="900" preserveAspectRatio="xMidYMid slice"/>`
       + (t === 'night' ? '<rect width="1600" height="900" fill="#0a1030" opacity=".45"/>'
