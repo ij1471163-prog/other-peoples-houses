@@ -109,7 +109,7 @@
       }
     } catch (e) { c = null; }
     let held = 0, last = performance.now(), finished = false, voiceAt = 0;
-    const stop = () => { finished = true; try { src && src.stop(); c && c.close(); } catch (e) { /* closed */ } };
+    const stop = () => { if (finished && !c) return; finished = true; try { src && src.stop(); } catch (e) { /* stopped */ } if (c) { const cc = c; c = null; try { cc.close().catch(() => {}); } catch (e) { /* closed */ } } };
     function tick(now) {
       if (finished || !card.isConnected) { stop(); return; }
       const dist = Math.abs(dial.value - target), sig = Math.max(0, 1 - dist / 14);
